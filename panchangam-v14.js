@@ -30,6 +30,8 @@ const CITIES = {
     bangalore: { name:"Bangalore, India",          lat:12.9716,  lon:77.5946,  stdTz:5.5,dstTz:5.5,dst:'none' },
     tokyo:     { name:"Tokyo, Japan",              lat:35.6762,  lon:139.6503, stdTz:9,  dstTz:9,  dst:'none' },
     sydney:    { name:"Sydney, Australia",         lat:-33.8688, lon:151.2093, stdTz:10, dstTz:11, dst:'AU' },
+    // ── Europe ──
+    aarhus:    { name:"Aarhus, Denmark",           lat:56.2639,  lon:9.5018,   stdTz:1,  dstTz:2,  dst:'UK' },
 };
 
 const SAMVATSARAM = [
