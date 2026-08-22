@@ -1,0 +1,11 @@
+# Old JS versions (only v14 is current)
+panchangam-v[0-9].js
+panchangam-v1[0-3].js
+panchangam.js
+
+# Festival data (large, not used in live app)
+Festival/
+
+# Notes and misc
+My Notes.txt
+Appearance For Panchangam .txt

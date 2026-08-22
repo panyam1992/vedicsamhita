@@ -1,0 +1,296 @@
+        :root {
+            --maroon: #6B1D1D;
+            --dark-maroon: #4A0E0E;
+            --deep-maroon: #3B0808;
+            --saffron: #C2710C;
+            --gold: #B8860B;
+            --gold-light: #D4A843;
+            --cream: #FFF8E7;
+            --light-cream: #FFFDF5;
+            --warm-white: #FFF9F0;
+            --text: #2D1810;
+            --text-muted: #6B5B4E;
+            --border-gold: #DAA520;
+            --section-bg: rgba(255,248,231,0.5);
+            --auspicious: #1B5E20;
+            --inauspicious: #991B1B;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
+            background: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%);
+            color: var(--text);
+            min-height: 100vh;
+            padding: 20px 15px;
+        }
+
+        /* ─── INPUT SECTION (Compact) ─── */
+        .input-section {
+            max-width: 740px; margin: 0 auto 18px;
+            background: #fff; border-radius: 10px;
+            padding: 12px 20px; border: 1px solid var(--border-gold);
+            box-shadow: 0 3px 14px rgba(139,69,19,0.06);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        .input-section h2 {
+            text-align: center; color: var(--maroon); margin-bottom: 8px;
+            font-family: 'Cinzel', Georgia, serif; font-size: 0.95rem;
+            letter-spacing: 1.5px; font-weight: 600;
+        }
+        .input-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;
+        }
+        .input-grid label {
+            display: block; font-weight: 600; font-size: 0.75rem;
+            color: var(--saffron); margin-bottom: 3px; text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .input-grid select, .input-grid input {
+            width: 100%; padding: 7px 10px; border: 1.5px solid #e0d5c5;
+            border-radius: 6px; font-size: 0.85rem;
+            background: var(--warm-white); transition: border-color 0.2s;
+        }
+        .input-grid select:focus, .input-grid input:focus {
+            border-color: var(--gold); outline: none;
+            box-shadow: 0 0 0 3px rgba(218,165,32,0.15);
+        }
+        #customCoords { display: none; }
+        .btn-calc {
+            width: 100%; background: linear-gradient(135deg, var(--maroon), var(--dark-maroon));
+            color: #FFF8E7; border: none; padding: 9px; font-size: 0.9rem;
+            font-weight: 600; border-radius: 6px; cursor: pointer;
+            font-family: 'Cinzel', Georgia, serif; letter-spacing: 1.5px;
+            transition: all 0.25s; text-transform: uppercase;
+        }
+        .btn-calc:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(75,14,14,0.3); }
+        .btn-print {
+            display: inline-block; margin-top: 10px; background: var(--maroon);
+            color: #fff; border: none; padding: 8px 22px; font-size: 0.82rem;
+            border-radius: 6px; cursor: pointer; font-family: 'Cinzel', sans-serif;
+            letter-spacing: 1px; text-transform: uppercase;
+        }
+
+        /* ─── PANCHANGAM DOCUMENT ─── */
+        .panchang-doc {
+            max-width: 740px; margin: 0 auto;
+            background: linear-gradient(180deg, #FFFEF9 0%, #FFF8E7 40%, #FFF5DE 100%);
+            border: 3px double var(--border-gold);
+            border-radius: 6px; padding: 35px 40px;
+            position: relative;
+            box-shadow: 0 0 0 1px var(--border-gold), 0 8px 32px rgba(139,69,19,0.12);
+        }
+        .panchang-doc::before {
+            content: ''; position: absolute; inset: 8px;
+            border: 1px solid rgba(218,165,32,0.2); pointer-events: none;
+            border-radius: 3px;
+        }
+        /* Watermark Om */
+        .panchang-doc::after {
+            content: 'ॐ'; position: absolute;
+            top: 50%; left: 50%; transform: translate(-50%,-50%);
+            font-size: 22rem; color: rgba(218,165,32,0.04);
+            pointer-events: none; z-index: 0;
+            font-family: serif;
+        }
+        .panchang-doc > * { position: relative; z-index: 1; }
+
+        /* ─── HEADER ─── */
+        .panchang-title {
+            text-align: center; font-size: 2rem; color: var(--dark-maroon);
+            letter-spacing: 5px; margin-bottom: 8px;
+            font-family: 'Cinzel', Georgia, serif; font-weight: 700;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.06);
+        }
+        .slokas-row {
+            display: flex; justify-content: space-between; flex-wrap: wrap;
+            padding: 0 8px; gap: 8px;
+        }
+        .sloka {
+            font-style: italic; color: #8B4513; font-size: 0.92rem;
+            font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500;
+        }
+        .divider {
+            border: none; height: 1px; margin: 20px 0;
+            background: linear-gradient(to right, transparent, var(--border-gold), var(--gold-light), var(--border-gold), transparent);
+        }
+        .divider-ornament {
+            text-align: center; margin: 22px 0; color: var(--gold-light); font-size: 1.1rem;
+            letter-spacing: 8px;
+        }
+        .date-location-bar {
+            text-align: center; font-size: 0.88rem; color: var(--text-muted);
+            margin-bottom: 8px; font-style: italic;
+            font-family: 'Cormorant Garamond', serif; font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* ─── SUN / MOON TIMES ─── */
+        .times-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px;
+            padding: 12px 16px;
+            background: rgba(218,165,32,0.06); border-radius: 8px;
+            border: 1px solid rgba(218,165,32,0.12);
+        }
+        .time-row { font-size: 1.05rem; padding: 5px 0; }
+        .time-label {
+            font-weight: 600; color: var(--maroon); min-width: 100px; display: inline-block;
+            font-family: 'Cinzel', serif; font-size: 0.85rem; letter-spacing: 0.5px;
+        }
+        .time-val { color: var(--text); font-weight: 500; }
+
+        /* ─── SECTION TITLES ─── */
+        .section-title {
+            font-size: 1.3rem; color: var(--dark-maroon); margin-bottom: 16px;
+            padding-bottom: 8px; font-family: 'Cinzel', Georgia, serif;
+            font-weight: 600; letter-spacing: 2px;
+            border-bottom: 2px solid transparent;
+            border-image: linear-gradient(to right, var(--border-gold), transparent) 1;
+        }
+        .sub-title {
+            font-size: 1rem; color: var(--dark-maroon); margin: 16px 0 10px;
+            font-weight: 600; font-family: 'Cinzel', serif;
+            letter-spacing: 1.5px; text-transform: uppercase; font-size: 0.88rem;
+        }
+
+        /* ─── PANCHANGAM ITEMS ─── */
+        .pitem { padding: 4px 0; font-size: 1.05rem; line-height: 1.6; }
+        .pitem .plabel {
+            font-weight: 600; color: var(--saffron); display: inline-block; min-width: 140px;
+            font-family: 'Cinzel', serif; font-size: 0.82rem; letter-spacing: 0.5px;
+        }
+        .pitem .pval { color: var(--text); font-weight: 500; }
+        .plist-label {
+            font-weight: 600; color: var(--saffron); font-size: 0.85rem; margin: 12px 0 5px;
+            font-family: 'Cinzel', serif; letter-spacing: 0.5px;
+        }
+        .plist { margin: 0 0 8px 24px; }
+        .plist li { padding: 3px 0; line-height: 1.6; font-size: 1rem; }
+        .plist li .end-info { color: var(--text-muted); font-size: 0.9rem; }
+
+        /* ─── KALAMS & MUHURATS ─── */
+        .times-section {
+            padding: 14px 18px; border-radius: 8px; margin: 8px 0;
+        }
+        .times-section.inauspicious-bg {
+            background: rgba(153,27,27,0.03); border: 1px solid rgba(153,27,27,0.08);
+        }
+        .times-section.auspicious-bg {
+            background: rgba(27,94,32,0.03); border: 1px solid rgba(27,94,32,0.08);
+        }
+        .kalam-item { padding: 4px 0; font-size: 1rem; }
+        .kalam-item .klabel {
+            font-weight: 600; color: var(--dark-maroon); display: inline-block; min-width: 170px;
+            font-family: 'Cinzel', serif; font-size: 0.78rem; letter-spacing: 0.5px;
+        }
+        .kalam-item .kval { color: var(--text); font-weight: 500; }
+        .kalam-item .kval.auspicious { color: var(--auspicious); font-weight: 600; }
+        .kalam-item .kval.inauspicious { color: var(--inauspicious); font-weight: 500; }
+
+        /* ─── BOTTOM SECTIONS ─── */
+        .importance-text { font-size: 1.02rem; color: var(--text); line-height: 1.7; padding: 4px 0; }
+
+        /* ── Lagna Section ── */
+        .lagna-section {
+            display: flex; gap: 24px; align-items: flex-start;
+            padding: 8px 0;
+        }
+        .lagna-chart-wrap {
+            flex-shrink: 0; text-align: center;
+        }
+        .chart-legend {
+            display: flex; gap: 6px 10px; justify-content: center; flex-wrap: wrap;
+            margin-top: 6px; font-size: 0.72rem; color: var(--text-muted);
+            font-family: 'EB Garamond', serif; max-width: 320px;
+        }
+        .legend-item { white-space: nowrap; }
+        .lagna-details {
+            flex: 1; min-width: 0;
+        }
+        .lagna-transitions {
+            font-size: 0.9rem; line-height: 1.6;
+        }
+        .lagna-transitions table {
+            width: 100%; border-collapse: collapse;
+            font-family: 'EB Garamond', serif;
+        }
+        .lagna-transitions th {
+            text-align: left; font-weight: 600; color: var(--dark-maroon);
+            border-bottom: 1px solid rgba(107,29,29,0.2); padding: 3px 6px;
+            font-size: 0.85rem;
+        }
+        .lagna-transitions td {
+            padding: 2px 6px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            font-size: 0.85rem; color: var(--text);
+        }
+        @media (max-width: 600px) {
+            .lagna-section { flex-direction: column; align-items: center; }
+            .lagna-details { width: 100%; }
+        }
+        .pushkara-tag {
+            display: inline-block; color: #2e7d32; font-weight: 600;
+            font-size: 0.82rem; cursor: help;
+        }
+        .blessings {
+            text-align: center; font-style: italic; color: #8B4513;
+            line-height: 2; font-size: 1.05rem; padding: 8px 0;
+            font-family: 'Cormorant Garamond', Georgia, serif; font-weight: 500;
+        }
+        .note-section {
+            font-size: 0.88rem; color: var(--text-muted); line-height: 1.7;
+            padding: 12px 16px; background: rgba(218,165,32,0.04);
+            border-radius: 8px; border: 1px solid rgba(218,165,32,0.1);
+        }
+        .note-section strong { color: var(--text); }
+        .note-section .note-title {
+            font-size: 0.9rem; font-weight: 600; color: var(--maroon); margin-bottom: 6px;
+            font-family: 'Cinzel', serif; letter-spacing: 1px; text-transform: uppercase;
+        }
+        .contact-info { margin-top: 8px; }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 600px) {
+            .panchang-doc { padding: 22px 20px; }
+            .panchang-doc::after { font-size: 14rem; }
+            .input-grid { grid-template-columns: 1fr; }
+            .times-grid { grid-template-columns: 1fr; }
+            .slokas-row { flex-direction: column; align-items: center; text-align: center; }
+            .panchang-title { font-size: 1.5rem; letter-spacing: 3px; }
+            .kalam-item .klabel { min-width: 140px; }
+        }
+
+        /* ─── FLOATING BTNS ─── */
+        .floating-btns {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+        .floating-btns button {
+            font-family: 'EB Garamond', serif;
+            font-size: 0.95rem;
+            padding: 6px 14px;
+            border: 1px solid var(--dark-maroon);
+            border-radius: 4px;
+            background: var(--gold);
+            color: var(--dark-maroon);
+            cursor: pointer;
+            transition: background .2s;
+        }
+        .floating-btns button:hover {
+            background: var(--dark-maroon);
+            color: var(--gold);
+        }
+
+        /* ─── PRINT ─── */
+        @media print {
+            .input-section, .btn-calc, .floating-btns, #printModal { display: none !important; }
+            body { background: #fff; padding: 0; }
+            .panchang-doc { box-shadow: none; border: none; }
+            .panchang-doc::before { border-color: #ccc; }
+            .panchang-doc::after { color: rgba(0,0,0,0.03); }
+            .btn-print { display: none !important; }
+            .times-section { border-color: #ddd !important; }
+        }
+    </style>
