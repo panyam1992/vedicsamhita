@@ -627,6 +627,7 @@ function generateHoroscope() {
     // Mahadasha table
     let mdHTML = '<tr><th>Mahadasha Lord</th><th>Duration</th><th>Start</th><th>End</th><th>Status</th></tr>';
     let currentMaha = null;
+    let currentAntar = null;
     dasha.timeline.forEach(md => {
         const isActive = today >= md.start && today < md.end;
         const isCompleted = today >= md.end;
@@ -648,7 +649,6 @@ function generateHoroscope() {
     if (currentMaha) {
         const antars = computeAntardasha(currentMaha);
         let adHTML = `<tr><th>${currentMaha.lord.name} –</th><th>Duration</th><th>Start</th><th>End</th><th>Status</th></tr>`;
-        let currentAntar = null;
         antars.forEach(a => {
             const isActive = today >= a.start && today < a.end;
             const isCompleted = today >= a.end;
