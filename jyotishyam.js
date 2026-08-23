@@ -383,35 +383,113 @@ function detectDoshas(grahas, lagnaSign) {
 
 /* ── Main Generate Function ── */
 
-function onBirthCityChange() {
-    document.getElementById('birthCustomCoords').style.display =
-        document.getElementById('birthCity').value === 'custom' ? 'block' : 'none';
+
+/* ── Place Search via OpenStreetMap Nominatim ── */
+
+async function searchPlace() {
+    const query = document.getElementById('birthPlace').value.trim();
+    if (!query) { alert('Please type a place name to search.'); return; }
+
+    const resultsDiv = document.getElementById('placeSearchResults');
+    resultsDiv.style.display = 'block';
+    resultsDiv.innerHTML = '<div style="padding:6px 10px;color:#666;">Searching...</div>';
+
+    try {
+        const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=5&addressdetails=1`;
+        const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
+        const data = await res.json();
+
+        if (!data.length) {
+            resultsDiv.innerHTML = '<div style="padding:6px 10px;color:#c00;">No results found. Try a more specific name.</div>';
+            return;
+        }
+
+        resultsDiv.innerHTML = data.map((r, i) =>
+            `<div onclick="selectPlace(${i})" data-idx="${i}" style="padding:6px 10px;cursor:pointer;border-bottom:1px solid #eee;"
+              onmouseover="this.style.background='#f5e6c8'" onmouseout="this.style.background=''"
+              data-lat="${r.lat}" data-lon="${r.lon}" data-name="${r.display_name.replace(/"/g,'&quot;')}">
+                ${r.display_name}
+            </div>`
+        ).join('');
+
+        // Store results globally for selectPlace
+        window._geoResults = data;
+    } catch(e) {
+        resultsDiv.innerHTML = `<div style="padding:6px 10px;color:#c00;">Search failed. Check internet connection.</div>`;
+    }
 }
+
+function selectPlace(idx) {
+    const r = window._geoResults[idx];
+    const lat = parseFloat(r.lat);
+    const lon = parseFloat(r.lon);
+
+    // Estimate UTC offset from longitude (rough: 1 hour per 15 degrees)
+    // More precise: use known country offsets
+    let tz = Math.round(lon / 15 * 2) / 2; // round to nearest 0.5
+    // Country-based overrides
+    const country = (r.address && r.address.country_code) ? r.address.country_code.toUpperCase() : '';
+    if (country === 'IN') tz = 5.5;
+    else if (country === 'US') {
+        if (lon > -75) tz = -5;
+        else if (lon > -90) tz = -6;
+        else if (lon > -105) tz = -7;
+        else tz = -8;
+    }
+    else if (country === 'GB') tz = 0;
+    else if (country === 'AU') {
+        if (lon > 135) tz = 10;
+        else if (lon > 125) tz = 9.5;
+        else tz = 8;
+    }
+    else if (['DE','FR','IT','ES','NL','BE','DK','SE','NO'].includes(country)) tz = 1;
+    else if (['JP','KR'].includes(country)) tz = 9;
+    else if (['CN','PH','MY','SG'].includes(country)) tz = 8;
+    else if (['NP'].includes(country)) tz = 5.75;
+    else if (['LK','BD'].includes(country)) tz = 5.5;
+    else if (['PK','UZ'].includes(country)) tz = 5;
+    else if (['AE','OM'].includes(country)) tz = 4;
+    else if (['SA','QA','KW','BH','IQ'].includes(country)) tz = 3;
+    else if (['EG','ZA','GR','TR','FI','EE','LV','LT'].includes(country)) tz = 2;
+
+    document.getElementById('birthLat').value = lat.toFixed(4);
+    document.getElementById('birthLon').value = lon.toFixed(4);
+    document.getElementById('birthTz').value = tz;
+
+    const shortName = r.display_name.split(',').slice(0,3).join(',');
+    document.getElementById('birthPlace').value = shortName;
+    document.getElementById('placeFoundInfo').style.display = 'block';
+    document.getElementById('placeFoundInfo').innerHTML =
+        `✅ ${shortName}<br>Lat: ${lat.toFixed(4)}, Lon: ${lon.toFixed(4)}, UTC${tz >= 0 ? '+' : ''}${tz}`;
+    document.getElementById('placeSearchResults').style.display = 'none';
+}
+
+// Allow pressing Enter to search
+document.addEventListener('DOMContentLoaded', () => {
+    const inp = document.getElementById('birthPlace');
+    if (inp) inp.addEventListener('keydown', e => { if (e.key === 'Enter') searchPlace(); });
+});
 
 function generateHoroscope() {
     const name = document.getElementById('birthName').value || 'Native';
     const sex = document.getElementById('birthSex').value;
     const dateStr = document.getElementById('birthDate').value;
     const timeStr = document.getElementById('birthTime').value;
-    const cityKey = document.getElementById('birthCity').value;
 
     if (!dateStr || !timeStr) { alert('Please enter Date and Time of Birth.'); return; }
 
+    const lat = parseFloat(document.getElementById('birthLat').value);
+    const lon = parseFloat(document.getElementById('birthLon').value);
+    const tz  = parseFloat(document.getElementById('birthTz').value);
+    const locName = document.getElementById('birthPlace').value || `(${lat.toFixed(2)}°, ${lon.toFixed(2)}°)`;
+
+    if (isNaN(lat) || isNaN(lon) || isNaN(tz)) {
+        alert('Please search for a Place of Birth or enter Latitude, Longitude and UTC Offset manually.');
+        return;
+    }
+
     const [yy, mm, dd] = dateStr.split('-').map(Number);
     const [hh, mi] = timeStr.split(':').map(Number);
-
-    let lat, lon, tz, locName;
-    if (cityKey === 'custom') {
-        lat = parseFloat(document.getElementById('birthLat').value);
-        lon = parseFloat(document.getElementById('birthLon').value);
-        tz = parseFloat(document.getElementById('birthTz').value);
-        locName = `Custom (${lat.toFixed(2)}°, ${lon.toFixed(2)}°)`;
-    } else {
-        const c = CITIES[cityKey];
-        lat = c.lat; lon = c.lon;
-        tz = isDST(yy, mm, dd, c.dst) ? c.dstTz : c.stdTz;
-        locName = c.name;
-    }
 
     // Birth time as decimal hours (local)
     const birthHrs = hh + mi / 60;
@@ -455,11 +533,13 @@ function generateHoroscope() {
          <span style="font-size:0.85rem;color:#666;">${locName} · ${dateStr} · ${timeStr} · UTC${tz>=0?'+':''}${tz}</span>`;
 
     // Birth Panchanga
+    const paksham = getPaksham(tithiIdx);
+    const tithiName = TITHI[tithiIdx];
     const panchHTML = `
         <div class="pitem"><span class="plabel">Samvatsaram</span><span class="pval">${getSamvatsaram(yy, mm, jd)}</span></div>
         <div class="pitem"><span class="plabel">Masam</span><span class="pval">${getLunarCalendar(jd).masam}</span></div>
-        <div class="pitem"><span class="plabel">Paksham</span><span class="pval">${getPaksham(tithiIdx)}</span></div>
-        <div class="pitem"><span class="plabel">Tithi</span><span class="pval">${TITHI[tithiIdx]}</span></div>
+        <div class="pitem"><span class="plabel">Paksham</span><span class="pval">${paksham}</span></div>
+        <div class="pitem"><span class="plabel">Tithi</span><span class="pval">${paksham.replace(' Paksham','')} ${tithiName}</span></div>
         <div class="pitem"><span class="plabel">Vasara</span><span class="pval">${VARA[dow]}</span></div>
         <div class="pitem"><span class="plabel">Nakshatra</span><span class="pval">${NAKSHATRA[nakIdx]} — Pada ${moonNp.pada}</span></div>
         <div class="pitem"><span class="plabel">Yoga</span><span class="pval">${YOGA[yogaIdx]}</span></div>
@@ -482,9 +562,12 @@ function generateHoroscope() {
     // Lagna row first
     const lagDeg = lagnaAtBirth.degree % 30;
     const lagNp = getNakshatraPada(lagnaAtBirth.degree);
+    const lagDW = Math.floor(lagDeg);
+    let lagMP = Math.round((lagDeg - lagDW) * 60);
+    if (lagMP >= 60) { lagMP = 0; }
     gtHTML += `<tr style="background:#f5e6c8;font-weight:600">
-        <td style="color:#4a0e0e">Lagna</td>
-        <td>${lagnaAtBirth.degStr}</td>
+        <td style="color:#4a0e0e">Lagna (Ascendant)</td>
+        <td>${lagnaAtBirth.rashiName} ${lagDW}°${String(lagMP).padStart(2,'0')}'</td>
         <td>${lagnaAtBirth.rashiName}</td>
         <td>1st</td>
         <td>${NAKSHATRA[lagNp.nakIdx]} — ${lagNp.pada}</td>

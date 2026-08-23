@@ -109,43 +109,23 @@
       <input type="time" id="birthTime" value="13:45" step="60">
 
       <label>Place of Birth</label>
-      <select id="birthCity" onchange="onBirthCityChange()">
-        <optgroup label="USA">
-          <option value="frisco" selected>Frisco / Dallas, TX</option>
-          <option value="newyork">New York, NY</option>
-          <option value="losangeles">Los Angeles, CA</option>
-          <option value="chicago">Chicago, IL</option>
-        </optgroup>
-        <optgroup label="Canada">
-          <option value="toronto">Toronto, ON</option>
-          <option value="vancouver">Vancouver, BC</option>
-        </optgroup>
-        <optgroup label="India">
-          <option value="delhi">New Delhi</option>
-          <option value="hyderabad">Hyderabad</option>
-          <option value="chennai">Chennai</option>
-          <option value="mumbai">Mumbai</option>
-          <option value="bangalore">Bangalore</option>
-        </optgroup>
-        <optgroup label="International">
-          <option value="london">London, UK</option>
-          <option value="tokyo">Tokyo, Japan</option>
-          <option value="sydney">Sydney, Australia</option>
-          <option value="aarhus">Aarhus, Denmark</option>
-        </optgroup>
-        <option value="custom">Custom Lat / Lon</option>
-      </select>
-
-      <div id="birthCustomCoords" style="display:none;grid-column:1/-1;">
-        <div class="form-grid" style="margin-top:8px">
-          <label>Latitude</label>
-          <input type="number" id="birthLat" step="0.0001" placeholder="e.g. 14.6833">
-          <label>Longitude</label>
-          <input type="number" id="birthLon" step="0.0001" placeholder="e.g. 77.6000">
-          <label>UTC Offset</label>
-          <input type="number" id="birthTz" step="0.5" placeholder="e.g. 5.5">
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="display:flex;gap:6px;">
+          <input type="text" id="birthPlace" placeholder="Type city, e.g. Anantapur, India" style="flex:1;">
+          <button type="button" onclick="searchPlace()" style="padding:6px 12px;background:#4a0e0e;color:#fff;border:none;border-radius:4px;cursor:pointer;font-family:'EB Garamond',serif;white-space:nowrap;">Search</button>
         </div>
+        <div id="placeSearchResults" style="display:none;border:1px solid #ccc;border-radius:4px;background:#fff;max-height:150px;overflow-y:auto;font-size:0.85rem;"></div>
+        <div id="placeFoundInfo" style="display:none;font-size:0.8rem;color:#4a0e0e;font-family:'EB Garamond',serif;padding:4px 0;"></div>
       </div>
+
+      <label>Latitude</label>
+      <input type="number" id="birthLat" step="0.0001" placeholder="Auto-filled or enter manually" value="14.6833">
+
+      <label>Longitude</label>
+      <input type="number" id="birthLon" step="0.0001" placeholder="Auto-filled or enter manually" value="77.6000">
+
+      <label>UTC Offset (hrs)</label>
+      <input type="number" id="birthTz" step="0.5" placeholder="e.g. 5.5 for IST, -5 for EST" value="5.5">
     </div>
     <button class="btn-generate" onclick="generateHoroscope()">✦ Generate Jatakam ✦</button>
   </div>
@@ -218,7 +198,7 @@
   </div>
 
 </div>
-<script src="panchangam-v16.js"></script>
+<script src="panchangam-v17.js"></script>
 <script src="jyotishyam.js"></script>
 </body>
 </html>
