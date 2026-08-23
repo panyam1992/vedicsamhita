@@ -273,9 +273,9 @@ function detectDoshas(grahas, lagnaSign) {
         detected: isKuja && !kujaCancelled,
         detail: isKuja
             ? (kujaCancelled
-                ? `Mars in ${marsHouse}th house — Dosha cancelled (Dosha Bhangam) due to own/exalted sign or benefic aspect.`
-                : `Mars in ${marsHouse}th house from Lagna. Affects marriage compatibility.`)
-            : `Mars in ${marsHouse}th house — No Kuja Dosha.`,
+                ? `Mars in ${ordinal(marsHouse)} house — Dosha cancelled (Dosha Bhangam) due to own/exalted sign or benefic aspect.`
+                : `Mars in ${ordinal(marsHouse)} house from Lagna. Affects marriage compatibility.`)
+            : `Mars in ${ordinal(marsHouse)} house — No Kuja Dosha.`,
         remedies: [
             'Recite Subrahmanya Ashtakam / Angaraka Stotram on Tuesdays.',
             'Kuja Shanti Homa at Vaitheeswaran Koil.',
@@ -748,6 +748,11 @@ function fmtDate(d) {
     return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 }
 
+function ordinal(n) {
+    if (n === 1) return '1st'; if (n === 2) return '2nd'; if (n === 3) return '3rd';
+    return n + 'th';
+}
+
 /* ═══════════════════════════════════════════════════════════
    JYOTISH AI ANALYSIS ENGINE
    Vedic astrology analysis for Finance, Career, Health etc.
@@ -852,9 +857,9 @@ function analyzeFinance(data) {
     let result = `<strong>💰 Financial Analysis</strong><br><br>`;
 
     result += `<strong>Your Natal Financial Strengths:</strong><br>`;
-    result += `• 2nd House (Dhana/Wealth) lord: <strong>${GRAHA_FULL_NAME[d2Lord]}</strong> ${d2Str} in ${d2House}th house (${HOUSE_NATURE[d2House]})<br>`;
-    result += `• 11th House (Labha/Income) lord: <strong>${GRAHA_FULL_NAME[d11Lord]}</strong> ${d11Str} in ${d11House}th house (${HOUSE_NATURE[d11House]})<br>`;
-    result += `• 10th House (Career/Earnings) lord: <strong>${GRAHA_FULL_NAME[d10Lord]}</strong> in ${d10House}th house<br><br>`;
+    result += `• 2nd House (Dhana/Wealth) lord: <strong>${GRAHA_FULL_NAME[d2Lord]}</strong> ${d2Str} in ${ordinal(d2House)} house (${HOUSE_NATURE[d2House]})<br>`;
+    result += `• 11th House (Labha/Income) lord: <strong>${GRAHA_FULL_NAME[d11Lord]}</strong> ${d11Str} in ${ordinal(d11House)} house (${HOUSE_NATURE[d11House]})<br>`;
+    result += `• 10th House (Career/Earnings) lord: <strong>${GRAHA_FULL_NAME[d10Lord]}</strong> in ${ordinal(d10House)} house<br><br>`;
 
     result += `<strong>Current Dasha Period:</strong><br>`;
     result += `• Mahadasha: <strong>${mahaName}</strong> ${currentMaha ? `(until ${fmtDate(currentMaha.end)})` : ''}<br>`;
@@ -882,11 +887,14 @@ function analyzeFinance(data) {
     // Year-by-year if we have upcoming dashas
     result += `<strong>Period-wise Outlook:</strong><br>`;
     if (currentMaha) {
-        const upcoming = data.antardashas || [];
+        const today = new Date();
+        const upcoming = (data.antardashas || []).filter(a => a.end > today);
         upcoming.slice(0,5).forEach(a => {
             const aGood = financeGrahas.includes(a.lord.name);
             const aIcon = aGood ? '✅' : ['Sa','Ra','Ke','Ma'].includes(a.lord.name) ? '⚠️' : '🔶';
-            result += `${aIcon} <strong>${mahaName}–${a.lord.name}</strong> (${fmtDate(a.start)} → ${fmtDate(a.end)}): `;
+            const isNow = today >= a.start && today < a.end;
+            const nowTag = isNow ? ' ▶ NOW' : '';
+            result += `${aIcon} <strong>${mahaName}–${a.lord.name}</strong> (${fmtDate(a.start)} → ${fmtDate(a.end)})${nowTag}:<br>&nbsp;&nbsp;&nbsp;&nbsp;`;
             if (a.lord.name === 'Ju') result += 'Excellent for investments, savings, and financial expansion.<br>';
             else if (a.lord.name === 'Ve') result += 'Good for income from business, property, or luxury goods.<br>';
             else if (a.lord.name === 'Mo') result += 'Moderate gains; avoid emotional financial decisions.<br>';
@@ -927,9 +935,9 @@ function analyzeCareer(data) {
 
     let result = `<strong>💼 Career & Profession Analysis</strong><br><br>`;
     result += `<strong>Career Indicators:</strong><br>`;
-    result += `• 10th House lord: <strong>${GRAHA_FULL_NAME[d10Lord]}</strong> ${d10Str} in ${d10House}th house<br>`;
-    result += `• Shani (Saturn, career karaka) in ${saHouse}th house<br>`;
-    result += `• Surya (Sun, authority karaka) in ${suHouse}th house<br><br>`;
+    result += `• 10th House lord: <strong>${GRAHA_FULL_NAME[d10Lord]}</strong> ${d10Str} in ${ordinal(d10House)} house<br>`;
+    result += `• Shani (Saturn, career karaka) in ${ordinal(saHouse)} house<br>`;
+    result += `• Surya (Sun, authority karaka) in ${ordinal(suHouse)} house<br><br>`;
 
     result += `<strong>Current Dasha Influence on Career:</strong><br>`;
     result += `• Running: <strong>${mahaName}–${antarName}</strong> period<br>`;
@@ -947,7 +955,7 @@ function analyzeCareer(data) {
     if (goodCareerHouses.includes(d10House)) {
         result += `✅ Your 10th lord is well-placed, indicating <strong>good professional standing</strong> and recognition in your field. Career growth in next 2 years is <strong>positive</strong>.<br>`;
     } else if ([6,12].includes(d10House)) {
-        result += `⚠️ 10th lord in ${d10House}th house suggests <strong>service-oriented careers</strong> (medicine, law, foreign employment) with challenges that require extra effort for recognition.<br>`;
+        result += `⚠️ 10th lord in ${ordinal(d10House)} house suggests <strong>service-oriented careers</strong> (medicine, law, foreign employment) with challenges that require extra effort for recognition.<br>`;
     } else {
         result += `🔶 Moderate career growth expected. Focus on skill development and networking during ${antarName} period.<br>`;
     }
@@ -972,8 +980,8 @@ function analyzeHealth(data) {
     let result = `<strong>❤️ Health & Wellbeing Analysis</strong><br><br>`;
     result += `<strong>Key Health Indicators:</strong><br>`;
     result += `• Lagna (${LAGNA_NAMES[lagnaSign]}): Constitution and overall vitality<br>`;
-    result += `• Lagna lord (${GRAHA_FULL_NAME[lagnaLord]}) in ${lagnaLordHouse}th house<br>`;
-    result += `• Moon (mind/emotions) in ${moHouse}th house<br><br>`;
+    result += `• Lagna lord (${GRAHA_FULL_NAME[lagnaLord]}) in ${ordinal(lagnaLordHouse)} house<br>`;
+    result += `• Moon (mind/emotions) in ${ordinal(moHouse)} house<br><br>`;
 
     const healthAreas = {
         0:'head, brain, eyes', 1:'throat, neck, thyroid', 2:'shoulders, arms, lungs',
@@ -997,7 +1005,7 @@ function analyzeHealth(data) {
     result += `During <strong>${mahaName} Mahadasha</strong>, watch: ${mahaHealth[mahaName] || 'general health'}.<br><br>`;
 
     if ([6,8,12].includes(lagnaLordHouse)) {
-        result += `⚠️ Lagna lord in ${lagnaLordHouse}th house: Take care of your health proactively. Regular medical check-ups recommended.<br>`;
+        result += `⚠️ Lagna lord in ${ordinal(lagnaLordHouse)} house: Take care of your health proactively. Regular medical check-ups recommended.<br>`;
     } else {
         result += `✅ Lagna lord is well-placed indicating <strong>generally good health</strong> and strong recovery capacity.<br>`;
     }
@@ -1027,16 +1035,16 @@ function analyzeMarriage(data) {
 
     let result = `<strong>💑 Marriage & Relationships Analysis</strong><br><br>`;
     result += `<strong>Marriage Indicators:</strong><br>`;
-    result += `• 7th House lord: <strong>${GRAHA_FULL_NAME[d7Lord]}</strong> ${d7Str} in ${d7House}th house<br>`;
-    result += `• Shukra (Venus, relationship karaka) in ${veHouse}th house<br>`;
-    result += `• Guru (Jupiter, spouse significator) in ${juHouse}th house<br>`;
-    result += `• Mangal in ${maHouse}th house ${isKujaDosha ? '— ⚠️ Kuja Dosha present' : '— ✅ No Kuja Dosha'}<br><br>`;
+    result += `• 7th House lord: <strong>${GRAHA_FULL_NAME[d7Lord]}</strong> ${d7Str} in ${ordinal(d7House)} house<br>`;
+    result += `• Shukra (Venus, relationship karaka) in ${ordinal(veHouse)} house<br>`;
+    result += `• Guru (Jupiter, spouse significator) in ${ordinal(juHouse)} house<br>`;
+    result += `• Mangal in ${ordinal(maHouse)} house ${isKujaDosha ? '— ⚠️ Kuja Dosha present' : '— ✅ No Kuja Dosha'}<br><br>`;
 
     const goodMarriageHouses = [1,2,4,7,9,11];
     if (goodMarriageHouses.includes(d7House) && goodMarriageHouses.includes(veHouse)) {
         result += `✅ Strong marriage indicators — a <strong>harmonious and lasting relationship</strong> is indicated. Good compatibility and mutual understanding.<br><br>`;
     } else if ([6,8,12].includes(d7House)) {
-        result += `⚡ 7th lord in ${d7House}th house: Marriage may come with <strong>delays or challenges</strong>. Requires patience and understanding from both partners.<br><br>`;
+        result += `⚡ 7th lord in ${ordinal(d7House)} house: Marriage may come with <strong>delays or challenges</strong>. Requires patience and understanding from both partners.<br><br>`;
     } else {
         result += `🔶 Moderate marriage indicators. Relationship will develop steadily with mutual effort.<br><br>`;
     }
@@ -1081,12 +1089,12 @@ function analyzeTravel(data) {
 
     let result = `<strong>✈️ Travel & Foreign Settlement Analysis</strong><br><br>`;
     result += `• 9th House lord (long journeys): ${GRAHA_FULL_NAME[d9Lord]} in ${getGrahaHouse(d9Lord, grahas, lagnaSign)}th house<br>`;
-    result += `• 12th House lord (foreign lands): ${GRAHA_FULL_NAME[d12Lord]} in ${d12House}th house<br>`;
-    result += `• Rahu (foreign travel significator) in ${raHouse}th house<br><br>`;
+    result += `• 12th House lord (foreign lands): ${GRAHA_FULL_NAME[d12Lord]} in ${ordinal(d12House)} house<br>`;
+    result += `• Rahu (foreign travel significator) in ${ordinal(raHouse)} house<br><br>`;
 
     const travelIndicators = raHouse === 9 || raHouse === 12 || raHouse === 7 || [1,9,12].includes(d12House);
     if (travelIndicators) {
-        result += `✅ Strong foreign travel and settlement indicators in your chart. Rahu in ${raHouse}th house indicates <strong>excellent prospects for foreign lands</strong>, especially during Rahu Mahadasha/Antardasha.<br><br>`;
+        result += `✅ Strong foreign travel and settlement indicators in your chart. Rahu in ${ordinal(raHouse)} house indicates <strong>excellent prospects for foreign lands</strong>, especially during Rahu Mahadasha/Antardasha.<br><br>`;
     } else {
         result += `🔶 Moderate travel prospects. Local and domestic travel is more prominent. Foreign travel is possible but not the primary theme.<br><br>`;
     }
@@ -1113,14 +1121,14 @@ function analyzeChildren(data) {
     const mahaName = currentMaha ? currentMaha.lord.name : '—';
 
     let result = `<strong>👨‍👩‍👧 Children & Family Life Analysis</strong><br><br>`;
-    result += `• 5th House lord (children/progeny): <strong>${GRAHA_FULL_NAME[d5Lord]}</strong> ${d5Str} in ${d5House}th house<br>`;
-    result += `• Guru (Jupiter, children karaka) in ${juHouse}th house<br><br>`;
+    result += `• 5th House lord (children/progeny): <strong>${GRAHA_FULL_NAME[d5Lord]}</strong> ${d5Str} in ${ordinal(d5House)} house<br>`;
+    result += `• Guru (Jupiter, children karaka) in ${ordinal(juHouse)} house<br><br>`;
 
     const goodChildHouses = [1,4,5,9,10,11];
     if (goodChildHouses.includes(d5House) && goodChildHouses.includes(juHouse)) {
         result += `✅ <strong>Excellent indicators for children</strong>. 5th lord well-placed and Jupiter strong. Blessed with good children who will bring honor to the family.<br>`;
     } else if ([6,8,12].includes(d5House)) {
-        result += `⚡ 5th lord in ${d5House}th house: May face some <strong>delays or challenges</strong> in having children. Medical consultation recommended if delayed beyond expected timeframe.<br>`;
+        result += `⚡ 5th lord in ${ordinal(d5House)} house: May face some <strong>delays or challenges</strong> in having children. Medical consultation recommended if delayed beyond expected timeframe.<br>`;
     } else {
         result += `🔶 Moderate indicators. Children are expected but timing depends on favorable dasha periods.<br>`;
     }
