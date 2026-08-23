@@ -1,3 +1,26 @@
+        /* ═══ Site Navigation ═══ */
+        .site-nav {
+            background: linear-gradient(135deg, #4a0e0e, #6b1d1d);
+            padding: 10px 20px; display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            position: sticky; top: 0; z-index: 100;
+        }
+        .site-nav-brand {
+            color: #f5e6c8; font-family: 'Cinzel', serif;
+            font-size: 1.05rem; font-weight: 700; letter-spacing: 1px;
+        }
+        .site-nav-links { display: flex; gap: 4px; }
+        .site-nav-links a {
+            color: #ddd; text-decoration: none; font-family: 'EB Garamond', serif;
+            font-size: 0.9rem; padding: 5px 14px; border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .site-nav-links a:hover { background: rgba(255,255,255,0.15); color: #fff; }
+        .site-nav-links a.nav-active {
+            background: rgba(255,255,255,0.2); color: #f5e6c8; font-weight: 600;
+        }
+
         :root {
             --maroon: #6B1D1D;
             --dark-maroon: #4A0E0E;
