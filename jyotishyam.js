@@ -471,6 +471,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function generateHoroscope() {
+  try {
     const name = document.getElementById('birthName').value || 'Native';
     const sex = document.getElementById('birthSex').value;
     const dateStr = document.getElementById('birthDate').value;
@@ -735,6 +736,10 @@ function generateHoroscope() {
     document.getElementById('jyotishChatSection').style.display = 'block';
     addChatMsg('ai', `🙏 Namaste <strong>${name}</strong>! Your Jataka Kundali for <strong>${dateStr}</strong> from <strong>${locName}</strong> has been computed.<br><br>Currently running: <strong>${currentMaha ? currentMaha.lord.name : '—'} Mahadasha – ${currentAntar ? currentAntar.lord.name : '—'} Antardasha</strong>.<br><br>Ask me about your <strong>finances, career, health, marriage, travel</strong>, or anything else about your life! Use the quick buttons below or type your question.`);
     document.getElementById('jyotishResults').scrollIntoView({ behavior: 'smooth' });
+  } catch(err) {
+    alert('Error: ' + err.message + '\n\nLine: ' + (err.stack || ''));
+    console.error('generateHoroscope error:', err);
+  }
 }
 
 // Helper: format Date to readable string

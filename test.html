@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html><head><title>Test</title></head>
+<body>
+<h2>Testing jyotishyam.js loading...</h2>
+<div id="result" style="font-size:20px;color:red;">LOADING...</div>
+<script src="panchangam-v18.js"></script>
+<script src="jyotishyam.js"></script>
+<script>
+document.getElementById('result').textContent = 
+    typeof generateHoroscope === 'function' 
+    ? 'SUCCESS - generateHoroscope function exists!' 
+    : 'FAILED - generateHoroscope not found';
+document.getElementById('result').style.color = 
+    typeof generateHoroscope === 'function' ? 'green' : 'red';
+</script>
+</body></html>
