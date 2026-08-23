@@ -1221,5 +1221,3 @@ window.onload = function() {
     // Jyotishyam page — no auto-calculation needed
     document.getElementById('jyotishChatSection').style.display = 'none';
 };
-
-};
