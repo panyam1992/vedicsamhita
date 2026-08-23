@@ -66,6 +66,17 @@
         font-family: 'EB Garamond', serif; font-size: 1.1rem; margin: 10px 0;
     }
     .namakshara-box .syllable { font-size: 1.8rem; color: var(--accent-dark); font-weight: 700; }
+    .quick-q {
+        padding: 4px 12px; background: #f5e6c8; border: 1px solid #c8a96e;
+        border-radius: 20px; cursor: pointer; font-family: 'EB Garamond', serif;
+        font-size: 0.82rem; color: #4a0e0e; transition: background 0.2s;
+    }
+    .quick-q:hover { background: #e8d5a8; }
+    .chat-msg-user { text-align:right; margin:6px 0; }
+    .chat-msg-user span { background:#4a0e0e; color:#fff; padding:6px 12px; border-radius:12px 12px 2px 12px; display:inline-block; max-width:80%; font-size:0.88rem; }
+    .chat-msg-ai { margin:8px 0; }
+    .chat-msg-ai .ai-bubble { background:#fff; border:1px solid #e0cfa0; padding:10px 14px; border-radius:2px 12px 12px 12px; max-width:95%; font-size:0.88rem; line-height:1.6; }
+    .chat-msg-ai .ai-label { font-size:0.75rem; color:#888; margin-bottom:4px; font-family:'Cinzel',serif; }
 </style>
 </head>
 <body>
@@ -188,17 +199,40 @@
       <div id="remedyResults"></div>
     </div>
 
+    <!-- Jyotish AI Chat -->
+    <div class="jyotish-section" id="jyotishChatSection">
+      <h3>✨ Ask Your Kundali (జ్యోతిష్య సహాయం)</h3>
+      <p style="font-family:'EB Garamond',serif;font-size:0.88rem;color:#666;margin:0 0 10px;">
+        Ask any question about your horoscope — finances, career, health, marriage, travel and more.
+      </p>
+      <div id="chatMessages" style="min-height:60px;max-height:340px;overflow-y:auto;padding:10px;border:1px solid #ddd;border-radius:6px;background:#fdf6e3;font-family:'EB Garamond',serif;font-size:0.9rem;margin-bottom:8px;"></div>
+      <div style="display:flex;gap:8px;">
+        <input type="text" id="chatInput" placeholder="e.g. How is my financial situation for next 5 years?"
+          style="flex:1;padding:8px 12px;border:1px solid #ccc;border-radius:6px;font-family:'EB Garamond',serif;font-size:0.9rem;"
+          onkeydown="if(event.key==='Enter')askKundali()">
+        <button onclick="askKundali()" style="padding:8px 18px;background:#4a0e0e;color:#fff;border:none;border-radius:6px;font-family:'Cinzel',serif;cursor:pointer;">Ask ✦</button>
+      </div>
+      <div style="margin-top:8px;display:flex;flex-wrap:wrap;gap:6px;" id="quickQuestions">
+        <button onclick="askQuick('How is my financial situation for the next 5 years?')" class="quick-q">💰 Finance</button>
+        <button onclick="askQuick('How is my career and profession in next 2 years?')" class="quick-q">💼 Career</button>
+        <button onclick="askQuick('What about my health and wellbeing?')" class="quick-q">❤️ Health</button>
+        <button onclick="askQuick('What about my marriage and relationships?')" class="quick-q">💑 Marriage</button>
+        <button onclick="askQuick('Will I have foreign travel or settlement?')" class="quick-q">✈️ Travel</button>
+        <button onclick="askQuick('What about children and family life?')" class="quick-q">👨‍👩‍👧 Children</button>
+      </div>
+    </div>
+
     <hr class="divider">
     <div class="blessings">
       Shubham bhuyath…<br>
       May the planets guide your path with wisdom and grace.<br>
-      <strong>�DigiPandit — Anantha Krishna Sastry Munimadugu</strong><br>
+      <strong>🙏 DigiPandit — Anantha Krishna Sastry Munimadugu</strong><br>
       Call / Text: +1 (903) 347‑2647 &nbsp;|&nbsp; panyampujas@gmail.com
     </div>
   </div>
 
 </div>
-<script src="panchangam-v17.js"></script>
+<script src="panchangam-v18.js"></script>
 <script src="jyotishyam.js"></script>
 </body>
 </html>

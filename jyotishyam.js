@@ -718,8 +718,22 @@ function generateHoroscope() {
             '<p style="color:#27ae60;font-family:\'EB Garamond\',serif;">✅ No major Doshas detected. Chart is generally favorable.</p>';
     }
 
-    // Show results
+    // Store kundali data for AI analysis
+    window._kundaliData = {
+        grahas, lagnaSign, currentMaha, currentAntar,
+        currentPratyantar: null, antardashas: currentMaha ? computeAntardasha(currentMaha) : [],
+        name, sex, dateStr, locName
+    };
+    // Find current pratyantardasha
+    if (currentAntar) {
+        const pratys = computePratyantardasha(currentAntar, currentMaha.lord.years);
+        window._kundaliData.currentPratyantar = pratys.find(p => today >= p.start && today < p.end) || null;
+    }
+
+    // Show results and chat
     document.getElementById('jyotishResults').style.display = 'block';
+    document.getElementById('jyotishChatSection').style.display = 'block';
+    addChatMsg('ai', `🙏 Namaste <strong>${name}</strong>! Your Jataka Kundali for <strong>${dateStr}</strong> from <strong>${locName}</strong> has been computed.<br><br>Currently running: <strong>${currentMaha ? currentMaha.lord.name : '—'} Mahadasha – ${currentAntar ? currentAntar.lord.name : '—'} Antardasha</strong>.<br><br>Ask me about your <strong>finances, career, health, marriage, travel</strong>, or anything else about your life! Use the quick buttons below or type your question.`);
     document.getElementById('jyotishResults').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -729,7 +743,483 @@ function fmtDate(d) {
     return `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
 }
 
+/* ═══════════════════════════════════════════════════════════
+   JYOTISH AI ANALYSIS ENGINE
+   Vedic astrology analysis for Finance, Career, Health etc.
+   ═══════════════════════════════════════════════════════════ */
+
+// Store kundali data globally after generation
+window._kundaliData = null;
+
+// House lord mapping: sign index → lord graha name code
+const SIGN_LORD = ['Su','Mo','Ma','Me','Ju','Ve','Sa','Ma','Ju','Sa','Sa','Ju'];
+// Refined: 0=Aries/Ma, 1=Taurus/Ve, 2=Gemini/Me, 3=Cancer/Mo, 4=Leo/Su,
+//          5=Virgo/Me, 6=Libra/Ve, 7=Scorpio/Ma, 8=Sag/Ju, 9=Cap/Sa, 10=Aqu/Sa, 11=Pis/Ju
+const SIGN_LORD_CORRECT = ['Ma','Ve','Me','Mo','Su','Me','Ve','Ma','Ju','Sa','Sa','Ju'];
+
+// Graha full names for AI responses
+const GRAHA_FULL_NAME = {
+    Su:'Surya (Sun)', Mo:'Chandra (Moon)', Ma:'Mangal (Mars)', Me:'Budha (Mercury)',
+    Ju:'Guru (Jupiter)', Ve:'Shukra (Venus)', Sa:'Shani (Saturn)', Ra:'Rahu', Ke:'Ketu'
+};
+
+// Nature of houses
+const HOUSE_NATURE = {
+    1:'self, health, personality',
+    2:'wealth, family, speech',
+    3:'courage, siblings, short travel',
+    4:'home, mother, property, vehicles',
+    5:'children, intelligence, past merit, speculation',
+    6:'enemies, disease, debts, litigation',
+    7:'marriage, partnerships, business',
+    8:'longevity, inheritance, hidden matters, research',
+    9:'fortune, father, religion, higher education, long travel',
+    10:'career, profession, status, government',
+    11:'income, gains, social circle, fulfillment of desires',
+    12:'foreign lands, expenses, liberation, sleep, loss'
+};
+
+// Benefic/Malefic nature
+const IS_BENEFIC = { Su:false, Mo:true, Ma:false, Me:true, Ju:true, Ve:true, Sa:false, Ra:false, Ke:false };
+
+function getHouseLord(houseNum, lagnaSign) {
+    const signOfHouse = (lagnaSign + houseNum - 1) % 12;
+    return SIGN_LORD_CORRECT[signOfHouse];
+}
+
+function getGrahaHouse(grahaName, grahas, lagnaSign) {
+    const g = grahas.find(x => x.name === grahaName);
+    if (!g) return null;
+    return ((g.rashi - lagnaSign + 12) % 12) + 1;
+}
+
+function getGrahaSign(grahaName, grahas) {
+    const g = grahas.find(x => x.name === grahaName);
+    return g ? g.rashi : null;
+}
+
+function isGrahaBeneficForLagna(grahaName, lagnaSign) {
+    // Simplified: natural benefics owning trines (1,5,9) or kendras (1,4,7,10) are positive
+    return IS_BENEFIC[grahaName];
+}
+
+function getStrengthDesc(grahaName, grahas) {
+    const g = grahas.find(x => x.name === grahaName);
+    if (!g) return '';
+    const exSigns = { Su:0, Mo:1, Ma:9, Me:5, Ju:3, Ve:11, Sa:6 };
+    const debSigns = { Su:6, Mo:7, Ma:3, Me:11, Ju:9, Ve:5, Sa:0 };
+    const ownS = { Su:[4], Mo:[3], Ma:[0,7], Me:[2,5], Ju:[8,11], Ve:[1,6], Sa:[9,10] };
+    if (exSigns[grahaName] !== undefined && exSigns[grahaName] === g.rashi) return '(Exalted ✦)';
+    if (debSigns[grahaName] !== undefined && debSigns[grahaName] === g.rashi) return '(Debilitated ✗)';
+    if (ownS[grahaName] && ownS[grahaName].includes(g.rashi)) return '(Own Sign ✓)';
+    return '';
+}
+
+/* ── Main Analysis Functions ── */
+
+function analyzeFinance(data) {
+    const { grahas, lagnaSign, currentMaha, currentAntar, currentPratyantar } = data;
+    const d2Lord = getHouseLord(2, lagnaSign);
+    const d11Lord = getHouseLord(11, lagnaSign);
+    const d10Lord = getHouseLord(10, lagnaSign);
+    const d2House = getGrahaHouse(d2Lord, grahas, lagnaSign);
+    const d11House = getGrahaHouse(d11Lord, grahas, lagnaSign);
+    const d10House = getGrahaHouse(d10Lord, grahas, lagnaSign);
+    const d2Str = getStrengthDesc(d2Lord, grahas);
+    const d11Str = getStrengthDesc(d11Lord, grahas);
+
+    const mahaName = currentMaha ? currentMaha.lord.name : '—';
+    const antarName = currentAntar ? currentAntar.lord.name : '—';
+    const pratyName = currentPratyantar ? currentPratyantar.lord.name : '—';
+
+    // Determine financial strength
+    const goodHouses = [1,2,5,9,10,11];
+    const badHouses = [6,8,12];
+    const d2Good = goodHouses.includes(d2House);
+    const d11Good = goodHouses.includes(d11House);
+    const overallGood = d2Good && d11Good;
+
+    // Dasha analysis for finance
+    const financeGrahas = ['Ju','Ve','Mo','Me'];
+    const mahaIsFinancial = financeGrahas.includes(mahaName);
+    const antarIsFinancial = financeGrahas.includes(antarName);
+
+    let result = `<strong>💰 Financial Analysis</strong><br><br>`;
+
+    result += `<strong>Your Natal Financial Strengths:</strong><br>`;
+    result += `• 2nd House (Dhana/Wealth) lord: <strong>${GRAHA_FULL_NAME[d2Lord]}</strong> ${d2Str} in ${d2House}th house (${HOUSE_NATURE[d2House]})<br>`;
+    result += `• 11th House (Labha/Income) lord: <strong>${GRAHA_FULL_NAME[d11Lord]}</strong> ${d11Str} in ${d11House}th house (${HOUSE_NATURE[d11House]})<br>`;
+    result += `• 10th House (Career/Earnings) lord: <strong>${GRAHA_FULL_NAME[d10Lord]}</strong> in ${d10House}th house<br><br>`;
+
+    result += `<strong>Current Dasha Period:</strong><br>`;
+    result += `• Mahadasha: <strong>${mahaName}</strong> ${currentMaha ? `(until ${fmtDate(currentMaha.end)})` : ''}<br>`;
+    result += `• Antardasha: <strong>${antarName}</strong> ${currentAntar ? `(until ${fmtDate(currentAntar.end)})` : ''}<br>`;
+    if (currentPratyantar) result += `• Pratyantardasha: <strong>${pratyName}</strong> (until ${fmtDate(currentPratyantar.end)})<br>`;
+    result += `<br>`;
+
+    result += `<strong>5-Year Financial Forecast:</strong><br>`;
+    if (d11Good && d2Good) {
+        result += `✅ Your natal chart shows <strong>strong financial indicators</strong>. Both the 2nd and 11th house lords are well-placed. `;
+    } else if (d11Good || d2Good) {
+        result += `⚡ Your chart shows <strong>moderate financial prospects</strong>. Income potential is good but savings need attention. `;
+    } else {
+        result += `⚠️ Your chart indicates <strong>financial challenges</strong> requiring effort and discipline. `;
+    }
+
+    if (mahaIsFinancial) {
+        result += `The ongoing <strong>${mahaName} Mahadasha</strong> is favorable for financial growth — ${mahaName === 'Ju' ? 'Jupiter brings expansion, wisdom-based gains, and prosperity' : mahaName === 'Ve' ? 'Venus brings luxury, comfort, and artistic/material gains' : mahaName === 'Mo' ? 'Moon brings fluctuating but often positive liquid income' : 'Mercury brings business, trade, and communication-based income'}.<br><br>`;
+    } else if (['Sa','Ra'].includes(mahaName)) {
+        result += `The ongoing <strong>${mahaName} Mahadasha</strong> requires patience — gains come through hard work and perseverance rather than quick windfalls. Avoid speculation and risky investments.<br><br>`;
+    } else {
+        result += `<br>`;
+    }
+
+    // Year-by-year if we have upcoming dashas
+    result += `<strong>Period-wise Outlook:</strong><br>`;
+    if (currentMaha) {
+        const upcoming = data.antardashas || [];
+        upcoming.slice(0,5).forEach(a => {
+            const aGood = financeGrahas.includes(a.lord.name);
+            const aIcon = aGood ? '✅' : ['Sa','Ra','Ke','Ma'].includes(a.lord.name) ? '⚠️' : '🔶';
+            result += `${aIcon} <strong>${mahaName}–${a.lord.name}</strong> (${fmtDate(a.start)} → ${fmtDate(a.end)}): `;
+            if (a.lord.name === 'Ju') result += 'Excellent for investments, savings, and financial expansion.<br>';
+            else if (a.lord.name === 'Ve') result += 'Good for income from business, property, or luxury goods.<br>';
+            else if (a.lord.name === 'Mo') result += 'Moderate gains; avoid emotional financial decisions.<br>';
+            else if (a.lord.name === 'Me') result += 'Good for trade, communication-based income, and commerce.<br>';
+            else if (a.lord.name === 'Su') result += 'Government-related income, promotions possible.<br>';
+            else if (a.lord.name === 'Ma') result += 'Cautious period — avoid impulsive spending; real estate gains possible.<br>';
+            else if (a.lord.name === 'Sa') result += 'Slow but steady growth; disciplined savings give long-term results.<br>';
+            else if (a.lord.name === 'Ra') result += 'Unconventional income sources; foreign gains possible but be wary of speculation.<br>';
+            else if (a.lord.name === 'Ke') result += 'Detachment from materialism; focus on inner growth over wealth accumulation.<br>';
+        });
+    }
+
+    result += `<br><strong>🪬 Remedies for Financial Prosperity:</strong><br>`;
+    if (!overallGood || !mahaIsFinancial) {
+        result += `• Recite <strong>Sri Suktam</strong> or <strong>Kubera Mantra</strong> ("Om Shreem Hreem Kleem Shreem Kleem Vitteshvaraya Namaha") on Fridays.<br>`;
+        result += `• Light a ghee lamp facing East every Friday morning.<br>`;
+        result += `• Donate yellow items (turmeric, yellow cloth) on Thursdays for Jupiter's blessings.<br>`;
+        result += `• Keep a <strong>Sri Yantra</strong> in the prayer room or office for Lakshmi's grace.<br>`;
+        result += `• Remedy period: Perform Lakshmi Puja on every Purnima (Full Moon) for 3 months.`;
+    } else {
+        result += `• Your chart is naturally strong for finances. Continue <strong>Sandhyavandanam</strong> daily to maintain planetary blessings.<br>`;
+        result += `• Donate 1/10th of income to charitable causes — this activates the 11th house further.<br>`;
+        result += `• Wear a <strong>Yellow Sapphire</strong> (Guru ratna) if Jupiter is strong in your chart for enhanced prosperity.`;
+    }
+    return result;
+}
+
+function analyzeCareer(data) {
+    const { grahas, lagnaSign, currentMaha, currentAntar } = data;
+    const d10Lord = getHouseLord(10, lagnaSign);
+    const d6Lord = getHouseLord(6, lagnaSign);
+    const d10House = getGrahaHouse(d10Lord, grahas, lagnaSign);
+    const d10Str = getStrengthDesc(d10Lord, grahas);
+    const saHouse = getGrahaHouse('Sa', grahas, lagnaSign);
+    const suHouse = getGrahaHouse('Su', grahas, lagnaSign);
+    const mahaName = currentMaha ? currentMaha.lord.name : '—';
+    const antarName = currentAntar ? currentAntar.lord.name : '—';
+
+    let result = `<strong>💼 Career & Profession Analysis</strong><br><br>`;
+    result += `<strong>Career Indicators:</strong><br>`;
+    result += `• 10th House lord: <strong>${GRAHA_FULL_NAME[d10Lord]}</strong> ${d10Str} in ${d10House}th house<br>`;
+    result += `• Shani (Saturn, career karaka) in ${saHouse}th house<br>`;
+    result += `• Surya (Sun, authority karaka) in ${suHouse}th house<br><br>`;
+
+    result += `<strong>Current Dasha Influence on Career:</strong><br>`;
+    result += `• Running: <strong>${mahaName}–${antarName}</strong> period<br>`;
+
+    const careerDashas = { Su:'authority, government, leadership roles', Ju:'teaching, advisory, management expansion',
+        Sa:'steady discipline, technical/blue-collar growth', Me:'communication, IT, finance, trade',
+        Ma:'engineering, real estate, military, surgery', Ve:'arts, luxury, diplomacy, design',
+        Mo:'public work, travel, hospitality, nursing', Ra:'foreign work, technology, unconventional careers',
+        Ke:'spiritual work, research, isolation-based professions' };
+
+    result += `<br>The <strong>${mahaName} Mahadasha</strong> favors: ${careerDashas[mahaName] || 'general growth'}.<br>`;
+    result += `The <strong>${antarName} Antardasha</strong> will bring opportunities related to: ${careerDashas[antarName] || 'steady progress'}.<br><br>`;
+
+    const goodCareerHouses = [1,2,10,11];
+    if (goodCareerHouses.includes(d10House)) {
+        result += `✅ Your 10th lord is well-placed, indicating <strong>good professional standing</strong> and recognition in your field. Career growth in next 2 years is <strong>positive</strong>.<br>`;
+    } else if ([6,12].includes(d10House)) {
+        result += `⚠️ 10th lord in ${d10House}th house suggests <strong>service-oriented careers</strong> (medicine, law, foreign employment) with challenges that require extra effort for recognition.<br>`;
+    } else {
+        result += `🔶 Moderate career growth expected. Focus on skill development and networking during ${antarName} period.<br>`;
+    }
+
+    result += `<br><strong>🪬 Career Remedies:</strong><br>`;
+    result += `• Chant <strong>Aditya Hridayam</strong> every Sunday morning for professional recognition.<br>`;
+    result += `• For Saturn (career discipline): Light sesame oil lamp on Saturdays and recite <strong>Shani Stotram</strong>.<br>`;
+    result += `• Remedy period: Perform Surya Namaskar (12 rounds) daily for 40 days before a job change or promotion attempt.`;
+    return result;
+}
+
+function analyzeHealth(data) {
+    const { grahas, lagnaSign, currentMaha } = data;
+    const lagnaLord = getHouseLord(1, lagnaSign);
+    const d6Lord = getHouseLord(6, lagnaSign);
+    const d8Lord = getHouseLord(8, lagnaSign);
+    const lagnaLordHouse = getGrahaHouse(lagnaLord, grahas, lagnaSign);
+    const moHouse = getGrahaHouse('Mo', grahas, lagnaSign);
+    const mahaName = currentMaha ? currentMaha.lord.name : '—';
+    const LAGNA_NAMES = ['Mesha','Vrishabha','Mithuna','Kataka','Simha','Kanya','Tula','Vruschika','Dhanus','Makara','Kumbha','Meena'];
+
+    let result = `<strong>❤️ Health & Wellbeing Analysis</strong><br><br>`;
+    result += `<strong>Key Health Indicators:</strong><br>`;
+    result += `• Lagna (${LAGNA_NAMES[lagnaSign]}): Constitution and overall vitality<br>`;
+    result += `• Lagna lord (${GRAHA_FULL_NAME[lagnaLord]}) in ${lagnaLordHouse}th house<br>`;
+    result += `• Moon (mind/emotions) in ${moHouse}th house<br><br>`;
+
+    const healthAreas = {
+        0:'head, brain, eyes', 1:'throat, neck, thyroid', 2:'shoulders, arms, lungs',
+        3:'chest, stomach, breasts', 4:'heart, spine, back', 5:'digestive system, intestines',
+        6:'kidneys, lower back', 7:'reproductive system, bladder', 8:'thighs, hips, liver',
+        9:'knees, joints, bones', 10:'ankles, circulatory system', 11:'feet, lymphatic system'
+    };
+    result += `• Watch health area based on Lagna (${LAGNA_NAMES[lagnaSign]}): <strong>${healthAreas[lagnaSign]}</strong><br><br>`;
+
+    const mahaHealth = { Sa:'joints, bones, chronic conditions (patience needed)',
+        Ra:'mysterious ailments, skin, neurological (get proper diagnosis)',
+        Ke:'infections, sudden illness, spiritual health important',
+        Ma:'injuries, inflammation, blood pressure',
+        Su:'eyes, heart, vitality',
+        Mo:'mind, emotions, fluid balance',
+        Ju:'liver, weight, expansion-related',
+        Ve:'kidney, reproductive health, sugar',
+        Me:'nervous system, respiratory, skin' };
+
+    result += `<strong>Current Period Health Notes:</strong><br>`;
+    result += `During <strong>${mahaName} Mahadasha</strong>, watch: ${mahaHealth[mahaName] || 'general health'}.<br><br>`;
+
+    if ([6,8,12].includes(lagnaLordHouse)) {
+        result += `⚠️ Lagna lord in ${lagnaLordHouse}th house: Take care of your health proactively. Regular medical check-ups recommended.<br>`;
+    } else {
+        result += `✅ Lagna lord is well-placed indicating <strong>generally good health</strong> and strong recovery capacity.<br>`;
+    }
+
+    result += `<br><strong>🪬 Health Remedies:</strong><br>`;
+    result += `• Recite <strong>Maha Mrityunjaya Mantra</strong> ("Om Tryambakam Yajamahe...") 108 times daily for vitality.<br>`;
+    result += `• Practice <strong>Pranayama</strong> (alternate nostril breathing) every morning for 15 minutes.<br>`;
+    result += `• Fast on the weekday ruled by your 6th lord for disease prevention.<br>`;
+    result += `• Remedy period: Perform Dhanvantari Puja on Dhanvantari Trayodashi (Dhanteras) for health blessings.`;
+    return result;
+}
+
+function analyzeMarriage(data) {
+    const { grahas, lagnaSign, currentMaha, currentAntar } = data;
+    const d7Lord = getHouseLord(7, lagnaSign);
+    const d7House = getGrahaHouse(d7Lord, grahas, lagnaSign);
+    const d7Str = getStrengthDesc(d7Lord, grahas);
+    const veHouse = getGrahaHouse('Ve', grahas, lagnaSign);
+    const juHouse = getGrahaHouse('Ju', grahas, lagnaSign);
+    const maHouse = getGrahaHouse('Ma', grahas, lagnaSign);
+    const mahaName = currentMaha ? currentMaha.lord.name : '—';
+    const antarName = currentAntar ? currentAntar.lord.name : '—';
+
+    // Kuja dosha
+    const kujaHouses = [1,2,4,7,8,12];
+    const isKujaDosha = kujaHouses.includes(maHouse);
+
+    let result = `<strong>💑 Marriage & Relationships Analysis</strong><br><br>`;
+    result += `<strong>Marriage Indicators:</strong><br>`;
+    result += `• 7th House lord: <strong>${GRAHA_FULL_NAME[d7Lord]}</strong> ${d7Str} in ${d7House}th house<br>`;
+    result += `• Shukra (Venus, relationship karaka) in ${veHouse}th house<br>`;
+    result += `• Guru (Jupiter, spouse significator) in ${juHouse}th house<br>`;
+    result += `• Mangal in ${maHouse}th house ${isKujaDosha ? '— ⚠️ Kuja Dosha present' : '— ✅ No Kuja Dosha'}<br><br>`;
+
+    const goodMarriageHouses = [1,2,4,7,9,11];
+    if (goodMarriageHouses.includes(d7House) && goodMarriageHouses.includes(veHouse)) {
+        result += `✅ Strong marriage indicators — a <strong>harmonious and lasting relationship</strong> is indicated. Good compatibility and mutual understanding.<br><br>`;
+    } else if ([6,8,12].includes(d7House)) {
+        result += `⚡ 7th lord in ${d7House}th house: Marriage may come with <strong>delays or challenges</strong>. Requires patience and understanding from both partners.<br><br>`;
+    } else {
+        result += `🔶 Moderate marriage indicators. Relationship will develop steadily with mutual effort.<br><br>`;
+    }
+
+    result += `<strong>Favorable Marriage Periods:</strong><br>`;
+    const marriageDashas = ['Ju','Ve','Mo'];
+    if (marriageDashas.includes(mahaName) || marriageDashas.includes(antarName)) {
+        result += `✅ Current ${mahaName}–${antarName} period is <strong>favorable for marriage events</strong> and relationship development.<br>`;
+    } else {
+        result += `🔶 Current period is not the strongest for marriage events. Look forward to upcoming Venus or Jupiter sub-periods.<br>`;
+    }
+
+    if (currentAntar) {
+        const upcoming = data.antardashas || [];
+        const goodPeriods = upcoming.filter(a => marriageDashas.includes(a.lord.name));
+        if (goodPeriods.length > 0) {
+            result += `<br>Upcoming favorable periods:<br>`;
+            goodPeriods.slice(0,3).forEach(p => {
+                result += `• <strong>${mahaName}–${p.lord.name}</strong>: ${fmtDate(p.start)} to ${fmtDate(p.end)}<br>`;
+            });
+        }
+    }
+
+    result += `<br><strong>🪬 Marriage Remedies:</strong><br>`;
+    if (isKujaDosha) {
+        result += `• ⚠️ Kuja Dosha present — match charts carefully; partner should have equal or cancelling Kuja status.<br>`;
+        result += `• Perform <strong>Kuja Shanti Puja</strong> at Vaitheeswaran Koil or recite Mangala Kavacham on Tuesdays.<br>`;
+    }
+    result += `• Recite <strong>Kanakadhara Stotram</strong> on Fridays for Venus blessings in relationships.<br>`;
+    result += `• Offer white flowers to Goddess Parvati on Mondays for harmonious marriage.<br>`;
+    result += `• Remedy period: Perform Gauri Shankar Puja on 3 consecutive Mondays for happy married life.`;
+    return result;
+}
+
+function analyzeTravel(data) {
+    const { grahas, lagnaSign, currentMaha } = data;
+    const d9Lord = getHouseLord(9, lagnaSign);
+    const d12Lord = getHouseLord(12, lagnaSign);
+    const raHouse = getGrahaHouse('Ra', grahas, lagnaSign);
+    const d12House = getGrahaHouse(d12Lord, grahas, lagnaSign);
+    const mahaName = currentMaha ? currentMaha.lord.name : '—';
+
+    let result = `<strong>✈️ Travel & Foreign Settlement Analysis</strong><br><br>`;
+    result += `• 9th House lord (long journeys): ${GRAHA_FULL_NAME[d9Lord]} in ${getGrahaHouse(d9Lord, grahas, lagnaSign)}th house<br>`;
+    result += `• 12th House lord (foreign lands): ${GRAHA_FULL_NAME[d12Lord]} in ${d12House}th house<br>`;
+    result += `• Rahu (foreign travel significator) in ${raHouse}th house<br><br>`;
+
+    const travelIndicators = raHouse === 9 || raHouse === 12 || raHouse === 7 || [1,9,12].includes(d12House);
+    if (travelIndicators) {
+        result += `✅ Strong foreign travel and settlement indicators in your chart. Rahu in ${raHouse}th house indicates <strong>excellent prospects for foreign lands</strong>, especially during Rahu Mahadasha/Antardasha.<br><br>`;
+    } else {
+        result += `🔶 Moderate travel prospects. Local and domestic travel is more prominent. Foreign travel is possible but not the primary theme.<br><br>`;
+    }
+
+    result += `<strong>Favorable Travel Periods:</strong><br>`;
+    result += `• Rahu Mahadasha/Antardasha periods are <strong>best for foreign travel and settlement</strong>.<br>`;
+    result += `• Jupiter sub-periods bring <strong>spiritual journeys and pilgrimages</strong>.<br>`;
+    result += `• Saturn periods bring <strong>work-related relocation</strong>.<br><br>`;
+
+    result += `<strong>🪬 Travel Remedies:</strong><br>`;
+    result += `• Recite <strong>Rahu Beeja Mantra</strong> ("Om Raam Rahave Namaha") 108 times before long journeys.<br>`;
+    result += `• Offer coconut to Ganesha before any important trip.<br>`;
+    result += `• Carry a <strong>Gomed (Hessonite)</strong> stone during foreign travel for Rahu's protection.<br>`;
+    result += `• Remedy period: Perform Navagraha Shanti before settling in a new country.`;
+    return result;
+}
+
+function analyzeChildren(data) {
+    const { grahas, lagnaSign, currentMaha } = data;
+    const d5Lord = getHouseLord(5, lagnaSign);
+    const d5House = getGrahaHouse(d5Lord, grahas, lagnaSign);
+    const d5Str = getStrengthDesc(d5Lord, grahas);
+    const juHouse = getGrahaHouse('Ju', grahas, lagnaSign);
+    const mahaName = currentMaha ? currentMaha.lord.name : '—';
+
+    let result = `<strong>👨‍👩‍👧 Children & Family Life Analysis</strong><br><br>`;
+    result += `• 5th House lord (children/progeny): <strong>${GRAHA_FULL_NAME[d5Lord]}</strong> ${d5Str} in ${d5House}th house<br>`;
+    result += `• Guru (Jupiter, children karaka) in ${juHouse}th house<br><br>`;
+
+    const goodChildHouses = [1,4,5,9,10,11];
+    if (goodChildHouses.includes(d5House) && goodChildHouses.includes(juHouse)) {
+        result += `✅ <strong>Excellent indicators for children</strong>. 5th lord well-placed and Jupiter strong. Blessed with good children who will bring honor to the family.<br>`;
+    } else if ([6,8,12].includes(d5House)) {
+        result += `⚡ 5th lord in ${d5House}th house: May face some <strong>delays or challenges</strong> in having children. Medical consultation recommended if delayed beyond expected timeframe.<br>`;
+    } else {
+        result += `🔶 Moderate indicators. Children are expected but timing depends on favorable dasha periods.<br>`;
+    }
+
+    result += `<br><strong>Favorable Periods for Children:</strong><br>`;
+    const childDashas = ['Ju','Mo','Ve'];
+    result += `• Jupiter and Moon periods are most favorable for progeny.<br>`;
+    result += `• Current ${mahaName} period: ${childDashas.includes(mahaName) ? '✅ Favorable for family expansion' : '🔶 Not the primary period for children events'}<br><br>`;
+
+    result += `<strong>🪬 Remedies for Progeny Blessings:</strong><br>`;
+    result += `• Recite <strong>Santana Gopala Mantra</strong> ("Om Devaki Suta Govinda...") daily for blessed progeny.<br>`;
+    result += `• Worship Lord Vishnu or Krishna on Thursdays with yellow flowers.<br>`;
+    result += `• Donate yellow food items (yellow lentils, turmeric rice) to Brahmins on Ekadashi.<br>`;
+    result += `• Remedy period: Perform Putra Kameshti Yagna or Santana Gopala Homam on a Thursday during Jupiter's sub-period.`;
+    return result;
+}
+
+function analyzeGeneral(question, data) {
+    const { grahas, lagnaSign, currentMaha, currentAntar, currentPratyantar } = data;
+    const mahaName = currentMaha ? currentMaha.lord.name : '—';
+    const antarName = currentAntar ? currentAntar.lord.name : '—';
+    const pratyName = currentPratyantar ? currentPratyantar.lord.name : '—';
+    const LAGNA_NAMES = ['Mesha','Vrishabha','Mithuna','Kataka','Simha','Kanya','Tula','Vruschika','Dhanus','Makara','Kumbha','Meena'];
+
+    let result = `<strong>✨ Kundali Analysis</strong><br><br>`;
+    result += `Your Lagna is <strong>${LAGNA_NAMES[lagnaSign]}</strong>.<br>`;
+    result += `Currently running: <strong>${mahaName} – ${antarName} – ${pratyName}</strong><br><br>`;
+
+    result += `<strong>General Life Overview:</strong><br>`;
+    const overviewByDasha = {
+        Ju:'This is a <strong>Jupiter Mahadasha</strong> — a period of wisdom, expansion, spiritual growth, higher education, and overall prosperity. Generally one of the most auspicious periods in life.',
+        Ve:'This is a <strong>Venus Mahadasha</strong> — a period of comfort, luxury, relationships, arts, and material enjoyment. Social life flourishes.',
+        Sa:'This is a <strong>Saturn Mahadasha</strong> — a period of discipline, hard work, karma, and eventual rewards. Patience is the key word. What you sow now, you reap strongly.',
+        Mo:'This is a <strong>Moon Mahadasha</strong> — a period of emotional sensitivity, public dealings, travel, and mind-related experiences. Mind management is key.',
+        Su:'This is a <strong>Sun Mahadasha</strong> — a period of authority, self-realization, government dealings, and vitality. Leadership opportunities arise.',
+        Ma:'This is a <strong>Mars Mahadasha</strong> — a period of energy, ambition, property matters, and action. Drive and courage define this period.',
+        Me:'This is a <strong>Mercury Mahadasha</strong> — a period of intellect, communication, business, and learning. Excellent for studies and trade.',
+        Ra:'This is a <strong>Rahu Mahadasha</strong> — an unconventional period full of unexpected turns, foreign influences, and material ambitions. Remarkable growth possible with proper guidance.',
+        Ke:'This is a <strong>Ketu Mahadasha</strong> — a period of spirituality, introspection, detachment from materialism, and mystical experiences. Inner transformation.'
+    };
+    result += `${overviewByDasha[mahaName] || 'Your dasha period brings mixed experiences.'}<br><br>`;
+
+    result += `<em>For specific analysis, please ask about: Finance, Career, Health, Marriage, Travel, or Children using the quick buttons below.</em>`;
+    return result;
+}
+
+/* ── Chat Interface ── */
+
+function askKundali() {
+    const input = document.getElementById('chatInput');
+    const question = input.value.trim();
+    if (!question) return;
+    askQuick(question);
+    input.value = '';
+}
+
+function askQuick(question) {
+    if (!window._kundaliData) {
+        addChatMsg('ai', '🙏 Please generate a Jatakam first by filling the birth details and clicking "Generate Jatakam".');
+        return;
+    }
+
+    addChatMsg('user', question);
+
+    const q = question.toLowerCase();
+    let response;
+
+    if (q.includes('financ') || q.includes('money') || q.includes('wealth') || q.includes('income') || q.includes('savings') || q.includes('invest') || q.includes('dhana') || q.includes('lakshmi')) {
+        response = analyzeFinance(window._kundaliData);
+    } else if (q.includes('career') || q.includes('job') || q.includes('profession') || q.includes('work') || q.includes('business') || q.includes('promotion')) {
+        response = analyzeCareer(window._kundaliData);
+    } else if (q.includes('health') || q.includes('disease') || q.includes('illness') || q.includes('medical') || q.includes('body') || q.includes('wellbeing')) {
+        response = analyzeHealth(window._kundaliData);
+    } else if (q.includes('marriage') || q.includes('wedding') || q.includes('spouse') || q.includes('partner') || q.includes('love') || q.includes('relationship') || q.includes('vivaha')) {
+        response = analyzeMarriage(window._kundaliData);
+    } else if (q.includes('travel') || q.includes('foreign') || q.includes('abroad') || q.includes('settle') || q.includes('immigrat') || q.includes('visa')) {
+        response = analyzeTravel(window._kundaliData);
+    } else if (q.includes('child') || q.includes('children') || q.includes('son') || q.includes('daughter') || q.includes('baby') || q.includes('family') || q.includes('progeny')) {
+        response = analyzeChildren(window._kundaliData);
+    } else {
+        response = analyzeGeneral(question, window._kundaliData);
+    }
+
+    setTimeout(() => addChatMsg('ai', response), 400);
+}
+
+function addChatMsg(from, html) {
+    const chat = document.getElementById('chatMessages');
+    const div = document.createElement('div');
+    if (from === 'user') {
+        div.className = 'chat-msg-user';
+        div.innerHTML = `<span>${html}</span>`;
+    } else {
+        div.className = 'chat-msg-ai';
+        div.innerHTML = `<div class="ai-label">✦ Jyotish Analysis</div><div class="ai-bubble">${html}</div>`;
+    }
+    chat.appendChild(div);
+    chat.scrollTop = chat.scrollHeight;
+}
+
 // Override panchangam's window.onload
 window.onload = function() {
     // Jyotishyam page — no auto-calculation needed
+    document.getElementById('jyotishChatSection').style.display = 'none';
+};
+
 };
