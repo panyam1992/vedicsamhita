@@ -1146,6 +1146,45 @@ function analyzeChildren(data) {
     return result;
 }
 
+function analyzeAllHouses(data) {
+    const { grahas, lagnaSign } = data;
+    const houseNames = {
+        1: '1st House (Lagna - Self, Health & Personality)',
+        2: '2nd House (Dhana - Wealth, Family & Speech)',
+        3: '3rd House (Sahaja - Courage, Siblings & Efforts)',
+        4: '4th House (Sukh - Home, Mother & Property)',
+        5: '5th House (Putra - Children, Intellect & Past Merit)',
+        6: '6th House (Ari - Enemies, Disease & Debts)',
+        7: '7th House (Kalatra - Marriage, Partnerships & Business)',
+        8: '8th House (Ayu - Longevity, Obstacles & Hidden Matters)',
+        9: '9th House (Bhagya - Fortune, Father & Religion)',
+        10: '10th House (Karma - Career, Status & Karma)',
+        11: '11th House (Labha - Income, Gains & Desires)',
+        12: '12th House (Vyaya - Expenses, Losses & Foreign Lands)'
+    };
+
+    let result = `<strong>🏠 12 Houses Complete Analysis</strong><br><br>`;
+    result += `<div style="font-size: 0.9em; line-height: 1.6;">`;
+    
+    for (let i = 1; i <= 12; i++) {
+        const lord = getHouseLord(i, lagnaSign);
+        const lordHouse = getGrahaHouse(lord, grahas, lagnaSign);
+        const lordStr = getStrengthDesc(lord, grahas);
+        const occupants = grahas.filter(g => (((g.rashi - lagnaSign + 12) % 12) + 1) === i);
+        const occupantNames = occupants.map(g => GRAHA_FULL_NAME[g.name] || g.name).join(', ');
+
+        result += `<strong>${houseNames[i]}</strong><br>`;
+        result += `• Lord <strong>${GRAHA_FULL_NAME[lord]}</strong> is placed in the ${ordinal(lordHouse)} house ${lordStr}.<br>`;
+        if (occupants.length > 0) {
+            result += `• Occupants: <strong>${occupantNames}</strong><br>`;
+        }
+        result += `<br>`;
+    }
+    
+    result += `</div>`;
+    return result;
+}
+
 function analyzeGeneral(question, data) {
     const { grahas, lagnaSign, currentMaha, currentAntar, currentPratyantar } = data;
     const mahaName = currentMaha ? currentMaha.lord.name : '—';
@@ -1196,7 +1235,9 @@ function askQuick(question) {
     const q = question.toLowerCase();
     let response;
 
-    if (q.includes('financ') || q.includes('money') || q.includes('wealth') || q.includes('income') || q.includes('savings') || q.includes('invest') || q.includes('dhana') || q.includes('lakshmi')) {
+    if (q.includes('all house') || q.includes('12 house') || (q.includes('all') && q.includes('house')) || q.includes('every house') || q.includes('complete house')) {
+        response = analyzeAllHouses(window._kundaliData);
+    } else if (q.includes('financ') || q.includes('money') || q.includes('wealth') || q.includes('income') || q.includes('savings') || q.includes('invest') || q.includes('dhana') || q.includes('lakshmi')) {
         response = analyzeFinance(window._kundaliData);
     } else if (q.includes('career') || q.includes('job') || q.includes('profession') || q.includes('work') || q.includes('business') || q.includes('promotion')) {
         response = analyzeCareer(window._kundaliData);
