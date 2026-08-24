@@ -3,251 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PANYAM PANCHAN AI - Daily Panchangam</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2">
+    <title>Panyam AI - Hindu Astrology & Panchangam</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=EB+Garamond:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #fdf6e3;
+            --primary: #8b0000; /* Deep Maroon */
+            --accent: #d4af37; /* Gold */
+            --text-dark: #333;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            background-image: radial-gradient(#d4af37 0.5px, transparent 0.5px);
+            background-size: 20px 20px;
+            font-family: 'EB Garamond', serif;
+            color: var(--text-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            padding: 3rem 1rem 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .header-om {
+            font-size: 4rem;
+            color: var(--primary);
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            color: var(--primary);
+            font-size: 2.5rem;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #666;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1000px;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: #fff;
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 300px;
+            text-align: center;
+            text-decoration: none;
+            color: inherit;
+            box-shadow: 0 10px 20px rgba(139, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(139, 0, 0, 0.15);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .card-desc {
+            font-size: 1.1rem;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .footer {
+            margin-top: auto;
+            padding: 2rem;
+            text-align: center;
+            font-size: 1rem;
+            color: #777;
+        }
+
+        .footer strong {
+            color: var(--primary);
+        }
+
+        @media (max-width: 768px) {
+            .card-container {
+                flex-direction: column;
+            }
+            .card {
+                width: 80%;
+                max-width: 350px;
+                margin: 0 auto;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Site Navigation -->
-<nav class="site-nav">
-    <div class="site-nav-brand">🙏 PANYAM PANCHANGAM</div>
-    <div class="site-nav-links">
-        <a href="index.html" class="nav-active">Daily Panchangam</a>
-        <a href="jyotishyam.html">Jyotishyam</a>
-    </div>
-</nav>
-
-<div class="input-section">
-    <h2>🙏 Panyam Panchangam — Daily Calculator</h2>
-    <div class="input-grid">
-        <div>
-            <label for="citySelect">Location / City</label>
-            <select id="citySelect" onchange="onCityChange()">
-                <option value="frisco" selected>Frisco / Dallas, TX, USA</option>
-                <option value="newyork">New York, NY, USA</option>
-                <option value="losangeles">Los Angeles, CA, USA</option>
-                <option value="chicago">Chicago, IL, USA</option>
-                <optgroup label="─── Canada ───">
-                <option value="toronto">Toronto, ON, Canada</option>
-                <option value="montreal">Montreal, QC, Canada</option>
-                <option value="vancouver">Vancouver, BC, Canada</option>
-                <option value="calgary">Calgary, AB, Canada</option>
-                <option value="edmonton">Edmonton, AB, Canada</option>
-                <option value="ottawa">Ottawa, ON, Canada</option>
-                <option value="winnipeg">Winnipeg, MB, Canada</option>
-                <option value="halifax">Halifax, NS, Canada</option>
-                <option value="victoria">Victoria, BC, Canada</option>
-                <option value="saskatoon">Saskatoon, SK, Canada</option>
-                <option value="regina">Regina, SK, Canada</option>
-                <option value="stjohns">St. John's, NL, Canada</option>
-                </optgroup>
-                <optgroup label="─── International ───">
-                <option value="london">London, UK</option>
-                <option value="delhi">New Delhi, India</option>
-                <option value="hyderabad">Hyderabad, India</option>
-                <option value="chennai">Chennai, India</option>
-                <option value="mumbai">Mumbai, India</option>
-                <option value="bangalore">Bangalore, India</option>
-                <option value="tokyo">Tokyo, Japan</option>
-                <option value="sydney">Sydney, Australia</option>
-            <option value="aarhus">Aarhus, Denmark</option>
-                </optgroup>
-                <option value="custom">Custom Lat / Lon</option>
-            </select>
-        </div>
-        <div>
-            <label for="datePicker">Date</label>
-            <input type="date" id="datePicker">
-        </div>
-    </div>
-    <div id="customCoords" class="input-grid">
-        <div><label>Latitude</label><input type="number" id="latInput" step="0.0001" value="33.1507"></div>
-        <div><label>Longitude</label><input type="number" id="lonInput" step="0.0001" value="-96.8236"></div>
-        <div><label>UTC Offset (hrs)</label><input type="number" id="tzInput" step="0.5" value="-5"></div>
-    </div>
-    <button class="btn-calc" onclick="calculatePanchangam()">🙏 Calculate Panchangam</button>
-</div>
-
-<div class="panchang-doc" id="resultsSection" style="display:none;">
-    <div class="floating-btns">
-        <button onclick="openPrintModal()">🖨️ Print</button>
-        <button onclick="exportICal()">📅 iCal</button>
-    </div>
-    <h1 class="panchang-title">PANYAM PANCHAN AI</h1>
-    <div class="slokas-row">
-        <span class="sloka">Sri Matre Namaha</span>
-        <span class="sloka">Om Dram Dattatreyaya Namaha</span>
-    </div>
-    <hr class="divider">
-    <div class="date-location-bar" id="dateLocationBar"></div>
-
-    <!-- Sun & Moon Times -->
-    <div class="times-grid">
-        <div class="time-row"><span class="time-label">Sunrise</span> <span class="time-val" id="valSunrise"></span></div>
-        <div class="time-row"><span class="time-label">Sunset</span> <span class="time-val" id="valSunset"></span></div>
-        <div class="time-row"><span class="time-label">Moonrise</span> <span class="time-val" id="valMoonrise"></span></div>
-        <div class="time-row"><span class="time-label">Moonset</span> <span class="time-val" id="valMoonset"></span></div>
-        <div class="time-row"><span class="time-label">Sun Rashi</span> <span class="time-val" id="valSunRashi"></span></div>
-        <div class="time-row"><span class="time-label">Moon Rashi</span> <span class="time-val" id="valMoonRashi"></span></div>
+    <div class="header">
+        <div class="header-om">?</div>
+        <h1>Panyam AI</h1>
+        <div class="subtitle">Complete Vedic Astrology & Timekeeping</div>
     </div>
 
-    <div class="divider-ornament">⟡ ⟡ ⟡</div>
-
-    <!-- Panchangam Elements -->
-    <h2 class="section-title">Panchangam</h2>
-    <div class="pitem"><span class="plabel">Samvatsaram</span> <span class="pval" id="valSamvatsaram"></span></div>
-    <div class="pitem"><span class="plabel">Ayanam</span> <span class="pval" id="valAyanam"></span></div>
-    <div class="pitem"><span class="plabel">Rutu</span> <span class="pval" id="valRutu"></span></div>
-    <div class="pitem"><span class="plabel">Masam</span> <span class="pval" id="valMasam"></span></div>
-    <div id="adhikaMasamNote" style="display:none;background:#fff8e1;border-left:3px solid #e67e22;padding:8px 12px;margin:6px 0;font-size:0.82rem;line-height:1.5;border-radius:4px;font-family:'EB Garamond',serif;"></div>
-    <div class="pitem"><span class="plabel">Paksham</span> <span class="pval" id="valPaksham"></span></div>
-    <div class="plist-label">Tithi</div>
-    <ol class="plist" id="valTithi"></ol>
-    <div class="pitem"><span class="plabel">Vasara</span> <span class="pval" id="valVasara"></span></div>
-    <div class="plist-label">Nakshatram</div>
-    <ol class="plist" id="valNakshatra"></ol>
-    <div class="plist-label">Nakshatra Padam</div>
-    <ol class="plist" id="valPadam"></ol>
-    <div class="plist-label">Yogam</div>
-    <ol class="plist" id="valYoga"></ol>
-    <div class="plist-label">Karanams</div>
-    <ol class="plist" id="valKarana"></ol>
-
-    <div class="divider-ornament">⟡ ⟡ ⟡</div>
-
-    <!-- Auspicious & Inauspicious Times -->
-    <h2 class="section-title">Auspicious &amp; Inauspicious Times</h2>
-
-    <h3 class="sub-title">☉ Inauspicious Times</h3>
-    <div class="times-section inauspicious-bg">
-        <div class="kalam-item"><span class="klabel">Rahu Kalam</span> <span class="kval inauspicious" id="valRahu"></span></div>
-        <div class="kalam-item"><span class="klabel">Yamaganda Kalam</span> <span class="kval inauspicious" id="valYamaganda"></span></div>
-        <div class="kalam-item"><span class="klabel">Gulika Kalam</span> <span class="kval inauspicious" id="valGulika"></span></div>
-        <div class="plist-label" style="color:var(--dark-maroon); margin-top:6px;">Durmuhuratam</div>
-        <ol class="plist" id="valDurmuhurat"></ol>
-        <div class="kalam-item"><span class="klabel">Varjyam</span> <span class="kval inauspicious" id="valVarjyam"></span></div>
-    </div>
-
-    <h3 class="sub-title" style="margin-top:20px;">☽ Auspicious Times</h3>
-    <div class="times-section auspicious-bg">
-        <div class="kalam-item"><span class="klabel">Abhijit Muhurat</span> <span class="kval auspicious" id="valAbhijit"></span></div>
-        <div class="kalam-item"><span class="klabel">Amrit Kalam</span> <span class="kval auspicious" id="valAmrit"></span></div>
-        <div class="kalam-item"><span class="klabel">Brahma Muhurat</span> <span class="kval auspicious" id="valBrahma"></span></div>
-        <div class="kalam-item"><span class="klabel">Vijaya Muhurtam</span> <span class="kval auspicious" id="valVijaya"></span></div>
-        <div class="kalam-item"><span class="klabel">Godhuli Muhurtam</span> <span class="kval auspicious" id="valGodhuli"></span></div>
-        <div class="kalam-item"><span class="klabel">Aparahna Kalam</span> <span class="kval auspicious" id="valAparhna"></span></div>
-        <div class="kalam-item"><span class="klabel">Pratah Sandhya</span> <span class="kval auspicious" id="valPratah"></span></div>
-        <div class="kalam-item"><span class="klabel">Sayam Sandhya</span> <span class="kval auspicious" id="valSayam"></span></div>
-    </div>
-
-    <div class="divider-ornament">⟡ ⟡ ⟡</div>
-
-    <!-- Day Significance -->
-    <h2 class="section-title">Importance of this Day</h2>
-    <div id="valImportance" class="importance-text"></div>
-
-    <div class="divider-ornament">⟡ ⟡ ⟡</div>
-
-    <!-- Lagna Section -->
-    <h2 class="section-title">Lagna (Ascendant)</h2>
-    <div class="lagna-section">
-        <div class="lagna-chart-wrap">
-            <div style="text-align:center;margin-bottom:6px;">
-                <select id="chartStyleSelect" onchange="toggleChartStyle()" style="font-family:'EB Garamond',serif;font-size:0.85rem;padding:2px 8px;border:1px solid #ccc;border-radius:4px;background:#fff;">
-                    <option value="south" selected>South Indian</option>
-                    <option value="north">North Indian</option>
-                </select>
+    <div class="card-container">
+        <a href="Panchangam.html" class="card">
+            <div class="card-icon">??</div>
+            <div class="card-title">Daily Panchangam</div>
+            <div class="card-desc">
+                Calculate Tithi, Nakshatra, Yoga, Karana, and Auspicious/Inauspicious timings for any city and date.
             </div>
-            <div id="lagnaChart"></div>
-            <div class="chart-legend">
-                <span class="legend-item"><strong style="color:#4a0e0e">As</strong>=Lag</span>
-                <span class="legend-item"><strong style="color:#d4a017">Su</strong>=Sun</span>
-                <span class="legend-item"><strong style="color:#2e7d32">Mo</strong>=Moon</span>
-                <span class="legend-item"><strong style="color:#c0392b">Ma</strong>=Mars</span>
-                <span class="legend-item"><strong style="color:#16a085">Me</strong>=Mer</span>
-                <span class="legend-item"><strong style="color:#e67e22">Ju</strong>=Jup</span>
-                <span class="legend-item"><strong style="color:#9b59b6">Ve</strong>=Ven</span>
-                <span class="legend-item"><strong style="color:#2c3e50">Sa</strong>=Sat</span>
-                <span class="legend-item"><strong style="color:#7f8c8d">Ra</strong>=Rah</span>
-                <span class="legend-item"><strong style="color:#95a5a6">Ke</strong>=Ket</span>
+        </a>
+
+        <a href="jyotishyam.html" class="card">
+            <div class="card-icon">?</div>
+            <div class="card-title">Jyotishyam (Jatakam)</div>
+            <div class="card-desc">
+                Generate complete Rashi & Navamsha Kundali, Mahadasha timelines, Dosha analysis, and AI Astrology Chat.
             </div>
-        </div>
-        <div class="lagna-details">
-            <div class="kalam-item"><span class="klabel">Udaya Lagna</span> <span class="kval" id="valLagnaRashi"></span></div>
-            <div class="kalam-item"><span class="klabel">Lagna Degree</span> <span class="kval" id="valLagnaDeg"></span></div>
-            <div class="kalam-item"><span class="klabel">Lagna Lord</span> <span class="kval" id="valLagnaLord"></span></div>
-            <div class="kalam-item"><span class="klabel">Sun in Rashi</span> <span class="kval" id="valSunInRashi"></span></div>
-            <div class="kalam-item"><span class="klabel">Moon in Rashi</span> <span class="kval" id="valMoonInRashi"></span></div>
-            <div class="kalam-item"><span class="klabel">Jagat Lagna</span> <span class="kval" id="valJagatLagna"></span></div>
-            <div class="kalam-item"><span class="klabel">Varsha Lagna</span> <span class="kval" id="valVarshaLagna"></span></div>
-            <h3 style="margin:12px 0 6px; color:#4a0e0e; font-family:'Cinzel',serif; font-size:0.95rem;">Navagraha Positions</h3>
-            <div id="grahaPositions" class="lagna-transitions"></div>
-            <h3 style="margin:12px 0 6px; color:#4a0e0e; font-family:'Cinzel',serif; font-size:0.95rem;">Lagna Transitions</h3>
-            <div id="lagnaTransitions" class="lagna-transitions"></div>
-        </div>
+        </a>
     </div>
 
-    <hr class="divider">
-
-
-    <!-- Blessings -->
-    <div class="blessings">
-        Shubham bhuyath…<br>
-        Sarvejanaha Sukhinobhavantu…<br>
-        Loka Samastah Sukhinobhavantu…<br>
-        Shubhamastu… Mangalam Mahath…
+    <div class="footer">
+        Shubham bhuyath�<br>
+        <strong>?? DigiPandit � Anantha Krishna Sastry Munimadugu</strong><br>
+        Call / Text: +1 (903) 347-2647 &nbsp;|&nbsp; panyampujas@gmail.com
     </div>
 
-    <hr class="divider">
-
-    <!-- Note -->
-    <div class="note-section">
-        <div class="note-title">Note</div>
-        <div id="valNote"></div>
-        <div class="contact-info">
-            For inquiries, contact:<br>
-            <strong>Anantha Krishna Sastry Munimadugu</strong><br>
-            Call/Text: +1 (903) 347‑2647<br>
-            Email: panyampujas@gmail.com
-        </div>
-    </div>
-
-</div>
-<!-- Print Modal -->
-<div id="printModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; align-items:center; justify-content:center;">
-  <div style="background:#fff; border-radius:10px; padding:30px; max-width:420px; width:90%; font-family:'EB Garamond',serif; position:relative;">
-    <h3 style="margin-top:0; color:#4a0e0e; font-family:'Cinzel',serif;">🖨️ Print Panchangam</h3>
-    <button onclick="closePrintModal()" style="position:absolute; top:10px; right:15px; background:none; border:none; font-size:1.3rem; cursor:pointer;">✕</button>
-
-    <div style="margin-bottom:18px;">
-      <label style="font-weight:bold;">Option A: Custom Date Range</label><br>
-      <div style="display:flex; gap:10px; margin-top:6px;">
-        <input type="date" id="printStartDate" style="padding:5px; font-family:inherit;">
-        <span style="align-self:center;">to</span>
-        <input type="date" id="printEndDate" style="padding:5px; font-family:inherit;">
-      </div>
-      <button onclick="printDateRange()" style="margin-top:8px; padding:6px 16px; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-family:inherit;">Print Date Range</button>
-    </div>
-
-    <hr style="border:none; border-top:1px solid #ddd;">
-
-    <div style="margin-top:18px;">
-      <label style="font-weight:bold;">Option B: Full Year (Ugadi to Ugadi)</label><br>
-      <p id="ugadiInfo" style="font-size:0.9rem; color:#666; margin:6px 0;">Calculating Ugadi dates...</p>
-      <button onclick="printFullYear()" style="padding:6px 16px; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-family:inherit;">Print Full Year</button>
-    </div>
-
-    <div id="printProgress" style="display:none; margin-top:15px;">
-      <div style="background:#eee; border-radius:4px; height:20px; overflow:hidden;">
-        <div id="printProgressBar" style="background:#4a0e0e; height:100%; width:0%; transition:width 0.3s;"></div>
-      </div>
-      <p id="printProgressText" style="font-size:0.85rem; color:#666; margin-top:4px;">Generating...</p>
-    </div>
-  </div>
-</div>
-<script src="panchangam-v18.js"></script>
 </body>
 </html>
