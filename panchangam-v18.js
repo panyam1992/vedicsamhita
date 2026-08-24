@@ -1535,6 +1535,37 @@ function calculatePanchangam() {
     document.getElementById('valMoonset').textContent  = mt.moonset;
     document.getElementById('valSunRashi').textContent = rashi;
     document.getElementById('valMoonRashi').textContent = getMoonRashi(srJD);
+    // Festival Matching Logic
+    if (typeof FESTIVAL_RULES !== 'undefined') {
+        const baseMasam = masam.replace('Adhika ', '').split('-')[0].split(' (')[0].trim();
+        const masamIdx = MASAM.indexOf(baseMasam);
+        const solarMonthIdx = RASHI.indexOf(rashi);
+        const tithiAnga = getTithiIdx(srJD) + 1;
+        const nakAnga = getNakIdx(srJD) + 1;
+        
+        let fests = [];
+        for (const fest of FESTIVAL_RULES) {
+            if (fest.month_type === 'lunar_month') {
+                if (fest.month_number === (masamIdx + 1) && fest.anga_type === 'tithi' && fest.anga_number === tithiAnga) {
+                    fests.push(fest.names_sa ? fest.names_sa[0] : fest.id);
+                }
+            } else if (fest.month_type === 'solar_sidereal_month') {
+                if (fest.month_number === (solarMonthIdx + 1) && fest.anga_type === 'nakshatra' && fest.anga_number === nakAnga) {
+                    fests.push(fest.names_sa ? fest.names_sa[0] : fest.id);
+                }
+            }
+        }
+        
+        const festSec = document.getElementById('festivalSection');
+        if (festSec) {
+            if (fests.length > 0) {
+                festSec.style.display = 'block';
+                document.getElementById('valFestivals').innerHTML = fests.map(f => `✨ ${f}`).join('<br>');
+            } else {
+                festSec.style.display = 'none';
+            }
+        }
+    }
 
     document.getElementById('valSamvatsaram').textContent = samvatsaram;
     document.getElementById('valAyanam').textContent      = ayanam;
