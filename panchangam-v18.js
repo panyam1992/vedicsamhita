@@ -1830,11 +1830,36 @@ function applyTransliteration() {
         while(node = walk.nextNode()) {
             let text = node.nodeValue;
             if (text.trim() !== '') {
-                if (target === 'telugu') {
+                let isSimple = false;
+                let actualTarget = target;
+                if (target === 'simple_english') {
+                    isSimple = true;
+                    actualTarget = 'iast';
+                }
+
+                if (actualTarget === 'telugu') {
                     text = Sanscript.t(text, 'devanagari', 'telugu');
                 } else {
-                    text = Sanscript.t(text, 'devanagari', target);
-                    text = Sanscript.t(text, 'telugu', target);
+                    text = Sanscript.t(text, 'devanagari', actualTarget);
+                    text = Sanscript.t(text, 'telugu', actualTarget);
+                }
+
+                if (isSimple) {
+                    // Pre-process specific consonants for English phonetics
+                    text = text.replace(/c/g, 'ch');
+                    text = text.replace(/ś/g, 'sh');
+                    text = text.replace(/ṣ/g, 'sh');
+                    text = text.replace(/ṛ/g, 'ru');
+                    text = text.replace(/ṝ/g, 'ru');
+                    
+                    // Strip diacritics (macrons, under-dots, etc.)
+                    text = text.normalize("NFD").replace(/[̀-ͯ]/g, "");
+                    
+                    // Fix nasal 'm' before specific consonants (e.g. pamchamgam -> panchangam)
+                    text = text.replace(/m([kgcjtd])/g, 'n$1');
+                    
+                    // Title Case
+                    text = text.replace(/\b[a-z]/g, c => c.toUpperCase());
                 }
                 node.nodeValue = text;
             }
