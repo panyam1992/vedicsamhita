@@ -1457,19 +1457,20 @@ function calculatePanchangam() {
     const dateVal = document.getElementById('datePicker').value;
     if (!dateVal) return;
     const [y, m, d] = dateVal.split('-').map(Number);
-    const cityKey = document.getElementById('citySelect').value;
-
-    let lat, lon, tz, locName;
-    if (cityKey === 'custom') {
+    if (!window._selectedCity) {
+        window._selectedCity = { name: "Frisco, Texas, United States", lat: 33.1507, lon: -96.8236, tzName: "America/Chicago" };
+    }
+    let lat = window._selectedCity.lat;
+    let lon = window._selectedCity.lon;
+    let tz = getTzOffsetFromTimezoneString(window._selectedCity.tzName, dateVal);
+    let locName = window._selectedCity.name;
+    
+    // Check if user filled custom inputs instead
+    if (document.getElementById('customCoords').style.display !== 'none' && document.getElementById('latInput').value !== "") {
         lat = parseFloat(document.getElementById('latInput').value);
         lon = parseFloat(document.getElementById('lonInput').value);
         tz  = parseFloat(document.getElementById('tzInput').value);
         locName = `Custom (${lat.toFixed(4)}°, ${lon.toFixed(4)}°)`;
-    } else {
-        const c = CITIES[cityKey];
-        lat = c.lat; lon = c.lon;
-        tz = isDST(y, m, d, c.dst) ? c.dstTz : c.stdTz;
-        locName = c.name;
     }
 
     const st = computeSunTimes(y, m, d, lat, lon, tz);
@@ -1523,8 +1524,7 @@ function calculatePanchangam() {
     const significance = getDaySignificance(masam, tithiAtSr, naks[0].idx, m, d, dow);
 
     // ══════ RENDER ══════
-    const dstLabel = (cityKey !== 'custom' && isDST(y, m, d, CITIES[cityKey]?.dst || 'none')) ? ' (DST)' : '';
-    const tzStr = `UTC${tz >= 0 ? '+' : ''}${tz}${dstLabel}`;
+    const tzStr = `UTC${tz >= 0 ? '+' : ''}${tz}`;
 
     document.getElementById('dateLocationBar').innerHTML =
         `${locName} &nbsp;|&nbsp; Lat: ${lat.toFixed(2)}°, Lon: ${lon.toFixed(2)}° &nbsp;|&nbsp; ${MONTH_ABBR[m-1]} ${d}, ${y} &nbsp;|&nbsp; ${tzStr}`;
@@ -1552,6 +1552,84 @@ function calculatePanchangam() {
             } else if (fest.month_type === 'solar_sidereal_month') {
                 if (fest.month_number === (solarMonthIdx + 1) && fest.anga_type === 'nakshatra' && fest.anga_number === nakAnga) {
                     fests.push(fest.names_sa ? fest.names_sa[0] : fest.id);
+                }
+            }
+        }
+
+        // --- GRAHANAM DETECTION ---
+        const tIdx = getTithiIdx(srJD);
+        if (tIdx === 14 || tIdx === 29) {
+            const exactJD = tithis[0] ? tithis[0].endJD : srJD;
+            const moonLat = Math.abs(getMoonLatitude(exactJD));
+            
+            let isGrahanam = false;
+            let type = "";
+            if (tIdx === 14 && moonLat < 1.2) {
+                isGrahanam = true;
+                type = "CHANDRA";
+            } else if (tIdx === 29 && moonLat < 1.6) {
+                isGrahanam = true;
+                type = "SURYA";
+            }
+
+            if (isGrahanam) {
+                const moonDeg = getMoonNirayana(exactJD);
+                const rahuDeg = getRahuNirayana(exactJD);
+                const ketuDeg = getKetuNirayana(exactJD);
+                
+                const getCircDist = (a, b) => {
+                    let d = Math.abs(a - b);
+                    return d > 180 ? 360 - d : d;
+                };
+                
+                const distRahu = getCircDist(moonDeg, rahuDeg);
+                const distKetu = getCircDist(moonDeg, ketuDeg);
+                const grasta = distRahu < distKetu ? "RAHUGRASTA" : "KETUGRASTA";
+                
+                // Timing & Magnitude logic
+                const betaMins = moonLat * 60;
+                const manaikyardha = type === "CHANDRA" ? 57.5 : 31.5; 
+                const bimbam = type === "CHANDRA" ? 31.0 : 32.0;
+                
+                let timingStr = "";
+                let magnitude = 0;
+                let severityStr = "";
+                
+                if (betaMins < manaikyardha) {
+                    magnitude = (manaikyardha - betaMins) / bimbam;
+                    severityStr = magnitude >= 1.0 ? "సంపూర్ణ (Total)" : "పాక్షిక (Partial)";
+                    
+                    const relMotion = 731.4; // avg relative motion in mins per day
+                    const sthityardhaMin = (Math.sqrt(Math.pow(manaikyardha, 2) - Math.pow(betaMins, 2)) * 24 * 60) / relMotion;
+                    const sthityardhaJD = (sthityardhaMin / 60) / 24;
+                    
+                    const sparsha = exactJD - sthityardhaJD;
+                    const moksha = exactJD + sthityardhaJD;
+                    
+                    const fmtT = (jd) => {
+                        const local = jdToLocal(jd, tz);
+                        const ap = local.hours >= 12 ? 'PM' : 'AM'; 
+                        let h = local.hours % 12; if (!h) h = 12;
+                        return `${h}:${String(local.minutes).padStart(2,'0')} ${ap}`;
+                    };
+                    
+                    timingStr = `(Sparsha: ${fmtT(sparsha)}, Madhya: ${fmtT(exactJD)}, Moksha: ${fmtT(moksha)})`;
+                }
+
+                const grahanamName = `${grasta} ${type} GRAHANAM`;
+                window._currentGrahanam = {
+                    name: grahanamName,
+                    type: type,
+                    grasta: grasta,
+                    moonDeg: moonDeg,
+                    severity: severityStr,
+                    magnitude: magnitude.toFixed(3),
+                    timing: timingStr
+                };
+                
+                // Only show if visible at the user's selected location!
+                if (isGrahanamVisibleLocally(exactJD, type, lat, lon)) {
+                    fests.push(`<span style="cursor:pointer; text-decoration:underline;" onclick="showGrahanamDetails()">🔴 ${grahanamName} ${timingStr}</span>`);
                 }
             }
         }
@@ -1749,6 +1827,107 @@ function openPrintModal() {
     const modal = document.getElementById('printModal');
     modal.style.display = 'flex';
 }
+function showGrahanamDetails() {
+    const data = window._currentGrahanam;
+    if (!data) return;
+
+    // Rashi & Nakshatra calculations
+    const rashis = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తుల", "వృశ్చికం", "ధనుస్సు", "మకరం", "కుంభం", "మీనం"];
+    const nakshatras = ["అశ్విని", "భరణి", "కృత్తిక", "రోహిణి", "మృగశిర", "ఆరుద్ర", "పునర్వసు", "పుష్యమి", "ఆశ్లేష", "మఖ", "పూర్వఫల్గుణి", "ఉత్తరఫల్గుణి", "హస్త", "చిత్త", "స్వాతి", "విశాఖ", "అనూరాధ", "జ్యేష్ఠ", "మూల", "పూర్వాషాఢ", "ఉత్తరాషాఢ", "శ్రవణం", "ధనిష్ట", "శతభిష", "పూర్వాభాద్ర", "ఉత్తరాభాద్ర", "రేవతి"];
+    
+    // For Surya Grahanam (Amavasya), Sun and Moon are together.
+    // For Chandra Grahanam (Purnima), Sun is opposite Moon.
+    // The Rashi/Nakshatra of the eclipse is the Moon's Rashi/Nakshatra.
+    const rashiIndex = Math.floor(data.moonDeg / 30);
+    const nakshatraIndex = Math.floor(data.moonDeg / (360/27));
+    const pada = Math.floor((data.moonDeg % (360/27)) / (360/108)) + 1;
+
+    const gocharaPhalalu = {
+        1: "జన్మ రాశి: శారీరక శ్రమ, మానసిక ఆందోళన (అనిష్టం)",
+        2: "ద్వితీయం: ధన నష్టం, కుటుంబ కలహాలు (క్షతి)",
+        3: "తృతీయం: ధనలాభం, కార్యానుకూలత (శోభనం)",
+        4: "చతుర్థం: మానసిక అశాంతి, వాహన చిక్కులు (వ్యధ)",
+        5: "పంచమం: సంతాన చింత, బుద్ధి చాంచల్యం (చింత)",
+        6: "షష్టం: శత్రు జయం, రుణ విముక్తి, సౌఖ్యం (సౌఖ్యం)",
+        7: "సప్తమం: జీవిత భాగస్వామితో విభేదాలు (కలహం)",
+        8: "అష్టమం: ఆకస్మిక ఇబ్బందులు, ఆరోగ్య సమస్యలు (మృత్యుతుల్య భయం)",
+        9: "నవమం: పితృచింత, ప్రయాణాలలో ఆటంకాలు (మానభంగం)",
+        10: "దశమం: వృత్తిలో అనుకూలత, కార్యసిద్ధి (సిద్ధి)",
+        11: "ఏకాదశం: సర్వతోముఖ లాభం, ధనప్రాప్తి (లాభం)",
+        12: "ద్వాదశం: అధిక ఖర్చులు, కార్యభంగం (నాశనం)"
+    };
+
+    let rashiPhalaluHtml = `<ul style="margin:0; padding-left:20px;">`;
+    for (let i = 0; i < 12; i++) {
+        let position = ((i - rashiIndex + 12) % 12) + 1;
+        rashiPhalaluHtml += `<li><strong>${rashis[i]} రాశి:</strong> ${gocharaPhalalu[position]}</li>`;
+    }
+    rashiPhalaluHtml += `</ul>`;
+
+    document.getElementById('gModalTitle').textContent = data.name;
+    document.getElementById('gModalBasic').innerHTML = `
+        <strong>రకం (Type):</strong> ${data.severity}<br>
+        <strong>తీవ్రత (Magnitude):</strong> ${data.magnitude}<br>
+        <strong>సమయాలు (Timings):</strong> ${data.timing}<br><br>
+        <strong>గ్రహణ నక్షత్రం (Nakshatra):</strong> ${nakshatras[nakshatraIndex]} (${pada}వ పాదం)<br>
+        <strong>గ్రహణ రాశి (Rashi):</strong> ${rashis[rashiIndex]} రాశి<br><br>
+        <span style="color:#c0392b; font-weight:bold;">ముఖ్య గమనిక (Remedy):</span> ${rashis[rashiIndex]} రాశి మరియు ${nakshatras[nakshatraIndex]} నక్షత్ర జాతకులు ఈ గ్రహణానికి శాంతి/పరిహారాలు ఆచరించవలెను.
+    `;
+    
+    // document.getElementById('gModalAstro').innerHTML = rashiPhalaluHtml;
+    document.getElementById('grahanamModal').style.display = 'flex';
+}
+
+function isGrahanamVisibleLocally(exactJD, type, lat, lon) {
+    const latRad = lat * Math.PI / 180;
+    
+    // Calculate LST
+    const D = exactJD - 2451545.0;
+    let GMST = (18.697374558 + 24.06570982441908 * D) % 24;
+    if (GMST < 0) GMST += 24;
+    let LST = (GMST + lon / 15) % 24;
+    
+    const T = D / 36525.0;
+    const sunLong = (280.46646 + 36000.76983 * T) % 360 * Math.PI/180; 
+    const obliq = 23.439 * Math.PI/180;
+    
+    let targetRA, targetDec;
+    
+    if (type === "SURYA") {
+        targetDec = Math.asin(Math.sin(obliq) * Math.sin(sunLong));
+        targetRA = Math.atan2(Math.cos(obliq)*Math.sin(sunLong), Math.cos(sunLong)) * 180/Math.PI / 15;
+    } else {
+        const moonLong = (sunLong + Math.PI) % (2*Math.PI);
+        targetDec = Math.asin(Math.sin(obliq) * Math.sin(moonLong));
+        targetRA = Math.atan2(Math.cos(obliq)*Math.sin(moonLong), Math.cos(moonLong)) * 180/Math.PI / 15;
+    }
+    if (targetRA < 0) targetRA += 24;
+    
+    let HA = (LST - targetRA) % 24;
+    if (HA < -12) HA += 24;
+    if (HA > 12) HA -= 24;
+    const haRad = HA * 15 * Math.PI / 180;
+    
+    const cosZD = Math.sin(latRad)*Math.sin(targetDec) + Math.cos(latRad)*Math.cos(targetDec)*Math.cos(haRad);
+    const ZD = Math.acos(cosZD) * 180 / Math.PI; 
+    
+    if (type === "CHANDRA") {
+        return ZD < 110; // Approx visible if ZD < 110 at mid-eclipse (so it's up during some part of the night)
+    } else {
+        if (ZD > 90) return false; // Sun is below horizon
+        
+        const beta = Math.abs(getMoonLatitude(exactJD)) * 60; 
+        const P_parallax = 54.0;
+        const zenRad = ZD * Math.PI / 180;
+        const nati = P_parallax * Math.sin(zenRad);
+        
+        const minApparentBeta = Math.min(Math.abs(beta - nati), Math.abs(beta + nati));
+        const localGrasa = 31.5 - minApparentBeta; // Approx
+        
+        return localGrasa > 0;
+    }
+}
+
 function closePrintModal() {
     document.getElementById('printModal').style.display = 'none';
 }
@@ -1814,18 +1993,19 @@ function findUgadiDates() {
 }
 
 function computeDayData(y, m, d) {
-    const cityKey = document.getElementById('citySelect').value;
-    let lat, lon, tz, locName;
-    if (cityKey === 'custom') {
+    if (!window._selectedCity) {
+        window._selectedCity = { name: "Frisco, Texas, United States", lat: 33.1507, lon: -96.8236, tzName: "America/Chicago" };
+    }
+    let lat = window._selectedCity.lat;
+    let lon = window._selectedCity.lon;
+    const dateStr = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    let tz = getTzOffsetFromTimezoneString(window._selectedCity.tzName, dateStr);
+    let locName = window._selectedCity.name;
+    if (document.getElementById('customCoords').style.display !== 'none' && document.getElementById('latInput').value !== "") {
         lat = parseFloat(document.getElementById('latInput').value);
         lon = parseFloat(document.getElementById('lonInput').value);
         tz  = parseFloat(document.getElementById('tzInput').value);
         locName = 'Custom Location';
-    } else {
-        const c = CITIES[cityKey];
-        lat = c.lat; lon = c.lon;
-        tz = isDST(y, m, d, c.dst || 'none') ? c.dstTz : c.stdTz;
-        locName = c.name;
     }
 
     const srJD = localToJD(y, m, d, 6, tz);
@@ -2132,13 +2312,96 @@ async function exportICal() {
     document.body.removeChild(overlay);
 }
 
-function onCityChange() {
-    document.getElementById('customCoords').style.display =
-        document.getElementById('citySelect').value === 'custom' ? 'grid' : 'none';
+// City Live Search Logic
+let searchDebounce;
+function getTzOffsetFromTimezoneString(tzString, dateStr) {
+    try {
+        const d = dateStr ? new Date(dateStr) : new Date();
+        const formatter = new Intl.DateTimeFormat('en-US', {timeZone: tzString, timeZoneName: 'longOffset'});
+        const tzPart = formatter.formatToParts(d).find(p => p.type === 'timeZoneName').value;
+        if (tzPart === 'GMT') return 0;
+        const match = tzPart.match(/GMT([+-])(\d{1,2}):?(\d{2})?/);
+        if (match) {
+            const sign = match[1] === '-' ? -1 : 1;
+            const hours = parseInt(match[2] || '0', 10);
+            const minutes = parseInt(match[3] || '0', 10);
+            return sign * (hours + minutes / 60);
+        }
+    } catch(e) { console.warn("TZ error", e); }
+    return 0;
 }
+
+function onCitySearchInput(val) {
+    const resDiv = document.getElementById('citySearchResults');
+    if (!val || val.length < 3) {
+        resDiv.style.display = 'none';
+        return;
+    }
+    
+    clearTimeout(searchDebounce);
+    searchDebounce = setTimeout(() => {
+        fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(val)}&count=5`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.results || data.results.length === 0) {
+                resDiv.innerHTML = '<div style="padding:8px; color:#666;">No results found</div>';
+                resDiv.style.display = 'block';
+                return;
+            }
+            
+            resDiv.innerHTML = data.results.map(city => {
+                const name = `${city.name}, ${city.admin1 ? city.admin1 + ', ' : ''}${city.country}`;
+                const cityJson = encodeURIComponent(JSON.stringify({
+                    name: name,
+                    lat: city.latitude,
+                    lon: city.longitude,
+                    tzName: city.timezone
+                }));
+                return `<div style="padding:8px; border-bottom:1px solid #eee; cursor:pointer;" onmouseover="this.style.background='#fdf6e3'" onmouseout="this.style.background='#fff'" onclick="selectSearchedCity('${cityJson}')">${name}</div>`;
+            }).join('');
+            resDiv.style.display = 'block';
+        }).catch(err => {
+            console.error(err);
+        });
+    }, 500);
+}
+
+function selectSearchedCity(encodedData) {
+    const data = JSON.parse(decodeURIComponent(encodedData));
+    const dStr = document.getElementById('datePicker').value;
+    const offset = getTzOffsetFromTimezoneString(data.tzName, dStr);
+    
+    window._selectedCity = {
+        name: data.name,
+        lat: data.lat,
+        lon: data.lon,
+        tz: offset
+    };
+    
+    document.getElementById('citySearch').value = data.name;
+    document.getElementById('citySearchResults').style.display = 'none';
+    calculatePanchangam();
+}
+
+function toggleCustomLocation() {
+    const customDiv = document.getElementById('customCoords');
+    customDiv.style.display = customDiv.style.display === 'none' ? 'grid' : 'none';
+    if (customDiv.style.display === 'none') {
+        calculatePanchangam();
+    }
+}
+
+// Ensure click outside closes the search results
+document.addEventListener('click', function(event) {
+    const resDiv = document.getElementById('citySearchResults');
+    if (resDiv && !event.target.closest('#citySearch') && !event.target.closest('#citySearchResults')) {
+        resDiv.style.display = 'none';
+    }
+});
 
 window.onload = function() {
     document.getElementById('datePicker').value = new Date().toISOString().split('T')[0];
+    document.getElementById('citySearch').value = "Frisco, Texas, United States";
     calculatePanchangam();
 };
 

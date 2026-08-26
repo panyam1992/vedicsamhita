@@ -17,40 +17,13 @@
 <div class="input-section">
     <h2>🙏 Panyam Panchangam — Daily Calculator</h2>
     <div class="input-grid">
-        <div>
-            <label for="citySelect">Location / City</label>
-            <select id="citySelect" onchange="onCityChange()">
-                <option value="frisco" selected>Frisco / Dallas, TX, USA</option>
-                <option value="newyork">New York, NY, USA</option>
-                <option value="losangeles">Los Angeles, CA, USA</option>
-                <option value="chicago">Chicago, IL, USA</option>
-                <optgroup label="─── Canada ───">
-                <option value="toronto">Toronto, ON, Canada</option>
-                <option value="montreal">Montreal, QC, Canada</option>
-                <option value="vancouver">Vancouver, BC, Canada</option>
-                <option value="calgary">Calgary, AB, Canada</option>
-                <option value="edmonton">Edmonton, AB, Canada</option>
-                <option value="ottawa">Ottawa, ON, Canada</option>
-                <option value="winnipeg">Winnipeg, MB, Canada</option>
-                <option value="halifax">Halifax, NS, Canada</option>
-                <option value="victoria">Victoria, BC, Canada</option>
-                <option value="saskatoon">Saskatoon, SK, Canada</option>
-                <option value="regina">Regina, SK, Canada</option>
-                <option value="stjohns">St. John's, NL, Canada</option>
-                </optgroup>
-                <optgroup label="─── International ───">
-                <option value="london">London, UK</option>
-                <option value="delhi">New Delhi, India</option>
-                <option value="hyderabad">Hyderabad, India</option>
-                <option value="chennai">Chennai, India</option>
-                <option value="mumbai">Mumbai, India</option>
-                <option value="bangalore">Bangalore, India</option>
-                <option value="tokyo">Tokyo, Japan</option>
-                <option value="sydney">Sydney, Australia</option>
-            <option value="aarhus">Aarhus, Denmark</option>
-                </optgroup>
-                <option value="custom">Custom Lat / Lon</option>
-            </select>
+        <div style="position: relative;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <label for="citySearch">Location / City</label>
+                <span onclick="toggleCustomLocation()" style="font-size:0.8rem; color:#8b0000; cursor:pointer; text-decoration:underline;">Custom Coordinates</span>
+            </div>
+            <input type="text" id="citySearch" placeholder="Type city name..." autocomplete="off" oninput="onCitySearchInput(this.value)" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:1rem; box-sizing:border-box;">
+            <div id="citySearchResults" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #d4af37; border-radius:4px; max-height:200px; overflow-y:auto; z-index:1000; box-shadow:0 4px 10px rgba(0,0,0,0.1);"></div>
         </div>
         <div>
             <label for="datePicker">Date</label>
@@ -245,6 +218,25 @@
     </div>
   </div>
 </div>
+
+<!-- Grahanam Details Modal -->
+<div id="grahanamModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center;">
+  <div style="background:#fff; border-radius:10px; padding:25px; max-width:550px; width:90%; max-height:85vh; overflow-y:auto; font-family:'EB Garamond',serif; position:relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
+    <span onclick="document.getElementById('grahanamModal').style.display='none'" style="position:absolute; top:12px; right:15px; font-size:1.5rem; cursor:pointer; color:#8b0000; font-weight:bold;">&times;</span>
+    <h2 id="gModalTitle" style="color:#8b0000; font-family:'Cinzel', serif; margin-top:0; border-bottom: 2px solid #d4af37; padding-bottom: 8px;">Grahanam Details</h2>
+    
+    <div id="gModalBasic" style="background:#fdf6e3; padding:12px; border:1px solid #d4af37; border-radius:6px; margin-bottom:15px; line-height: 1.6;">
+        <!-- Basic details filled via JS -->
+    </div>
+
+
+    
+    <div style="margin-top:20px; text-align:center;">
+        <button onclick="document.getElementById('grahanamModal').style.display='none'" style="padding:8px 20px; font-size: 1rem; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-family:inherit; font-weight:bold;">Close Window</button>
+    </div>
+  </div>
+</div>
+
     <script src="festival_rules.js"></script>
     <script src="panchangam-v18.js?v=7"></script>
 </body>
