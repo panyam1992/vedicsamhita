@@ -25,7 +25,7 @@
             <input type="text" id="citySearch" placeholder="Type city name..." autocomplete="off" oninput="onCitySearchInput(this.value)" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:1rem; box-sizing:border-box;">
             <div id="citySearchResults" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #d4af37; border-radius:4px; max-height:200px; overflow-y:auto; z-index:1000; box-shadow:0 4px 10px rgba(0,0,0,0.1);"></div>
         </div>
-        <div>
+        <div style="display:none;">
             <label for="scriptSelect">Script / Language</label>
             <select id="scriptSelect" onchange="calculatePanchangam()" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:1rem; box-sizing:border-box;">
                 <option value="telugu">Telugu</option>
@@ -33,7 +33,7 @@
                 <option value="kannada">Kannada</option>
                 <option value="tamil">Tamil</option>
                 <option value="malayalam">Malayalam</option>
-                <option value="iast">English (IAST)</option>
+                <option value="iast" selected>English (IAST)</option>
             </select>
         </div>
         <div>

@@ -717,11 +717,11 @@ function getLunarCalendar(srJD) {
     if (rDiff === 0) {
         // NO Sankranti in this lunar month → Adhika Masam (Mala Masam)
         isAdhika = true;
-        masam = "Adhika " + MASAM[baseIdx];
+        masam = "అధిక " + MASAM[baseIdx];
     } else if (rDiff >= 2) {
         // TWO+ Sankrantis in one lunar month → Kshaya Masam
         isKshaya = true;
-        masam = MASAM[baseIdx] + "–" + MASAM[(baseIdx + 1) % 12] + " (Kshaya)";
+        masam = MASAM[baseIdx] + "-" + MASAM[(baseIdx + 1) % 12] + " (క్షయ)";
     } else {
         // Normal month (exactly one Sankranti)
         masam = MASAM[baseIdx];
@@ -731,9 +731,9 @@ function getLunarCalendar(srJD) {
     // Vasanta: Chaitra(0) & Vaishakha(1), Grishma: Jyeshtha(2) & Ashadha(3), etc.
     // Adhika month shares the same Rutu as its Nija counterpart.
     const RUTU_LUNAR = [
-        "Vasanta Rutu","Vasanta Rutu","Grishma Rutu","Grishma Rutu",
-        "Varsha Rutu","Varsha Rutu","Sharad Rutu","Sharad Rutu",
-        "Hemanta Rutu","Hemanta Rutu","Shishira Rutu","Shishira Rutu"
+        "వసంత ఋతు", "వసంత ఋతు", "గ్రీష్మ ఋతు", "గ్రీష్మ ఋతు",
+        "వర్ష ఋతు", "వర్ష ఋతు", "శరదృతువు", "శరదృతువు",
+        "హేమంత ఋతు", "హేమంత ఋతు", "శిశిర ఋతు", "శిశిర ఋతు"
     ];
     const rutu = RUTU_LUNAR[baseIdx];
 
@@ -1309,7 +1309,7 @@ const MASAM_TO_NUM = {
 
 function getMasamNum(masam) {
     // Strip "Adhika " prefix and any "(Kshaya)" suffix to get base name
-    const base = masam.replace('Adhika ', '').split('-')[0].split(' (')[0].trim();
+    const base = masam.replace('అధిక ', '').split('-')[0].split(' (')[0].trim();
     return MASAM_TO_NUM[base] || 0;
 }
 
@@ -1520,7 +1520,7 @@ function calculatePanchangam() {
     document.getElementById('valMoonRashi').textContent = getMoonRashi(srJD);
     // Festival Matching Logic
     if (typeof FESTIVAL_RULES !== 'undefined') {
-        const baseMasam = masam.replace('Adhika ', '').split('-')[0].split(' (')[0].trim();
+        const baseMasam = masam.replace('అధిక ', '').split('-')[0].split(' (')[0].trim();
         const masamIdx = MASAM.indexOf(baseMasam);
         const solarMonthIdx = RASHI.indexOf(rashi);
         const tithiAnga = getTithiIdx(srJD) + 1;
@@ -1634,27 +1634,16 @@ function calculatePanchangam() {
     // Enhanced Masam display with Adhika/Kshaya indicators
     let masamHTML = `${masam} (${rashi})`;
     if (isAdhika) {
-        masamHTML += ` <span style="background:#e67e22;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">Purushottama Masam</span>`;
-    }
-    if (isKshaya) {
-        masamHTML += ` <span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">Kshaya Masam</span>`;
-    }
-    document.getElementById('valMasam').innerHTML = masamHTML;
-
-    // Adhika/Kshaya masam note
-    const adhikaNote = document.getElementById('adhikaMasamNote');
-    if (adhikaNote) {
-        if (isAdhika) {
             adhikaNote.style.display = 'block';
-            adhikaNote.innerHTML = `<strong>🔸 Adhika Masam (Mala Masam / Purushottama Masam):</strong><br>
-                No Surya Sankranti occurs in this lunar month.<br>
-                <span style="color:#c0392b">⊘ Prohibited (Varjya):</span> Vivaha, Upanayana, Griha Pravesha, Pratishtha, new pilgrimages.<br>
-                <span style="color:#27ae60">✦ Encouraged (Kartavya):</span> Japa, Dana, Vrata, Sandhyavandanam, Shraddha, Vishnu Sahasranama.`;
+            adhikaNote.innerHTML = `<span class="akshara"><strong>🔸 అధిక మాసం (మల మాసం / పురుషోత్తమ మాసం):</strong><br>
+                ఈ మాసంలో సూర్య సంక్రమణం లేదు.<br>
+                <span style="color:#c0392b">🚫 నిషిద్ధం (వర్జ్యం):</span> వివాహం, ఉపనయనం, గృహ ప్రవేశం, ప్రతిష్ఠ, కొత్త తీర్థయాత్రలు.<br>
+                <span style="color:#27ae60">✅ విహితం (కర్తవ్యం):</span> జపం, దానం, వ్రతం, సంధ్యావందనం, శ్రాద్ధం, విష్ణు సహస్రనామం.</span>`;
         } else if (isKshaya) {
             adhikaNote.style.display = 'block';
-            adhikaNote.innerHTML = `<strong>🔹 Kshaya Masam:</strong><br>
-                Two Surya Sankrantis occur in this lunar month (extremely rare: once every 19-141 years).<br>
-                This year contains two Adhika Masams to maintain calendar alignment.`;
+            adhikaNote.innerHTML = `<span class="akshara"><strong>⚠️ క్షయ మాసం:</strong><br>
+                ఈ మాసంలో రెండు సూర్య సంక్రమణాలు ఉన్నాయి (చాలా అరుదుగా 19 నుండి 141 సంవత్సరాలకు ఒకసారి వస్తుంది).<br>
+                ఈ సంవత్సరంలో క్యాలెండర్ సవరణకు రెండు అధిక మాసాలు ఉంటాయి.</span>`;
         } else {
             adhikaNote.style.display = 'none';
         }
