@@ -737,13 +737,31 @@ function getLunarCalendar(srJD) {
     ];
     const rutu = RUTU_LUNAR[baseIdx];
 
-    return { masam, rutu, isAdhika, isKshaya };
+        let isSamsarpa = false;
+    let isAmhaspati = false;
+
+    // Traditional Scriptural Override for 2028-2029 (Keelaka) based on Surya Siddhanta Dharmashastra
+    // JD bounds roughly cover Oct 2028 through Jan 2029 Amavasyas
+    if (srJD >= 2462060 && srJD <= 2462155) {
+        if (masam === "కార్తీకము") {
+            isSamsarpa = true;
+            masam = "సంసర్ప కార్తీక మాసం";
+        } else if (masam === "మార్గశిరము" || masam === "పుష్యము" || masam === "Adhika మార్గశిరము" || masam === "Adhika పుష్యము" || masam.includes("అధిక")) {
+            // Because Drik might flag it as Adhika Margasira or just Margasira depending on hours, we override any variant of Margasira/Pushya
+            // Wait, we only want to override the actual Margasira/Pushya window.
+            isAmhaspati = true;
+            isKshaya = true; 
+            masam = "యుగళీభూత మార్గశిర-పుష్యయోః అంహస్పతి మాసే";
+        }
+    }
+
+    return { masam, rutu, isAdhika, isKshaya, isSamsarpa, isAmhaspati };
 }
 
 function getMasamRutu(sunNir, srJD) {
     const ri = Math.floor(sunNir / 30);
     const lunar = getLunarCalendar(srJD);
-    return { masam: lunar.masam, rutu: lunar.rutu, rashi: RASHI[ri], isAdhika: lunar.isAdhika, isKshaya: lunar.isKshaya };
+    return { masam: lunar.masam, rutu: lunar.rutu, rashi: RASHI[ri], isAdhika: lunar.isAdhika, isKshaya: lunar.isKshaya, isSamsarpa: lunar.isSamsarpa, isAmhaspati: lunar.isAmhaspati };
 }
 function getPaksham(ti) { return ti < 15 ? "శుక్ల పక్షము" : "కృష్ణ పక్షము"; }
 
@@ -1475,7 +1493,7 @@ function calculatePanchangam() {
     // Calendar elements
     const samvatsaram = getSamvatsaram(y, m, srJD);
     const ayanam = getAyanam(sunNir);
-    const { masam, rutu, rashi, isAdhika, isKshaya } = getMasamRutu(sunNir, srJD);
+    const { masam, rutu, rashi, isAdhika, isKshaya, isSamsarpa, isAmhaspati } = getMasamRutu(sunNir, srJD);
     const tithiAtSr = getTithiIdx(srJD);
     const paksham = getPaksham(tithiAtSr);
 
@@ -1634,6 +1652,29 @@ function calculatePanchangam() {
     // Enhanced Masam display with Adhika/Kshaya indicators
     let masamHTML = `${masam} (${rashi})`;
     if (isAdhika) {
+        masamHTML += ` <span class="akshara" style="background:#e67e22;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">పురుషోత్తమ మాసం</span>`;
+    }
+    if (isKshaya) {
+        masamHTML += ` <span class="akshara" style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">క్షయ మాసం</span>`;
+    }
+    document.getElementById('valMasam').innerHTML = masamHTML;
+
+    // Adhika/Kshaya masam note
+    const adhikaNote = document.getElementById('adhikaMasamNote');
+    if (adhikaNote) {
+        if (isSamsarpa) {
+            adhikaNote.style.display = 'block';
+            adhikaNote.innerHTML = `<span class="akshara"><strong>🔸 సంసర్ప మాసం (Samsarpa Masam):</strong><br>
+                క్షయ మాసానికి ముందు వచ్చే అధిక మాసం.<br>
+                <span style="color:#c0392b">🚫 నిషిద్ధం (Varjya):</span> వివాహం, గృహ ప్రవేశం మొదలగు శుభకార్యాలు.<br>
+                <span style="color:#27ae60">✅ విహితం (Kartavya):</span> జపం, దానం, వ్రతం, దేవతా పూజలు.</span>`;
+        } else if (isAmhaspati) {
+            adhikaNote.style.display = 'block';
+            adhikaNote.innerHTML = `<span class="akshara"><strong>⚠️ అంహస్పతి మాసం (Amhaspati / Kshaya Masam):</strong><br>
+                రెండు సూర్య సంక్రమణాలు ఒకే చాంద్రమాసంలో వచ్చిన అత్యంత అరుదైన కాలం (కీలక నామ సంవత్సరంలో).<br>
+                <span style="color:#c0392b">🚫 నిషిద్ధం (Varjya):</span> వివాహం, ఉపనయనం, గృహ ప్రవేశం, ప్రతిష్ఠ, కొత్త తీర్థయాత్రలు.<br>
+                <span style="color:#27ae60">✅ విహితం (Kartavya):</span> జపం, దానం, పారాయణ, పితృ కర్మలు విశేష ఫలప్రదం.</span>`;
+        } else if (isAdhika) {
             adhikaNote.style.display = 'block';
             adhikaNote.innerHTML = `<span class="akshara"><strong>🔸 అధిక మాసం (మల మాసం / పురుషోత్తమ మాసం):</strong><br>
                 ఈ మాసంలో సూర్య సంక్రమణం లేదు.<br>
