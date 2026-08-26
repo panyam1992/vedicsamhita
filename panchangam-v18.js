@@ -1560,7 +1560,7 @@ function calculatePanchangam() {
         if (festSec) {
             if (fests.length > 0) {
                 festSec.style.display = 'block';
-                document.getElementById('valFestivals').innerHTML = fests.map(f => `✨ ${f}`).join('<br>');
+                document.getElementById('valFestivals').innerHTML = fests.map(f => `✨ ${f}`).join('; ');
             } else {
                 festSec.style.display = 'none';
             }
