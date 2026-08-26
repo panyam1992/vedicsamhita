@@ -42,31 +42,14 @@ const SAMVATSARAM = [
     "Plavanga","Kilaka","Saumya","Sadharana","Virodhikruth","Paridhavi","Pramadicha","Ananda","Rakshasa","Nala",
     "Pingala","Kalayukthi","Siddharthi","Raudri","Durmathi","Dundubhi","Rudhirodgari","Rakthaksha","Krodhana","Akshaya"
 ];
-const TITHI = [
-    "Shukla Padyami","Shukla Vidiya","Shukla Thadiya","Shukla Chavithi","Shukla Panchami",
-    "Shukla Shashthi","Shukla Saptami","Shukla Ashtami","Shukla Navami","Shukla Dashami",
-    "Shukla Ekadashi","Shukla Dwadashi","Shukla Trayodashi","Shukla Chaturdashi","Pournami",
-    "Krishna Padyami","Krishna Vidiya","Krishna Thadiya","Krishna Chavithi","Krishna Panchami",
-    "Krishna Shashthi","Krishna Saptami","Krishna Ashtami","Krishna Navami","Krishna Dashami",
-    "Krishna Ekadashi","Krishna Dwadashi","Krishna Trayodashi","Krishna Chaturdashi","Amavasya"
-];
-const NAKSHATRA = [
-    "Aswini","Bharani","Kriththika","Rohini","Mrigasira","Arudra","Punarvasu","Pushyami","Ashlesha",
-    "Makha","Pubba","Uththara","Hastha","Chiththa","Swathi","Visakha","Anuradha","Jyestha",
-    "Moola","Poorvashadha","Uttharashadha","Sravanamu","Dhanishta","Shathabhisha","Poorvabhadra","Uttharabhadra","Revathi"
-];
-const YOGA = [
-    "Vishkambha","Priti","Ayushmana","Saubhagya","Shobhana","Atiganda","Sukarma","Dhriti","Shula",
-    "Ganda","Vriddhi","Dhruva","Vyaghata","Harshana","Vajra","Siddhi","Vyatipata","Variyana",
-    "Paridha","Shiva","Siddha","Sadhya","Shubha","Shukla","Brahma","Aindra","Vaidhriti"
-];
-const VARA = ["Bhanu Vasaram (Sunday)","Indu Vasaram (Monday)","Bhouma Vasaram (Tuesday)","Soumya Vasaram (Wednesday)",
-              "Bruhaspati Vasaram (Thursday)","Bhrugu Vasaram (Friday)","Sthira Vasaram (Saturday)"];
-const MASAM = ["Chaithramu","Vaisakhamu","Jyesthamu","Ashadhamu","Sravanamu","Bhadhrapadamu",
-               "Asvayujamu","Karthikamu","Margasiramu","Pushyamu","Maghamu","Phalgunamu"];
-const RUTU = ["Vasanta Rutu","Vasanta Rutu","Grishma Rutu","Grishma Rutu","Varsha Rutu","Varsha Rutu",
-              "Sharad Rutu","Sharad Rutu","Hemanta Rutu","Hemanta Rutu","Shishira Rutu","Shishira Rutu"];
-const RASHI = ["Mesham","Vrushabham","Mithunam","Karkatakam","Simham","Kanya","Tula","Vruschikam","Dhanussu","Makaram","Kumbham","Meenam"];
+const TITHI = ["శుక్ల పాడ్యమి", "శుక్ల విదియ", "శుక్ల తదియ", "శుక్ల చవితి", "శుక్ల పంచమి", "శుక్ల షష్ఠి", "శుక్ల సప్తమి", "శుక్ల అష్టమి", "శుక్ల నవమి", "శుక్ల దశమి", "శుక్ల ఏకాదశి", "శుక్ల ద్వాదశి", "శుక్ల త్రయోదశి", "శుక్ల చతుర్దశి", "పౌర్ణమి", "కృష్ణ పాడ్యమి", "కృష్ణ విదియ", "కృష్ణ తదియ", "కృష్ణ చవితి", "కృష్ణ పంచమి", "కృష్ణ షష్ఠి", "కృష్ణ సప్తమి", "కృష్ణ అష్టమి", "కృష్ణ నవమి", "కృష్ణ దశమి", "కృష్ణ ఏకాదశి", "కృష్ణ ద్వాదశి", "కృష్ణ త్రయోదశి", "కృష్ణ చతుర్దశి", "అమావాస్య"];
+const NAKSHATRA = ["అశ్విని", "భరణి", "కృత్తిక", "రోహిణి", "మృగశిర", "ఆరుద్ర", "పునర్వసు", "పుష్యమి", "ఆశ్లేష", "మఘ", "పూర్వ ఫల్గుణి", "ఉత్తర ఫల్గుణి", "హస్త", "చిత్ర", "స్వాతి", "విశాఖ", "అనూరాధ", "జ్యేష్ఠ", "మూల", "పూర్వాషాఢ", "ఉత్తరాషాఢ", "శ్రవణ", "ధనిష్ఠ", "శతభిష", "పూర్వాభాద్ర", "ఉత్తరాభాద్ర", "రేవతి"];
+const YOGA = ["విష్కంభ", "ప్రీతి", "ఆయుష్మాన్", "సౌభాగ్య", "శోభన", "అతిగండ", "సుకర్మ", "ధృతి", "శూల", "గండ", "వృధ్ధి", "ధ్రువ", "వ్యాఘాత", "హర్షణ", "వజ్ర", "సిద్ధి", "వ్యతీపాత", "వరీయాన్", "పరిఘ", "శివ", "సిద్ధ", "సాధ్య", "శుభ", "శుక్ల", "బ్రహ్మ", "ఇంద్ర", "వైధృతి"];
+const VARA = ["ఆదివారము", "సోమవారము", "మంగళవారము", "బుధవారము", "గురువారము", "శుక్రవారము", "శనివారము"];
+const MASAM = ["చైత్రము", "వైశాఖము", "జ్యేష్ఠము", "ఆషాఢము", "శ్రావణము", "భాద్రపదము", "ఆశ్వయుజము", "కార్తీకము", "మార్గశిరము", "పుష్యము", "మాఘము", "ఫాల్గుణము"];
+const RUTU = ["వసంత ఋతువు", "గ్రీష్మ ఋతువు", "వర్ష ఋతువు", "శరదృతువు", "హేమంత ఋతువు", "శిశిర ఋతువు"];
+const RASHI = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తుల", "వృశ్చికం", "ధనుస్సు", "మకరం", "కుంభం", "మీనం"];
+const KARANA = ["బవ", "బాలవ", "కౌలవ", "తైతిల", "గరజ", "వణిజ", "విష్టి", "శకుని", "చతుష్పాద", "నాగ", "కింస్తుఘ్న"];
 const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
 const RAHU_PARTS     = [8, 2, 7, 5, 6, 4, 3];
@@ -683,7 +666,7 @@ function getSamvatsaram(y, m, srJD) {
     return SAMVATSARAM[((adj - 1987) % 60 + 60) % 60];
 }
 function getAyanam(sunNir) {
-    return ((sunNir >= 270 && sunNir < 360) || (sunNir >= 0 && sunNir < 90)) ? "Uttarayana" : "Dakshinayana";
+    return ((sunNir >= 270 && sunNir < 360) || (sunNir >= 0 && sunNir < 90)) ? "ఉత్తరాయణం" : "దక్షిణాయనం";
 }
 /* ═══════════════════════════════════════════════════════════════════════
    CHANDRAMANA (AMANTA) LUNAR CALENDAR ENGINE
@@ -762,7 +745,7 @@ function getMasamRutu(sunNir, srJD) {
     const lunar = getLunarCalendar(srJD);
     return { masam: lunar.masam, rutu: lunar.rutu, rashi: RASHI[ri], isAdhika: lunar.isAdhika, isKshaya: lunar.isKshaya };
 }
-function getPaksham(ti) { return ti < 15 ? "Shukla Paksham" : "Krishna Paksham"; }
+function getPaksham(ti) { return ti < 15 ? "శుక్ల పక్షము" : "కృష్ణ పక్షము"; }
 
 
 /* ═══════════ KALAM & MUHURAT ═══════════ */
@@ -933,15 +916,15 @@ function getKetuNirayana(jd) { return (getRahuNirayana(jd) + 180) % 360; }
 // All 9 Navagraha positions
 function getNavagrahaPositions(jd) {
     return [
-        { name:'Su', full:'Surya',  deg: getSunNirayana(jd),             color:'#d4a017' },
-        { name:'Mo', full:'Chandra',deg: getMoonNirayana(jd),            color:'#2e7d32' },
-        { name:'Ma', full:'Kuja',   deg: getPlanetNirayana(jd,'mars'),   color:'#c0392b' },
-        { name:'Me', full:'Budha',  deg: getPlanetNirayana(jd,'mercury'),color:'#16a085' },
-        { name:'Ju', full:'Guru',   deg: getPlanetNirayana(jd,'jupiter'),color:'#e67e22' },
-        { name:'Ve', full:'Shukra', deg: getPlanetNirayana(jd,'venus'),  color:'#9b59b6' },
-        { name:'Sa', full:'Shani',  deg: getPlanetNirayana(jd,'saturn'), color:'#2c3e50' },
-        { name:'Ra', full:'Rahu',   deg: getRahuNirayana(jd),           color:'#7f8c8d' },
-        { name:'Ke', full:'Ketu',   deg: getKetuNirayana(jd),           color:'#95a5a6' },
+        { name:'సూ', full:'సూర్య',  deg: getSunNirayana(jd),             color:'#d4a017' },
+        { name:'చం', full:'చంద్ర',deg: getMoonNirayana(jd),            color:'#2e7d32' },
+        { name:'కు', full:'కుజ',   deg: getPlanetNirayana(jd,'mars'),   color:'#c0392b' },
+        { name:'బు', full:'బుధ',  deg: getPlanetNirayana(jd,'mercury'),color:'#16a085' },
+        { name:'గు', full:'గురు',   deg: getPlanetNirayana(jd,'jupiter'),color:'#e67e22' },
+        { name:'శు', full:'శుక్ర', deg: getPlanetNirayana(jd,'venus'),  color:'#9b59b6' },
+        { name:'శని', full:'శని',  deg: getPlanetNirayana(jd,'saturn'), color:'#2c3e50' },
+        { name:'రా', full:'రాహు',   deg: getRahuNirayana(jd),           color:'#7f8c8d' },
+        { name:'కే', full:'కేతు',   deg: getKetuNirayana(jd),           color:'#95a5a6' },
     ].map(g => ({ ...g, rashi: Math.floor(g.deg / 30), rashiName: RASHI[Math.floor(g.deg / 30)] }));
 }
 
@@ -1008,8 +991,8 @@ function generateSouthIndianChartSVG(lagnaRashiIdx, grahas) {
         svg += `<line x1="0" y1="${i*cellH}" x2="${W}" y2="${i*cellH}" stroke="#8b6914" stroke-width="0.5"/>`;
     }
     svg += `<rect x="${cellW}" y="${cellH}" width="${cellW*2}" height="${cellH*2}" fill="none" stroke="#8b6914" stroke-width="1"/>`;
-    svg += `<text x="${W/2}" y="${H/2-4}" text-anchor="middle" font-size="10" fill="#4a0e0e" font-family="Cinzel,serif" font-weight="600">Rasi</text>`;
-    svg += `<text x="${W/2}" y="${H/2+10}" text-anchor="middle" font-size="10" fill="#4a0e0e" font-family="Cinzel,serif" font-weight="600">Kundali</text>`;
+    svg += `<text x="${W/2}" y="${H/2-4}" text-anchor="middle" font-size="10" fill="#4a0e0e" font-family="Cinzel,serif" font-weight="600">రాశి</text>`;
+    svg += `<text x="${W/2}" y="${H/2+10}" text-anchor="middle" font-size="10" fill="#4a0e0e" font-family="Cinzel,serif" font-weight="600">కుండలి</text>`;
 
     for (let r = 0; r < 12; r++) {
         const [row, col] = RASHI_POS[r];
@@ -1022,8 +1005,8 @@ function generateSouthIndianChartSVG(lagnaRashiIdx, grahas) {
 
         // Place grahas
         const gList = rashiGrahas[r] || [];
-        if (r === lagnaRashiIdx && !gList.find(g => g.name === 'As')) {
-            gList.unshift({ name: 'As', color: '#4a0e0e' });
+        if (r === lagnaRashiIdx && !gList.find(g => g.name === 'ల')) {
+            gList.unshift({ name: 'ల', color: '#4a0e0e' });
         }
         const cols = Math.min(gList.length, 3);
         const rows2 = Math.ceil(gList.length / 3);
@@ -1101,7 +1084,7 @@ function generateNorthIndianChartSVG(lagnaRashiIdx, grahas) {
 
         // Grahas in this rashi
         const gList = rashiGrahas[rashiIdx] || [];
-        if (hIdx === 0) gList.unshift({ name: 'As', color: '#4a0e0e' });
+        if (hIdx === 0) gList.unshift({ name: 'ల', color: '#4a0e0e' });
         gList.forEach((g, i) => {
             const gx = cx - 12 + (i % 3) * 18;
             const gy = cy + 6 + Math.floor(i / 3) * 13;
@@ -1110,7 +1093,7 @@ function generateNorthIndianChartSVG(lagnaRashiIdx, grahas) {
     });
 
     // Center label
-    svg += `<text x="${h}" y="${h-4}" text-anchor="middle" font-size="9" fill="#4a0e0e" font-family="Cinzel,serif">Kundali</text>`;
+    svg += `<text x="${h}" y="${h-4}" text-anchor="middle" font-size="9" fill="#4a0e0e" font-family="Cinzel,serif">కుండలి</text>`;
     svg += `<text x="${h}" y="${h+8}" text-anchor="middle" font-size="8" fill="#999" font-family="'EB Garamond',serif">(North)</text>`;
     svg += `</svg>`;
     return svg;
@@ -1566,10 +1549,10 @@ function calculatePanchangam() {
             let type = "";
             if (tIdx === 14 && moonLat < 1.2) {
                 isGrahanam = true;
-                type = "CHANDRA";
+                type = "చంద్ర";
             } else if (tIdx === 29 && moonLat < 1.6) {
                 isGrahanam = true;
-                type = "SURYA";
+                type = "సూర్య";
             }
 
             if (isGrahanam) {
@@ -1584,7 +1567,7 @@ function calculatePanchangam() {
                 
                 const distRahu = getCircDist(moonDeg, rahuDeg);
                 const distKetu = getCircDist(moonDeg, ketuDeg);
-                const grasta = distRahu < distKetu ? "RAHUGRASTA" : "KETUGRASTA";
+                const grasta = distRahu < distKetu ? "రాహుగ్రస్త" : "కేతుగ్రస్త";
                 
                 // Timing & Magnitude logic
                 const betaMins = moonLat * 60;
@@ -1613,10 +1596,10 @@ function calculatePanchangam() {
                         return `${h}:${String(local.minutes).padStart(2,'0')} ${ap}`;
                     };
                     
-                    timingStr = `(Sparsha: ${fmtT(sparsha)}, Madhya: ${fmtT(exactJD)}, Moksha: ${fmtT(moksha)})`;
+                    timingStr = `(స్పర్శ: ${fmtT(sparsha)}, మధ్య: ${fmtT(exactJD)}, మోక్ష: ${fmtT(moksha)})`;
                 }
 
-                const grahanamName = `${grasta} ${type} GRAHANAM`;
+                const grahanamName = `${grasta} ${type} గ్రహణము`;
                 window._currentGrahanam = {
                     name: grahanamName,
                     type: type,
@@ -1755,7 +1738,7 @@ function calculatePanchangam() {
     }
 
     // Graha positions table
-    let grahaHTML = '<table><tr><th>Graha</th><th>Rashi</th><th>Degree</th></tr>';
+    let grahaHTML = '<table><tr><th class="akshara">గ్రహము</th><th class="akshara">రాశి</th><th class="akshara">డిగ్రీ</th></tr>';
     grahas.forEach(g => {
         const degInR = g.deg % 30;
         let dW = Math.floor(degInR);
@@ -1771,7 +1754,7 @@ function calculatePanchangam() {
 
     // Helper: extract "9:15 AM" from "Aug 21, 2026 9:15:23 AM"
     function extractTime(dtStr) {
-        if (dtStr === 'Sunrise') return 'Sunrise';
+        if (dtStr === 'Sunrise') return 'సూర్యోదయం';
         const parts = dtStr.split(' ');
         const timeFull = parts[3] || '';
         const ampm = parts[4] || '';
@@ -1779,7 +1762,7 @@ function calculatePanchangam() {
         return `${hm} ${ampm}`;
     }
 
-    let transHTML = '<table><tr><th>Rashi</th><th>Start</th><th>End</th><th>Pushkaramsha</th></tr>';
+    let transHTML = '<table><tr><th class="akshara">రాశి</th><th class="akshara">ప్రారంభం</th><th class="akshara">అంత్యం</th><th class="akshara">పుష్కరాంశం</th></tr>';
     periods.forEach(p => {
         const pushWins = getPushkaraWindows(p, lat, lon, tz);
         let pushCol = '—';
@@ -1799,10 +1782,34 @@ function calculatePanchangam() {
     document.getElementById('lagnaTransitions').innerHTML = transHTML;
 
     document.getElementById('valNote').innerHTML =
-        `Panchang timings are calculated for <strong>${locName}</strong> (${tzStr}) with DST adjustment where applicable.`;
+        `ఈ పంచాంగం <strong><span class="akshara">${locName}</span></strong> (${tzStr}) ప్రాంతమునకు DST సహా లెక్కకట్టినది.`;
 
     document.getElementById('resultsSection').style.display = 'block';
     document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
+    applyTransliteration();
+}
+
+function applyTransliteration() {
+    const target = document.getElementById('scriptSelect').value;
+    if (!window.Sanscript) return;
+    
+    const elements = document.querySelectorAll('.akshara');
+    elements.forEach(el => {
+        const walk = document.createTreeWalker(el, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        while(node = walk.nextNode()) {
+            let text = node.nodeValue;
+            if (text.trim() !== '') {
+                if (target === 'telugu') {
+                    text = Sanscript.t(text, 'devanagari', 'telugu');
+                } else {
+                    text = Sanscript.t(text, 'devanagari', target);
+                    text = Sanscript.t(text, 'telugu', target);
+                }
+                node.nodeValue = text;
+            }
+        }
+    });
 }
 
 function renderList(elId, items, tz, showPadam) {
@@ -1810,7 +1817,7 @@ function renderList(elId, items, tz, showPadam) {
     el.innerHTML = items.map(it => {
         const endLocal = jdToLocal(it.endJD, tz);
         const padamStr = (showPadam && it.padam) ? ` — ${it.padam} Padam` : '';
-        return `<li><strong>${it.name}${padamStr}</strong> <span class="end-info">— ends ${fmtDateTime(endLocal)}</span></li>`;
+        return `<li><strong class="akshara">${it.name}</strong>${padamStr} <span class="end-info">— ends ${fmtDateTime(endLocal)}</span></li>`;
     }).join('');
 }
 
@@ -1876,6 +1883,7 @@ function showGrahanamDetails() {
     
     // document.getElementById('gModalAstro').innerHTML = rashiPhalaluHtml;
     document.getElementById('grahanamModal').style.display = 'flex';
+    applyTransliteration();
 }
 
 function isGrahanamVisibleLocally(exactJD, type, lat, lon) {
