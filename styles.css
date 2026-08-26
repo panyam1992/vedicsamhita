@@ -308,6 +308,10 @@
 
         /* ─── PRINT ─── */
         @media print {
+    #printBatchContainer { display: block !important; }
+    #resultsSection { display: none !important; }
+    #printBatchContainer > div { box-shadow: none !important; border: none !important; }
+
             .input-section, .btn-calc, .floating-btns, #printModal { display: none !important; }
             body { background: #fff; padding: 0; }
             .panchang-doc { box-shadow: none; border: none; }
