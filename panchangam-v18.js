@@ -1009,8 +1009,8 @@ function generateSouthIndianChartSVG(lagnaRashiIdx, grahas) {
         svg += `<line x1="0" y1="${i*cellH}" x2="${W}" y2="${i*cellH}" stroke="#8b6914" stroke-width="0.5"/>`;
     }
     svg += `<rect x="${cellW}" y="${cellH}" width="${cellW*2}" height="${cellH*2}" fill="none" stroke="#8b6914" stroke-width="1"/>`;
-    svg += `<text x="${W/2}" y="${H/2-4}" text-anchor="middle" font-size="10" fill="#4a0e0e" font-family="Cinzel,serif" font-weight="600">రాశి</text>`;
-    svg += `<text x="${W/2}" y="${H/2+10}" text-anchor="middle" font-size="10" fill="#4a0e0e" font-family="Cinzel,serif" font-weight="600">కుండలి</text>`;
+    svg += `<text x="${W/2}" y="${H/2-4}" text-anchor="middle" font-size="10" fill="#4a0e0e" font-family="Cinzel,serif" font-weight="600"><tspan class="akshara">రాశి</tspan></text>`;
+    svg += `<text x="${W/2}" y="${H/2+10}" text-anchor="middle" font-size="10" fill="#4a0e0e" font-family="Cinzel,serif" font-weight="600"><tspan class="akshara">కుండలి</tspan></text>`;
 
     for (let r = 0; r < 12; r++) {
         const [row, col] = RASHI_POS[r];
@@ -1024,7 +1024,7 @@ function generateSouthIndianChartSVG(lagnaRashiIdx, grahas) {
         // Place grahas
         const gList = rashiGrahas[r] || [];
         if (r === lagnaRashiIdx && !gList.find(g => g.name === 'ల')) {
-            gList.unshift({ name: 'ల', color: '#4a0e0e' });
+            gList.unshift({ name: '<tspan class="akshara">ల</tspan>', color: '#4a0e0e' });
         }
         const cols = Math.min(gList.length, 3);
         const rows2 = Math.ceil(gList.length / 3);
@@ -1032,7 +1032,7 @@ function generateSouthIndianChartSVG(lagnaRashiIdx, grahas) {
             const gc = i % 3, gr = Math.floor(i / 3);
             const gx = x + 12 + gc * 24;
             const gy = y + 28 + gr * 16;
-            svg += `<text x="${gx}" y="${gy}" font-size="11" fill="${g.color}" font-weight="bold" font-family="'EB Garamond',serif">${GRAHA_SHORT[g.name] || g.name}</text>`;
+            svg += `<text x="${gx}" y="${gy}" font-size="11" fill="${g.color}" font-weight="bold" font-family="'EB Garamond',serif"><tspan class="akshara">${GRAHA_SHORT[g.name] || g.name}</tspan></text>`;
         });
     }
     svg += `</svg>`;
@@ -1102,16 +1102,16 @@ function generateNorthIndianChartSVG(lagnaRashiIdx, grahas) {
 
         // Grahas in this rashi
         const gList = rashiGrahas[rashiIdx] || [];
-        if (hIdx === 0) gList.unshift({ name: 'ల', color: '#4a0e0e' });
+        if (hIdx === 0) gList.unshift({ name: '<tspan class="akshara">ల</tspan>', color: '#4a0e0e' });
         gList.forEach((g, i) => {
             const gx = cx - 12 + (i % 3) * 18;
             const gy = cy + 6 + Math.floor(i / 3) * 13;
-            svg += `<text x="${gx}" y="${gy}" font-size="10" fill="${g.color}" font-weight="bold" font-family="'EB Garamond',serif">${GRAHA_SHORT[g.name] || g.name}</text>`;
+            svg += `<text x="${gx}" y="${gy}" font-size="10" fill="${g.color}" font-weight="bold" font-family="'EB Garamond',serif"><tspan class="akshara">${GRAHA_SHORT[g.name] || g.name}</tspan></text>`;
         });
     });
 
     // Center label
-    svg += `<text x="${h}" y="${h-4}" text-anchor="middle" font-size="9" fill="#4a0e0e" font-family="Cinzel,serif">కుండలి</text>`;
+    svg += `<text x="${h}" y="${h-4}" text-anchor="middle" font-size="9" fill="#4a0e0e" font-family="Cinzel,serif"><tspan class="akshara">కుండలి</tspan></text>`;
     svg += `<text x="${h}" y="${h+8}" text-anchor="middle" font-size="8" fill="#999" font-family="'EB Garamond',serif">(North)</text>`;
     svg += `</svg>`;
     return svg;
