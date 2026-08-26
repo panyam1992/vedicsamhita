@@ -1812,7 +1812,7 @@ function calculatePanchangam() {
     document.getElementById('lagnaTransitions').innerHTML = transHTML;
 
     document.getElementById('valNote').innerHTML =
-        `ఈ పంచాంగం <strong><span class="akshara">${locName}</span></strong> (${tzStr}) ప్రాంతమునకు DST సహా లెక్కకట్టినది.`;
+        `<span class="akshara">ఈ పంచాంగం</span> <strong>${locName}</strong> (${tzStr}) <span class="akshara">ప్రాంతమునకు DST సహా లెక్కకట్టినది</span>.`;
 
     document.getElementById('resultsSection').style.display = 'block';
     document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
