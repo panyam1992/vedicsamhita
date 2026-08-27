@@ -1657,10 +1657,10 @@ function _calculatePanchangamInner() {
         const festSec = document.getElementById('festivalSection');
         if (festSec) {
             if (fests.length > 0) {
-                festSec.style.display = 'block';
+                if (festSec) festSec.style.display = 'block';
                 setElHtml('valFestivals', fests.map(f => `✨ ${f}`).join('; '));
             } else {
-                festSec.style.display = 'none';
+                if (festSec) festSec.style.display = 'none';
             }
         }
     }
@@ -1729,7 +1729,7 @@ function _calculatePanchangamInner() {
     setElText('valGulika', fmtRange(guli.start, guli.end));
 
     const dEl = document.getElementById('valDurmuhurat');
-    dEl.innerHTML = durm.map(dd => `<li>${fmtRange(dd.start, dd.end)}</li>`).join('');
+    if (dEl) dEl.innerHTML = durm.map(dd => `<li>${fmtRange(dd.start, dd.end)}</li>`).join('');
 
     if (va.varjyam) {
         const vs = jdToLocal(va.varjyam.start, tz), ve = jdToLocal(va.varjyam.end, tz);
@@ -1940,6 +1940,7 @@ function applyTransliteration() {
 
 function renderList(elId, items, tz, showPadam) {
     const el = document.getElementById(elId);
+    if (!el) return;
     el.innerHTML = items.map(it => {
         const endLocal = jdToLocal(it.endJD, tz);
         const padamStr = (showPadam && it.padam) ? ` — ${it.padam} Padam` : '';
@@ -2541,7 +2542,8 @@ window.onload = function() {
 
 // Chart style toggle
 function toggleChartStyle() {
-    const style = document.getElementById('chartStyleSelect').value;
+    const chartEl = document.getElementById('chartStyleSelect');
+    const style = chartEl ? chartEl.value : 'south';
     const data = window._lagnaChartData;
     if (!data) return;
     if (style === 'north') {
