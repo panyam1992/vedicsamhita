@@ -1,3 +1,12 @@
+
+function setElText(id, text) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = text;
+}
+function setElHtml(id, html) {
+    const el = document.getElementById(id);
+    if (el) el.innerHTML = html;
+}
 /* ═══════════════════════════════════════════════════════════════
    PANYAM PANCHAN AI — Worldwide Sidereal Panchangam Engine v2
    Full Meeus Chapter 47 Lunar Model (50 terms) + NOAA Solar
@@ -1527,15 +1536,14 @@ function calculatePanchangam() {
     // ══════ RENDER ══════
     const tzStr = `UTC${tz >= 0 ? '+' : ''}${tz}`;
 
-    document.getElementById('dateLocationBar').innerHTML =
-        `${locName} &nbsp;|&nbsp; Lat: ${lat.toFixed(2)}°, Lon: ${lon.toFixed(2)}° &nbsp;|&nbsp; ${MONTH_ABBR[m-1]} ${d}, ${y} &nbsp;|&nbsp; ${tzStr}`;
+    setElHtml('dateLocationBar', `${locName} &nbsp);|&nbsp; Lat: ${lat.toFixed(2)}°, Lon: ${lon.toFixed(2)}° &nbsp;|&nbsp; ${MONTH_ABBR[m-1]} ${d}, ${y} &nbsp;|&nbsp; ${tzStr}`;
 
-    document.getElementById('valSunrise').textContent  = fmtHMS(srHrs);
-    document.getElementById('valSunset').textContent   = fmtHMS(ssHrs);
-    document.getElementById('valMoonrise').textContent = mt.moonrise;
-    document.getElementById('valMoonset').textContent  = mt.moonset;
-    document.getElementById('valSunRashi').textContent = rashi;
-    document.getElementById('valMoonRashi').textContent = getMoonRashi(srJD);
+    setElText('valSunrise', fmtHMS(srHrs));
+    setElText('valSunset', fmtHMS(ssHrs));
+    setElText('valMoonrise', mt.moonrise);
+    setElText('valMoonset', mt.moonset);
+    setElText('valSunRashi', rashi);
+    setElText('valMoonRashi', getMoonRashi(srJD));
     // Festival Matching Logic
     if (typeof FESTIVAL_RULES !== 'undefined') {
         const baseMasam = masam.replace('అధిక ', '').split('-')[0].split(' (')[0].trim();
@@ -1639,16 +1647,16 @@ function calculatePanchangam() {
         if (festSec) {
             if (fests.length > 0) {
                 festSec.style.display = 'block';
-                document.getElementById('valFestivals').innerHTML = fests.map(f => `✨ ${f}`).join('; ');
+                setElHtml('valFestivals', fests.map(f => `✨ ${f}`).join('); ');
             } else {
                 festSec.style.display = 'none';
             }
         }
     }
 
-    document.getElementById('valSamvatsaram').textContent = samvatsaram;
-    document.getElementById('valAyanam').textContent      = ayanam;
-    document.getElementById('valRutu').textContent        = rutu;
+    setElText('valSamvatsaram', samvatsaram);
+    setElText('valAyanam', ayanam);
+    setElText('valRutu', rutu);
     // Enhanced Masam display with Adhika/Kshaya indicators
     let masamHTML = `${masam} (${rashi})`;
     if (isAdhika) {
@@ -1657,7 +1665,7 @@ function calculatePanchangam() {
     if (isKshaya) {
         masamHTML += ` <span class="akshara" style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">క్షయ మాసం</span>`;
     }
-    document.getElementById('valMasam').innerHTML = masamHTML;
+    setElHtml('valMasam', masamHTML);
 
     // Adhika/Kshaya masam note
     const adhikaNote = document.getElementById('adhikaMasamNote');
@@ -1689,8 +1697,8 @@ function calculatePanchangam() {
             adhikaNote.style.display = 'none';
         }
     }
-    document.getElementById('valPaksham').textContent     = paksham;
-    document.getElementById('valVasara').textContent      = VARA[dow];
+    setElText('valPaksham', paksham);
+    setElText('valVasara', VARA[dow]);
 
     renderList('valTithi', tithis, tz);
     renderList('valNakshatra', naks, tz);
@@ -1705,66 +1713,66 @@ function calculatePanchangam() {
     renderList('valYoga', yogas, tz);
     renderList('valKarana', karanas, tz);
 
-    document.getElementById('valRahu').textContent = fmtRange(rahu.start, rahu.end);
-    document.getElementById('valYamaganda').textContent = fmtRange(yama.start, yama.end);
-    document.getElementById('valGulika').textContent = fmtRange(guli.start, guli.end);
+    setElText('valRahu', fmtRange(rahu.start, rahu.end));
+    setElText('valYamaganda', fmtRange(yama.start, yama.end));
+    setElText('valGulika', fmtRange(guli.start, guli.end));
 
     const dEl = document.getElementById('valDurmuhurat');
     dEl.innerHTML = durm.map(dd => `<li>${fmtRange(dd.start, dd.end)}</li>`).join('');
 
     if (va.varjyam) {
         const vs = jdToLocal(va.varjyam.start, tz), ve = jdToLocal(va.varjyam.end, tz);
-        document.getElementById('valVarjyam').textContent = `${fmtDateTime(vs)} — ${fmtDateTime(ve)}`;
+        setElText('valVarjyam', `${fmtDateTime(vs)} — ${fmtDateTime(ve)}`);
     } else {
-        document.getElementById('valVarjyam').textContent = 'None during this day';
+        setElText('valVarjyam', 'None during this day');
     }
 
-    document.getElementById('valAbhijit').textContent = abhijit ? fmtRange(abhijit.start, abhijit.end) : 'None during this day';
+    setElText('valAbhijit', abhijit ? fmtRange(abhijit.start, abhijit.end) : 'None during this day');
 
     if (va.amrit) {
         const as = jdToLocal(va.amrit.start, tz), ae = jdToLocal(va.amrit.end, tz);
-        document.getElementById('valAmrit').textContent = `${fmtDateTime(as)} — ${fmtDateTime(ae)}`;
+        setElText('valAmrit', `${fmtDateTime(as)} — ${fmtDateTime(ae)}`);
     } else {
-        document.getElementById('valAmrit').textContent = 'None during this day';
+        setElText('valAmrit', 'None during this day');
     }
 
-    document.getElementById('valBrahma').textContent = fmtRange(brahma.start, brahma.end);
+    setElText('valBrahma', fmtRange(brahma.start, brahma.end));
     const vijaya = getVijayaMuhurtam(srHrs, ssHrs);
-    document.getElementById('valVijaya').textContent = fmtRange(vijaya.start, vijaya.end);
+    setElText('valVijaya', fmtRange(vijaya.start, vijaya.end));
     const godhuli = getGodhuliMuhurtam(ssHrs);
-    document.getElementById('valGodhuli').textContent = fmtRange(godhuli.start, godhuli.end);
+    setElText('valGodhuli', fmtRange(godhuli.start, godhuli.end));
     const aparhna = getAparhnaKalam(srHrs, ssHrs);
-    document.getElementById('valAparhna').textContent = fmtRange(aparhna.start, aparhna.end);
+    setElText('valAparhna', fmtRange(aparhna.start, aparhna.end));
     const pratah = getPratahSandhya(srHrs);
-    document.getElementById('valPratah').textContent = fmtRange(pratah.start, pratah.end);
+    setElText('valPratah', fmtRange(pratah.start, pratah.end));
     const sayam = getSayamSandhya(ssHrs);
-    document.getElementById('valSayam').textContent = fmtRange(sayam.start, sayam.end);
-    document.getElementById('valImportance').innerHTML = significance.map(s => `• ${s}`).join('<br>');
+    setElText('valSayam', fmtRange(sayam.start, sayam.end));
+    setElHtml('valImportance', significance.map(s => `• ${s}`).join('<br>'));
 
     // ══════ LAGNA RENDERING ══════
     const lagnaAtSr = computeLagna(srJD, lat, lon);
     const grahas = getNavagrahaPositions(srJD);
 
     // Lagna details
-    document.getElementById('valLagnaRashi').textContent = lagnaAtSr.rashiName;
-    document.getElementById('valLagnaDeg').textContent = `${lagnaAtSr.rashiName} ${lagnaAtSr.degStr}`;
-    document.getElementById('valLagnaLord').textContent = lagnaAtSr.lord;
-    document.getElementById('valSunInRashi').textContent = grahas[0].rashiName;
-    document.getElementById('valMoonInRashi').textContent = grahas[1].rashiName;
+    setElText('valLagnaRashi', lagnaAtSr.rashiName);
+    setElText('valLagnaDeg', `${lagnaAtSr.rashiName} ${lagnaAtSr.degStr}`);
+    setElText('valLagnaLord', lagnaAtSr.lord);
+    setElText('valSunInRashi', grahas[0].rashiName);
+    setElText('valMoonInRashi', grahas[1].rashiName);
 
     // Jagat Lagna & Varsha Lagna
     const jagatInfo = findChaitraAmavasya(y, lat, lon);
     const varshaInfo = findMeshaSankranti(y, lat, lon);
-    document.getElementById('valJagatLagna').textContent = `${jagatInfo.lagna.rashiName} ${jagatInfo.lagna.degStr}`;
-    document.getElementById('valVarshaLagna').textContent = `${varshaInfo.lagna.rashiName} ${varshaInfo.lagna.degStr}`;
+    setElText('valJagatLagna', `${jagatInfo.lagna.rashiName} ${jagatInfo.lagna.degStr}`);
+    setElText('valVarshaLagna', `${varshaInfo.lagna.rashiName} ${varshaInfo.lagna.degStr}`);
 
     // SVG Chart — store grahas globally for chart toggle
     window._lagnaChartData = { lagnaIdx: lagnaAtSr.rashiIdx, grahas: grahas };
     const chartStyle = document.getElementById('chartStyleSelect')?.value || 'south';
     if (chartStyle === 'north') {
-        document.getElementById('lagnaChart').innerHTML = generateNorthIndianChartSVG(lagnaAtSr.rashiIdx, grahas);
+        setElHtml('lagnaChart', generateNorthIndianChartSVG(lagnaAtSr.rashiIdx, grahas));
     } else {
-        document.getElementById('lagnaChart').innerHTML = generateSouthIndianChartSVG(lagnaAtSr.rashiIdx, grahas);
+        setElHtml('lagnaChart', generateSouthIndianChartSVG(lagnaAtSr.rashiIdx, grahas));
     }
 
     // Graha positions table
@@ -1777,7 +1785,7 @@ function calculatePanchangam() {
         grahaHTML += `<tr><td style="color:${g.color};font-weight:bold">${g.full}</td><td>${g.rashiName}</td><td>${dW}°${String(mP).padStart(2,'0')}'</td></tr>`;
     });
     grahaHTML += '</table>';
-    document.getElementById('grahaPositions').innerHTML = grahaHTML;
+    setElHtml('grahaPositions', grahaHTML);
 
     // Lagna transitions table with start-end times and Pushkaramsha
     const periods = getLagnaTransitions(srJD, nextSrJD, lat, lon, tz);
@@ -1809,10 +1817,9 @@ function calculatePanchangam() {
         </tr>`;
     });
     transHTML += '</table>';
-    document.getElementById('lagnaTransitions').innerHTML = transHTML;
+    setElHtml('lagnaTransitions', transHTML);
 
-    document.getElementById('valNote').innerHTML =
-        `<span class="akshara">ఈ పంచాంగం</span> <strong>${locName}</strong> (${tzStr}) <span class="akshara">ప్రాంతమునకు DST సహా లెక్కకట్టినది</span>.`;
+    setElHtml('valNote', `<span class="akshara">ఈ పంచాంగం</span> <strong>${locName}</strong> (${tzStr}) <span class="akshara">ప్రాంతమునకు DST సహా లెక్కకట్టినది</span>.`);
 
     
 // --- DALLAS-5127 LAYOUT MAPPING ---
@@ -1820,35 +1827,35 @@ try {
     const selDate = new Date(dateInput.value + 'T12:00:00');
     
     // Main Title
-    document.getElementById('page-main-title').innerHTML = `<span class="akshara">${samvatsaram}</span> Panchangam ( ${locName} )`;
+    setElHtml('page-main-title', `<span class="akshara">${samvatsaram}</span> Panchangam ( ${locName} )`);
 
     // Graha Chakram (South Indian Chart)
 
-    document.getElementById('za-year').textContent = selDate.getFullYear();
-    document.getElementById('za-month').textContent = selDate.toLocaleString('default', {month:'long'});
-    document.getElementById('za-date').textContent = selDate.getDate();
-    document.getElementById('za-day').textContent = '◄ ' + selDate.toLocaleString('default', {weekday:'short'}).toUpperCase() + ' ►';
+    setElText('za-year', selDate.getFullYear());
+    setElText('za-month', selDate.toLocaleString('default', {month:'long'}));
+    setElText('za-date', selDate.getDate());
+    setElText('za-day', '◄ ' + selDate.toLocaleString('default', {weekday:'short'}).toUpperCase() + ' ►');
 
-    document.getElementById('za-samvatsara').innerHTML = `<span class="akshara">${samvatsaram}</span> <span class="akshara">సంవత్సరము</span>`;
-    document.getElementById('za-ayana-ritu').innerHTML = `<span class="akshara">${ayanam}</span> | <span class="akshara">${rutu}</span>`;
-    document.getElementById('za-sauramana').innerHTML = `<span class="akshara">Sauramanamu</span> : <span class="akshara">${rashi}</span> <span class="akshara">Rashi</span>`;
-    document.getElementById('za-chandramana').innerHTML = `<span class="akshara">${masam}</span> | <span class="akshara">${paksham}</span>`;
-    document.getElementById('za-vasara').innerHTML = `<span class="akshara">${vasaraName}</span>`;
+    setElHtml('za-samvatsara', `<span class="akshara">${samvatsaram}</span> <span class="akshara">సంవత్సరము</span>`);
+    setElHtml('za-ayana-ritu', `<span class="akshara">${ayanam}</span> | <span class="akshara">${rutu}</span>`);
+    setElHtml('za-sauramana', `<span class="akshara">Sauramanamu</span> : <span class="akshara">${rashi}</span> <span class="akshara">Rashi</span>`);
+    setElHtml('za-chandramana', `<span class="akshara">${masam}</span> | <span class="akshara">${paksham}</span>`);
+    setElHtml('za-vasara', `<span class="akshara">${vasaraName}</span>`);
 
-    document.getElementById('zb-sr').textContent = fmtHMS(srHrs);
+    setElText('zb-sr', fmtHMS(srHrs));
     const D = ssHrs - srHrs;
-    document.getElementById('zb-md').textContent = fmtTime(srHrs + D/2);
-    document.getElementById('zb-ss').textContent = fmtHMS(ssHrs);
-    document.getElementById('zb-mr').textContent = mt.moonrise || "—";
-    document.getElementById('zb-ms').textContent = mt.moonset || "—";
+    setElText('zb-md', fmtTime(srHrs + D/2));
+    setElText('zb-ss', fmtHMS(ssHrs));
+    setElText('zb-mr', mt.moonrise || "—");
+    setElText('zb-ms', mt.moonset || "—");
 
 
     const formatList = (arr) => arr.map(x => `<span class="akshara">${x.name}</span> (ends ${fmtDateTime(jdToLocal(x.endJD, tz))})`).join('<br>');
-    document.getElementById('zd-tithi').innerHTML = formatList(tithis);
-    document.getElementById('zd-nak').innerHTML = formatList(naks);
-    document.getElementById('zd-padam').innerHTML = padams.map(p => `<span class="akshara">${p.name}</span> — ${p.padam} Padam (ends ${fmtDateTime(jdToLocal(p.endJD, tz))})`).join('<br>');
-    document.getElementById('zd-yoga').innerHTML = formatList(yogas);
-    document.getElementById('zd-karana').innerHTML = formatList(karanas);
+    setElHtml('zd-tithi', formatList(tithis));
+    setElHtml('zd-nak', formatList(naks));
+    setElHtml('zd-padam', padams.map(p => `<span class="akshara">${p.name}</span> — ${p.padam} Padam (ends ${fmtDateTime(jdToLocal(p.endJD, tz))})`).join('<br>'));
+    setElHtml('zd-yoga', formatList(yogas));
+    setElHtml('zd-karana', formatList(karanas));
 
     const fests = getFestivals(srJD);
 
@@ -1936,8 +1943,7 @@ function openPrintModal() {
     document.getElementById('printEndDate').value = endD.toISOString().split('T')[0];
     // Show Ugadi info
     const ugadiDates = findUgadiDates();
-    document.getElementById('ugadiInfo').textContent =
-        `Current: ${ugadiDates.current.toDateString()} → Next: ${ugadiDates.next.toDateString()}`;
+    setElText('ugadiInfo', `Current: ${ugadiDates.current.toDateString()} → Next: ${ugadiDates.next.toDateString()}`);
     const modal = document.getElementById('printModal');
     modal.style.display = 'flex';
 }
@@ -1978,17 +1984,17 @@ function showGrahanamDetails() {
     }
     rashiPhalaluHtml += `</ul>`;
 
-    document.getElementById('gModalTitle').textContent = data.name;
-    document.getElementById('gModalBasic').innerHTML = `
+    setElText('gModalTitle', data.name);
+    setElHtml('gModalBasic', `
         <strong>రకం (Type):</strong> ${data.severity}<br>
         <strong>తీవ్రత (Magnitude):</strong> ${data.magnitude}<br>
         <strong>సమయాలు (Timings):</strong> ${data.timing}<br><br>
         <strong>గ్రహణ నక్షత్రం (Nakshatra):</strong> ${nakshatras[nakshatraIndex]} (${pada}వ పాదం)<br>
         <strong>గ్రహణ రాశి (Rashi):</strong> ${rashis[rashiIndex]} రాశి<br><br>
-        <span style="color:#c0392b; font-weight:bold;">ముఖ్య గమనిక (Remedy):</span> ${rashis[rashiIndex]} రాశి మరియు ${nakshatras[nakshatraIndex]} నక్షత్ర జాతకులు ఈ గ్రహణానికి శాంతి/పరిహారాలు ఆచరించవలెను.
+        <span style="color:#c0392b); font-weight:bold;">ముఖ్య గమనిక (Remedy):</span> ${rashis[rashiIndex]} రాశి మరియు ${nakshatras[nakshatraIndex]} నక్షత్ర జాతకులు ఈ గ్రహణానికి శాంతి/పరిహారాలు ఆచరించవలెను.
     `;
     
-    // document.getElementById('gModalAstro').innerHTML = rashiPhalaluHtml;
+    // setElHtml('gModalAstro', rashiPhalaluHtml);
     document.getElementById('grahanamModal').style.display = 'flex';
     applyTransliteration();
 }
@@ -2401,7 +2407,7 @@ async function exportICal() {
         // Update progress
         const pct = Math.round(((i + 1) / totalDays) * 100);
         document.getElementById('icalBar').style.width = pct + '%';
-        document.getElementById('icalText').textContent = `Day ${i + 1} of ${totalDays}...`;
+        setElText('icalText', `Day ${i + 1} of ${totalDays}...`);
         if (i % 3 === 0) await new Promise(r => setTimeout(r, 0));
     }
 
@@ -2526,8 +2532,8 @@ function toggleChartStyle() {
     const data = window._lagnaChartData;
     if (!data) return;
     if (style === 'north') {
-        document.getElementById('lagnaChart').innerHTML = generateNorthIndianChartSVG(data.lagnaIdx, data.grahas);
+        setElHtml('lagnaChart', generateNorthIndianChartSVG(data.lagnaIdx, data.grahas));
     } else {
-        document.getElementById('lagnaChart').innerHTML = generateSouthIndianChartSVG(data.lagnaIdx, data.grahas);
+        setElHtml('lagnaChart', generateSouthIndianChartSVG(data.lagnaIdx, data.grahas));
     }
 }
