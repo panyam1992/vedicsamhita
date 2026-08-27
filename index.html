@@ -25,18 +25,7 @@
             <input type="text" id="citySearch" placeholder="Type city name..." autocomplete="off" oninput="onCitySearchInput(this.value)" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:1rem; box-sizing:border-box;">
             <div id="citySearchResults" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #d4af37; border-radius:4px; max-height:200px; overflow-y:auto; z-index:1000; box-shadow:0 4px 10px rgba(0,0,0,0.1);"></div>
         </div>
-        <div style="display:none;">
-<label for="scriptSelect">Script / Language</label>
-            <select id="scriptSelect" onchange="calculatePanchangam()" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:1rem; box-sizing:border-box;">
-                <option value="telugu">Telugu</option>
-                <option value="devanagari">Hindi (Devanagari)</option>
-                <option value="kannada">Kannada</option>
-                <option value="tamil">Tamil</option>
-                <option value="malayalam">Malayalam</option>
-                <option value="simple_english" selected>Simple English</option>
-<option value="iast">English (IAST)</option>
-            </select>
-        </div>
+        
         <div>
             <label for="datePicker">Date</label>
             <input type="date" id="datePicker">
@@ -51,133 +40,26 @@
 </div>
 
 
-<div class="panchang-doc" id="resultsSection" style="display:none; max-width:800px; margin:0 auto; padding:20px; background:#fff;">
+
+<div class="panchang-doc" id="resultsSection" style="display:none; max-width:210mm; margin:0 auto; padding:15mm; background:#fff; box-sizing:border-box;">
     <div class="floating-btns">
         <button onclick="openPrintModal()">📄 PDF ⬇️</button>
         <button style="display:none;" onclick="exportICal()">📅 iCal</button>
     </div>
 
-    <!-- ZONE A: Header & Calendar Metadata -->
-    <div class="zone-a" style="display:flex; border:2px solid #8b0000; border-radius:6px; overflow:hidden; margin-bottom:12px;">
-        <div style="background:#8b0000; color:#fff; padding:15px; width:120px; text-align:center; display:flex; flex-direction:column; justify-content:center;">
-            <div id="za-year" style="font-size:1.4rem; font-weight:bold;"></div>
-            <div id="za-month" style="font-size:1.1rem; letter-spacing:1px; text-transform:uppercase;"></div>
-            <div id="za-date" style="font-size:3rem; font-weight:bold; line-height:1;"></div>
-            <div id="za-day" style="font-size:0.9rem; margin-top:5px;"></div>
-        </div>
-        <div style="padding:10px 15px; flex:1; font-family:'EB Garamond', serif; display:flex; flex-direction:column; justify-content:space-around; background:#fcf9f2; font-size:1.1rem;">
-            <div style="font-size:1.2rem; font-weight:bold; border-bottom:1px solid #ddd; padding-bottom:4px; margin-bottom:4px;" class="akshara" id="za-samvatsara"></div>
-            <div style="color:#555;" class="akshara" id="za-ayana-ritu"></div>
-            <div style="color:#555;" class="akshara" id="za-sauramana"></div>
-            <div style="color:#555;" class="akshara" id="za-chandramana"></div>
-            <div style="color:#8b0000; font-weight:bold;" class="akshara" id="za-vasara"></div>
-        </div>
-    </div>
-
-    <!-- ZONE B: Celestial Strip -->
-    <div class="zone-b" style="display:flex; justify-content:space-between; background:#f4f1ea; padding:10px 15px; border:1px solid #c2b280; border-radius:4px; font-family:'EB Garamond',serif; font-size:1rem; margin-bottom:12px; font-weight:bold;">
-        <div><span style="color:#e67e22;">☼</span> <span class="akshara">సూర్యోదయం:</span> <span id="zb-sr" style="color:#444;"></span></div>
-        <div><span style="color:#e67e22;">☼</span> <span class="akshara">మధ్యాహ్న:</span> <span id="zb-md" style="color:#444;"></span></div>
-        <div><span style="color:#e67e22;">☼</span> <span class="akshara">సూర్యాస్తమయం:</span> <span id="zb-ss" style="color:#444;"></span></div>
-        <div><span style="color:#34495e;">☽</span> <span class="akshara">చంద్రోదయం:</span> <span id="zb-mr" style="color:#444;"></span></div>
-        <div><span style="color:#34495e;">☽</span> <span class="akshara">చంద్రాస్తమయం:</span> <span id="zb-ms" style="color:#444;"></span></div>
-    </div>
-
-    <!-- ZONE C: Kala Vibhaga & Sandhya Windows -->
-    <div class="zone-c" style="display:flex; gap:15px; margin-bottom:12px;">
-        <div style="flex:1; border:1px solid #ddd; border-radius:4px; padding:12px; background:#fff;">
-            <div style="background:#eee; padding:6px; font-weight:bold; margin:-12px -12px 12px -12px; border-bottom:1px solid #ddd; text-align:center; color:#333;" class="akshara">కాల విభాగాలు</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:0.95rem;">
-                <div><span class="akshara" style="color:#8b0000;">బ్రాహ్మ:</span> <span id="zc-brahma"></span></div>
-                <div><span class="akshara" style="color:#8b0000;">సంగవ:</span> <span id="zc-sangava"></span></div>
-                <div><span class="akshara" style="color:#8b0000;">మధ్యాహ్న:</span> <span id="zc-madhyahna"></span></div>
-                <div><span class="akshara" style="color:#8b0000;">అపరాహ్ణ:</span> <span id="zc-aparahna"></span></div>
-                <div><span class="akshara" style="color:#8b0000;">సాయాహ్న:</span> <span id="zc-sayahna"></span></div>
-                <div><span class="akshara" style="color:#8b0000;">దినాంతః:</span> <span id="zc-dinanta"></span></div>
-            </div>
-        </div>
-        <div style="flex:1; border:1px solid #ddd; border-radius:4px; padding:12px; background:#fff;">
-            <div style="background:#eee; padding:6px; font-weight:bold; margin:-12px -12px 12px -12px; border-bottom:1px solid #ddd; text-align:center; color:#333;" class="akshara">సంధ్యావందన కాలాలు</div>
-            <div style="display:grid; grid-template-columns:1fr; gap:8px; font-size:0.95rem;">
-                <div><span class="akshara" style="color:#8b0000;">ప్రాతః సంధ్యా:</span> <span id="zc-pratah"></span></div>
-                <div><span class="akshara" style="color:#8b0000;">మాధ్యాహ్నిక:</span> <span id="zc-madhyahnika"></span></div>
-                <div><span class="akshara" style="color:#8b0000;">సాయం సంధ్యా:</span> <span id="zc-sayam"></span></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ZONE D: Core Panchanga -->
-    <div class="zone-d" style="border:1px solid #8b0000; padding:12px; border-radius:4px; margin-bottom:12px; background:#fff;">
-        <div style="color:#8b0000; font-weight:bold; border-bottom:1px solid #8b0000; padding-bottom:5px; margin-bottom:10px; font-size:1.1rem;" class="akshara">పంచాంగ ప్రధానాంగాలు</div>
-        <ul style="list-style:none; padding:0; margin:0; line-height:1.8; font-size:1.05rem;">
-            <li><strong style="display:inline-block; width:100px; color:#555;" class="akshara">తిథి:</strong> <span id="zd-tithi" class="akshara"></span></li>
-            <li><strong style="display:inline-block; width:100px; color:#555;" class="akshara">నక్షత్రము:</strong> <span id="zd-nak" class="akshara"></span></li>
-            <li><strong style="display:inline-block; width:100px; color:#555;" class="akshara">యోగము:</strong> <span id="zd-yoga" class="akshara"></span></li>
-            <li><strong style="display:inline-block; width:100px; color:#555;" class="akshara">కరణము:</strong> <span id="zd-karana" class="akshara"></span></li>
-        </ul>
-    </div>
-
-    <!-- ZONE E: Festivals -->
-    <div class="zone-e" style="background:#fff9f0; border-left:4px solid #d35400; padding:12px; margin-bottom:12px; font-size:1.05rem; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
-        <strong style="color:#d35400;" class="akshara">విశేషాలు:</strong> <span id="ze-fests" class="akshara"></span>
-    </div>
-
-    <!-- ZONE F: Muhurta Grid -->
-    <div class="zone-f" style="border:1px solid #ccc; border-radius:4px; overflow:hidden; margin-bottom:12px;">
-        <div id="zf-yoga-banner" style="background:#27ae60; color:#fff; text-align:center; padding:6px; font-weight:bold; font-size:1.1rem;" class="akshara">శుభ యోగము</div>
-        <div style="display:flex; background:#fcfcfc; text-align:center; border-bottom:1px solid #ccc;">
-            <div style="flex:1; padding:10px; border-right:1px solid #ccc;">
-                <div style="color:#c0392b; font-weight:bold; margin-bottom:5px;" class="akshara">రాహు కాలః</div>
-                <div id="zf-rahu" style="font-size:0.95rem; color:#444;"></div>
-            </div>
-            <div style="flex:1; padding:10px; border-right:1px solid #ccc;">
-                <div style="color:#c0392b; font-weight:bold; margin-bottom:5px;" class="akshara">యమగండః</div>
-                <div id="zf-yama" style="font-size:0.95rem; color:#444;"></div>
-            </div>
-            <div style="flex:1; padding:10px;">
-                <div style="color:#c0392b; font-weight:bold; margin-bottom:5px;" class="akshara">గులిక కాలః</div>
-                <div id="zf-gulika" style="font-size:0.95rem; color:#444;"></div>
-            </div>
-        </div>
-        <div style="padding:12px; display:flex; gap:15px; font-size:0.95rem; background:#fff;">
-            <div style="flex:1; border-right:1px dashed #ccc; padding-right:10px;">
-                <strong style="color:#c0392b; display:block; margin-bottom:5px;" class="akshara">దుర్ముహూర్తాః / త్యాజ్యము:</strong>
-                <div id="zf-durm" style="line-height:1.6;" class="akshara"></div>
-            </div>
-            <div style="flex:1; padding-left:10px;">
-                <strong style="color:#27ae60; display:block; margin-bottom:5px;" class="akshara">అమృతకాలః / శుభముహూర్తము:</strong>
-                <div id="zf-amrita" style="line-height:1.6;" class="akshara"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ZONE G: Footer -->
-    <div class="zone-g" style="display:flex; justify-content:space-between; background:#2c3e50; color:#ecf0f1; padding:12px 15px; border-radius:4px; font-size:0.95rem;">
-        <div><span class="akshara">మౌఢ్యమ్:</span> <span id="zg-maudhyam" style="color:#f1c40f; font-weight:bold;" class="akshara">లేదు</span></div>
-        <div><span class="akshara">చంద్రరాశిః:</span> <strong id="zg-moon-rashi" style="color:#fff;" class="akshara"></strong></div>
-        <div><span class="akshara">చంద్రాష్టమరాశిః:</span> <strong id="zg-ashtama" style="color:#e74c3c;" class="akshara"></strong></div>
-        <div><span class="akshara">దిశా శూల:</span> <span id="zg-shoola" style="color:#e74c3c; font-weight:bold;" class="akshara"></span> (<span class="akshara">పరిహారః</span>: <span id="zg-pariharam" style="color:#2ecc71;" class="akshara"></span>)</div>
-    </div>
-</div>
-
-
-
-<div class="panchang-doc" id="resultsSection" style="display:none; max-width:800px; margin:0 auto; padding:20px; background:#fff;">
-    <div class="floating-btns">
-        <button onclick="openPrintModal()">📄 PDF ⬇️</button>
-        <button style="display:none;" onclick="exportICal()">📅 iCal</button>
-    </div>
+    <!-- MAIN PAGE TITLE -->
+    <h2 id="page-main-title" style="text-align:center; color:#8b0000; font-family:'Cinzel', serif; font-size:1.8rem; margin-top:0; margin-bottom:15px; border-bottom:2px solid #c2b280; padding-bottom:10px; text-transform:uppercase;"></h2>
 
     <!-- ZONE A: Header & Calendar Metadata -->
     <div class="zone-a" style="display:flex; border:2px solid #8b0000; border-radius:6px; overflow:hidden; margin-bottom:12px;">
-        <div style="background:#8b0000; color:#fff; padding:15px; width:120px; text-align:center; display:flex; flex-direction:column; justify-content:center;">
-            <div id="za-year" style="font-size:1.4rem; font-weight:bold;"></div>
-            <div id="za-month" style="font-size:1.1rem; letter-spacing:1px; text-transform:uppercase;"></div>
-            <div id="za-date" style="font-size:3rem; font-weight:bold; line-height:1;"></div>
-            <div id="za-day" style="font-size:0.9rem; margin-top:5px;"></div>
+        <div style="background:#8b0000; color:#fff; padding:10px; width:110px; text-align:center; display:flex; flex-direction:column; justify-content:center;">
+            <div id="za-year" style="font-size:1.2rem; font-weight:bold;"></div>
+            <div id="za-month" style="font-size:1rem; letter-spacing:1px; text-transform:uppercase;"></div>
+            <div id="za-date" style="font-size:2.8rem; font-weight:bold; line-height:1; margin:5px 0;"></div>
+            <div id="za-day" style="font-size:0.85rem;"></div>
         </div>
-        <div style="padding:10px 15px; flex:1; font-family:'EB Garamond', serif; display:flex; flex-direction:column; justify-content:space-around; background:#fcf9f2; font-size:1.1rem;">
-            <div style="font-size:1.2rem; font-weight:bold; border-bottom:1px solid #ddd; padding-bottom:4px; margin-bottom:4px;" id="za-samvatsara"></div>
+        <div style="padding:8px 12px; flex:1; font-family:'EB Garamond', serif; display:flex; flex-direction:column; justify-content:space-around; background:#fcf9f2; font-size:1.05rem;">
+            <div style="font-size:1.15rem; font-weight:bold; border-bottom:1px solid #ddd; padding-bottom:4px; margin-bottom:4px;" id="za-samvatsara"></div>
             <div style="color:#555;" id="za-ayana-ritu"></div>
             <div style="color:#555;" id="za-sauramana"></div>
             <div style="color:#555;" id="za-chandramana"></div>
@@ -186,7 +68,7 @@
     </div>
 
     <!-- ZONE B: Celestial Strip -->
-    <div class="zone-b" style="display:flex; justify-content:space-between; background:#f4f1ea; padding:10px 15px; border:1px solid #c2b280; border-radius:4px; font-family:'EB Garamond',serif; font-size:1rem; margin-bottom:12px; font-weight:bold;">
+    <div class="zone-b" style="display:flex; justify-content:space-between; background:#f4f1ea; padding:8px 12px; border:1px solid #c2b280; border-radius:4px; font-family:'EB Garamond',serif; font-size:0.95rem; margin-bottom:12px; font-weight:bold;">
         <div><span style="color:#e67e22;">☼</span> <span class="akshara">సూర్యోదయం:</span> <span id="zb-sr" style="color:#444;"></span></div>
         <div><span style="color:#e67e22;">☼</span> <span class="akshara">మధ్యాహ్న:</span> <span id="zb-md" style="color:#444;"></span></div>
         <div><span style="color:#e67e22;">☼</span> <span class="akshara">సూర్యాస్తమయం:</span> <span id="zb-ss" style="color:#444;"></span></div>
@@ -195,10 +77,10 @@
     </div>
 
     <!-- ZONE C: Kala Vibhaga & Sandhya Windows -->
-    <div class="zone-c" style="display:flex; gap:15px; margin-bottom:12px;">
-        <div style="flex:1; border:1px solid #ddd; border-radius:4px; padding:12px; background:#fff;">
-            <div style="background:#eee; padding:6px; font-weight:bold; margin:-12px -12px 12px -12px; border-bottom:1px solid #ddd; text-align:center; color:#333;" class="akshara">కాల విభాగాలు (Day Parts)</div>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; font-size:0.95rem;">
+    <div class="zone-c" style="display:flex; gap:10px; margin-bottom:12px;">
+        <div style="flex:1; border:1px solid #ddd; border-radius:4px; padding:10px; background:#fff;">
+            <div style="background:#eee; padding:5px; font-weight:bold; margin:-10px -10px 10px -10px; border-bottom:1px solid #ddd; text-align:center; color:#333; font-size:0.9rem;" class="akshara">కాల విభాగాలు (Day Parts)</div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:0.85rem;">
                 <div><span class="akshara" style="color:#8b0000;">బ్రాహ్మ:</span> <span id="zc-brahma"></span></div>
                 <div><span class="akshara" style="color:#8b0000;">సంగవ:</span> <span id="zc-sangava"></span></div>
                 <div><span class="akshara" style="color:#8b0000;">మధ్యాహ్న:</span> <span id="zc-madhyahna"></span></div>
@@ -207,9 +89,9 @@
                 <div><span class="akshara" style="color:#8b0000;">దినాంతః:</span> <span id="zc-dinanta"></span></div>
             </div>
         </div>
-        <div style="flex:1; border:1px solid #ddd; border-radius:4px; padding:12px; background:#fff;">
-            <div style="background:#eee; padding:6px; font-weight:bold; margin:-12px -12px 12px -12px; border-bottom:1px solid #ddd; text-align:center; color:#333;" class="akshara">సంధ్యావందన కాలాలు (Sandhya)</div>
-            <div style="display:grid; grid-template-columns:1fr; gap:8px; font-size:0.95rem;">
+        <div style="flex:1; border:1px solid #ddd; border-radius:4px; padding:10px; background:#fff;">
+            <div style="background:#eee; padding:5px; font-weight:bold; margin:-10px -10px 10px -10px; border-bottom:1px solid #ddd; text-align:center; color:#333; font-size:0.9rem;" class="akshara">సంధ్యావందన కాలాలు (Sandhya)</div>
+            <div style="display:grid; grid-template-columns:1fr; gap:6px; font-size:0.85rem;">
                 <div><span class="akshara" style="color:#8b0000;">ప్రాతః సంధ్యా:</span> <span id="zc-pratah"></span></div>
                 <div><span class="akshara" style="color:#8b0000;">మాధ్యాహ్నిక:</span> <span id="zc-madhyahnika"></span></div>
                 <div><span class="akshara" style="color:#8b0000;">సాయం సంధ్యా:</span> <span id="zc-sayam"></span></div>
@@ -218,52 +100,62 @@
     </div>
 
     <!-- ZONE D: Core Panchanga -->
-    <div class="zone-d" style="border:1px solid #8b0000; padding:12px; border-radius:4px; margin-bottom:12px; background:#fff;">
-        <div style="color:#8b0000; font-weight:bold; border-bottom:1px solid #8b0000; padding-bottom:5px; margin-bottom:10px; font-size:1.1rem;" class="akshara">పంచాంగ ప్రధానాంగాలు (Core Panchanga)</div>
-        <ul style="list-style:none; padding:0; margin:0; line-height:1.8; font-size:1.05rem;">
-            <li><strong style="display:inline-block; width:100px; color:#555;" class="akshara">తిథి:</strong> <span id="zd-tithi"></span></li>
-            <li><strong style="display:inline-block; width:100px; color:#555;" class="akshara">నక్షత్రము:</strong> <span id="zd-nak"></span></li>
-            <li><strong style="display:inline-block; width:100px; color:#555;" class="akshara">యోగము:</strong> <span id="zd-yoga"></span></li>
-            <li><strong style="display:inline-block; width:100px; color:#555;" class="akshara">కరణము:</strong> <span id="zd-karana"></span></li>
+    <div class="zone-d" style="border:1px solid #8b0000; padding:10px; border-radius:4px; margin-bottom:12px; background:#fff;">
+        <div style="color:#8b0000; font-weight:bold; border-bottom:1px solid #8b0000; padding-bottom:4px; margin-bottom:8px; font-size:1rem;" class="akshara">పంచాంగ ప్రధానాంగాలు (Core Panchanga)</div>
+        <ul style="list-style:none; padding:0; margin:0; line-height:1.6; font-size:0.95rem;">
+            <li><strong style="display:inline-block; width:90px; color:#555;" class="akshara">తిథి:</strong> <span id="zd-tithi"></span></li>
+            <li><strong style="display:inline-block; width:90px; color:#555;" class="akshara">నక్షత్రము:</strong> <span id="zd-nak"></span></li>
+            <li><strong style="display:inline-block; width:90px; color:#555;" class="akshara">యోగము:</strong> <span id="zd-yoga"></span></li>
+            <li><strong style="display:inline-block; width:90px; color:#555;" class="akshara">కరణము:</strong> <span id="zd-karana"></span></li>
         </ul>
     </div>
 
     <!-- ZONE E: Festivals -->
-    <div class="zone-e" style="background:#fff9f0; border-left:4px solid #d35400; padding:12px; margin-bottom:12px; font-size:1.05rem; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
+    <div class="zone-e" style="background:#fff9f0; border-left:4px solid #d35400; padding:10px; margin-bottom:12px; font-size:0.95rem; box-shadow:0 1px 3px rgba(0,0,0,0.05);">
         <strong style="color:#d35400;" class="akshara">విశేషాలు (Festivals & Vratas):</strong> <span id="ze-fests"></span>
     </div>
 
-    <!-- ZONE F: Muhurta Grid -->
-    <div class="zone-f" style="border:1px solid #ccc; border-radius:4px; overflow:hidden; margin-bottom:12px;">
-        <div id="zf-yoga-banner" style="background:#27ae60; color:#fff; text-align:center; padding:6px; font-weight:bold; font-size:1.1rem;" class="akshara">శుభ యోగము</div>
-        <div style="display:flex; background:#fcfcfc; text-align:center; border-bottom:1px solid #ccc;">
-            <div style="flex:1; padding:10px; border-right:1px solid #ccc;">
-                <div style="color:#c0392b; font-weight:bold; margin-bottom:5px;" class="akshara">రాహు కాలః</div>
-                <div id="zf-rahu" style="font-size:0.95rem; color:#444;"></div>
+    <!-- ZONE F & H: Muhurta Grid + Graha Chakram (Side by side for A4 space) -->
+    <div style="display:flex; gap:10px; margin-bottom:12px;">
+        <div class="zone-f" style="flex:2; border:1px solid #ccc; border-radius:4px; overflow:hidden;">
+            <div id="zf-yoga-banner" style="background:#27ae60; color:#fff; text-align:center; padding:5px; font-weight:bold; font-size:1rem;" class="akshara">శుభ యోగము</div>
+            <div style="display:flex; background:#fcfcfc; text-align:center; border-bottom:1px solid #ccc;">
+                <div style="flex:1; padding:8px; border-right:1px solid #ccc;">
+                    <div style="color:#c0392b; font-weight:bold; margin-bottom:3px; font-size:0.9rem;" class="akshara">రాహు కాలః</div>
+                    <div id="zf-rahu" style="font-size:0.85rem; color:#444;"></div>
+                </div>
+                <div style="flex:1; padding:8px; border-right:1px solid #ccc;">
+                    <div style="color:#c0392b; font-weight:bold; margin-bottom:3px; font-size:0.9rem;" class="akshara">యమగండః</div>
+                    <div id="zf-yama" style="font-size:0.85rem; color:#444;"></div>
+                </div>
+                <div style="flex:1; padding:8px;">
+                    <div style="color:#c0392b; font-weight:bold; margin-bottom:3px; font-size:0.9rem;" class="akshara">గులిక కాలః</div>
+                    <div id="zf-gulika" style="font-size:0.85rem; color:#444;"></div>
+                </div>
             </div>
-            <div style="flex:1; padding:10px; border-right:1px solid #ccc;">
-                <div style="color:#c0392b; font-weight:bold; margin-bottom:5px;" class="akshara">యమగండః</div>
-                <div id="zf-yama" style="font-size:0.95rem; color:#444;"></div>
-            </div>
-            <div style="flex:1; padding:10px;">
-                <div style="color:#c0392b; font-weight:bold; margin-bottom:5px;" class="akshara">గులిక కాలః</div>
-                <div id="zf-gulika" style="font-size:0.95rem; color:#444;"></div>
+            <div style="padding:10px; display:flex; gap:10px; font-size:0.85rem; background:#fff;">
+                <div style="flex:1; border-right:1px dashed #ccc; padding-right:5px;">
+                    <strong style="color:#c0392b; display:block; margin-bottom:3px;" class="akshara">దుర్ముహూర్తాః / త్యాజ్యము:</strong>
+                    <div id="zf-durm" style="line-height:1.4;"></div>
+                </div>
+                <div style="flex:1; padding-left:5px;">
+                    <strong style="color:#27ae60; display:block; margin-bottom:3px;" class="akshara">అమృతకాలః / శుభముహూర్తము:</strong>
+                    <div id="zf-amrita" style="line-height:1.4;"></div>
+                </div>
             </div>
         </div>
-        <div style="padding:12px; display:flex; gap:15px; font-size:0.95rem; background:#fff;">
-            <div style="flex:1; border-right:1px dashed #ccc; padding-right:10px;">
-                <strong style="color:#c0392b; display:block; margin-bottom:5px;" class="akshara">దుర్ముహూర్తాః / త్యాజ్యము:</strong>
-                <div id="zf-durm" style="line-height:1.6;"></div>
-            </div>
-            <div style="flex:1; padding-left:10px;">
-                <strong style="color:#27ae60; display:block; margin-bottom:5px;" class="akshara">అమృతకాలః / శుభముహూర్తము:</strong>
-                <div id="zf-amrita" style="line-height:1.6;"></div>
+        
+        <!-- ZONE H: Graha Chakram (Kundali) -->
+        <div class="zone-h" style="flex:1; border:1px solid #8b0000; border-radius:4px; display:flex; flex-direction:column; background:#fff;">
+            <div style="background:#8b0000; color:#fff; text-align:center; padding:5px; font-weight:bold; font-size:0.95rem; font-family:'Cinzel', serif;" class="akshara">గ్రహ చక్రము (Kundali)</div>
+            <div id="zh-chart" style="flex:1; display:flex; justify-content:center; align-items:center; padding:5px;">
+                <!-- Chart SVG injected here -->
             </div>
         </div>
     </div>
 
     <!-- ZONE G: Footer -->
-    <div class="zone-g" style="display:flex; justify-content:space-between; background:#2c3e50; color:#ecf0f1; padding:12px 15px; border-radius:4px; font-size:0.95rem;">
+    <div class="zone-g" style="display:flex; justify-content:space-between; background:#2c3e50; color:#ecf0f1; padding:10px 12px; border-radius:4px; font-size:0.85rem;">
         <div><span class="akshara">మౌఢ్యమ్:</span> <span id="zg-maudhyam" style="color:#f1c40f; font-weight:bold;" class="akshara">లేదు</span></div>
         <div><span class="akshara">చంద్రరాశిః:</span> <strong id="zg-moon-rashi" style="color:#fff;" class="akshara"></strong></div>
         <div><span class="akshara">చంద్రాష్టమరాశిః:</span> <strong id="zg-ashtama" style="color:#e74c3c;" class="akshara"></strong></div>

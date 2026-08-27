@@ -1818,6 +1818,13 @@ function calculatePanchangam() {
 // --- DALLAS-5127 LAYOUT MAPPING ---
 try {
     const selDate = new Date(dateInput.value + 'T12:00:00');
+    
+    // Main Title
+    document.getElementById('page-main-title').innerHTML = `<span class="akshara">${samvatsaram}</span> Panchangam ( ${locName} )`;
+
+    // Graha Chakram (South Indian Chart)
+    document.getElementById('zh-chart').innerHTML = document.getElementById('southChart').innerHTML;
+
     document.getElementById('za-year').textContent = selDate.getFullYear();
     document.getElementById('za-month').textContent = selDate.toLocaleString('default', {month:'long'});
     document.getElementById('za-date').textContent = selDate.getDate();

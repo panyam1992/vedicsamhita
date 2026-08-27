@@ -308,6 +308,36 @@
 
         /* ─── PRINT ─── */
         @media print {
+
+    @page {
+        size: A4 portrait;
+        margin: 10mm;
+    }
+    
+    body {
+        margin: 0;
+        padding: 0;
+        background: #fff;
+    }
+
+    #resultsSection, #printBatchContainer > div {
+        width: 190mm !important;
+        height: 277mm !important; /* A4 height minus 20mm margins */
+        overflow: hidden !important;
+        box-sizing: border-box !important;
+        page-break-after: always;
+        margin: 0 auto !important;
+        padding: 10px !important;
+        border: none !important;
+        box-shadow: none !important;
+        /* Slight scaling to ensure it all fits inside A4 perfectly without scrollbars */
+        transform-origin: top center;
+    }
+    
+    .floating-btns, .input-section {
+        display: none !important;
+    }
+
     #printBatchContainer { display: block !important; }
     #resultsSection { display: none !important; }
     #printBatchContainer > div { box-shadow: none !important; border: none !important; }
