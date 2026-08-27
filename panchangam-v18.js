@@ -1464,6 +1464,16 @@ function getDaySignificance(masam, tithiIdx, nakIdx, gregMonth, gregDay, dow) {
 /* ═══════════ MAIN CALCULATION ═══════════ */
 
 function calculatePanchangam() {
+    try {
+        _calculatePanchangamInner();
+    } catch(err) {
+        const el = document.getElementById('dateLocationBar');
+        if(el) el.innerHTML = '<div style="color:red;font-weight:bold;padding:20px;">CRASH: ' + err.message + '<br>' + err.stack + '</div>';
+        document.getElementById('resultsSection').style.display = 'block';
+        console.error(err);
+    }
+}
+function _calculatePanchangamInner() {
     const dateVal = document.getElementById('datePicker').value;
     if (!dateVal) return;
     const [y, m, d] = dateVal.split('-').map(Number);
