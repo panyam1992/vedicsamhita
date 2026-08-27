@@ -1832,7 +1832,7 @@ try {
 
     document.getElementById('za-samvatsara').innerHTML = `<span class="akshara">${samvatsaram}</span> <span class="akshara">సంవత్సరము</span>`;
     document.getElementById('za-ayana-ritu').innerHTML = `<span class="akshara">${ayanam}</span> | <span class="akshara">${rutu}</span>`;
-    document.getElementById('za-sauramana').innerHTML = `<span class="akshara">${rashi}</span> <span class="akshara">రాశి : సూర్యమానము</span>`;
+    document.getElementById('za-sauramana').innerHTML = `<span class="akshara">Sauramanamu</span> : <span class="akshara">${rashi}</span> <span class="akshara">Rashi</span>`;
     document.getElementById('za-chandramana').innerHTML = `<span class="akshara">${masam}</span> | <span class="akshara">${paksham}</span>`;
     document.getElementById('za-vasara').innerHTML = `<span class="akshara">${vasaraName}</span>`;
 
