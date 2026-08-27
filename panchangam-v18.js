@@ -1699,7 +1699,7 @@ function calculatePanchangam() {
     const padamEl = document.getElementById('valPadam');
     padamEl.innerHTML = padams.map(p => {
         const endLocal = jdToLocal(p.endJD, tz);
-        return `<li><strong>${p.name} — ${p.padam} Padam</strong> <span class="end-info">— ends ${fmtDateTime(endLocal)}</span></li>`;
+        return `<li><strong><span class="akshara">${p.name}</span> — ${p.padam} Padam</strong> <span class="end-info">— ends ${fmtDateTime(endLocal)}</span></li>`;
     }).join('');
 
     renderList('valYoga', yogas, tz);
@@ -1856,6 +1856,7 @@ try {
     const formatList = (arr) => arr.map(x => `<span class="akshara">${x.name}</span> (ends ${fmtDateTime(jdToLocal(x.endJD, tz))})`).join('<br>');
     document.getElementById('zd-tithi').innerHTML = formatList(tithis);
     document.getElementById('zd-nak').innerHTML = formatList(naks);
+    document.getElementById('zd-padam').innerHTML = padams.map(p => `<span class="akshara">${p.name}</span> — ${p.padam} Padam (ends ${fmtDateTime(jdToLocal(p.endJD, tz))})`).join('<br>');
     document.getElementById('zd-yoga').innerHTML = formatList(yogas);
     document.getElementById('zd-karana').innerHTML = formatList(karanas);
 
@@ -1891,7 +1892,7 @@ document.getElementById('resultsSection').style.display = 'block';
 }
 
 function applyTransliteration() {
-    const target = document.getElementById('scriptSelect').value;
+    const target = 'simple_english';
     if (!window.Sanscript) return;
     
     const elements = document.querySelectorAll('.akshara');
