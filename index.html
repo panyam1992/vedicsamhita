@@ -112,6 +112,58 @@
 
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
+    <!-- Festivals & Vratas -->
+    <h2 class="section-title akshara">≡ƒÄè α░¬α░éα░íα▒üα░ùα░▓α▒ü &amp; α░╡α▒ìα░░α░ñα░╛α░▓α▒ü</h2>
+    <div id="festivalSection" style="display:none; text-align:center; padding: 12px; background: #fff8e1; border: 1px solid #d4af37; border-radius: 8px; margin-bottom: 10px;">
+        <div id="valFestivals" class="akshara" style="font-size:1.05rem; color:#b8860b; font-weight:bold; line-height:1.5;"></div>
+    </div>
+    <div id="valImportance" class="importance-text"></div>
+
+    <div class="divider-ornament">⟡ ⟡ ⟡</div>
+
+    <!-- Lagna Section -->
+    <h2 class="section-title akshara">α░▓α░ùα▒ìα░¿α░«α▒üα░▓α▒ü</h2>
+    <div class="lagna-section">
+        <div class="lagna-chart-wrap">
+            <div style="text-align:center;margin-bottom:6px;">
+                <select id="chartStyleSelect" onchange="toggleChartStyle()" style="font-family:'EB Garamond',serif;font-size:0.85rem;padding:2px 8px;border:1px solid #ccc;border-radius:4px;background:#fff;">
+                    <option value="south" selected>South Indian</option>
+                    <option value="north">North Indian</option>
+                </select>
+            </div>
+            <div id="lagnaChart"></div>
+            <div class="chart-legend">
+                <span class="legend-item"><strong class="akshara" style="color:#4a0e0e">α░▓</strong>=<span class="akshara">α░▓α░ùα▒ìα░¿</span></span>
+                <span class="legend-item"><strong class="akshara" style="color:#d4a017">α░╕α▒é</strong>=<span class="akshara">α░╕α▒éα░░α▒ìα░»</span></span>
+                <span class="legend-item"><strong class="akshara" style="color:#2e7d32">α░Üα░é</strong>=<span class="akshara">α░Üα░éα░ªα▒ìα░░</span></span>
+                <span class="legend-item"><strong class="akshara" style="color:#c0392b">α░òα▒ü</strong>=<span class="akshara">α░òα▒üα░£</span></span>
+                <span class="legend-item"><strong class="akshara" style="color:#16a085">α░¼α▒ü</strong>=<span class="akshara">α░¼α▒üα░º</span></span>
+                <span class="legend-item"><strong class="akshara" style="color:#e67e22">α░ùα▒ü</strong>=<span class="akshara">α░ùα▒üα░░α▒ü</span></span>
+                <span class="legend-item"><strong class="akshara" style="color:#9b59b6">α░╢α▒ü</strong>=<span class="akshara">α░╢α▒üα░òα▒ìα░░</span></span>
+                <span class="legend-item"><strong class="akshara" style="color:#2c3e50">α░╢α░¿α░┐</strong></span>
+                <span class="legend-item"><strong class="akshara" style="color:#7f8c8d">α░░α░╛</strong>=<span class="akshara">α░░α░╛α░╣α▒ü</span></span>
+                <span class="legend-item"><strong class="akshara" style="color:#95a5a6">α░òα▒ç</strong>=<span class="akshara">α░òα▒çα░ñα▒ü</span></span>
+            </div>
+        </div>
+        <div class="lagna-details">
+            <div class="kalam-item"><span class="klabel akshara">α░ëα░ªα░» α░▓α░ùα▒ìα░¿</span> <span class="kval akshara" id="valLagnaRashi"></span></div>
+            <div class="kalam-item"><span class="klabel akshara">α░▓α░ùα▒ìα░¿ α░íα░┐α░ùα▒ìα░░α▒Ç</span> <span class="kval akshara" id="valLagnaDeg"></span></div>
+            <div class="kalam-item"><span class="klabel akshara">α░▓α░ùα▒ìα░¿α░╛α░ºα░┐α░¬α░ñα░┐</span> <span class="kval akshara" id="valLagnaLord"></span></div>
+            <div class="kalam-item"><span class="klabel akshara">α░╕α▒éα░░α▒ìα░»α▒üα░íα░┐ α░░α░╛α░╢α░┐</span> <span class="kval akshara" id="valSunInRashi"></span></div>
+            <div class="kalam-item"><span class="klabel akshara">α░Üα░éα░ªα▒ìα░░α▒üα░íα░┐ α░░α░╛α░╢α░┐</span> <span class="kval akshara" id="valMoonInRashi"></span></div>
+            <div class="kalam-item"><span class="klabel akshara">α░£α░ùα░ñα▒ì α░▓α░ùα▒ìα░¿</span> <span class="kval akshara" id="valJagatLagna"></span></div>
+            <div class="kalam-item"><span class="klabel akshara">α░╡α░░α▒ìα░╖ α░▓α░ùα▒ìα░¿</span> <span class="kval akshara" id="valVarshaLagna"></span></div>
+            <h3 class="akshara" style="margin:12px 0 6px; color:#4a0e0e; font-family:'Cinzel',serif; font-size:0.95rem;">α░¿α░╡α░ùα▒ìα░░α░╣ α░╕α▒ìα░Ñα░╛α░¿α░«α▒üα░▓α▒ü</h3>
+            <div id="grahaPositions" class="lagna-transitions akshara"></div>
+            <h3 class="akshara" style="margin:12px 0 6px; color:#4a0e0e; font-family:'Cinzel',serif; font-size:0.95rem;">α░▓α░ùα▒ìα░¿ α░╕α░«α░»α░«α▒üα░▓α▒ü</h3>
+            <div id="lagnaTransitions" class="lagna-transitions akshara"></div>
+        </div>
+    </div>
+
+    <div class="divider-ornament">⟡ ⟡ ⟡</div>
+
+
+
     <!-- Blessings -->
     <div class="blessings akshara">
         శుభం భవతు...<br>
