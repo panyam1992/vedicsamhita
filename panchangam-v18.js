@@ -1536,7 +1536,8 @@ function calculatePanchangam() {
     // ══════ RENDER ══════
     const tzStr = `UTC${tz >= 0 ? '+' : ''}${tz}`;
 
-    setElHtml('dateLocationBar', `${locName} &nbsp);|&nbsp; Lat: ${lat.toFixed(2)}°, Lon: ${lon.toFixed(2)}° &nbsp;|&nbsp; ${MONTH_ABBR[m-1]} ${d}, ${y} &nbsp;|&nbsp; ${tzStr}`;
+    document.getElementById('dateLocationBar').innerHTML =
+        `${locName} &nbsp;|&nbsp; Lat: ${lat.toFixed(2)}°, Lon: ${lon.toFixed(2)}° &nbsp;|&nbsp; ${MONTH_ABBR[m-1]} ${d}, ${y} &nbsp;|&nbsp; ${tzStr}`;
 
     setElText('valSunrise', fmtHMS(srHrs));
     setElText('valSunset', fmtHMS(ssHrs));
@@ -1647,7 +1648,7 @@ function calculatePanchangam() {
         if (festSec) {
             if (fests.length > 0) {
                 festSec.style.display = 'block';
-                setElHtml('valFestivals', fests.map(f => `✨ ${f}`).join('); ');
+                setElHtml('valFestivals', fests.map(f => `✨ ${f}`).join('; '));
             } else {
                 festSec.style.display = 'none';
             }
@@ -1819,7 +1820,8 @@ function calculatePanchangam() {
     transHTML += '</table>';
     setElHtml('lagnaTransitions', transHTML);
 
-    setElHtml('valNote', `<span class="akshara">ఈ పంచాంగం</span> <strong>${locName}</strong> (${tzStr}) <span class="akshara">ప్రాంతమునకు DST సహా లెక్కకట్టినది</span>.`);
+    document.getElementById('valNote').innerHTML =
+        `<span class="akshara">ఈ పంచాంగం</span> <strong>${locName}</strong> (${tzStr}) <span class="akshara">ప్రాంతమునకు DST సహా లెక్కకట్టినది</span>.`;
 
     
 // --- DALLAS-5127 LAYOUT MAPPING ---
@@ -1943,7 +1945,8 @@ function openPrintModal() {
     document.getElementById('printEndDate').value = endD.toISOString().split('T')[0];
     // Show Ugadi info
     const ugadiDates = findUgadiDates();
-    setElText('ugadiInfo', `Current: ${ugadiDates.current.toDateString()} → Next: ${ugadiDates.next.toDateString()}`);
+    document.getElementById('ugadiInfo').textContent =
+        `Current: ${ugadiDates.current.toDateString()} → Next: ${ugadiDates.next.toDateString()}`;
     const modal = document.getElementById('printModal');
     modal.style.display = 'flex';
 }
@@ -1985,13 +1988,13 @@ function showGrahanamDetails() {
     rashiPhalaluHtml += `</ul>`;
 
     setElText('gModalTitle', data.name);
-    setElHtml('gModalBasic', `
+    document.getElementById('gModalBasic').innerHTML = `
         <strong>రకం (Type):</strong> ${data.severity}<br>
         <strong>తీవ్రత (Magnitude):</strong> ${data.magnitude}<br>
         <strong>సమయాలు (Timings):</strong> ${data.timing}<br><br>
         <strong>గ్రహణ నక్షత్రం (Nakshatra):</strong> ${nakshatras[nakshatraIndex]} (${pada}వ పాదం)<br>
         <strong>గ్రహణ రాశి (Rashi):</strong> ${rashis[rashiIndex]} రాశి<br><br>
-        <span style="color:#c0392b); font-weight:bold;">ముఖ్య గమనిక (Remedy):</span> ${rashis[rashiIndex]} రాశి మరియు ${nakshatras[nakshatraIndex]} నక్షత్ర జాతకులు ఈ గ్రహణానికి శాంతి/పరిహారాలు ఆచరించవలెను.
+        <span style="color:#c0392b; font-weight:bold;">ముఖ్య గమనిక (Remedy):</span> ${rashis[rashiIndex]} రాశి మరియు ${nakshatras[nakshatraIndex]} నక్షత్ర జాతకులు ఈ గ్రహణానికి శాంతి/పరిహారాలు ఆచరించవలెను.
     `;
     
     // setElHtml('gModalAstro', rashiPhalaluHtml);
