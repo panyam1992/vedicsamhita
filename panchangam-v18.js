@@ -1814,7 +1814,71 @@ function calculatePanchangam() {
     document.getElementById('valNote').innerHTML =
         `<span class="akshara">ఈ పంచాంగం</span> <strong>${locName}</strong> (${tzStr}) <span class="akshara">ప్రాంతమునకు DST సహా లెక్కకట్టినది</span>.`;
 
-    document.getElementById('resultsSection').style.display = 'block';
+    
+// --- DALLAS-5127 LAYOUT MAPPING ---
+try {
+    const selDate = new Date(dateInput.value + 'T12:00:00');
+    document.getElementById('za-year').textContent = selDate.getFullYear();
+    document.getElementById('za-month').textContent = selDate.toLocaleString('default', {month:'long'});
+    document.getElementById('za-date').textContent = selDate.getDate();
+    document.getElementById('za-day').textContent = '◄ ' + selDate.toLocaleString('default', {weekday:'short'}).toUpperCase() + ' ►';
+
+    document.getElementById('za-samvatsara').innerHTML = `<span class="akshara">${samvatsaram}</span> <span class="akshara">సంవత్సరము</span>`;
+    document.getElementById('za-ayana-ritu').innerHTML = `<span class="akshara">${ayanam}</span> | <span class="akshara">${rutu}</span>`;
+    document.getElementById('za-sauramana').innerHTML = `<span class="akshara">${rashi}</span> <span class="akshara">రాశి : సూర్యమానము</span>`;
+    document.getElementById('za-chandramana').innerHTML = `<span class="akshara">${masam}</span> | <span class="akshara">${paksham}</span>`;
+    document.getElementById('za-vasara').innerHTML = `<span class="akshara">${vasaraName}</span>`;
+
+    document.getElementById('zb-sr').textContent = fmtHMS(srHrs);
+    const D = ssHrs - srHrs;
+    document.getElementById('zb-md').textContent = fmtTime(srHrs + D/2);
+    document.getElementById('zb-ss').textContent = fmtHMS(ssHrs);
+    document.getElementById('zb-mr').textContent = mt.moonrise || "—";
+    document.getElementById('zb-ms').textContent = mt.moonset || "—";
+
+    document.getElementById('zc-brahma').textContent = fmtRange(srHrs - 96/60, srHrs - 48/60);
+    document.getElementById('zc-sangava').textContent = fmtRange(srHrs + D/5, srHrs + 2*D/5);
+    document.getElementById('zc-madhyahna').textContent = fmtRange(srHrs + 2*D/5, srHrs + 3*D/5);
+    document.getElementById('zc-aparahna').textContent = fmtRange(srHrs + 3*D/5, srHrs + 4*D/5);
+    document.getElementById('zc-sayahna').textContent = fmtRange(srHrs + 4*D/5, ssHrs);
+    document.getElementById('zc-dinanta').textContent = fmtTime(ssHrs);
+    document.getElementById('zc-pratah').textContent = fmtRange(srHrs - 24/60, srHrs + 24/60);
+    document.getElementById('zc-madhyahnika').textContent = fmtRange(srHrs + 2*D/5, srHrs + 3*D/5);
+    document.getElementById('zc-sayam').textContent = fmtRange(ssHrs - 24/60, ssHrs + 24/60);
+
+    const formatList = (arr) => arr.map(x => `<span class="akshara">${x.name}</span> (ends ${fmtDateTime(jdToLocal(x.endJD, tz))})`).join('<br>');
+    document.getElementById('zd-tithi').innerHTML = formatList(tithis);
+    document.getElementById('zd-nak').innerHTML = formatList(naks);
+    document.getElementById('zd-yoga').innerHTML = formatList(yogas);
+    document.getElementById('zd-karana').innerHTML = formatList(karanas);
+
+    const fests = getFestivals(srJD);
+    document.getElementById('ze-fests').innerHTML = fests.length ? fests.map(f => `<span class="akshara">${f}</span>`).join(' • ') : '<span class="akshara">లేదు</span>';
+
+    document.getElementById('zf-rahu').textContent = document.getElementById('valRahu').textContent;
+    document.getElementById('zf-yama').textContent = document.getElementById('valYama').textContent;
+    document.getElementById('zf-gulika').textContent = document.getElementById('valGulika').textContent;
+    
+    document.getElementById('zf-durm').innerHTML = document.getElementById('valDurmuhurtham').innerHTML;
+    document.getElementById('zf-amrita').innerHTML = document.getElementById('valAmrita').innerHTML;
+
+    const vasaraIdx = (Math.floor(srJD + 1.5) + 1) % 7;
+    const shoolaDirs = ["పశ్చిమ", "తూర్పు", "ఉత్తర", "ఉత్తర", "దక్షిణ", "పశ్చిమ", "తూర్పు"];
+    const pariharam = ["నెయ్యి", "పాలు", "బెల్లం", "నువ్వులు", "పెరుగు", "బార్లీ", "మినుములు/నూనె"];
+    
+    document.getElementById('zg-shoola').innerHTML = `<span class="akshara">${shoolaDirs[vasaraIdx]}</span>`;
+    document.getElementById('zg-pariharam').innerHTML = `<span class="akshara">${pariharam[vasaraIdx]}</span>`;
+    document.getElementById('zg-moon-rashi').innerHTML = `<span class="akshara">${getMoonRashi(srJD)}</span>`;
+    
+    const mRashiIdx = Math.floor(getMoonNirayana(srJD) / 30);
+    const RASHI_TELUGU = ["మేషము","వృషభము","మిథునము","కర్కాటకము","సింహము","కన్య","తుల","వృశ్చికము","ధనుస్సు","మకరము","కుంభము","మీనము"];
+    document.getElementById('zg-ashtama').innerHTML = `<span class="akshara">${RASHI_TELUGU[(mRashiIdx + 7) % 12]}</span>`;
+    
+} catch(e) { console.error(e); }
+// --- END DALLAS-5127 MAPPING ---
+
+
+document.getElementById('resultsSection').style.display = 'block';
     document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
     applyTransliteration();
 }
