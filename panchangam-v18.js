@@ -510,28 +510,46 @@ function computeMoonTimes(y, m, d, lat, lon, tz) {
         prevAlt = curAlt;
     }
 
-    // Find the first moonrise within the calendar day (0–24h) and the next moonset after it
+    // Find moonrise and moonset independently within the calendar day (0–24h)
+    // Also find moonset that extends into next day (24–30h) if moonrise is within today
     let riseLocal = null, setLocal = null;
+
+    // 1. Find the first moonrise within the calendar day (0–24h)
     for (const ev of events) {
-        if (ev.type === 'rise' && riseLocal === null && ev.time < 24) {
+        if (ev.type === 'rise' && ev.time < 24) {
             riseLocal = ev.time;
+            break;
         }
-        if (ev.type === 'set' && riseLocal !== null && setLocal === null && ev.time > riseLocal) {
+    }
+
+    // 2. Find the first moonset within the calendar day (0–24h)
+    for (const ev of events) {
+        if (ev.type === 'set' && ev.time < 24) {
             setLocal = ev.time;
+            break;
+        }
+    }
+
+    // 3. If no moonset found within 0–24h but we have a moonrise,
+    //    look for the next moonset after the rise (could extend into next day 24–30h)
+    if (setLocal === null && riseLocal !== null) {
+        for (const ev of events) {
+            if (ev.type === 'set' && ev.time > riseLocal) {
+                setLocal = ev.time;
+                break;
+            }
         }
     }
 
     // Format results
     let mrStr = '—', msStr = '—';
     if (riseLocal !== null) {
-        mrStr = (riseLocal >= 24)
-            ? fmtHMS(riseLocal - 24) + ` ${MONTH_ABBR[new Date(y,m-1,d+1).getMonth()]} ${new Date(y,m-1,d+1).getDate()}`
-            : fmtHMS(riseLocal);
+        mrStr = fmtHMS(riseLocal);
     }
     if (setLocal !== null) {
         if (setLocal >= 24) {
             const nxt = new Date(y, m-1, d+1);
-            msStr = fmtHMS(setLocal - 24) + ` ${MONTH_ABBR[nxt.getMonth()]} ${nxt.getDate()}`;
+            msStr = fmtHMS(setLocal - 24) + ` (${MONTH_ABBR[nxt.getMonth()]} ${nxt.getDate()})`;
         } else {
             msStr = fmtHMS(setLocal);
         }
