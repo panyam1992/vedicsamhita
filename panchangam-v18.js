@@ -1832,55 +1832,7 @@ function _calculatePanchangamInner() {
     document.getElementById('valNote').innerHTML = `<strong>NOTE:-</strong> This panchangam is calculated for <strong>${locName}</strong>. If applicable, DST is also calculated.`;
 
     
-// --- DALLAS-5127 LAYOUT MAPPING ---
-try {
-    const selDate = new Date(dateInput.value + 'T12:00:00');
-    
-    // Main Title
-    setElHtml('page-main-title', `<span class="akshara">${samvatsaram}</span> Panchangam ( ${locName} )`);
 
-    // Graha Chakram (South Indian Chart)
-
-    setElText('za-year', selDate.getFullYear());
-    setElText('za-month', selDate.toLocaleString('default', {month:'long'}));
-    setElText('za-date', selDate.getDate());
-    setElText('za-day', '◄ ' + selDate.toLocaleString('default', {weekday:'short'}).toUpperCase() + ' ►');
-
-    setElHtml('za-samvatsara', `<span class="akshara">${samvatsaram}</span> <span class="akshara">సంవత్సరము</span>`);
-    setElHtml('za-ayana-ritu', `<span class="akshara">${ayanam}</span> | <span class="akshara">${rutu}</span>`);
-    setElHtml('za-sauramana', `<span class="akshara">Sauramanamu</span> : <span class="akshara">${rashi}</span> <span class="akshara">Rashi</span>`);
-    setElHtml('za-chandramana', `<span class="akshara">${masam}</span> | <span class="akshara">${paksham}</span>`);
-    setElHtml('za-vasara', `<span class="akshara">${vasaraName}</span>`);
-
-    setElText('zb-sr', fmtHMS(srHrs));
-    const D = ssHrs - srHrs;
-    setElText('zb-md', fmtTime(srHrs + D/2));
-    setElText('zb-ss', fmtHMS(ssHrs));
-    setElText('zb-mr', mt.moonrise || "—");
-    setElText('zb-ms', mt.moonset || "—");
-
-
-    const formatList = (arr) => arr.map(x => `<span class="akshara">${x.name}</span> (ends ${fmtDateTime(jdToLocal(x.endJD, tz))})`).join('<br>');
-    setElHtml('zd-tithi', formatList(tithis));
-    setElHtml('zd-nak', formatList(naks));
-    setElHtml('zd-padam', padams.map(p => `<span class="akshara">${p.name}</span> — ${p.padam} Padam (ends ${fmtDateTime(jdToLocal(p.endJD, tz))})`).join('<br>'));
-    setElHtml('zd-yoga', formatList(yogas));
-    setElHtml('zd-karana', formatList(karanas));
-
-    const fests = getFestivals(srJD);
-
-    
-
-    const vasaraIdx = (Math.floor(srJD + 1.5) + 1) % 7;
-    const shoolaDirs = ["పశ్చిమ", "తూర్పు", "ఉత్తర", "ఉత్తర", "దక్షిణ", "పశ్చిమ", "తూర్పు"];
-    const pariharam = ["నెయ్యి", "పాలు", "బెల్లం", "నువ్వులు", "పెరుగు", "బార్లీ", "మినుములు/నూనె"];
-    
-    
-    const mRashiIdx = Math.floor(getMoonNirayana(srJD) / 30);
-    const RASHI_TELUGU = ["మేషము","వృషభము","మిథునము","కర్కాటకము","సింహము","కన్య","తుల","వృశ్చికము","ధనుస్సు","మకరము","కుంభము","మీనము"];
-    
-} catch(e) { console.error(e); }
-// --- END DALLAS-5127 MAPPING ---
 
 
 document.getElementById('resultsSection').style.display = 'block';
