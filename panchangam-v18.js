@@ -1490,7 +1490,7 @@ function _calculatePanchangamInner() {
         lat = parseFloat(document.getElementById('latInput').value);
         lon = parseFloat(document.getElementById('lonInput').value);
         tz  = parseFloat(document.getElementById('tzInput').value);
-        locName = `Custom (${lat.toFixed(4)}°, ${lon.toFixed(4)}°)`;
+        locName = `Custom Location`;
     }
 
     const st = computeSunTimes(y, m, d, lat, lon, tz);
@@ -1546,8 +1546,7 @@ function _calculatePanchangamInner() {
     // ══════ RENDER ══════
     const tzStr = `UTC${tz >= 0 ? '+' : ''}${tz}`;
 
-    document.getElementById('dateLocationBar').innerHTML =
-        `${locName} &nbsp;|&nbsp; Lat: ${lat.toFixed(2)}°, Lon: ${lon.toFixed(2)}° &nbsp;|&nbsp; ${MONTH_ABBR[m-1]} ${d}, ${y} &nbsp;|&nbsp; ${tzStr}`;
+    document.getElementById('dateLocationBar').innerHTML = `${locName} &nbsp;|&nbsp; ${MONTH_ABBR[m-1]} ${d}, ${y}`;
 
     setElText('valSunrise', fmtHMS(srHrs));
     setElText('valSunset', fmtHMS(ssHrs));
@@ -1830,8 +1829,7 @@ function _calculatePanchangamInner() {
     transHTML += '</table>';
     setElHtml('lagnaTransitions', transHTML);
 
-    document.getElementById('valNote').innerHTML =
-        `<span class="akshara">ఈ పంచాంగం</span> <strong>${locName}</strong> (${tzStr}) <span class="akshara">ప్రాంతమునకు DST సహా లెక్కకట్టినది</span>.`;
+    document.getElementById('valNote').innerHTML = `<strong>NOTE:-</strong> This panchangam is calculated for <strong>${locName}</strong>. If applicable, DST is also calculated.`;
 
     
 // --- DALLAS-5127 LAYOUT MAPPING ---
