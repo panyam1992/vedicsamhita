@@ -1474,7 +1474,7 @@ function getDaySignificance(masam, tithiIdx, nakIdx, gregMonth, gregDay, dow) {
     if (lunarMonth === 6 && tithiIdx === 13) sig.push("Ananta Chaturdashi");
     if (lunarMonth === 5 && tithiIdx === 11) sig.push("Putrada Ekadashi / Shravana Dvadashi");
     
-    if (sig.length === 0) sig.push("No special significance noted for this day");
+    
     return [...new Set(sig)];
 }
 
@@ -1508,7 +1508,6 @@ function _calculatePanchangamInner() {
         lat = parseFloat(document.getElementById('latInput').value);
         lon = parseFloat(document.getElementById('lonInput').value);
         tz  = parseFloat(document.getElementById('tzInput').value);
-        locName = `Custom Location`;
     }
 
     const st = computeSunTimes(y, m, d, lat, lon, tz);
@@ -1804,13 +1803,18 @@ function _calculatePanchangamInner() {
     }
 
     // Graha positions table
-    let grahaHTML = '<table><tr><th class="akshara">గ్రహము</th><th class="akshara">రాశి</th><th class="akshara">డిగ్రీ</th></tr>';
-    grahas.forEach(g => {
+    let grahaHTML = '<table style="width:100%; border-collapse:collapse; font-size:0.78rem;">' +
+        '<tr style="background:#4a0e0e;">' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Graha</th>' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Rashi</th>' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Degree</th></tr>';
+    grahas.forEach((g, idx) => {
         const degInR = g.deg % 30;
         let dW = Math.floor(degInR);
         let mP = Math.round((degInR - dW) * 60);
         if (mP >= 60) { mP = 0; dW++; }
-        grahaHTML += `<tr><td style="color:${g.color};font-weight:bold">${g.full}</td><td>${g.rashiName}</td><td>${dW}°${String(mP).padStart(2,'0')}'</td></tr>`;
+        const bgColor = idx % 2 === 0 ? '#fff' : '#f9f5eb';
+        grahaHTML += `<tr style="background:${bgColor};"><td style="padding:3px 6px; border:1px solid #ddd; color:${g.color};font-weight:bold">${g.full}</td><td style="padding:3px 6px; border:1px solid #ddd;"><span class="akshara">${g.rashiName}</span></td><td style="padding:3px 6px; border:1px solid #ddd;">${dW}°${String(mP).padStart(2,'0')}'</td></tr>`;
     });
     grahaHTML += '</table>';
     setElHtml('grahaPositions', grahaHTML);
@@ -1820,7 +1824,7 @@ function _calculatePanchangamInner() {
 
     // Helper: extract "9:15 AM" from "Aug 21, 2026 9:15:23 AM"
     function extractTime(dtStr) {
-        if (dtStr === 'Sunrise') return 'సూర్యోదయం';
+        if (dtStr === 'Sunrise') return 'Suryodayam';
         const parts = dtStr.split(' ');
         const timeFull = parts[3] || '';
         const ampm = parts[4] || '';
@@ -1828,20 +1832,26 @@ function _calculatePanchangamInner() {
         return `${hm} ${ampm}`;
     }
 
-    let transHTML = '<table><tr><th class="akshara">రాశి</th><th class="akshara">ప్రారంభం</th><th class="akshara">అంత్యం</th><th class="akshara">పుష్కరాంశం</th></tr>';
-    periods.forEach(p => {
+    let transHTML = '<table style="width:100%; border-collapse:collapse; font-size:0.78rem;">' +
+        '<tr style="background:#4a0e0e;">' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Rashi</th>' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Prarambham</th>' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Antyam</th>' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Pushkaramsham</th></tr>';
+    periods.forEach((p, idx) => {
         const pushWins = getPushkaraWindows(p, lat, lon, tz);
         let pushCol = '—';
         if (pushWins.length > 0) {
             pushCol = pushWins.map(w => 
-                `<span class="pushkara-tag" title="Navamsha ${w.navamsha}: ${w.arcSpan}">✦ ${extractTime(w.startTime)} – ${extractTime(w.endTime)}</span>`
+                `<span style="color:#2e7d32; font-weight:bold;">✦ ${extractTime(w.startTime)} – ${extractTime(w.endTime)}</span>`
             ).join('<br>');
         }
-        transHTML += `<tr>
-            <td>${p.rashiName}</td>
-            <td>${extractTime(p.startTime)}</td>
-            <td>${extractTime(p.endTime)}</td>
-            <td>${pushCol}</td>
+        const bgColor = idx % 2 === 0 ? '#fff' : '#f9f5eb';
+        transHTML += `<tr style="background:${bgColor};">
+            <td style="padding:3px 6px; border:1px solid #ddd; font-weight:bold; color:#4a0e0e;"><span class="akshara">${p.rashiName}</span></td>
+            <td style="padding:3px 6px; border:1px solid #ddd;">${extractTime(p.startTime)}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd;">${extractTime(p.endTime)}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd;">${pushCol}</td>
         </tr>`;
     });
     transHTML += '</table>';
@@ -2108,7 +2118,6 @@ function computeDayData(y, m, d) {
         lat = parseFloat(document.getElementById('latInput').value);
         lon = parseFloat(document.getElementById('lonInput').value);
         tz  = parseFloat(document.getElementById('tzInput').value);
-        locName = 'Custom Location';
     }
 
     const srJD = localToJD(y, m, d, 6, tz);
@@ -2471,14 +2480,12 @@ function onCitySearchInput(val) {
 
 function selectSearchedCity(encodedData) {
     const data = JSON.parse(decodeURIComponent(encodedData));
-    const dStr = document.getElementById('datePicker').value;
-    const offset = getTzOffsetFromTimezoneString(data.tzName, dStr);
     
     window._selectedCity = {
         name: data.name,
         lat: data.lat,
         lon: data.lon,
-        tz: offset
+        tzName: data.tzName
     };
     
     document.getElementById('citySearch').value = data.name;
