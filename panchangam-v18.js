@@ -8,7 +8,7 @@ function setElHtml(id, html) {
     if (el) el.innerHTML = html;
 }
 /* ═══════════════════════════════════════════════════════════════
-   PANYAM PANCHAN AI — Worldwide Sidereal Panchangam Engine v2
+   VEDIC SAMHITA PANCHANGAM — Worldwide Sidereal Panchangam Engine v2
    Full Meeus Chapter 47 Lunar Model (50 terms) + NOAA Solar
    ═══════════════════════════════════════════════════════════════ */
 
@@ -144,6 +144,15 @@ function fmtHMS(decHrs) {
 function fmtDateTime(o) {
     const ap = o.hours >= 12 ? 'PM' : 'AM'; let h = o.hours % 12; if (!h) h = 12;
     return `${MONTH_ABBR[o.month-1]} ${o.day}, ${o.year} ${h}:${String(o.minutes).padStart(2,'0')}:${String(o.seconds).padStart(2,'0')} ${ap}`;
+}
+function fmtEndTimeCompact(o, curDay) {
+    const ap = o.hours >= 12 ? 'PM' : 'AM'; let h = o.hours % 12; if (!h) h = 12;
+    const timeStr = `${h}:${String(o.minutes).padStart(2,'0')} ${ap}`;
+    if (o.day === curDay) {
+        return timeStr;
+    } else {
+        return `${MONTH_ABBR[o.month-1]} ${o.day}, ${timeStr}`;
+    }
 }
 function fmtRange(h1, h2) { return `${fmtHMS(h1)} — ${fmtHMS(h2)}`; }
 
@@ -377,6 +386,8 @@ function getDayPadams(srJD, nextSrJD) {
             padamNum: padamNum,
             endJD: endJD
         });
+
+        if (endJD >= nextSrJD) break;
 
         jd = endJD + 0.001;  // move past this padam boundary
     }
@@ -1730,12 +1741,14 @@ function _calculatePanchangamInner() {
     renderList('valTithi', tithis, tz);
     renderList('valNakshatra', naks, tz);
 
-    // Render Nakshatra Padams with their own end times
+    // Render Nakshatra Padams with compact end times
     const padamEl = document.getElementById('valPadam');
-    padamEl.innerHTML = padams.map(p => {
-        const endLocal = jdToLocal(p.endJD, tz);
-        return `<li><strong><span class="akshara">${p.name}</span> — ${p.padam} Padam</strong> <span class="end-info">— ends ${fmtDateTime(endLocal)}</span></li>`;
-    }).join('');
+    if (padamEl) {
+        padamEl.innerHTML = padams.map(p => {
+            const endLocal = jdToLocal(p.endJD, tz);
+            return `<li><strong><span class="akshara">${p.name}</span> (${p.padam} Padam)</strong> <span class="end-info">— ends ${fmtEndTimeCompact(endLocal, d)}</span></li>`;
+        }).join('');
+    }
 
     renderList('valYoga', yogas, tz);
     renderList('valKarana', karanas, tz);
@@ -2193,9 +2206,9 @@ function generatePrintPage(data) {
 
     return `
     <div class="print-day">
-        <div class="print-watermark">PANYAM PANCHANGAM</div>
+        <div class="print-watermark">VEDIC SAMHITA PANCHANGAM</div>
         <div class="print-header">
-            <h2>PANYAM PANCHANGAM</h2>
+            <h2>VEDIC SAMHITA PANCHANGAM</h2>
             <p class="print-date">${dateStr}</p>
             <p class="print-indian">${data.masam} | ${data.paksham} | ${data.samvatsaram}</p>
             <p class="print-loc">${data.locName}</p>
@@ -2270,7 +2283,7 @@ async function generateAndPrint(startDate, endDate) {
 
     // Open print window
     const printWin = window.open('', '_blank');
-    printWin.document.write(`<!DOCTYPE html><html><head><title>Panyam Panchangam</title>
+    printWin.document.write(`<!DOCTYPE html><html><head><title>Vedic Samhita Panchangam</title>
     <style>
         @page { size: A4; margin: 1.5cm; }
         body { font-family: 'Georgia', 'Times New Roman', serif; color: #000; margin: 0; padding: 0; }
@@ -2320,7 +2333,7 @@ async function exportICal() {
 
     let eventCount = 0, skipCount = 0, firstError = '';
 
-    let ical = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Panyam Panchangam//EN\r\nCALSCALE:GREGORIAN\r\n';
+    let ical = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Vedic Samhita Panchangam//EN\r\nCALSCALE:GREGORIAN\r\n';
 
     for (let i = 0; i < totalDays; i++) {
         const dt = new Date(start);
@@ -2337,7 +2350,7 @@ async function exportICal() {
                 const karanaName = data.karanas[0] ? data.karanas[0].name : '';
                 const varaShort = VARA[data.dow].split(' (')[0];
                 const summary = `${varaShort} | ${tithiName} | ${nakName}`;
-                let desc = `== PANYAM PANCHANGAM ==`;
+                let desc = `== VEDIC SAMHITA PANCHANGAM ==`;
                 desc += `\\n${data.samvatsaram} | ${data.masam} | ${data.paksham} | ${data.rutu}`;
                 desc += `\\n`;
                 desc += `\\n-- Pancha Angam --`;
@@ -2378,7 +2391,7 @@ async function exportICal() {
                         }
                     }
                 } catch(ev) {}
-                const uid = `${dateStr}-panyam@vedicsamhita.com`;
+                const uid = `${dateStr}-vedicsamhita@vedicsamhita.com`;
                 ical += 'BEGIN:VEVENT\r\n';
                 ical += 'DTSTART;VALUE=DATE:' + dateStr + '\r\n';
                 ical += 'DTEND;VALUE=DATE:' + dateStr + '\r\n';
@@ -2414,7 +2427,7 @@ async function exportICal() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'panyam_panchangam.ics';
+    a.download = 'vedicsamhita_panchangam.ics';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -2488,16 +2501,24 @@ function selectSearchedCity(encodedData) {
         tzName: data.tzName
     };
     
-    document.getElementById('citySearch').value = data.name;
-    document.getElementById('citySearchResults').style.display = 'none';
-    calculatePanchangam();
+    const cityInput = document.getElementById('citySearch');
+    if (cityInput) cityInput.value = data.name;
+    const resDiv = document.getElementById('citySearchResults');
+    if (resDiv) resDiv.style.display = 'none';
+    
+    if (document.getElementById('datePicker') && typeof calculatePanchangam === 'function') {
+        calculatePanchangam();
+    }
 }
 
 function toggleCustomLocation() {
     const customDiv = document.getElementById('customCoords');
+    if (!customDiv) return;
     customDiv.style.display = customDiv.style.display === 'none' ? 'grid' : 'none';
     if (customDiv.style.display === 'none') {
-        calculatePanchangam();
+        if (document.getElementById('datePicker') && typeof calculatePanchangam === 'function') {
+            calculatePanchangam();
+        }
     }
 }
 

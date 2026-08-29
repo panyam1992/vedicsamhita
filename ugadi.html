@@ -182,16 +182,38 @@
         <a href="index.html" class="nav-link">🙏 Daily Panchangam</a>
     </div>
 
-    <!-- Year Selector -->
-    <div class="year-selector">
-        <label for="ugadiYear" style="font-size:1rem; color:#4a0e0e; font-weight:bold;">Select Year: </label>
-        <select id="ugadiYear" onchange="calculateUgadiPhalalu()">
-        </select>
+    <!-- Selector Card (Location & Year) -->
+    <div class="year-selector" style="text-align:left;">
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 15px; align-items: start;">
+            <div style="position: relative;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <label for="citySearch" style="font-weight:bold; color:#4a0e0e; font-size:0.95rem;">Location / City</label>
+                    <span onclick="toggleCustomLocation()" style="font-size:0.8rem; color:#8b0000; cursor:pointer; text-decoration:underline;">Custom Coordinates</span>
+                </div>
+                <input type="text" id="citySearch" placeholder="Type city name..." autocomplete="off" oninput="onCitySearchInput(this.value)" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:1rem; box-sizing:border-box; background:#fff;">
+                <div id="citySearchResults" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #d4af37; border-radius:4px; max-height:200px; overflow-y:auto; z-index:1000; box-shadow:0 4px 10px rgba(0,0,0,0.1);"></div>
+            </div>
+
+            <div>
+                <label for="ugadiYear" style="display:block; font-weight:bold; color:#4a0e0e; font-size:0.95rem; margin-bottom: 4px;">Select Year</label>
+                <select id="ugadiYear" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:1rem; box-sizing:border-box; background:#fff;">
+                </select>
+            </div>
+        </div>
+        
+        <button onclick="calculateUgadiPhalalu()" style="margin-top:14px; width:100%; padding:10px; font-family:'Cinzel',serif; font-size:0.95rem; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-weight:bold; letter-spacing:1px; transition:background 0.2s;" onmouseover="this.style.background='#6b1a1a'" onmouseout="this.style.background='#4a0e0e'">🙏 Calculate Ugadi Phalalu</button>
+        
+        <div id="customCoords" style="display:none; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 12px;">
+            <div><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:2px;">Latitude</label><input type="number" id="latInput" step="0.0001" value="33.1507" style="width:100%; padding:6px; border:1px solid #ccc; border-radius:4px; font-family:inherit; box-sizing:border-box;"></div>
+            <div><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:2px;">Longitude</label><input type="number" id="lonInput" step="0.0001" value="-96.8236" style="width:100%; padding:6px; border:1px solid #ccc; border-radius:4px; font-family:inherit; box-sizing:border-box;"></div>
+            <div><label style="font-size:0.8rem; color:#666; display:block; margin-bottom:2px;">UTC Offset (hrs)</label><input type="number" id="tzInput" step="0.5" value="-5" style="width:100%; padding:6px; border:1px solid #ccc; border-radius:4px; font-family:inherit; box-sizing:border-box;"></div>
+        </div>
     </div>
 
     <!-- Ugadi Info Card -->
     <div class="info-card" id="ugadiInfoCard">
         <h3>📅 Ugadi Details</h3>
+        <div class="info-row"><span class="info-label">Location</span> <span class="info-value" id="uLocation">—</span></div>
         <div class="info-row"><span class="info-label">Samvatsaram</span> <span class="info-value" id="uSamvatsaram">—</span></div>
         <div class="info-row"><span class="info-label">Ugadi Date</span> <span class="info-value" id="uDate">—</span></div>
         <div class="info-row"><span class="info-label">Ugadi Day</span> <span class="info-value" id="uDay">—</span></div>
@@ -216,22 +238,35 @@
 
     <div class="section-divider">⟡ ⟡ ⟡</div>
 
-    <!-- Kandaya Phalalu Section (Phase 2) -->
+    <!-- Makara Sankranti Purusha Lakshanam Section -->
     <div class="info-card">
-        <h3>📊 Kandaya Phalalu</h3>
+        <h3>☀️ Makara Sankranti Purusha Lakshanam</h3>
+        <p style="font-size:0.9rem; color:#666; margin-top:0;">Annual Makara Sankranti Purusha features, vehicle, ornaments, and predictions.</p>
+    </div>
+
+    <div id="sankrantiContainer">
+        <!-- Sankranti Purusha card -->
         <div class="coming-soon">
-            🔮 Kandaya Phalalu calculations will be added in Phase 2.
+            📜 Makara Sankranti Purusha Lakshanam details & Shlokas will be added here once the data is provided.<br>
+            <em>Awaiting data from students...</em>
         </div>
     </div>
 
     <div class="section-divider">⟡ ⟡ ⟡</div>
 
-    <!-- Adaya Vyaya Section (Phase 3) -->
+    <!-- Kandaya Phalam -->
     <div class="info-card">
-        <h3>💰 Adaya / Vyaya / Raja Pujyam / Avamanam</h3>
-        <div class="coming-soon">
-            📈 Adaya, Vyaya, Rajapujyam, and Avamanam tables for all 12 Rashis will be added in Phase 3.
-        </div>
+        <h3>📊 Kandaya Phalam</h3>
+        <div id="kandayaResults" style="overflow-x:auto;"></div>
+    </div>
+
+    <div class="section-divider">⟡ ⟡ ⟡</div>
+
+    <!-- Adaya-Vyaya & Rajapujya-Avamana Section -->
+    <div class="info-card">
+        <h3>💰 Adaya - Vyaya & Rajapujya - Avamana</h3>
+        <div id="adayaVyayaResults" style="overflow-x:auto;"></div>
+        <div id="adayaVyayaNotes" style="margin-top:12px;"></div>
     </div>
 
     <div class="section-divider">⟡ ⟡ ⟡</div>
@@ -250,6 +285,7 @@
 
 <!-- Scripts -->
 <script src="panchangam-v18.js?v=8"></script>
+<script src="https://cdn.jsdelivr.net/npm/@indic-transliteration/sanscript@1.2.8/sanscript.js"></script>
 <script>
 // Populate year dropdown
 const yearSelect = document.getElementById('ugadiYear');
@@ -295,64 +331,90 @@ const RAJA_BY_WEEKDAY = {
 function calculateUgadiPhalalu() {
     const year = parseInt(yearSelect.value);
     
-    // Use default Frisco location for calculation
-    const lat = 33.1507, lon = -96.8236, tz = -5;
+    if (!window._selectedCity) {
+        window._selectedCity = { name: "Frisco, Texas, United States", lat: 33.1507, lon: -96.8236, tzName: "America/Chicago" };
+    }
+    let lat = window._selectedCity.lat;
+    let lon = window._selectedCity.lon;
+    let tz = getTzOffsetFromTimezoneString(window._selectedCity.tzName, `${year}-03-25`);
+    let locName = window._selectedCity.name;
     
-    // Find Chaitra Shukla Padyami for this year
-    let ugadiDate = null;
-    for (let d = 0; d < 70; d++) {
-        let testDate = new Date(year, 2, 1); // Start from March 1
-        testDate.setDate(testDate.getDate() + d);
-        
-        let y = testDate.getFullYear(), m = testDate.getMonth() + 1, day = testDate.getDate();
-        let jd = dateToJD(y, m, day) - (tz / 24);
-        let srHrs = getSunrise(jd, lat, lon);
-        let srJD = jd + (srHrs / 24);
-        
-        let tithiAtSr = getTithiIdx(srJD);
-        let lunar = getLunarCalendar(srJD);
-        
-        // Chaitra Shukla Padyami = masam contains "చైత్ర" and tithi index = 0
-        if (lunar.masam.indexOf("చైత్ర") !== -1 && tithiAtSr === 0) {
-            ugadiDate = testDate;
-            break;
+    // Check if user filled custom inputs instead
+    const customDiv = document.getElementById('customCoords');
+    if (customDiv && customDiv.style.display !== 'none' && document.getElementById('latInput').value !== "") {
+        lat = parseFloat(document.getElementById('latInput').value);
+        lon = parseFloat(document.getElementById('lonInput').value);
+        tz  = parseFloat(document.getElementById('tzInput').value);
+    }
+    
+    // Helper: get sunrise JD for a given date taking local timezone into account
+    function getUgadiSrJD(y, m, d) {
+        const dateStr = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        let localTz = tz;
+        if (window._selectedCity && window._selectedCity.tzName && (!customDiv || customDiv.style.display === 'none')) {
+            localTz = getTzOffsetFromTimezoneString(window._selectedCity.tzName, dateStr);
         }
+        const st = computeSunTimes(y, m, d, lat, lon, localTz);
+        if (!st) return null;
+        const jdMid = dateToJD(y, m, d) - (localTz / 24);
+        return { srJD: jdMid + (st.sunrise / 24), localTz: localTz };
     }
     
-    if (!ugadiDate) {
-        ugadiDate = new Date(year, 3, 10); // Fallback
+    // Robust Ugadi Finder for any year & location
+    function findUgadiForYear(yTarget) {
+        // Pass 1: Udaya Tithi (Shukla Padyami active at sunrise in Chaitra)
+        for (let d = 0; d < 70; d++) {
+            let testDate = new Date(yTarget, 2, 1);
+            testDate.setDate(testDate.getDate() + d);
+            let y = testDate.getFullYear(), m = testDate.getMonth() + 1, day = testDate.getDate();
+            let res = getUgadiSrJD(y, m, day);
+            if (!res) continue;
+            let tithiAtSr = getTithiIdx(res.srJD);
+            let lunar = getLunarCalendar(res.srJD);
+            if (lunar.masam.indexOf('చైత్ర') !== -1 && tithiAtSr === 0) {
+                return { date: testDate, srJD: res.srJD };
+            }
+        }
+        // Pass 2: Kshaya Tithi fallback (Padyami begins on Amavasya day and ends before next sunrise)
+        for (let d = 0; d < 70; d++) {
+            let testDate = new Date(yTarget, 2, 1);
+            testDate.setDate(testDate.getDate() + d);
+            let y = testDate.getFullYear(), m = testDate.getMonth() + 1, day = testDate.getDate();
+            let res = getUgadiSrJD(y, m, day);
+            if (!res) continue;
+            let tithiAtSr = getTithiIdx(res.srJD);
+            let lunar = getLunarCalendar(res.srJD);
+            const nextSrJD = res.srJD + 1;
+            const tithis = getDayElements(res.srJD, nextSrJD, getTithiIdx, i => i, 3, 'tithi');
+            const hasPadyami = tithis.some(t => t.idx === 0);
+            if (hasPadyami && tithiAtSr === 29 && lunar.masam.indexOf('ఫాల్గుణ') !== -1) {
+                return { date: testDate, srJD: res.srJD };
+            }
+        }
+        let fallback = new Date(yTarget, 2, 22);
+        let resFb = getUgadiSrJD(fallback.getFullYear(), fallback.getMonth() + 1, fallback.getDate());
+        return { date: fallback, srJD: resFb ? resFb.srJD : dateToJD(yTarget, 3, 22) };
     }
+    
+    const ugadiInfo = findUgadiForYear(year);
+    const ugadiDate = ugadiInfo.date;
+    const ugadiSrJDVal = ugadiInfo.srJD;
     
     const dow = ugadiDate.getDay();
     const dateStr = `${MONTH_NAMES[ugadiDate.getMonth()]} ${ugadiDate.getDate()}, ${ugadiDate.getFullYear()}`;
     
     // Calculate Samvatsaram
-    // Using the standard 60-year cycle (Kali Yuga based)
-    const jdUgadi = dateToJD(ugadiDate.getFullYear(), ugadiDate.getMonth() + 1, ugadiDate.getDate());
     const kaliYear = ugadiDate.getFullYear() + 3101;
-    const samvatsaraIdx = (kaliYear + 12) % 60; // Adjusted for proper alignment
+    const samvatsaraIdx = (kaliYear + 12) % 60;
     const samvatsaram = SAMVATSARA_NAMES[samvatsaraIdx] || "—";
     
     // Find next Ugadi for duration
-    let nextUgadi = null;
-    for (let d = 0; d < 70; d++) {
-        let testDate = new Date(year + 1, 2, 1);
-        testDate.setDate(testDate.getDate() + d);
-        let y2 = testDate.getFullYear(), m2 = testDate.getMonth() + 1, day2 = testDate.getDate();
-        let jd2 = dateToJD(y2, m2, day2) - (tz / 24);
-        let srHrs2 = getSunrise(jd2, lat, lon);
-        let srJD2 = jd2 + (srHrs2 / 24);
-        let tithiAtSr2 = getTithiIdx(srJD2);
-        let lunar2 = getLunarCalendar(srJD2);
-        if (lunar2.masam.indexOf("చైత్ర") !== -1 && tithiAtSr2 === 0) {
-            nextUgadi = testDate;
-            break;
-        }
-    }
-    
+    const nextUgadiInfo = findUgadiForYear(year + 1);
+    const nextUgadi = nextUgadiInfo.date;
     const nextDateStr = nextUgadi ? `${MONTH_NAMES[nextUgadi.getMonth()]} ${nextUgadi.getDate()}, ${nextUgadi.getFullYear()}` : "—";
     
     // Update UI
+    if (document.getElementById('uLocation')) document.getElementById('uLocation').textContent = locName;
     document.getElementById('uSamvatsaram').textContent = samvatsaram;
     document.getElementById('uDate').textContent = dateStr;
     document.getElementById('uDay').textContent = WEEKDAYS[dow];
@@ -375,10 +437,131 @@ function calculateUgadiPhalalu() {
             📜 The remaining 8 Nayakas (Mantri, Senadhipati, etc.) and their Shlokas will be populated once the data is received from students.
         </div>
     `;
+    
+    // ══════ KANDAYA PHALAM (Nakshatra-based) ══════
+    // Auto-calculate Panchangam elements at Ugadi sunrise
+    const ugadiSrJD = ugadiSrJDVal;
+    
+    const ugadiTithi = getTithiIdx(ugadiSrJD) + 1;    // 1-based (1-30)
+    const ugadiVara = dow + 1;                          // 1-based (Sun=1..Sat=7)
+    const ugadiNak = getNakIdx(ugadiSrJD) + 1;         // 1-based (1-27)
+    const ugadiYoga = getYogaIdx(ugadiSrJD) + 1;       // 1-based (1-27)
+    
+    // Karana: map from 0-59 to 1-11 (matching traditional Panchangam numbering)
+    const rawKarana = getKaranaIdx(ugadiSrJD);
+    const KARANA_NAMES = ["Kinstughna","Bava","Balava","Kaulava","Taitila","Garaja","Vanija","Vishti","Shakuni","Chatushpada","Nagava"];
+    let ugadiKarana;
+    if (rawKarana === 0) ugadiKarana = 1;           // Kinstughna
+    else if (rawKarana >= 57) ugadiKarana = rawKarana - 48; // Shakuni(9), Chatushpada(10), Naga(11)
+    else ugadiKarana = ((rawKarana - 1) % 7) + 2;   // Bava(2)..Vishti(8) cycling
+    
+    const TITHI_NAMES = ["Padyami","Vidiya","Tadiya","Chavithi","Panchami","Shashthi","Saptami","Ashtami","Navami","Dashami","Ekadashi","Dwadashi","Trayodashi","Chaturdashi","Purnima","Amavasya"];
+    const NAKSHATRA_NAMES = ["Ashwini","Bharani","Krittika","Rohini","Mrigashira","Ardra","Punarvasu","Pushya","Ashlesha","Magha","Purva Phalguni","Uttara Phalguni","Hasta","Chitra","Swati","Vishakha","Anuradha","Jyeshtha","Mula","Purva Ashadha","Uttara Ashadha","Shravana","Dhanishtha","Shatabhisha","Purva Bhadrapada","Uttara Bhadrapada","Revati"];
+    const YOGA_NAMES = ["Vishkambha","Priti","Ayushmana","Saubhagya","Shobhana","Atiganda","Sukarma","Dhriti","Shula","Ganda","Vriddhi","Dhruva","Vyaghata","Harshana","Vajra","Siddhi","Vyatipata","Variyana","Parigha","Shiva","Siddha","Sadhya","Shubha","Shukla","Brahma","Indra","Vaidhriti"];
+    
+    const baseTotal = ugadiTithi + ugadiVara + ugadiNak + ugadiYoga + ugadiKarana;
+    // Calculate for all 27 Janma Nakshatras
+    let kandHTML = '<table style="width:100%; border-collapse:collapse; font-size:0.78rem;">' +
+        '<tr style="background:#4a0e0e;">' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Janma Nakshatra</th>' +
+        '<th style="padding:4px 6px; text-align:center; border:1px solid #ddd; color:#fff !important;">Phase-1</th>' +
+        '<th style="padding:4px 6px; text-align:center; border:1px solid #ddd; color:#fff !important;">Phase-2</th>' +
+        '<th style="padding:4px 6px; text-align:center; border:1px solid #ddd; color:#fff !important;">Phase-3</th></tr>';
+    
+    for (let jan = 1; jan <= 27; jan++) {
+        const total = baseTotal + jan;
+        const r1 = (total * 3) % 8;
+        const r2 = (total * 7) % 3;
+        const r3 = (total * 3) % 5;
+        
+        const bgColor = (jan % 2 === 0) ? '#f9f5eb' : '#fff';
+        kandHTML += `<tr style="background:${bgColor};">
+            <td style="padding:3px 6px; border:1px solid #ddd; font-weight:bold; color:#4a0e0e;">${jan}. ${NAKSHATRA_NAMES[jan-1]}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd; text-align:center; font-weight:bold;">${r1}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd; text-align:center; font-weight:bold;">${r2}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd; text-align:center; font-weight:bold;">${r3}</td>
+        </tr>`;
+    }
+    kandHTML += '</table>';
+    
+    document.getElementById('kandayaResults').innerHTML = kandHTML;
+    
+    // ══════ ADAYA - VYAYA & RAJAPUJYA - AVAMANA (Classical 12 Rashis) ══════
+    // Planetary Dhruva constants (Sun..Saturn)
+    const DHRUVA_BY_DOW = [6, 15, 8, 17, 19, 21, 10]; // Sun=6, Moon=15, Mars=8, Mercury=17, Jupiter=19, Venus=21, Saturn=10
+    const dYear = DHRUVA_BY_DOW[dow]; // Year Lord Dhruva
+    
+    const RASHI_DATA = [
+        { name: 'Mesham', lord: 'Kuja (Mars)', lordDhruva: 8, r: 1 },
+        { name: 'Vrushabham', lord: 'Shukra (Venus)', lordDhruva: 21, r: 2 },
+        { name: 'Mithunam', lord: 'Budha (Mercury)', lordDhruva: 17, r: 3 },
+        { name: 'Karkatakam', lord: 'Chandra (Moon)', lordDhruva: 15, r: 4 },
+        { name: 'Simham', lord: 'Surya (Sun)', lordDhruva: 6, r: 5 },
+        { name: 'Kanya', lord: 'Budha (Mercury)', lordDhruva: 17, r: 6 },
+        { name: 'Tula', lord: 'Shukra (Venus)', lordDhruva: 21, r: 7 },
+        { name: 'Vrushchikam', lord: 'Kuja (Mars)', lordDhruva: 8, r: 8 },
+        { name: 'Dhanussu', lord: 'Guru (Jupiter)', lordDhruva: 19, r: 9 },
+        { name: 'Makaram', lord: 'Shani (Saturn)', lordDhruva: 10, r: 10 },
+        { name: 'Kumbham', lord: 'Shani (Saturn)', lordDhruva: 10, r: 11 },
+        { name: 'Minam', lord: 'Guru (Jupiter)', lordDhruva: 19, r: 12 }
+    ];
+    
+    let avHTML = '<table style="width:100%; border-collapse:collapse; font-size:0.78rem;">' +
+        '<tr style="background:#4a0e0e;">' +
+        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Rashi</th>' +
+        '<th style="padding:4px 6px; text-align:center; border:1px solid #ddd; color:#fff !important;">Adayam</th>' +
+        '<th style="padding:4px 6px; text-align:center; border:1px solid #ddd; color:#fff !important;">Vyayam</th>' +
+        '<th style="padding:4px 6px; text-align:center; border:1px solid #ddd; color:#fff !important;">Rajapujyam</th>' +
+        '<th style="padding:4px 6px; text-align:center; border:1px solid #ddd; color:#fff !important;">Avamanam</th></tr>';
+    
+    RASHI_DATA.forEach((item, idx) => {
+        // 1. Adaya & Vyaya
+        const sum1 = item.lordDhruva + dYear;
+        const n1 = sum1 * 3 + 5;
+        const q1 = Math.floor(n1 / 15);
+        const adayam = n1 % 15;
+        const n2 = q1 * 3 + 5;
+        const vyayam = n2 % 15;
+        
+        // 2. Rajapujya & Avamana
+        const sum2 = item.r + dYear;
+        const n3 = sum2 * 3 + 5;
+        const q2 = Math.floor(n3 / 7);
+        const rajapujyam = n3 % 7;
+        const n4 = q2 * 3 + 5;
+        const avamanam = n4 % 7;
+        
+        const bgColor = (idx % 2 === 0) ? '#f9f5eb' : '#fff';
+        avHTML += `<tr style="background:${bgColor};">
+            <td style="padding:3px 6px; border:1px solid #ddd; font-weight:bold; color:#4a0e0e;">${item.name}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd; text-align:center; font-weight:bold; color:#2e7d32;">${adayam}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd; text-align:center; font-weight:bold; color:#c0392b;">${vyayam}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd; text-align:center; font-weight:bold; color:#d4a017;">${rajapujyam}</td>
+            <td style="padding:3px 6px; border:1px solid #ddd; text-align:center; font-weight:bold; color:#7f8c8d;">${avamanam}</td>
+        </tr>`;
+    });
+    avHTML += '</table>';
+    
+    document.getElementById('adayaVyayaResults').innerHTML = avHTML;
+    
+    document.getElementById('adayaVyayaNotes').innerHTML = `
+        <div style="font-size:0.8rem; padding:10px 14px; background:#fdf6e3; border:1px solid #d4af37; border-radius:6px; line-height:1.6; color:#333;">
+            <strong>How to Understand the Numbers:</strong><br>
+            • <strong>Income vs Expense (Adayam & Vyayam):</strong> If Adayam is greater than Vyayam, it indicates good income, financial growth, and savings. If Vyayam is higher, expenses will be greater, so careful budgeting is advised.<br>
+            • <strong>Respect vs Disgrace (Rajapujyam & Avamanam):</strong> If Rajapujyam is greater than Avamanam, it brings respect, honor, and success in society. If Avamanam is higher, extra care is needed in public relations and career matters.
+        </div>
+    `;
+    
+    // Convert any Telugu/Sanskrit to Simple English
+    if (typeof applyTransliteration === 'function') applyTransliteration();
 }
 
 // Auto-calculate on load
 window.onload = function() {
+    const cityInput = document.getElementById('citySearch');
+    if (cityInput) {
+        cityInput.value = "Frisco, Texas, United States";
+    }
     calculateUgadiPhalalu();
 };
 </script>

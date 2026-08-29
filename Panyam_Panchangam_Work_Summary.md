@@ -1,4 +1,4 @@
-# 🙏 Panyam Panchangam – Project Summary
+# 🙏 Vedic Samhita Panchangam – Project Summary
 
 **Last Updated:** August 26, 2026
 
