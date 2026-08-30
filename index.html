@@ -120,6 +120,31 @@
 
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
+    <!-- Day & Night Choghadiya Timings -->
+    <h2 class="section-title">Day & Night Choghadiya Timings</h2>
+    <div style="margin: 12px 0;">
+        <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;">
+            <button id="btnDayChoghadiya" onclick="toggleChoghadiyaTab('day')" style="padding: 6px 16px; font-family:'Cinzel',serif; font-size:0.85rem; border-radius:4px; border:1px solid #4a0e0e; background:#4a0e0e; color:#fff8e7; cursor:pointer; font-weight:bold; transition:all 0.2s;">☀️ Day Choghadiya</button>
+            <button id="btnNightChoghadiya" onclick="toggleChoghadiyaTab('night')" style="padding: 6px 16px; font-family:'Cinzel',serif; font-size:0.85rem; border-radius:4px; border:1px solid #4a0e0e; background:#fffdf5; color:#4a0e0e; cursor:pointer; font-weight:bold; transition:all 0.2s;">🌙 Night Choghadiya</button>
+        </div>
+        <div id="dayChoghadiyaContainer" style="overflow-x:auto;"></div>
+        <div id="nightChoghadiyaContainer" style="display:none; overflow-x:auto;"></div>
+        
+        <!-- Choghadiya Quick Activity Guide -->
+        <div style="margin-top: 14px; background: rgba(255, 248, 231, 0.7); border: 1px solid #daa520; border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; line-height: 1.5;">
+            <strong style="color: #4a0e0e; font-family: 'Cinzel', serif;">Principles of Choghadiya:</strong>
+            <ul style="margin: 6px 0 0 18px; padding: 0;">
+                <li><strong style="color: #1b5e20;">Amrit (Moon):</strong> Highly Auspicious — Best for all good beginnings, celebrations & pujas.</li>
+                <li><strong style="color: #1b5e20;">Shubh (Jupiter):</strong> Auspicious — Best for ceremonies, education, signing contracts & official work.</li>
+                <li><strong style="color: #1b5e20;">Labh (Mercury):</strong> Auspicious — Best for commerce, financial deals, buying vehicles & investments.</li>
+                <li><strong style="color: #1b5e20;">Char (Venus):</strong> Auspicious — Best for travel, journeys, moving & dynamic activities.</li>
+                <li><strong style="color: #991b1b;">Udveg (Sun):</strong> Inauspicious — Anxiety & obstacles; avoid new ventures.</li>
+                <li><strong style="color: #991b1b;">Rog (Mars):</strong> Inauspicious — Conflicts & illness; avoid medical starts or disputes.</li>
+                <li><strong style="color: #991b1b;">Kaal (Saturn):</strong> Inauspicious — Ruled by Saturn; strictly avoid starting any auspicious venture.</li>
+            </ul>
+        </div>
+    </div>
+
     <!-- Festivals & Vratas -->
     <h2 class="section-title">Festivals & Vratas</h2>
     <div id="festivalSection" style="display:none; text-align:center; padding: 12px; background: #fff8e1; border: 1px solid #d4af37; border-radius: 8px; margin-bottom: 10px;">

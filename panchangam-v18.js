@@ -398,6 +398,90 @@ function getMoonRashi(jd) {
     const ri = Math.floor(moonNir / 30);
     return RASHI[ri];
 }
+
+/* ═══════════ CHOGHADIYA ENGINE ═══════════ */
+const CHOGHADIYA_PROPS = {
+    Amrit: { ruler: 'Moon', nature: 'Auspicious', isGood: true },
+    Shubh: { ruler: 'Jupiter', nature: 'Auspicious', isGood: true },
+    Labh:  { ruler: 'Mercury', nature: 'Auspicious', isGood: true },
+    Char:  { ruler: 'Venus', nature: 'Auspicious', isGood: true },
+    Udveg: { ruler: 'Sun', nature: 'Inauspicious', isGood: false },
+    Rog:   { ruler: 'Mars', nature: 'Inauspicious', isGood: false },
+    Kaal:  { ruler: 'Saturn', nature: 'Inauspicious', isGood: false }
+};
+
+const DAY_CHOGHADIYA_ORDER = ['Udveg', 'Char', 'Labh', 'Amrit', 'Kaal', 'Shubh', 'Rog'];
+const NIGHT_CHOGHADIYA_ORDER = ['Shubh', 'Amrit', 'Char', 'Rog', 'Kaal', 'Labh', 'Udveg'];
+const DAY_START_IDX = { 0: 0, 1: 3, 2: 6, 3: 2, 4: 5, 5: 1, 6: 4 };
+const NIGHT_START_IDX = { 0: 0, 1: 2, 2: 4, 3: 6, 4: 1, 5: 3, 6: 5 };
+
+function computeChoghadiya(dow, srHrs, ssHrs, nextSrHrs) {
+    const dayDuration = ssHrs - srHrs;
+    const daySlotDur = dayDuration / 8;
+    const dayStart = DAY_START_IDX[dow];
+    const daySlots = [];
+    for (let i = 0; i < 8; i++) {
+        const name = DAY_CHOGHADIYA_ORDER[(dayStart + i) % 7];
+        const startH = srHrs + i * daySlotDur;
+        const endH = srHrs + (i + 1) * daySlotDur;
+        daySlots.push({
+            slotNum: i + 1,
+            name: name,
+            ruler: CHOGHADIYA_PROPS[name].ruler,
+            nature: CHOGHADIYA_PROPS[name].nature,
+            isGood: CHOGHADIYA_PROPS[name].isGood,
+            startH: startH,
+            endH: endH,
+            timeStr: fmtRange(startH, endH)
+        });
+    }
+
+    const nightDuration = (24 + nextSrHrs) - ssHrs;
+    const nightSlotDur = nightDuration / 8;
+    const nightStart = NIGHT_START_IDX[dow];
+    const nightSlots = [];
+    for (let i = 0; i < 8; i++) {
+        const name = NIGHT_CHOGHADIYA_ORDER[(nightStart + i) % 7];
+        const startH = ssHrs + i * nightSlotDur;
+        const endH = ssHrs + (i + 1) * nightSlotDur;
+        nightSlots.push({
+            slotNum: i + 1,
+            name: name,
+            ruler: CHOGHADIYA_PROPS[name].ruler,
+            nature: CHOGHADIYA_PROPS[name].nature,
+            isGood: CHOGHADIYA_PROPS[name].isGood,
+            startH: startH,
+            endH: endH,
+            timeStr: fmtRange(startH, endH)
+        });
+    }
+
+    return { daySlots, nightSlots };
+}
+
+function toggleChoghadiyaTab(tab) {
+    const dayCont = document.getElementById('dayChoghadiyaContainer');
+    const nightCont = document.getElementById('nightChoghadiyaContainer');
+    const btnDay = document.getElementById('btnDayChoghadiya');
+    const btnNight = document.getElementById('btnNightChoghadiya');
+    if (!dayCont || !nightCont || !btnDay || !btnNight) return;
+
+    if (tab === 'day') {
+        dayCont.style.display = 'block';
+        nightCont.style.display = 'none';
+        btnDay.style.background = 'var(--dark-maroon)';
+        btnDay.style.color = '#fff8e7';
+        btnNight.style.background = '#fffdf5';
+        btnNight.style.color = 'var(--dark-maroon)';
+    } else {
+        dayCont.style.display = 'none';
+        nightCont.style.display = 'block';
+        btnNight.style.background = 'var(--dark-maroon)';
+        btnNight.style.color = '#fff8e7';
+        btnDay.style.background = '#fffdf5';
+        btnDay.style.color = 'var(--dark-maroon)';
+    }
+}
 function getYogaIdx(jd) {
     return Math.floor(((getSunNirayana(jd) + getMoonNirayana(jd)) % 360) / (360/27));
 }
@@ -1788,6 +1872,45 @@ function _calculatePanchangamInner() {
     const sayam = getSayamSandhya(ssHrs);
     setElText('valSayam', fmtRange(sayam.start, sayam.end));
     setElHtml('valImportance', significance.map(s => `• ${s}`).join('<br>'));
+
+    // ══════ CHOGHADIYA RENDERING ══════
+    const dayCont = document.getElementById('dayChoghadiyaContainer');
+    const nightCont = document.getElementById('nightChoghadiyaContainer');
+    if (dayCont && nightCont) {
+        const nextSt = computeSunTimes(y, m, d + 1, lat, lon, tz);
+        const nextSrHrs = nextSt ? nextSt.sunrise : srHrs;
+        const { daySlots, nightSlots } = computeChoghadiya(dow, srHrs, ssHrs, nextSrHrs);
+
+        function renderChoghadiyaTable(slots, isNight) {
+            let html = `<table class="choghadiya-table">
+                <thead>
+                    <tr>
+                        <th style="width:8%; text-align:center;">#</th>
+                        <th style="width:22%;">Period</th>
+                        <th style="width:18%;">Ruler</th>
+                        <th style="width:22%;">Nature</th>
+                        <th style="width:30%;">Time Window</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            slots.forEach(s => {
+                const badgeClass = s.isGood ? 'badge-auspicious' : 'badge-inauspicious';
+                const natureIcon = s.isGood ? '🟢' : '🔴';
+                html += `<tr>
+                    <td style="text-align:center;"><strong>${s.slotNum}</strong></td>
+                    <td><strong>${s.name}</strong></td>
+                    <td>${s.ruler}</td>
+                    <td><span class="choghadiya-badge ${badgeClass}">${natureIcon} ${s.nature}</span></td>
+                    <td>${s.timeStr}</td>
+                </tr>`;
+            });
+            html += `</tbody></table>`;
+            return html;
+        }
+
+        dayCont.innerHTML = renderChoghadiyaTable(daySlots, false);
+        nightCont.innerHTML = renderChoghadiyaTable(nightSlots, true);
+    }
 
     // ══════ LAGNA RENDERING ══════
     const lagnaAtSr = computeLagna(srJD, lat, lon);

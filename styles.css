@@ -347,7 +347,54 @@
             .panchang-doc { box-shadow: none; border: none; }
             .panchang-doc::before { border-color: #ccc; }
             .panchang-doc::after { color: rgba(0,0,0,0.03); }
-            .btn-print { display: none !important; }
-            .times-section { border-color: #ddd !important; }
         }
     
+/* ═══ Choghadiya Table Styles ═══ */
+.choghadiya-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8px 0;
+    font-size: 0.88rem;
+    background: #fff;
+    border: 1px solid var(--border-gold);
+    border-radius: 6px;
+    overflow: hidden;
+}
+.choghadiya-table th {
+    background: var(--dark-maroon);
+    color: var(--cream);
+    padding: 7px 10px;
+    font-family: 'Cinzel', serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.5px;
+    text-align: left;
+}
+.choghadiya-table td {
+    padding: 7px 10px;
+    border-bottom: 1px solid #eee;
+    font-size: 0.86rem;
+}
+.choghadiya-table tr:nth-child(even) {
+    background: #faf8f5;
+}
+.choghadiya-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+.badge-auspicious {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #a5d6a7;
+}
+.badge-inauspicious {
+    background: #ffebee;
+    color: #b71c1c;
+    border: 1px solid #ef9a9a;
+}
+.badge-active-row {
+    background: #fff9c4 !important;
+    font-weight: 600;
+}
