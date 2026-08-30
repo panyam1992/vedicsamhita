@@ -401,13 +401,13 @@ function getMoonRashi(jd) {
 
 /* ═══════════ CHOGHADIYA ENGINE ═══════════ */
 const CHOGHADIYA_PROPS = {
-    Amrit: { ruler: 'Moon', nature: 'Auspicious', isGood: true },
-    Shubh: { ruler: 'Jupiter', nature: 'Auspicious', isGood: true },
-    Labh:  { ruler: 'Mercury', nature: 'Auspicious', isGood: true },
-    Char:  { ruler: 'Venus', nature: 'Auspicious', isGood: true },
-    Udveg: { ruler: 'Sun', nature: 'Inauspicious', isGood: false },
-    Rog:   { ruler: 'Mars', nature: 'Inauspicious', isGood: false },
-    Kaal:  { ruler: 'Saturn', nature: 'Inauspicious', isGood: false }
+    Amrit: { ruler: 'Chandra', nature: 'Auspicious', isGood: true },
+    Shubh: { ruler: 'Guru',    nature: 'Auspicious', isGood: true },
+    Labh:  { ruler: 'Budha',   nature: 'Auspicious', isGood: true },
+    Char:  { ruler: 'Shukra',  nature: 'Auspicious', isGood: true },
+    Udveg: { ruler: 'Surya',   nature: 'Inauspicious', isGood: false },
+    Rog:   { ruler: 'Kuja',    nature: 'Inauspicious', isGood: false },
+    Kaal:  { ruler: 'Shani',   nature: 'Inauspicious', isGood: false }
 };
 
 const DAY_CHOGHADIYA_ORDER = ['Udveg', 'Char', 'Labh', 'Amrit', 'Kaal', 'Shubh', 'Rog'];
