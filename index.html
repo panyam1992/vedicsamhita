@@ -42,6 +42,8 @@
 <div style="text-align:center; padding:8px; background:#4a0e0e;">
     <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px; font-weight:bold;">🙏 Daily Panchangam</a>
     <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">📜 Ugadi Phalalu</a>
+    <a href="muhurtavali.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">✨ Muhurtavali</a>
+    <a href="jathakam.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">🔮 Jathakam & Gocharam</a>
 </div>
 
 <div class="input-section">
@@ -77,45 +79,45 @@
         <button style="display:none;" onclick="exportICal()">📅 iCal</button>
     </div>
     <div style="text-align:center; margin-bottom: 10px;">
-        <img src="logo.jpg" alt="Vedic Panchangam Logo" style="max-width: 250px; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
+        <img src="logo.jpg" alt="Vedic Samhita Logo" style="max-width: 250px; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
     </div>
     <div class="slokas-row">
-        <span class="sloka akshara">శ్రీ మాత్రే నమః</span>
-        <span class="sloka akshara">ఓం ద్రాం దత్తాత్రేయాయ నమః</span>
+        <span class="sloka">Sri Matre Namah</span>
+        <span class="sloka">Om Dram Dattatreyaya Namah</span>
     </div>
     <hr class="divider">
     <div class="date-location-bar" id="dateLocationBar"></div>
 
     <!-- Sun & Moon Times -->
     <div class="times-grid">
-        <div class="time-row"><span class="time-label akshara">సూర్యోదయం</span> <span class="time-val" id="valSunrise"></span></div>
-        <div class="time-row"><span class="time-label akshara">సూర్యాస్తమయం</span> <span class="time-val" id="valSunset"></span></div>
-        <div class="time-row"><span class="time-label akshara">చంద్రోదయం</span> <span class="time-val" id="valMoonrise"></span></div>
-        <div class="time-row"><span class="time-label akshara">చంద్రాస్తమయం</span> <span class="time-val" id="valMoonset"></span></div>
-        <div class="time-row"><span class="time-label akshara">సూర్య రాశి</span> <span class="time-val akshara" id="valSunRashi"></span></div>
-        <div class="time-row"><span class="time-label akshara">చంద్ర రాశి</span> <span class="time-val akshara" id="valMoonRashi"></span></div>
+        <div class="time-row"><span class="time-label">Sunrise</span> <span class="time-val" id="valSunrise"></span></div>
+        <div class="time-row"><span class="time-label">Sunset</span> <span class="time-val" id="valSunset"></span></div>
+        <div class="time-row"><span class="time-label">Moonrise</span> <span class="time-val" id="valMoonrise"></span></div>
+        <div class="time-row"><span class="time-label">Moonset</span> <span class="time-val" id="valMoonset"></span></div>
+        <div class="time-row"><span class="time-label">Sun Rashi</span> <span class="time-val" id="valSunRashi"></span></div>
+        <div class="time-row"><span class="time-label">Moon Rashi</span> <span class="time-val" id="valMoonRashi"></span></div>
     </div>
 
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
     <!-- Panchangam Elements -->
-    <h2 class="section-title akshara">పంచాంగం</h2>
-    <div class="pitem"><span class="plabel akshara">సంవత్సరం</span> <span class="pval akshara" id="valSamvatsaram"></span></div>
-    <div class="pitem"><span class="plabel akshara">అయనం</span> <span class="pval akshara" id="valAyanam"></span></div>
-    <div class="pitem"><span class="plabel akshara">ఋతు</span> <span class="pval akshara" id="valRutu"></span></div>
-    <div class="pitem"><span class="plabel akshara">మాసము</span> <span class="pval akshara" id="valMasam"></span></div>
+    <h2 class="section-title">Panchangam</h2>
+    <div class="pitem"><span class="plabel">Samvatsaram</span> <span class="pval" id="valSamvatsaram"></span></div>
+    <div class="pitem"><span class="plabel">Ayanam</span> <span class="pval" id="valAyanam"></span></div>
+    <div class="pitem"><span class="plabel">Rutu</span> <span class="pval" id="valRutu"></span></div>
+    <div class="pitem"><span class="plabel">Masam</span> <span class="pval" id="valMasam"></span></div>
     <div id="adhikaMasamNote" style="display:none;background:#fff8e1;border-left:3px solid #e67e22;padding:8px 12px;margin:6px 0;font-size:0.82rem;line-height:1.5;border-radius:4px;font-family:'EB Garamond',serif;"></div>
-    <div class="pitem"><span class="plabel akshara">పక్షము</span> <span class="pval akshara" id="valPaksham"></span></div>
-    <div class="plist-label akshara">తిథి</div>
+    <div class="pitem"><span class="plabel">Paksham</span> <span class="pval" id="valPaksham"></span></div>
+    <div class="plist-label">Tithi</div>
     <ol class="plist" id="valTithi"></ol>
-    <div class="pitem"><span class="plabel akshara">వాసరం</span> <span class="pval akshara" id="valVasara"></span></div>
-    <div class="plist-label akshara">నక్షత్రం</div>
+    <div class="pitem"><span class="plabel">Vasara</span> <span class="pval" id="valVasara"></span></div>
+    <div class="plist-label">Nakshatram</div>
     <ol class="plist" id="valNakshatra"></ol>
-    <div class="plist-label akshara">యోగం</div>
+    <div class="plist-label">Yogam</div>
     <ol class="plist" id="valYoga"></ol>
-    <div class="plist-label akshara">కరణం</div>
+    <div class="plist-label">Karanam</div>
     <ol class="plist" id="valKarana"></ol>
-    <div class="plist-label akshara">Nakshatra Padam</div>
+    <div class="plist-label">Nakshatra Padam</div>
     <ol class="plist" id="valPadam"></ol>
 
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
@@ -201,11 +203,11 @@
 
 
     <!-- Blessings -->
-    <div class="blessings akshara">
-        శుభం భవతు...<br>
-        సర్వేజనాః సుఖినోభవంతు...<br>
-        లోకాస్సమస్తాస్సుఖినోభవంతు...<br>
-        శుభమస్తు... మంగళమస్తు...
+    <div class="blessings">
+        Shubham Bhavatu...<br>
+        Sarvejanah Sukhinobhavantu...<br>
+        Lokassamastassukhinobhavantu...<br>
+        Shubhamastu... Mangalamastu...
     </div>
 
     <hr class="divider">
@@ -215,10 +217,10 @@
         <div class="note-title">Important Note</div>
         <div id="valNote"></div>
         <div class="contact-info">
-            For inquiries, contact:<br>
-            <strong>Anantha Krishna Sastry Munimadugu</strong><br>
-            Call/Text: +1 (903) 347‑2647<br>
-            Email: panyampujas@gmail.com
+            For inquiries and services:<br>
+            <strong>Vedic Samhita</strong><br>
+            Website: <a href="https://vedicsamhita.com" style="color:#8b0000; text-decoration:none; font-weight:bold;">vedicsamhita.com</a><br>
+            Email: info@vedicsamhita.com
         </div>
     </div>
 
@@ -233,14 +235,14 @@
 <div id="grahanamModal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; align-items:center; justify-content:center;">
   <div style="background:#fff; border-radius:10px; padding:25px; max-width:550px; width:90%; max-height:85vh; overflow-y:auto; font-family:'EB Garamond',serif; position:relative; box-shadow: 0 10px 25px rgba(0,0,0,0.5);">
     <span onclick="document.getElementById('grahanamModal').style.display='none'" style="position:absolute; top:12px; right:15px; font-size:1.5rem; cursor:pointer; color:#8b0000; font-weight:bold;">&times;</span>
-    <h2 id="gModalTitle" class="akshara" style="color:#8b0000; font-family:'Cinzel', serif; margin-top:0; border-bottom: 2px solid #d4af37; padding-bottom: 8px;">గ్రహణ వివరాలు</h2>
+    <h2 id="gModalTitle" style="color:#8b0000; font-family:'Cinzel', serif; margin-top:0; border-bottom: 2px solid #d4af37; padding-bottom: 8px;">Grahanam Details</h2>
     
-    <div id="gModalBasic" class="akshara" style="background:#fdf6e3; padding:12px; border:1px solid #d4af37; border-radius:6px; margin-bottom:15px; line-height: 1.6;">
+    <div id="gModalBasic" style="background:#fdf6e3; padding:12px; border:1px solid #d4af37; border-radius:6px; margin-bottom:15px; line-height: 1.6;">
         <!-- Basic details filled via JS -->
     </div>
     
     <div style="margin-top:20px; text-align:center;">
-        <button onclick="document.getElementById('grahanamModal').style.display='none'" style="padding:8px 20px; font-size: 1rem; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-family:inherit; font-weight:bold;">మూసివేయండి</button>
+        <button onclick="document.getElementById('grahanamModal').style.display='none'" style="padding:8px 20px; font-size: 1rem; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-family:inherit; font-weight:bold;">Close</button>
     </div>
   </div>
 </div>

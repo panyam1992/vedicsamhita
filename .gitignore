@@ -1,11 +1,16 @@
-# Old JS versions (only v14 is current)
+# Old JS versions (only v18 is current)
 panchangam-v[0-9].js
-panchangam-v1[0-3].js
+panchangam-v1[0-7].js
 panchangam.js
 
-# Festival data (large, not used in live app)
+# Festival raw repo & reference packages
 Festival/
+astro-cal-master/
+aksharamukha-master/
 
-# Notes and misc
+# Notes, lab, and misc
 My Notes.txt
+Panchangam notes.txt
 Appearance For Panchangam .txt
+Panyam_Panchangam_Work_Summary.md
+jathakam_lab.html

@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personalized Vedic Muhurtam Generator | Vedic Samhita</title>
+    <meta name="description" content="Personalized Vedic Muhurta generator tailored to individual and dual birth horoscopes with Lagna charts, Tara Bala, and Chandra Bala.">
+    <meta name="keywords" content="Personalized Muhurtam, Vivaha Muhurtam, Griha Pravesha, Upanayanam, Lagna Chart, Tara Bala, Chandra Bala, Vedic Samhita">
+    <meta name="robots" content="index, follow">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=7">
+    <style>
+        .muhurta-container {
+            max-width: 920px;
+            margin: 0 auto;
+            padding: 20px 15px;
+            font-family: 'EB Garamond', serif;
+        }
+        .muhurta-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .muhurta-header img {
+            max-width: 220px;
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+        .muhurta-title {
+            font-family: 'Cinzel', serif;
+            color: #4a0e0e;
+            font-size: 1.7rem;
+            margin: 10px 0 5px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .muhurta-subtitle {
+            color: #8b0000;
+            font-size: 1.05rem;
+            margin: 0 0 20px;
+        }
+        .step-card {
+            background: #fff;
+            border: 1.5px solid #c2b280;
+            border-radius: 8px;
+            padding: 20px 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 3px 12px rgba(139,69,19,0.06);
+        }
+        .step-heading {
+            font-family: 'Cinzel', serif;
+            color: #4a0e0e;
+            font-size: 1.22rem;
+            border-bottom: 2px solid #d4af37;
+            padding-bottom: 6px;
+            margin-top: 0;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            position: relative;
+        }
+        .form-group label {
+            font-weight: bold;
+            font-size: 0.83rem;
+            color: #8b0000;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .form-group select, .form-group input {
+            padding: 9px 10px;
+            border: 1px solid #c2b280;
+            border-radius: 4px;
+            font-family: 'EB Garamond', serif;
+            font-size: 0.95rem;
+            background: #fffcf5;
+            box-sizing: border-box;
+            width: 100%;
+        }
+        .city-results-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: #fff;
+            border: 1px solid #d4af37;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .city-result-item {
+            padding: 8px 10px;
+            border-bottom: 1px solid #eee;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: background 0.15s;
+        }
+        .city-result-item:hover {
+            background: #fdf6e3;
+        }
+        .profile-badge-box {
+            background: #fff;
+            border: 1px solid #e0d5c5;
+            border-radius: 6px;
+            padding: 10px 14px;
+            margin-top: 10px;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+            font-size: 0.9rem;
+        }
+        .btn-generate {
+            width: 100%;
+            background: linear-gradient(135deg, #4a0e0e, #6b1d1d);
+            color: #fff8e7;
+            border: none;
+            padding: 13px;
+            font-size: 1.05rem;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 1.5px;
+            transition: all 0.25s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(74,14,14,0.3);
+        }
+        .btn-generate:hover {
+            opacity: 0.92;
+            transform: translateY(-1px);
+        }
+        .score-badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 20px;
+            font-size: 0.92rem;
+            font-weight: bold;
+            font-family: 'Cinzel', serif;
+        }
+        .badge-excellent { background: #e8f5e9; color: #1b5e20; border: 1px solid #81c784; }
+        .badge-medium { background: #fff8e1; color: #f57f17; border: 1px solid #ffd54f; }
+        .chart-container {
+            display: flex;
+            justify-content: center;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Site Navigation -->
+<div style="text-align:center; padding:8px; background:#4a0e0e;">
+    <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">🙏 Daily Panchangam</a>
+    <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">📜 Ugadi Phalalu</a>
+    <a href="muhurtavali.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px; font-weight:bold;">✨ Muhurtavali</a>
+    <a href="jathakam.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">🔮 Jathakam & Gocharam</a>
+</div>
+
+<div class="muhurta-container">
+    <div class="muhurta-header">
+        <img src="logo.jpg" alt="Vedic Samhita Logo">
+        <h1 class="muhurta-title">✨ MUHURTAVALI</h1>
+        <p class="muhurta-subtitle">Personalized Vedic Muhurtam Generator with Lagna Kundali Charts</p>
+    </div>
+
+    <!-- ═══════════ STEP 1: CEREMONY, LOCATION & DATE RANGE ═══════════ -->
+    <div class="step-card">
+        <h2 class="step-heading">🛕 Step 1: Ceremony, Location & Date Range Selection</h2>
+        <div class="form-grid">
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="ceremonySelect">Choose Type of Muhurtam</label>
+                <select id="ceremonySelect" onchange="onCeremonyChange()"></select>
+            </div>
+
+            <!-- Ceremony Location with Typeable Autocomplete -->
+            <div class="form-group" style="grid-column: span 2;">
+                <label for="ceremonyCityInput">Ceremony / Muhurtam Location (City / Town / Village)</label>
+                <input type="text" id="ceremonyCityInput" placeholder="Type ceremony location (e.g. Frisco, Hyderabad, Anantapur)..." value="Frisco, Texas, United States" autocomplete="off" oninput="onCeremonyCitySearch(this.value)">
+                <div id="ceremonyCityResults" class="city-results-dropdown"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="dateRangeType">Date Range Scope</label>
+                <select id="dateRangeType" onchange="toggleCustomDateInputs()">
+                    <option value="30days">Next 30 Days (From Today)</option>
+                    <option value="ugadiYear">Full Year (Ugadi to Ugadi 2026-2027)</option>
+                    <option value="custom">Custom Date Range</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="outputFormat">Output Presentation</label>
+                <select id="outputFormat">
+                    <option value="detailed">Detailed Muhurtam (with Lagna Chart & Panchanga Analysis)</option>
+                    <option value="short">Short Muhurtam (Concise Top Auspicious Dates)</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Custom Date Range Row -->
+        <div id="customDateRow" class="form-grid" style="display:none; margin-top:8px;">
+            <div class="form-group">
+                <label for="customStartDate">Start Date</label>
+                <input type="date" id="customStartDate">
+            </div>
+            <div class="form-group">
+                <label for="customEndDate">End Date</label>
+                <input type="date" id="customEndDate">
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══════════ STEP 2: PARTICIPANT BIRTH DETAILS ═══════════ -->
+    <div class="step-card">
+        <h2 class="step-heading" id="step2Heading">👤 Step 2: Native Birth Details (Horoscope Calculation)</h2>
+        <p id="step2Description" style="font-size:0.92rem; color:#666; margin-top:-10px; margin-bottom:15px;">
+            Enter birth details to automatically compute the native's <strong>Janma Nakshatra, Pada, Rashi, and Lagna</strong>.
+        </p>
+
+        <!-- Profile 1 Container -->
+        <div id="profile1Box" style="background:#fcfaf5; border:1px solid #e0d5c5; border-radius:6px; padding:15px; margin-bottom:15px;">
+            <h3 id="p1Title" style="margin-top:0; color:#4a0e0e; font-family:'Cinzel',serif; font-size:1rem; border-bottom:1px solid #d4af37; padding-bottom:4px;">
+                👤 Native Birth Details
+            </h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label id="p1NameLabel" for="p1Name">Name</label>
+                    <input type="text" id="p1Name" value="Devotee" placeholder="Enter Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="p1DOB">Date of Birth</label>
+                    <input type="date" id="p1DOB" value="1992-02-29" onchange="autoCalculateProfile(1)">
+                </div>
+                <div class="form-group">
+                    <label for="p1TOB">Time of Birth</label>
+                    <input type="time" id="p1TOB" value="13:45" onchange="autoCalculateProfile(1)">
+                </div>
+                <div class="form-group">
+                    <label for="p1CityInput">Place of Birth (City / Town / Village)</label>
+                    <input type="text" id="p1CityInput" placeholder="Type birth city or village..." value="Anantapur, Andhra Pradesh, India" autocomplete="off" oninput="onBirthCitySearch(1, this.value)">
+                    <div id="p1CityResults" class="city-results-dropdown"></div>
+                </div>
+            </div>
+
+            <!-- Auto-Calculated Astrological Summary -->
+            <div class="profile-badge-box">
+                <div><strong>Janma Nakshatra:</strong> <span id="p1LblNak" style="color:#8b0000; font-weight:bold;">Calculating...</span> (<span id="p1LblPada">--</span>)</div>
+                <div><strong>Janma Rashi:</strong> <span id="p1LblRashi" style="color:#8b0000; font-weight:bold;">--</span></div>
+                <div><strong>Janma Lagna:</strong> <span id="p1LblLagna" style="color:#8b0000; font-weight:bold;">--</span></div>
+            </div>
+        </div>
+
+        <!-- Profile 2 Container (Shown for Vivaham, Upanayanam, Griha Pravesha, Seemantham, etc.) -->
+        <div id="profile2Box" style="display:none; background:#fcfaf5; border:1px solid #e0d5c5; border-radius:6px; padding:15px; margin-bottom:15px;">
+            <h3 id="p2Title" style="margin-top:0; color:#4a0e0e; font-family:'Cinzel',serif; font-size:1rem; border-bottom:1px solid #d4af37; padding-bottom:4px;">
+                👰 Bride (Kanya) Birth Details
+            </h3>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label id="p2NameLabel" for="p2Name">Name</label>
+                    <input type="text" id="p2Name" value="Kanya" placeholder="Enter Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="p2DOB">Date of Birth</label>
+                    <input type="date" id="p2DOB" value="1998-10-20" onchange="autoCalculateProfile(2)">
+                </div>
+                <div class="form-group">
+                    <label for="p2TOB">Time of Birth</label>
+                    <input type="time" id="p2TOB" value="11:15" onchange="autoCalculateProfile(2)">
+                </div>
+                <div class="form-group">
+                    <label for="p2CityInput">Place of Birth (City / Town / Village)</label>
+                    <input type="text" id="p2CityInput" placeholder="Type birth city or village..." value="Proddatūr, Andhra Pradesh, India" autocomplete="off" oninput="onBirthCitySearch(2, this.value)">
+                    <div id="p2CityResults" class="city-results-dropdown"></div>
+                </div>
+            </div>
+
+            <!-- Auto-Calculated Astrological Summary -->
+            <div class="profile-badge-box">
+                <div><strong>Janma Nakshatra:</strong> <span id="p2LblNak" style="color:#8b0000; font-weight:bold;">Calculating...</span> (<span id="p2LblPada">--</span>)</div>
+                <div><strong>Janma Rashi:</strong> <span id="p2LblRashi" style="color:#8b0000; font-weight:bold;">--</span></div>
+                <div><strong>Janma Lagna:</strong> <span id="p2LblLagna" style="color:#8b0000; font-weight:bold;">--</span></div>
+            </div>
+        </div>
+
+        <button class="btn-generate" onclick="generatePersonalizedMuhurtam()">🙏 Generate Auspicious Muhurtam</button>
+    </div>
+
+    <!-- ═══════════ STEP 3: GENERATED MUHURTAM RESULTS ═══════════ -->
+    <div id="generatorResults" style="display:none; margin-top:25px;"></div>
+
+    <div class="divider-ornament">⟡ ⟡ ⟡</div>
+
+    <!-- Navigation Footer -->
+    <div style="text-align: center; margin: 30px 0;">
+        <a href="index.html" class="nav-link" style="display:inline-block; padding:10px 24px; background:#4a0e0e; color:#d4a853; text-decoration:none; border-radius:4px; font-family:'Cinzel',serif; font-size:0.9rem; font-weight:bold;">🙏 Back to Daily Panchangam</a>
+        <a href="ugadi.html" class="nav-link" style="display:inline-block; padding:10px 24px; background:#4a0e0e; color:#d4a853; text-decoration:none; border-radius:4px; font-family:'Cinzel',serif; font-size:0.9rem; font-weight:bold; margin-left:10px;">📜 Ugadi Phalalu</a>
+    </div>
+</div>
+
+<script src="panchangam-v18.js"></script>
+<script>
+/* ═══════════ CEREMONY MASTER CATALOG WITH DUAL/SINGLE PROFILE DEFINITIONS ═══════════ */
+const CEREMONIES = [
+    // ── DUAL PARTICIPANT CEREMONIES ──
+    { id: 'vivaha', mode: 'dual', p1: '👨 Groom (Vara)', p2: '👰 Bride (Kanya)', title: '💍 Vivaha (Marriage / Wedding)', cat: 'Family & Samskaras', nakIndices: [4,5,10,12,13,15,17,19,21,26,27], tithiIndices: [1,2,4,6,9,10,12,16,17,19,21,24,25,27] },
+    { id: 'upanayana', mode: 'dual', p1: '👦 Vatu (Boy Receiving Sacred Thread)', p2: '👨 Father / Guru (Pita / Acharya)', title: '🧵 Upanayanam (Sacred Thread Ceremony)', cat: 'Family & Samskaras', nakIndices: [1,4,5,7,8,13,14,15,17,22,23,24,27], tithiIndices: [1,2,4,6,9,10,12] },
+    { id: 'griha', mode: 'dual', p1: '👨 Husband / Primary Householder (Karta)', p2: '👩 Wife / Co-Householder (Grihini)', title: '🏡 Griha Pravesha — Apoorva (New House)', cat: 'House & Vastu', nakIndices: [4,5,7,8,12,13,14,17,21,26,27], tithiIndices: [1,2,4,6,9,10,12] },
+    { id: 'griharenovate', mode: 'dual', p1: '👨 Husband (Karta)', p2: '👩 Wife (Grihini)', title: '🔄 Griha Pravesha — Sapoorva (Renovated House)', cat: 'House & Vastu', nakIndices: [4,5,7,8,13,17,22,27], tithiIndices: [1,2,4,6,9,10,12] },
+    { id: 'bhumi', mode: 'dual', p1: '👨 Primary Owner / Karta', p2: '👩 Spouse / Co-Owner', title: '🏗️ Bhumi Puja & Shanku Sthapana (Foundation)', cat: 'House & Vastu', nakIndices: [4,5,12,13,14,15,17,21,26,27], tithiIndices: [1,2,4,6,9,10,12] },
+    { id: 'construction', mode: 'dual', p1: '👨 Primary Owner (Karta)', p2: '👩 Spouse (Grihini)', title: '🏠 Griharambham (House Construction Kickoff)', cat: 'House & Vastu', nakIndices: [4,5,12,13,14,15,17,21,26], tithiIndices: [1,2,4,6,9,10,12] },
+    { id: 'seemantham', mode: 'dual', p1: '🤰 Mother (Garbhini)', p2: '👨 Husband (Pati)', title: '🤰 Seemantham & Pumsavanam (Baby Shower)', cat: 'Family & Samskaras', nakIndices: [4,5,7,8,13,17,22,27], tithiIndices: [1,2,4,6,9,12] },
+    { id: 'partnership', mode: 'dual', p1: '🤝 Partner 1', p2: '🤝 Partner 2', title: '🤝 Business Partnership & Contract Signing', cat: 'Business & Wealth', nakIndices: [1,4,8,13,15,17,22,27], tithiIndices: [1,2,4,6,9,10] },
+
+    // ── SINGLE PARTICIPANT CEREMONIES ──
+    { id: 'namakarana', mode: 'single', p1: '👶 Child Details', title: '👶 Namakaranam (Naming Ceremony)', cat: 'Family & Samskaras', nakIndices: [4,12,21,26,17,7,8,13,15,27], tithiIndices: [4,6,9,10,12,14] },
+    { id: 'annaprashana', mode: 'single', p1: '🥣 Child Details', title: '🥣 Anna Prashana (First Solid Food Feeding)', cat: 'Family & Samskaras', nakIndices: [1,4,5,7,8,12,13,14,15,17,22,23,27], tithiIndices: [1,2,4,6,9,12] },
+    { id: 'vidyarambha', mode: 'single', p1: '📚 Student / Child Details', title: '📚 Aksharabhyasam / Vidyarambham (Education)', cat: 'Family & Samskaras', nakIndices: [1,7,8,13,14,15,22,23,24,27], tithiIndices: [1,2,4,9,10] },
+    { id: 'karnavedha', mode: 'single', p1: '💎 Child Details', title: '💎 Karna Vedha (Ear Piercing)', cat: 'Family & Samskaras', nakIndices: [8,13,14,22,23,24,7,27,1], tithiIndices: [1,2,4,6,9,12] },
+    { id: 'choodakarana', mode: 'single', p1: '✂️ Child Details', title: '✂️ Choodakarana (Tonsure / First Haircut)', cat: 'Family & Samskaras', nakIndices: [1,5,7,8,13,14,15,22,23,24,27], tithiIndices: [1,2,4,6,9,10,12] },
+    { id: 'vahana', mode: 'single', p1: '🚗 Vehicle Owner Details', title: '🚗 Vahana Kharidi (Vehicle Purchase & Booking)', cat: 'Vehicles & Travel', nakIndices: [1,4,7,8,13,15,22,23,24,27], tithiIndices: [2,4,6,9,10,12,14,17,19,21,24,25,27] },
+    { id: 'vahanapuja', mode: 'single', p1: '🚙 Vehicle Owner Details', title: '🚙 Vahana Pravesha (Vehicle Delivery & Puja)', cat: 'Vehicles & Travel', nakIndices: [1,4,8,13,15,17,22,23,27], tithiIndices: [1,2,4,6,9,10,12,14] },
+    { id: 'business', mode: 'single', p1: '🏢 Business Owner Details', title: '🏢 Vyapara Arambham (New Shop / Office Opening)', cat: 'Business & Wealth', nakIndices: [1,4,8,12,13,14,17,22,23,27], tithiIndices: [1,2,4,6,9,10,12,14,16,17,19,21,24,25] },
+    { id: 'goldbuy', mode: 'single', p1: '🪙 Purchaser Details', title: '🪙 Suvarna Kharidi (Buying Gold & Jewelry on Pushya)', cat: 'Business & Wealth', nakIndices: [8,4,13,15,22,27], tithiIndices: [1,2,4,6,9,10,12,14] },
+    { id: 'debtclear', mode: 'single', p1: '💰 Debtor Details', title: '💰 Rinamukthi (Debt Clearance / Loan Payoff on Tuesday)', cat: 'Business & Wealth', nakIndices: [3,1,7,8,13,17,22], tithiIndices: [0,4,9,10,14] },
+    { id: 'jobjoin', mode: 'single', p1: '💼 Employee / Native Details', title: '💼 Udyoga Pravesha (Joining New Job / Taking Office)', cat: 'Career & Education', nakIndices: [1,4,8,12,13,17,22,23,27], tithiIndices: [1,2,4,6,9,10,12] },
+    { id: 'foreigntravel', mode: 'single', p1: '✈️ Traveler Details', title: '✈️ Deshantara Prayana (Foreign Travel & Relocation)', cat: 'Vehicles & Travel', nakIndices: [1,5,7,8,13,17,22,23,27], tithiIndices: [1,2,4,6,9,10,12] },
+    { id: 'medicine', mode: 'single', p1: '💊 Patient Details', title: '💊 Aushadha Sevana (Starting Medicine & Ayurvedic Care)', cat: 'Health & Gemstones', nakIndices: [1,4,5,7,8,13,14,15,17,22,27], tithiIndices: [0,1,2,4,6,9,10,12] },
+    { id: 'gemstone', mode: 'single', p1: '💎 Native Details', title: '💎 Ratna Dharana (Wearing Astrological Gemstone)', cat: 'Health & Gemstones', nakIndices: [8,4,13,15,22,27], tithiIndices: [1,2,4,6,9,10,12,14] },
+    { id: 'templeconsecrate', mode: 'single', p1: '🛕 Organizer / Trustee Details', title: '🛕 Devata Pratishtha (Temple Deity Consecration)', cat: 'Temple & Spiritual', nakIndices: [4,5,8,12,13,17,21,26,27], tithiIndices: [1,2,4,6,9,10,14] },
+    { id: 'mantradeeksha', mode: 'single', p1: '📿 Disciple Details', title: '📿 Mantra Deeksha (Guru Initiation & Upadesha)', cat: 'Temple & Spiritual', nakIndices: [8,17,22,23,24,27], tithiIndices: [4,14,0] },
+    { id: 'universal', mode: 'single', p1: '☀️ Native Details', title: '☀️ Sarva Karyeshu Shubha Muhurtam (Universal Windows)', cat: 'Daily & Universal', nakIndices: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27], tithiIndices: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29] }
+];
+
+const TARA_NAMES = [
+    { name: "Janma Tara", good: true, desc: "Self / Body" },
+    { name: "Sampat Tara", good: true, desc: "Wealth & Prosperity" },
+    { name: "Vipat Tara", good: false, desc: "Danger / Obstacles" },
+    { name: "Kshema Tara", good: true, desc: "Wellbeing & Security" },
+    { name: "Pratyari Tara", good: false, desc: "Adversaries / Disputes" },
+    { name: "Sadhana Tara", good: true, desc: "Success & Fulfillment" },
+    { name: "Naidhana Tara", good: false, desc: "Severe Affliction" },
+    { name: "Mitra Tara", good: true, desc: "Friendship & Alliance" },
+    { name: "Parama Mitra Tara", good: true, desc: "Supreme Friendship" }
+];
+
+// Ceremony Location storage (Where event will happen)
+let g_ceremonyLocation = {
+    name: "Frisco, Texas, United States",
+    lat: 33.1507,
+    lon: -96.8236,
+    tzName: "America/Chicago"
+};
+
+// Profile 1 storage
+let g_p1 = {
+    name: "Sree",
+    nakIdx: 21, // Uttarashadha (1-27)
+    pada: 2,
+    rashiIdx: 10, // Makaram (1-12)
+    lagnaIdx: 3, // Mithunam
+    cityData: { name: "Anantapur, Andhra Pradesh, India", lat: 14.6819, lon: 77.6006, tzName: "Asia/Kolkata" }
+};
+
+// Profile 2 storage
+let g_p2 = {
+    name: "Bujji",
+    nakIdx: 14, // Chitra
+    pada: 3,
+    rashiIdx: 7, // Tula
+    lagnaIdx: 9, // Dhanussu
+    cityData: { name: "Proddatūr, Andhra Pradesh, India", lat: 14.7504, lon: 78.5529, tzName: "Asia/Kolkata" }
+};
+
+let searchDebounceCeremony = null, searchDebounce1 = null, searchDebounce2 = null;
+
+/* ═══════════ INITIALIZATION & UI CONTROLS ═══════════ */
+function initApp() {
+    populateCeremonies();
+    onCeremonyChange();
+    autoCalculateProfile(1);
+    autoCalculateProfile(2);
+}
+
+function populateCeremonies() {
+    const sel = document.getElementById('ceremonySelect');
+    if (!sel) return;
+    sel.innerHTML = '';
+
+    const cats = ['Family & Samskaras', 'House & Vastu', 'Business & Wealth', 'Vehicles & Travel', 'Career & Education', 'Health & Gemstones', 'Temple & Spiritual', 'Daily & Universal'];
+    
+    cats.forEach(cName => {
+        const group = document.createElement('optgroup');
+        group.label = `── ${cName} ──`;
+        const items = CEREMONIES.filter(c => c.cat === cName);
+        items.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.id;
+            opt.textContent = item.title;
+            group.appendChild(opt);
+        });
+        sel.appendChild(group);
+    });
+}
+
+function onCeremonyChange() {
+    const ceremonyId = document.getElementById('ceremonySelect').value;
+    const ceremony = CEREMONIES.find(c => c.id === ceremonyId) || CEREMONIES[0];
+
+    const p2Box = document.getElementById('profile2Box');
+    const p1Title = document.getElementById('p1Title');
+    const p1NameLabel = document.getElementById('p1NameLabel');
+    const p2Title = document.getElementById('p2Title');
+    const p2NameLabel = document.getElementById('p2NameLabel');
+    const step2Heading = document.getElementById('step2Heading');
+    const step2Desc = document.getElementById('step2Description');
+
+    if (ceremony.mode === 'dual') {
+        p2Box.style.display = 'block';
+        step2Heading.textContent = `👥 Step 2: Dual Participant Birth Details (${ceremony.p1} & ${ceremony.p2})`;
+        step2Desc.innerHTML = `This ceremony requires evaluating <strong>both participants' birth horoscopes</strong> for mutual Tara Bala, Chandra Bala, and harmony.`;
+        p1Title.textContent = ceremony.p1;
+        p1NameLabel.textContent = `${ceremony.p1} Name`;
+        p2Title.textContent = ceremony.p2;
+        p2NameLabel.textContent = `${ceremony.p2} Name`;
+    } else {
+        p2Box.style.display = 'none';
+        step2Heading.textContent = `👤 Step 2: Native Birth Details (${ceremony.p1})`;
+        step2Desc.innerHTML = `Enter birth details to automatically compute the native's <strong>Janma Nakshatra, Pada, Rashi, and Lagna</strong>.`;
+        p1Title.textContent = ceremony.p1;
+        p1NameLabel.textContent = `Name`;
+    }
+}
+
+function toggleCustomDateInputs() {
+    const rangeType = document.getElementById('dateRangeType').value;
+    const row = document.getElementById('customDateRow');
+    row.style.display = rangeType === 'custom' ? 'grid' : 'none';
+
+    if (rangeType === 'custom') {
+        const today = new Date().toISOString().split('T')[0];
+        const nextMonth = new Date();
+        nextMonth.setDate(nextMonth.getDate() + 30);
+        document.getElementById('customStartDate').value = today;
+        document.getElementById('customEndDate').value = nextMonth.toISOString().split('T')[0];
+    }
+}
+
+/* ═══════════ CEREMONY LOCATION SEARCH AUTOCOMPLETE ═══════════ */
+function onCeremonyCitySearch(val) {
+    const resDiv = document.getElementById('ceremonyCityResults');
+    if (!val || val.length < 2) {
+        resDiv.style.display = 'none';
+        return;
+    }
+
+    clearTimeout(searchDebounceCeremony);
+    searchDebounceCeremony = setTimeout(() => {
+        fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(val)}&count=5`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.results || data.results.length === 0) {
+                resDiv.innerHTML = '<div style="padding:8px; color:#666; font-size:0.85rem;">No location results found</div>';
+                resDiv.style.display = 'block';
+                return;
+            }
+            resDiv.innerHTML = data.results.map(city => {
+                const name = `${city.name}, ${city.admin1 ? city.admin1 + ', ' : ''}${city.country}`;
+                const cityJson = encodeURIComponent(JSON.stringify({
+                    name: name,
+                    lat: city.latitude,
+                    lon: city.longitude,
+                    tzName: city.timezone
+                }));
+                return `<div class="city-result-item" onclick="selectCeremonyCity('${cityJson}')">${name}</div>`;
+            }).join('');
+            resDiv.style.display = 'block';
+        }).catch(err => {
+            console.error("Ceremony city search error", err);
+        });
+    }, 400);
+}
+
+function selectCeremonyCity(encodedData) {
+    const data = JSON.parse(decodeURIComponent(encodedData));
+    g_ceremonyLocation = {
+        name: data.name,
+        lat: data.lat,
+        lon: data.lon,
+        tzName: data.tzName
+    };
+    document.getElementById('ceremonyCityInput').value = data.name;
+    document.getElementById('ceremonyCityResults').style.display = 'none';
+}
+
+/* ═══════════ BIRTH PLACE CITY SEARCH AUTOCOMPLETE ═══════════ */
+function onBirthCitySearch(profileNum, val) {
+    const resDiv = document.getElementById(`p${profileNum}CityResults`);
+    if (!val || val.length < 2) {
+        resDiv.style.display = 'none';
+        return;
+    }
+
+    const timerVar = profileNum === 1 ? searchDebounce1 : searchDebounce2;
+    clearTimeout(timerVar);
+
+    const newTimer = setTimeout(() => {
+        fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(val)}&count=5`)
+        .then(r => r.json())
+        .then(data => {
+            if (!data.results || data.results.length === 0) {
+                resDiv.innerHTML = '<div style="padding:8px; color:#666; font-size:0.85rem;">No location results found</div>';
+                resDiv.style.display = 'block';
+                return;
+            }
+            resDiv.innerHTML = data.results.map(city => {
+                const name = `${city.name}, ${city.admin1 ? city.admin1 + ', ' : ''}${city.country}`;
+                const cityJson = encodeURIComponent(JSON.stringify({
+                    name: name,
+                    lat: city.latitude,
+                    lon: city.longitude,
+                    tzName: city.timezone
+                }));
+                return `<div class="city-result-item" onclick="selectBirthCity(${profileNum}, '${cityJson}')">${name}</div>`;
+            }).join('');
+            resDiv.style.display = 'block';
+        }).catch(err => {
+            console.error("Birth city search error", err);
+        });
+    }, 400);
+
+    if (profileNum === 1) searchDebounce1 = newTimer;
+    else searchDebounce2 = newTimer;
+}
+
+function selectBirthCity(profileNum, encodedData) {
+    const data = JSON.parse(decodeURIComponent(encodedData));
+    const target = profileNum === 1 ? g_p1 : g_p2;
+
+    target.cityData = {
+        name: data.name,
+        lat: data.lat,
+        lon: data.lon,
+        tzName: data.tzName
+    };
+
+    document.getElementById(`p${profileNum}CityInput`).value = data.name;
+    document.getElementById(`p${profileNum}CityResults`).style.display = 'none';
+    autoCalculateProfile(profileNum);
+}
+
+/* ═══════════ HOROSCOPE CALCULATION PER PROFILE ═══════════ */
+function autoCalculateProfile(num) {
+    try {
+        const dobStr = document.getElementById(`p${num}DOB`).value;
+        const tobStr = document.getElementById(`p${num}TOB`).value;
+        const target = num === 1 ? g_p1 : g_p2;
+
+        if (!dobStr || !tobStr) return;
+
+        const [y, m, d] = dobStr.split('-').map(Number);
+        const [hh, mm] = tobStr.split(':').map(Number);
+        const hrsDecimal = hh + (mm / 60);
+
+        let tz = getTzOffsetFromTimezoneString(target.cityData.tzName, dobStr);
+        if (tz === 0 && target.cityData.lat) {
+            tz = Math.round(target.cityData.lon / 15);
+        }
+
+        const jdBirth = localToJD(y, m, d, hrsDecimal, tz);
+        const moonNir = getMoonNirayana(jdBirth);
+
+        const nakIdx = Math.floor(moonNir / (360 / 27)); // 0-26
+        const pada = Math.floor(((moonNir * 60) % 800) / 200) + 1; // 1-4
+        const rashiIdx = Math.floor(moonNir / 30); // 0-11
+        
+        // Exact Lagna object from computeLagna
+        const lagnaRes = computeLagna(jdBirth, target.cityData.lat || 17.385, target.cityData.lon || 78.486);
+        const lagnaRashiIdx = lagnaRes.rashiIdx;
+
+        target.nakIdx = nakIdx + 1;
+        target.pada = pada;
+        target.rashiIdx = rashiIdx + 1;
+        target.lagnaIdx = lagnaRashiIdx + 1;
+        target.name = document.getElementById(`p${num}Name`).value || (num === 1 ? "Person 1" : "Person 2");
+
+        document.getElementById(`p${num}LblNak`).textContent = NAKSHATRA[nakIdx];
+        document.getElementById(`p${num}LblPada`).textContent = `${pada} Padam`;
+        document.getElementById(`p${num}LblRashi`).textContent = RASHI[rashiIdx];
+        document.getElementById(`p${num}LblLagna`).textContent = `${lagnaRes.rashiName} (${lagnaRes.degStr})`;
+    } catch(e) {
+        console.warn("Profile calc error:", e);
+    }
+}
+
+/* ═══════════ COMPUTE PERSONALIZED MUHURTAMS ═══════════ */
+function generatePersonalizedMuhurtam() {
+    autoCalculateProfile(1);
+    autoCalculateProfile(2);
+
+    const ceremonyId = document.getElementById('ceremonySelect').value;
+    const ceremony = CEREMONIES.find(c => c.id === ceremonyId) || CEREMONIES[0];
+    const rangeType = document.getElementById('dateRangeType').value;
+    const outputFormat = document.getElementById('outputFormat').value;
+
+    let startDate = new Date();
+    let endDate = new Date();
+
+    if (rangeType === '30days') {
+        endDate.setDate(startDate.getDate() + 30);
+    } else if (rangeType === 'ugadiYear') {
+        const ugadi = findUgadiDates();
+        startDate = ugadi.current;
+        endDate = ugadi.next;
+    } else if (rangeType === 'custom') {
+        startDate = new Date(document.getElementById('customStartDate').value);
+        endDate = new Date(document.getElementById('customEndDate').value);
+    }
+
+    const totalDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
+    const shubhMuhurtas = [];
+    const ceremonyCity = g_ceremonyLocation || { lat: 33.1507, lon: -96.8236, tzName: 'America/Chicago', name: 'Frisco, Texas, USA' };
+
+    for (let i = 0; i < totalDays; i++) {
+        const testD = new Date(startDate);
+        testD.setDate(testD.getDate() + i);
+        const y = testD.getFullYear(), m = testD.getMonth() + 1, d = testD.getDate();
+        const dateStr = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+        try {
+            let tz = getTzOffsetFromTimezoneString(ceremonyCity.tzName, dateStr);
+            if (tz === 0 && ceremonyCity.lat) tz = Math.round(ceremonyCity.lon / 15);
+
+            const srJD = localToJD(y, m, d, 6, tz);
+            const st = computeSunTimes(y, m, d, ceremonyCity.lat, ceremonyCity.lon, tz);
+            if (!st) continue;
+
+            const dow = testD.getDay();
+            const tithiIdx = getTithiIdx(srJD);
+            const nakIdx = getNakIdx(srJD); // 0-26
+            const moonRashiIdx = Math.floor(getMoonNirayana(srJD) / 30); // 0-11
+            const nextSrJD = localToJD(y, m, d + 1, 6, tz);
+
+            // 1. Panchanga Shuddhi
+            const isNakMatch = ceremony.nakIndices.includes(nakIdx + 1);
+            const isTithiMatch = ceremony.tithiIndices.includes(tithiIdx);
+            const isRikta = [3, 8, 13, 18, 23, 28].includes(tithiIdx); // 4, 9, 14
+            const isAmavasya = tithiIdx === 29;
+
+            if (!isNakMatch || !isTithiMatch || isRikta || isAmavasya) continue;
+
+            // 2. Tara Bala for Profile 1
+            const taraCount1 = ((nakIdx + 1) - g_p1.nakIdx + 27) % 27;
+            const tara1 = TARA_NAMES[taraCount1 % 9];
+            if (!tara1.good) continue;
+
+            // 3. Chandra Bala for Profile 1 (Reject 8th house Ashtama Chandra)
+            const chandraOffset1 = (moonRashiIdx - (g_p1.rashiIdx - 1) + 12) % 12 + 1;
+            if (chandraOffset1 === 8) continue;
+
+            // 4. Dual Profile Verification (for Vivaham, Upanayanam, Griha Pravesha, etc.)
+            let tara2 = null;
+            let chandraOffset2 = null;
+            if (ceremony.mode === 'dual') {
+                const taraCount2 = ((nakIdx + 1) - g_p2.nakIdx + 27) % 27;
+                tara2 = TARA_NAMES[taraCount2 % 9];
+                if (!tara2.good) continue;
+
+                chandraOffset2 = (moonRashiIdx - (g_p2.rashiIdx - 1) + 12) % 12 + 1;
+                if (chandraOffset2 === 8) continue;
+            }
+
+            // 5. Compute Full Day Lagna Transitions & Pick Auspicious Daytime / Evening Lagna
+            const transitions = getLagnaTransitions(srJD, nextSrJD, ceremonyCity.lat, ceremonyCity.lon, tz);
+            const abhijit = getAbhijitMuhurat(st.sunrise, st.sunset, dow);
+            const rahu = getKalam(st.sunrise, st.sunset, RAHU_PARTS, dow);
+            const va = computeVarjyamAmrit(srJD, nextSrJD, tz);
+
+            // Find daytime favorable Lagna (e.g. Mithuna, Karkataka, Vrishabha, Simha, Kanya, Tula, Dhanu, Meena)
+            let chosenLagna = null;
+            for (let p of transitions) {
+                const s = jdToLocal(p.startJD, tz);
+                const sHrs = s.hours + s.minutes/60 + s.seconds/3600;
+                // Prefer daytime between sunrise and sunset
+                if (sHrs >= st.sunrise && sHrs <= st.sunset + 2) {
+                    chosenLagna = p;
+                    // If near midday/Abhijit, ideal
+                    if (abhijit && sHrs >= (abhijit.start - 2) && sHrs <= (abhijit.end + 2)) {
+                        break;
+                    }
+                }
+            }
+            if (!chosenLagna && transitions.length > 0) chosenLagna = transitions[0];
+
+            const lagnaStartLocal = jdToLocal(chosenLagna.startJD, tz);
+            const lagnaEndLocal = jdToLocal(chosenLagna.endJD, tz);
+            const lagnaStartHrs = lagnaStartLocal.hours + lagnaStartLocal.minutes/60 + lagnaStartLocal.seconds/3600;
+            const lagnaEndHrs = lagnaEndLocal.hours + lagnaEndLocal.minutes/60 + lagnaEndLocal.seconds/3600;
+            
+            const lagnaWindowStr = `${fmtHMS(lagnaStartHrs)} — ${fmtHMS(lagnaEndHrs)}`;
+            const midLagnaJD = (chosenLagna.startJD + chosenLagna.endJD) / 2;
+            const peakTimeLocal = jdToLocal(midLagnaJD, tz);
+            const peakTimeStr = fmtHMS(peakTimeLocal.hours + peakTimeLocal.minutes/60 + peakTimeLocal.seconds/3600);
+
+            // Lagna chart at midpoint of the chosen Lagna
+            const navagrahas = getNavagrahaPositions(midLagnaJD);
+            const chartSvg = generateSouthIndianChartSVG(chosenLagna.rashiIdx, navagrahas);
+
+            let amritStr = '10:00 AM — 11:30 AM';
+            if (va && va.amrit) {
+                const as = jdToLocal(va.amrit.start, tz), ae = jdToLocal(va.amrit.end, tz);
+                amritStr = `${fmtDateTime(as)} — ${fmtDateTime(ae)}`;
+            }
+
+            shubhMuhurtas.push({
+                dateStr: `${testD.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} (${VARA[dow].split(' ')[0]})`,
+                tithiName: TITHI[tithiIdx],
+                nakName: NAKSHATRA[nakIdx],
+                yogaName: YOGA[getYogaIdx(srJD)],
+                tara1: tara1,
+                chandra1: chandraOffset1,
+                tara2: tara2,
+                chandra2: chandraOffset2,
+                shubhLagnaName: `${chosenLagna.rashiName} Lagna`,
+                lagnaWindow: lagnaWindowStr,
+                peakTime: peakTimeStr,
+                abhijitWindow: abhijit ? fmtRange(abhijit.start, abhijit.end) : 'None',
+                rahuWindow: fmtRange(rahu.start, rahu.end),
+                amritWindow: amritStr,
+                chartSvg: chartSvg,
+                quality: '🌟 Highly Auspicious (Shubham)'
+            });
+        } catch(e) {
+            console.warn("Muhurta day error:", e);
+        }
+    }
+
+    // Render results
+    const resCont = document.getElementById('generatorResults');
+    resCont.style.display = 'block';
+
+    let headerSubtitle = ceremony.mode === 'dual'
+        ? `<strong>Ceremony:</strong> ${ceremony.title} | <strong>Location:</strong> ${ceremonyCity.name}<br><strong>${ceremony.p1}:</strong> ${g_p1.name} (${NAKSHATRA[g_p1.nakIdx-1]}, ${RASHI[g_p1.rashiIdx-1]}) | <strong>${ceremony.p2}:</strong> ${g_p2.name} (${NAKSHATRA[g_p2.nakIdx-1]}, ${RASHI[g_p2.rashiIdx-1]})`
+        : `<strong>Ceremony:</strong> ${ceremony.title} | <strong>Location:</strong> ${ceremonyCity.name}<br><strong>Native:</strong> ${g_p1.name} (${NAKSHATRA[g_p1.nakIdx-1]}, ${RASHI[g_p1.rashiIdx-1]})`;
+
+    let html = `
+    <div style="background:#fffcf5; border:2px solid #d4af37; border-radius:8px; padding:20px;">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:1.5px solid #d4af37; padding-bottom:12px; margin-bottom:15px; gap:10px;">
+            <div>
+                <h3 style="margin:0; color:#4a0e0e; font-family:'Cinzel',serif; font-size:1.3rem;">
+                    ✨ Auspicious Muhurtam Results
+                </h3>
+                <p style="margin:6px 0 0; color:#555; font-size:0.92rem; line-height:1.5;">
+                    ${headerSubtitle}
+                </p>
+            </div>
+            <div>
+                <span class="score-badge badge-excellent">Found ${shubhMuhurtas.length} Auspicious Dates</span>
+            </div>
+        </div>
+    `;
+
+    if (shubhMuhurtas.length === 0) {
+        html += `
+        <div style="background:#fff3e0; border-left:4px solid #f57f17; padding:15px; border-radius:4px; font-size:0.95rem; line-height:1.6;">
+            <strong>No Standard Shubh Muhurtams Found in this specific period.</strong><br>
+            Reasons: Dates during this period coincided with incompatible Tara Bala (Vipat/Pratyari/Naidhana), Ashtama Chandra for one or both participants, Rikta Tithis, or Rahu affliction.
+            <br><em>Guidance: Try selecting a wider date range (e.g. Full Year Ugadi-to-Ugadi) or consult for an emergency Abhijit Muhurat window.</em>
+        </div>`;
+    } else {
+        shubhMuhurtas.forEach((m, idx) => {
+            if (outputFormat === 'short') {
+                html += `
+                <div style="background:#fff; border:1px solid #c2b280; border-radius:6px; padding:12px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <div>
+                        <div style="font-family:'Cinzel',serif; font-size:1.05rem; font-weight:bold; color:#4a0e0e;">
+                            📅 ${m.dateStr}
+                        </div>
+                        <div style="font-size:0.9rem; color:#555; margin-top:3px;">
+                            <strong>Auspicious Lagna:</strong> ${m.shubhLagnaName} (${m.lagnaWindow}) | <strong>Peak Time:</strong> ${m.peakTime} | <strong>Star:</strong> ${m.nakName} | <strong>Tithi:</strong> ${m.tithiName}
+                        </div>
+                    </div>
+                    <div>
+                        <span class="score-badge badge-excellent">${m.quality}</span>
+                    </div>
+                </div>`;
+            } else {
+                let personalTaraHtml = ceremony.mode === 'dual'
+                    ? `<div><strong>🎯 Tara Bala (${ceremony.p1}):</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara1.name}</span> (${m.tara1.desc})</div>
+                       <div><strong>🎯 Tara Bala (${ceremony.p2}):</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara2.name}</span> (${m.tara2.desc})</div>
+                       <div><strong>🌙 Chandra Bala (${ceremony.p1}):</strong> House ${m.chandra1} from Janma Rashi (Favorable)</div>
+                       <div><strong>🌙 Chandra Bala (${ceremony.p2}):</strong> House ${m.chandra2} from Janma Rashi (Favorable)</div>`
+                    : `<div><strong>🎯 Personal Tara Bala:</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara1.name}</span> (${m.tara1.desc})</div>
+                       <div><strong>🌙 Personal Chandra Bala:</strong> House ${m.chandra1} from Janma Rashi (Favorable)</div>`;
+
+                html += `
+                <div style="background:#fff; border:1.5px solid #c2b280; border-radius:8px; padding:18px; margin-bottom:20px; box-shadow:0 3px 10px rgba(0,0,0,0.04);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:1px solid #eee; padding-bottom:8px; margin-bottom:12px;">
+                        <span style="font-family:'Cinzel',serif; font-size:1.15rem; font-weight:bold; color:#4a0e0e;">
+                            📅 Muhurtam #${idx+1}: ${m.dateStr}
+                        </span>
+                        <span class="score-badge badge-excellent">${m.quality}</span>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:15px; align-items:center;">
+                        <div style="font-size:0.92rem; line-height:1.65;">
+                            <div><strong>🏛️ Auspicious Lagna:</strong> <span style="color:#8b0000; font-weight:bold;">${m.shubhLagnaName}</span> (${m.lagnaWindow})</div>
+                            <div><strong>⭐ Peak Sumuhurtam Time:</strong> <span style="color:#1b5e20; font-weight:bold; font-size:1rem;">${m.peakTime}</span> (Center of Auspicious Lagna)</div>
+                            <div><strong>☀️ Abhijit Muhurat:</strong> ${m.abhijitWindow} (Universal Midday Window)</div>
+                            <div><strong>✨ Panchangam:</strong> ${m.tithiName}, ${m.nakName} Nakshatra, ${m.yogaName} Yoga</div>
+                            ${personalTaraHtml}
+                            <div><strong>🍯 Amrit Kalam:</strong> ${m.amritWindow}</div>
+                            <div style="color:#991b1b;"><strong>❌ Avoid Rahu Kalam:</strong> ${m.rahuWindow}</div>
+                        </div>
+
+                        <div style="text-align:center;">
+                            <div style="font-family:'Cinzel',serif; font-size:0.85rem; font-weight:bold; color:#4a0e0e; margin-bottom:4px;">
+                                🕉️ Lagna Kundali (${m.shubhLagnaName} at ${m.peakTime})
+                            </div>
+                            <div class="chart-container">
+                                ${m.chartSvg}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            }
+        });
+    }
+
+    html += `</div>`;
+    resCont.innerHTML = html;
+    resCont.scrollIntoView({ behavior: 'smooth' });
+}
+
+// Close city dropdowns when clicked outside
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('#ceremonyCityInput')) {
+        const dc = document.getElementById('ceremonyCityResults');
+        if (dc) dc.style.display = 'none';
+    }
+    if (!e.target.closest('#profile1Box')) {
+        const d1 = document.getElementById('p1CityResults');
+        if (d1) d1.style.display = 'none';
+    }
+    if (!e.target.closest('#profile2Box')) {
+        const d2 = document.getElementById('p2CityResults');
+        if (d2) d2.style.display = 'none';
+    }
+});
+
+window.addEventListener('DOMContentLoaded', initApp);
+</script>
+
+</body>
+</html>

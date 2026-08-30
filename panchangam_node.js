@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════════
-   PANYAM PANCHAN AI — Worldwide Sidereal Panchangam Engine v2
+   VEDIC SAMHITA PANCHANGAM — Worldwide Sidereal Panchangam Engine
    Full Meeus Chapter 47 Lunar Model (50 terms) + NOAA Solar
    ═══════════════════════════════════════════════════════════════ */
 
@@ -1901,9 +1901,9 @@ function generatePrintPage(data) {
 
     return `
     <div class="print-day">
-        <div class="print-watermark">PANYAM PANCHANGAM</div>
+        <div class="print-watermark">VEDIC SAMHITA PANCHANGAM</div>
         <div class="print-header">
-            <h2>PANYAM PANCHANGAM</h2>
+            <h2>VEDIC SAMHITA PANCHANGAM</h2>
             <p class="print-date">${dateStr}</p>
             <p class="print-indian">${data.masam} | ${data.paksham} | ${data.samvatsaram}</p>
             <p class="print-loc">${data.locName}</p>
@@ -1978,7 +1978,7 @@ async function generateAndPrint(startDate, endDate) {
 
     // Open print window
     const printWin = window.open('', '_blank');
-    printWin.document.write(`<!DOCTYPE html><html><head><title>Panyam Panchangam</title>
+    printWin.document.write(`<!DOCTYPE html><html><head><title>Vedic Samhita Panchangam</title>
     <style>
         @page { size: A4; margin: 1.5cm; }
         body { font-family: 'Georgia', 'Times New Roman', serif; color: #000; margin: 0; padding: 0; }
@@ -2028,7 +2028,7 @@ async function exportICal() {
 
     let eventCount = 0, skipCount = 0, firstError = '';
 
-    let ical = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Panyam Panchangam//EN\r\nCALSCALE:GREGORIAN\r\n';
+    let ical = 'BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Vedic Samhita Panchangam//EN\r\nCALSCALE:GREGORIAN\r\n';
 
     for (let i = 0; i < totalDays; i++) {
         const dt = new Date(start);
@@ -2045,7 +2045,7 @@ async function exportICal() {
                 const karanaName = data.karanas[0] ? data.karanas[0].name : '';
                 const varaShort = VARA[data.dow].split(' (')[0];
                 const summary = `${varaShort} | ${tithiName} | ${nakName}`;
-                let desc = `== PANYAM PANCHANGAM ==`;
+                let desc = `== VEDIC SAMHITA PANCHANGAM ==`;
                 desc += `\\n${data.samvatsaram} | ${data.masam} | ${data.paksham} | ${data.rutu}`;
                 desc += `\\n`;
                 desc += `\\n-- Pancha Angam --`;
@@ -2086,7 +2086,7 @@ async function exportICal() {
                         }
                     }
                 } catch(ev) {}
-                const uid = `${dateStr}-panyam@vedicsamhita.com`;
+                const uid = `${dateStr}-info@vedicsamhita.com`;
                 ical += 'BEGIN:VEVENT\r\n';
                 ical += 'DTSTART;VALUE=DATE:' + dateStr + '\r\n';
                 ical += 'DTEND;VALUE=DATE:' + dateStr + '\r\n';
@@ -2122,7 +2122,7 @@ async function exportICal() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = 'panyam_panchangam.ics';
+    a.download = 'vedic_samhita_panchangam.ics';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

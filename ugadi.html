@@ -172,14 +172,21 @@
 </head>
 <body style="background: #faf7f0;">
 
+<!-- Site Navigation -->
+<div style="text-align:center; padding:8px; background:#4a0e0e;">
+    <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">🙏 Daily Panchangam</a>
+    <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px; font-weight:bold;">📜 Ugadi Phalalu</a>
+    <a href="muhurtavali.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">✨ Muhurtavali</a>
+    <a href="jathakam.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; margin:0 10px;">🔮 Jathakam & Gocharam</a>
+</div>
+
 <div class="ugadi-container">
 
     <!-- Header -->
     <div class="ugadi-header">
-        <img src="logo.jpg" alt="Vedic Panchangam Logo">
+        <img src="logo.jpg" alt="Vedic Samhita Logo">
         <div class="ugadi-title">Ugadi Phalalu</div>
         <div class="ugadi-subtitle">Rajadi Navanayaka Nirnayam</div>
-        <a href="index.html" class="nav-link">🙏 Daily Panchangam</a>
     </div>
 
     <!-- Selector Card (Location & Year) -->
@@ -371,7 +378,7 @@ function calculateUgadiPhalalu() {
             if (!res) continue;
             let tithiAtSr = getTithiIdx(res.srJD);
             let lunar = getLunarCalendar(res.srJD);
-            if (lunar.masam.indexOf('చైత్ర') !== -1 && tithiAtSr === 0) {
+            if (lunar.masam.indexOf('Chaitra') !== -1 && tithiAtSr === 0) {
                 return { date: testDate, srJD: res.srJD };
             }
         }
@@ -387,7 +394,7 @@ function calculateUgadiPhalalu() {
             const nextSrJD = res.srJD + 1;
             const tithis = getDayElements(res.srJD, nextSrJD, getTithiIdx, i => i, 3, 'tithi');
             const hasPadyami = tithis.some(t => t.idx === 0);
-            if (hasPadyami && tithiAtSr === 29 && lunar.masam.indexOf('ఫాల్గుణ') !== -1) {
+            if (hasPadyami && tithiAtSr === 29 && lunar.masam.indexOf('Phalguna') !== -1) {
                 return { date: testDate, srJD: res.srJD };
             }
         }
