@@ -2615,7 +2615,26 @@ function onCitySearchInput(val) {
         }).catch(err => {
             console.error(err);
         });
-    }, 500);
+    }, 400);
+}
+
+function onCitySearchEnter(val) {
+    if (!val || val.length < 2) return;
+    fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(val)}&count=1`)
+    .then(r => r.json())
+    .then(data => {
+        if (data.results && data.results.length > 0) {
+            const city = data.results[0];
+            const name = `${city.name}, ${city.admin1 ? city.admin1 + ', ' : ''}${city.country}`;
+            const cityJson = encodeURIComponent(JSON.stringify({
+                name: name,
+                lat: city.latitude,
+                lon: city.longitude,
+                tzName: city.timezone
+            }));
+            selectSearchedCity(cityJson);
+        }
+    }).catch(err => console.error(err));
 }
 
 function selectSearchedCity(encodedData) {
