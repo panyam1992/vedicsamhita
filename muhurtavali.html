@@ -725,6 +725,15 @@ function generatePersonalizedMuhurtam() {
                 if (chandraOffset2 === 8) continue;
             }
 
+            // 4b. Maudhyam Shuddhi (Guru & Shukra Maudhyam Prohibition for Major Samskaras)
+            const MAJOR_CEREMONIES = ['vivaha', 'upanayana', 'griha', 'griharenovate', 'bhumi', 'construction', 'seemantham', 'choodakarana', 'templeconsecrate', 'mantradeeksha'];
+            if (MAJOR_CEREMONIES.includes(ceremony.id)) {
+                let maudhyas = [];
+                try { maudhyas = computeMaudhyam(srJD); } catch(e) {}
+                const hasMajorMaudhya = maudhyas.some(m => m.isGuruOrShukra);
+                if (hasMajorMaudhya) continue; // Prohibited during Guru or Shukra Maudhyam
+            }
+
             // 5. Compute Full Day 8-Anga Panchangam
             const sunNir = getSunNirayana(srJD);
             let samvatsaram = '';

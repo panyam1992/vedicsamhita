@@ -671,8 +671,8 @@ function getSamvatsaram(y, m, srJD) {
     // Use the current lunar month to find which Gregorian year Chaitra fell in.
     const lunar = getLunarCalendar(srJD);
     // Strip Adhika/Kshaya prefixes to get base masam name
-    const baseMasam = lunar.masam.replace('Adhika ', '').split('–')[0].split(' (')[0].trim();
-    const masamIdx = MASAM.indexOf(baseMasam);
+    const baseMasam = (lunar && lunar.masam) ? lunar.masam.replace('Adhika ', '').split('–')[0].split(' (')[0].trim() : 'Chaitra';
+    const masamIdx = MASAM.indexOf(baseMasam) >= 0 ? MASAM.indexOf(baseMasam) : 0;
 
     // Chaitra (index 0) started approximately 'masamIdx' months ago.
     // Subtract that many months from the current Gregorian date to find
@@ -943,6 +943,53 @@ function getNavagrahaPositions(jd) {
         { name:'Ra', full:'Rahu',   deg: getRahuNirayana(jd),           color:'#7f8c8d' },
         { name:'Ke', full:'Ketu',   deg: getKetuNirayana(jd),           color:'#95a5a6' },
     ].map(g => ({ ...g, rashi: Math.floor(g.deg / 30), rashiName: RASHI[Math.floor(g.deg / 30)] }));
+}
+
+/* ═══════════ MAUDHYAM (ASTANGATA / PLANETARY COMBUSTION) ═══════════ */
+const MAUDHYA_CONFIG = [
+    { key: 'jupiter', name: 'Guru', english: 'Jupiter', directOrb: 11, retroOrb: 11 },
+    { key: 'venus',   name: 'Shukra', english: 'Venus', directOrb: 10, retroOrb: 8 },
+    { key: 'mars',    name: 'Kuja', english: 'Mars', directOrb: 17, retroOrb: 17 },
+    { key: 'mercury', name: 'Budha', english: 'Mercury', directOrb: 14, retroOrb: 12 },
+    { key: 'saturn',  name: 'Shani', english: 'Saturn', directOrb: 15, retroOrb: 15 }
+];
+
+function computeMaudhyam(jd) {
+    const sunNir = getSunNirayana(jd);
+    const results = [];
+
+    for (let g of MAUDHYA_CONFIG) {
+        const l0 = getPlanetNirayana(jd, g.key);
+        const l1 = getPlanetNirayana(jd + 0.05, g.key);
+        
+        let diffMotion = l1 - l0;
+        if (diffMotion < -180) diffMotion += 360;
+        if (diffMotion > 180) diffMotion -= 360;
+        const isRetro = (diffMotion < 0);
+
+        const orbLimit = isRetro ? g.retroOrb : g.directOrb;
+
+        let sep = Math.abs(l0 - sunNir);
+        if (sep > 180) sep = 360 - sep;
+
+        if (sep <= orbLimit) {
+            const sepDeg = Math.floor(sep);
+            const sepMin = Math.round((sep - sepDeg) * 60);
+            const sepStr = `${sepDeg}° ${String(sepMin).padStart(2, '0')}'`;
+            const motionStr = isRetro ? 'Retrograde' : 'Direct';
+            
+            results.push({
+                key: g.key,
+                name: `${g.name} Maudhyam`,
+                title: `${g.name} Maudhyam (${g.english} Combust)`,
+                detail: `Angular Separation: ${sepStr} (Orb Limit: ${orbLimit}°, Motion: ${motionStr})`,
+                sepStr: sepStr,
+                orbLimit: orbLimit,
+                isGuruOrShukra: (g.key === 'jupiter' || g.key === 'venus')
+            });
+        }
+    }
+    return results;
 }
 
 /* ═══════════ JAGAT & VARSHA LAGNA ═══════════ */
@@ -1610,6 +1657,21 @@ function calculatePanchangam() {
         const endLocal = jdToLocal(p.endJD, tz);
         return `<li><strong>${p.name} — ${p.padam} Padam</strong> <span class="end-info">— ends ${fmtDateTime(endLocal)}</span></li>`;
     }).join('');
+
+    // Render Maudhyam (Astangata / Planetary Combustion) if active
+    const maudhyamSection = document.getElementById('moudhyamSection');
+    const maudhyamEl = document.getElementById('valMaudhyam');
+    if (maudhyamSection && maudhyamEl) {
+        const maudhyas = computeMaudhyam(srJD);
+        if (maudhyas.length > 0) {
+            maudhyamSection.style.display = 'block';
+            maudhyamEl.innerHTML = maudhyas.map(m => {
+                return `<li><strong>${m.title}</strong> <span class="end-info">— ${m.detail}</span></li>`;
+            }).join('');
+        } else {
+            maudhyamSection.style.display = 'none';
+        }
+    }
 
     renderList('valYoga', yogas, tz);
     renderList('valKarana', karanas, tz);
