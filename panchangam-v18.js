@@ -2656,6 +2656,17 @@ function selectSearchedCity(encodedData) {
     if (cityInput) cityInput.value = data.name;
     const resDiv = document.getElementById('citySearchResults');
     if (resDiv) resDiv.style.display = 'none';
+
+    // Sync Custom Coordinates input fields
+    const latInput = document.getElementById('latInput');
+    const lonInput = document.getElementById('lonInput');
+    const tzInput = document.getElementById('tzInput');
+    if (latInput) latInput.value = data.lat;
+    if (lonInput) lonInput.value = data.lon;
+    if (tzInput) {
+        const dateVal = document.getElementById('datePicker') ? document.getElementById('datePicker').value : null;
+        tzInput.value = getTzOffsetFromTimezoneString(data.tzName, dateVal);
+    }
     
     if (document.getElementById('datePicker') && typeof calculatePanchangam === 'function') {
         calculatePanchangam();
@@ -2685,6 +2696,12 @@ function autoDetectLocation() {
                     window._selectedCity = locData;
                     try { localStorage.setItem('vedicsamhita_user_location', JSON.stringify(locData)); } catch(e) {}
                     if (cityInput) cityInput.value = cityName;
+                    const latInput = document.getElementById('latInput');
+                    const lonInput = document.getElementById('lonInput');
+                    const tzInput = document.getElementById('tzInput');
+                    if (latInput) latInput.value = lat;
+                    if (lonInput) lonInput.value = lon;
+                    if (tzInput) tzInput.value = getTzOffsetFromTimezoneString(tzName, null);
                     calculatePanchangam();
                 })
                 .catch(() => {
@@ -2722,6 +2739,12 @@ function fallbackTimezoneLocation() {
     try { localStorage.setItem('vedicsamhita_user_location', JSON.stringify(defaultLoc)); } catch(e) {}
     const cityInput = document.getElementById('citySearch');
     if (cityInput) cityInput.value = defaultLoc.name;
+    const latInput = document.getElementById('latInput');
+    const lonInput = document.getElementById('lonInput');
+    const tzInput = document.getElementById('tzInput');
+    if (latInput) latInput.value = defaultLoc.lat;
+    if (lonInput) lonInput.value = defaultLoc.lon;
+    if (tzInput) tzInput.value = getTzOffsetFromTimezoneString(defaultLoc.tzName, null);
     if (typeof calculatePanchangam === 'function') {
         calculatePanchangam();
     }
@@ -2763,6 +2786,12 @@ window.onload = function() {
         window._selectedCity = savedLoc;
         const cityInput = document.getElementById('citySearch');
         if (cityInput) cityInput.value = savedLoc.name;
+        const latInput = document.getElementById('latInput');
+        const lonInput = document.getElementById('lonInput');
+        const tzInput = document.getElementById('tzInput');
+        if (latInput) latInput.value = savedLoc.lat;
+        if (lonInput) lonInput.value = savedLoc.lon;
+        if (tzInput) tzInput.value = getTzOffsetFromTimezoneString(savedLoc.tzName, datePicker ? datePicker.value : null);
         calculatePanchangam();
     } else {
         fallbackTimezoneLocation();
