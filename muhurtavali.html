@@ -393,6 +393,18 @@ let searchDebounceCeremony = null, searchDebounce1 = null, searchDebounce2 = nul
 
 /* ═══════════ INITIALIZATION & UI CONTROLS ═══════════ */
 function initApp() {
+    try {
+        const raw = localStorage.getItem('vedicsamhita_user_location');
+        if (raw) {
+            const loc = JSON.parse(raw);
+            if (loc && loc.name) {
+                g_ceremonyLocation = loc;
+                const cInput = document.getElementById('ceremonyCityInput');
+                if (cInput) cInput.value = loc.name;
+            }
+        }
+    } catch(e) {}
+
     populateCeremonies();
     onCeremonyChange();
     autoCalculateProfile(1);
@@ -506,6 +518,9 @@ function selectCeremonyCity(encodedData) {
         lon: data.lon,
         tzName: data.tzName
     };
+    try {
+        localStorage.setItem('vedicsamhita_user_location', JSON.stringify(g_ceremonyLocation));
+    } catch(e) {}
     document.getElementById('ceremonyCityInput').value = data.name;
     document.getElementById('ceremonyCityResults').style.display = 'none';
 }

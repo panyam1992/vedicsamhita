@@ -73,7 +73,7 @@ const YOGA = [
     "Parigha", "Shiva", "Siddha", "Sadhya", "Shubha", "Shukla",
     "Brahma", "Indra", "Vaidhriti"
 ];
-const VARA = ["Aadivaram (Sunday)", "Somavaram (Monday)", "Mangalavaram (Tuesday)", "Budhavaram (Wednesday)", "Guruvaram (Thursday)", "Shukravaram (Friday)", "Shanivaram (Saturday)"];
+const VARA = ["Bhanuvasaram (Sunday)", "Induvasaram (Monday)", "Bhaumavasaram (Tuesday)", "Saumyavasaram (Wednesday)", "Brihaspativasaram (Thursday)", "Bhriguvasaram (Friday)", "Sthiravasaram (Saturday)"];
 const MASAM = ["Chaitra", "Vaishakha", "Jyeshtha", "Ashadha", "Shravana", "Bhadrapada", "Ashwayuja", "Kartika", "Margashirsha", "Pushya", "Magha", "Phalguna"];
 const RUTU = ["Vasanta Rutu", "Grishma Rutu", "Varsha Rutu", "Sharad Rutu", "Hemanta Rutu", "Shishira Rutu"];
 const RASHI = ["Mesham", "Vrishabham", "Mithunam", "Karkatakam", "Simham", "Kanya", "Tula", "Vrishchikam", "Dhanussu", "Makaram", "Kumbham", "Meenam"];
@@ -2627,6 +2627,11 @@ function selectSearchedCity(encodedData) {
         lon: data.lon,
         tzName: data.tzName
     };
+
+    // Persist user's choice permanently in browser localStorage
+    try {
+        localStorage.setItem('vedicsamhita_user_location', JSON.stringify(window._selectedCity));
+    } catch(e) { console.warn("Storage error", e); }
     
     const cityInput = document.getElementById('citySearch');
     if (cityInput) cityInput.value = data.name;
@@ -2634,6 +2639,71 @@ function selectSearchedCity(encodedData) {
     if (resDiv) resDiv.style.display = 'none';
     
     if (document.getElementById('datePicker') && typeof calculatePanchangam === 'function') {
+        calculatePanchangam();
+    }
+}
+
+function autoDetectLocation() {
+    const cityInput = document.getElementById('citySearch');
+    if (cityInput) cityInput.value = "Detecting your location...";
+
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const lat = pos.coords.latitude;
+                const lon = pos.coords.longitude;
+                fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${lat.toFixed(2)},${lon.toFixed(2)}&count=1`)
+                .then(r => r.json())
+                .then(data => {
+                    let cityName = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+                    let tzName = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Asia/Kolkata';
+                    if (data.results && data.results.length > 0) {
+                        const res = data.results[0];
+                        cityName = `${res.name}, ${res.admin1 ? res.admin1 + ', ' : ''}${res.country}`;
+                        if (res.timezone) tzName = res.timezone;
+                    }
+                    const locData = { name: cityName, lat: lat, lon: lon, tzName: tzName };
+                    window._selectedCity = locData;
+                    try { localStorage.setItem('vedicsamhita_user_location', JSON.stringify(locData)); } catch(e) {}
+                    if (cityInput) cityInput.value = cityName;
+                    calculatePanchangam();
+                })
+                .catch(() => {
+                    fallbackTimezoneLocation();
+                });
+            },
+            (err) => {
+                console.warn("Geolocation permission denied/unavailable:", err);
+                fallbackTimezoneLocation();
+            },
+            { timeout: 6000 }
+        );
+    } else {
+        fallbackTimezoneLocation();
+    }
+}
+
+function fallbackTimezoneLocation() {
+    const clientTz = (typeof Intl !== 'undefined' && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'Asia/Kolkata';
+    let defaultLoc = { name: "Hyderabad, Telangana, India", lat: 17.3850, lon: 78.4867, tzName: "Asia/Kolkata" };
+
+    if (clientTz && (clientTz.includes('Calcutta') || clientTz.includes('Kolkata') || clientTz.includes('India'))) {
+        defaultLoc = { name: "Hyderabad, Telangana, India", lat: 17.3850, lon: 78.4867, tzName: "Asia/Kolkata" };
+    } else if (clientTz && (clientTz.includes('Chicago') || clientTz.includes('Central'))) {
+        defaultLoc = { name: "Frisco, Texas, United States", lat: 33.1507, lon: -96.8236, tzName: "America/Chicago" };
+    } else if (clientTz && (clientTz.includes('New_York') || clientTz.includes('Eastern'))) {
+        defaultLoc = { name: "New York, NY, United States", lat: 40.7128, lon: -74.0060, tzName: "America/New_York" };
+    } else if (clientTz && (clientTz.includes('Los_Angeles') || clientTz.includes('Pacific'))) {
+        defaultLoc = { name: "Los Angeles, CA, United States", lat: 34.0522, lon: -118.2437, tzName: "America/Los_Angeles" };
+    } else if (clientTz && clientTz.includes('London')) {
+        defaultLoc = { name: "London, United Kingdom", lat: 51.5074, lon: -0.1278, tzName: "Europe/London" };
+    }
+
+    window._selectedCity = defaultLoc;
+    try { localStorage.setItem('vedicsamhita_user_location', JSON.stringify(defaultLoc)); } catch(e) {}
+    const cityInput = document.getElementById('citySearch');
+    if (cityInput) cityInput.value = defaultLoc.name;
+    if (typeof calculatePanchangam === 'function') {
         calculatePanchangam();
     }
 }
@@ -2658,9 +2728,26 @@ document.addEventListener('click', function(event) {
 });
 
 window.onload = function() {
-    document.getElementById('datePicker').value = new Date().toISOString().split('T')[0];
-    document.getElementById('citySearch').value = "Frisco, Texas, United States";
-    calculatePanchangam();
+    const datePicker = document.getElementById('datePicker');
+    if (datePicker) {
+        datePicker.value = new Date().toISOString().split('T')[0];
+    }
+    
+    // Check saved user location in browser memory
+    let savedLoc = null;
+    try {
+        const raw = localStorage.getItem('vedicsamhita_user_location');
+        if (raw) savedLoc = JSON.parse(raw);
+    } catch(e) {}
+
+    if (savedLoc && savedLoc.name && savedLoc.lat) {
+        window._selectedCity = savedLoc;
+        const cityInput = document.getElementById('citySearch');
+        if (cityInput) cityInput.value = savedLoc.name;
+        calculatePanchangam();
+    } else {
+        fallbackTimezoneLocation();
+    }
 };
 
 // Chart style toggle
