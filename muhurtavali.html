@@ -208,8 +208,8 @@
             <div class="form-group">
                 <label for="outputFormat">Output Presentation</label>
                 <select id="outputFormat">
+                    <option value="short" selected>Short Muhurtam (Concise Top Auspicious Dates)</option>
                     <option value="detailed">Detailed Muhurtam (with Lagna Chart & Panchanga Analysis)</option>
-                    <option value="short">Short Muhurtam (Concise Top Auspicious Dates)</option>
                 </select>
             </div>
         </div>
@@ -643,6 +643,19 @@ function getKalaVibhaga(sHrs, srHrs, ssHrs) {
     }
 }
 
+function toggleMuhurtaDetail(idx) {
+    const el = document.getElementById(`muhurtaDetail_${idx}`);
+    const btn = document.getElementById(`btnToggleDetail_${idx}`);
+    if (!el) return;
+    if (el.style.display === 'none' || !el.style.display) {
+        el.style.display = 'block';
+        if (btn) btn.innerHTML = '▲ Hide Detailed Muhurtam';
+    } else {
+        el.style.display = 'none';
+        if (btn) btn.innerHTML = '🔍 View Detailed Muhurtam & Chart';
+    }
+}
+
 /* ═══════════ COMPUTE PERSONALIZED MUHURTAMS ═══════════ */
 function generatePersonalizedMuhurtam() {
     autoCalculateProfile(1);
@@ -850,7 +863,7 @@ function generatePersonalizedMuhurtam() {
             <br><em>Guidance: Try selecting a wider date range (e.g. Full Year Ugadi-to-Ugadi) or consult for an emergency Abhijit Muhurat window.</em>
         </div>`;
     } else {
-        shubhMuhurtas.forEach((m, idx) => {
+                shubhMuhurtas.forEach((m, idx) => {
             let personalTaraHtml = ceremony.mode === 'dual'
                 ? `<div><strong>🎯 Tara Bala (${ceremony.p1}):</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara1.name}</span> (${m.tara1.desc})</div>
                    <div><strong>🎯 Tara Bala (${ceremony.p2}):</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara2.name}</span> (${m.tara2.desc})</div>
@@ -858,6 +871,55 @@ function generatePersonalizedMuhurtam() {
                    <div><strong>🌙 Chandra Bala (${ceremony.p2}):</strong> House ${m.chandra2} from Janma Rashi (Favorable)</div>`
                 : `<div><strong>🎯 Personal Tara Bala:</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara1.name}</span> (${m.tara1.desc})</div>
                    <div><strong>🌙 Personal Chandra Bala:</strong> House ${m.chandra1} from Janma Rashi (Favorable)</div>`;
+
+            let detailedPanchangBoxHtml = `
+                <div style="background:#fdfcf7; border:1px solid #e0d7c3; border-radius:6px; padding:12px 16px; margin-bottom:14px; font-size:0.92rem; line-height:1.7;">
+                    <div style="font-family:'Cinzel',serif; font-weight:bold; color:#4a0e0e; margin-bottom:6px; border-bottom:1px solid #e8dec8; padding-bottom:4px;">
+                        📜 Panchangam for ${m.dateStr}
+                    </div>
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:6px 15px;">
+                        <div><strong>Samvatsaram:</strong> ${m.samvatsaram} Nama Samvatsaram</div>
+                        <div><strong>Ayanam:</strong> ${m.ayanam}</div>
+                        <div><strong>Masam:</strong> ${m.masam} Masam</div>
+                        <div><strong>Tithi:</strong> ${m.tithiName}</div>
+                        <div><strong>Vasara (Varam):</strong> ${m.varamName}</div>
+                        <div><strong>Nakshatram:</strong> ${m.nakName}</div>
+                        <div><strong>Yogam:</strong> ${m.yogaName}</div>
+                        <div><strong>Karanam:</strong> ${m.karanaName}</div>
+                    </div>
+                    <hr style="border:none; border-top:1px dashed #d8cca8; margin:10px 0;">
+                    ${personalTaraHtml}
+                    <div style="color:#991b1b; margin-top:6px;"><strong>❌ Rahu Kalam (Avoid):</strong> ${m.rahuWindow}</div>
+                </div>`;
+
+            let windowsCardsHtml = m.windows.map((w, wIdx) => `
+                <div style="background:#fffdf9; border:1.5px solid #d4af37; border-radius:6px; padding:14px; margin-top:12px; box-shadow:0 2px 6px rgba(0,0,0,0.03);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:10px; border-bottom:1px solid #fae19c; padding-bottom:6px;">
+                        <span style="font-family:'Cinzel',serif; font-size:1rem; font-weight:bold; color:#8b0000;">
+                            ${w.kalaName} — ${w.rashiName} Lagna
+                        </span>
+                        <span style="font-size:0.8rem; background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; padding:2px 8px; border-radius:4px; font-weight:bold;">
+                            🌟 Uttama Muhurtam
+                        </span>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px; align-items:center;">
+                        <div style="font-size:0.92rem; line-height:1.7;">
+                            <div><strong>🏛️ Rising Lagna:</strong> <span style="color:#8b0000; font-weight:bold;">${w.rashiName} Lagna</span></div>
+                            <div><strong>⏳ Lagna Vyapti Kaalam (Lagna Window):</strong> <span style="font-weight:bold; color:#333;">${w.lagnaVyapti}</span></div>
+                            <div><strong>⭐ Pradhana Sumuhurtam (Lagna Madhyama Kaalam):</strong> <span style="color:#1b5e20; font-weight:bold; font-size:1.05rem;">${w.pradhanaSumuhurtam}</span></div>
+                        </div>
+                        <div style="text-align:center;">
+                            <div style="font-family:'Cinzel',serif; font-size:0.82rem; font-weight:bold; color:#4a0e0e; margin-bottom:3px;">
+                                🕉️ Lagna Kundali (${w.rashiName} at ${w.pradhanaSumuhurtam})
+                            </div>
+                            <div class="chart-container" style="display:flex; justify-content:center;">
+                                ${w.chartSvg}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
 
             if (outputFormat === 'short') {
                 let windowsListHtml = m.windows.map(w => `
@@ -880,37 +942,24 @@ function generatePersonalizedMuhurtam() {
                         <strong>Panchangam:</strong> ${m.samvatsaram} Nama Samvatsaram | ${m.masam} Masam | ${m.tithiName} | ${m.varamName} | ${m.nakName} Nakshatra | ${m.yogaName} Yoga | ${m.karanaName} Karana
                     </div>
                     ${windowsListHtml}
-                </div>`;
-            } else {
-                let windowsCardsHtml = m.windows.map((w, wIdx) => `
-                    <div style="background:#fffdf9; border:1.5px solid #d4af37; border-radius:6px; padding:14px; margin-top:12px; box-shadow:0 2px 6px rgba(0,0,0,0.03);">
-                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:10px; border-bottom:1px solid #fae19c; padding-bottom:6px;">
-                            <span style="font-family:'Cinzel',serif; font-size:1rem; font-weight:bold; color:#8b0000;">
-                                ${w.kalaName} — ${w.rashiName} Lagna
-                            </span>
-                            <span style="font-size:0.8rem; background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; padding:2px 8px; border-radius:4px; font-weight:bold;">
-                                🌟 Uttama Muhurtam
-                            </span>
-                        </div>
 
-                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px; align-items:center;">
-                            <div style="font-size:0.92rem; line-height:1.7;">
-                                <div><strong>🏛️ Rising Lagna:</strong> <span style="color:#8b0000; font-weight:bold;">${w.rashiName} Lagna</span></div>
-                                <div><strong>⏳ Lagna Vyapti Kaalam (Lagna Window):</strong> <span style="font-weight:bold; color:#333;">${w.lagnaVyapti}</span></div>
-                                <div><strong>⭐ Pradhana Sumuhurtam (Lagna Madhyama Kaalam):</strong> <span style="color:#1b5e20; font-weight:bold; font-size:1.05rem;">${w.pradhanaSumuhurtam}</span></div>
-                            </div>
-                            <div style="text-align:center;">
-                                <div style="font-family:'Cinzel',serif; font-size:0.82rem; font-weight:bold; color:#4a0e0e; margin-bottom:3px;">
-                                    🕉️ Lagna Kundali (${w.rashiName} at ${w.pradhanaSumuhurtam})
-                                </div>
-                                <div class="chart-container" style="display:flex; justify-content:center;">
-                                    ${w.chartSvg}
-                                </div>
-                            </div>
+                    <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+                        <button id="btnToggleDetail_${idx}" onclick="toggleMuhurtaDetail(${idx})" style="padding:6px 16px; background:#4a0e0e; color:#d4af37; border:1px solid #d4af37; border-radius:4px; font-family:'Cinzel',serif; font-size:0.85rem; cursor:pointer; font-weight:bold; transition:all 0.2s;">
+                            🔍 View Detailed Muhurtam & Chart
+                        </button>
+                    </div>
+
+                    <div id="muhurtaDetail_${idx}" style="display:none; margin-top:14px; border-top:1.5px solid #d4af37; padding-top:14px;">
+                        ${detailedPanchangBoxHtml}
+                        <div>
+                            <h4 style="margin:8px 0 4px; font-family:'Cinzel',serif; color:#4a0e0e; font-size:0.95rem;">
+                                🛕 Auspicious Muhurtams & Kundali Charts for this Day:
+                            </h4>
+                            ${windowsCardsHtml}
                         </div>
                     </div>
-                `).join('');
-
+                </div>`;
+            } else {
                 html += `
                 <div style="background:#fff; border:1.5px solid #c2b280; border-radius:8px; padding:18px; margin-bottom:22px; box-shadow:0 3px 10px rgba(0,0,0,0.04);">
                     <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:1.5px solid #eee; padding-bottom:8px; margin-bottom:12px;">
@@ -920,24 +969,7 @@ function generatePersonalizedMuhurtam() {
                         <span class="score-badge badge-excellent">${m.windows.length} Auspicious Muhurtam Windows</span>
                     </div>
 
-                    <div style="background:#fdfcf7; border:1px solid #e0d7c3; border-radius:6px; padding:12px 16px; margin-bottom:14px; font-size:0.92rem; line-height:1.7;">
-                        <div style="font-family:'Cinzel',serif; font-weight:bold; color:#4a0e0e; margin-bottom:6px; border-bottom:1px solid #e8dec8; padding-bottom:4px;">
-                            📜 Panchangam for ${m.dateStr}
-                        </div>
-                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:6px 15px;">
-                            <div><strong>Samvatsaram:</strong> ${m.samvatsaram} Nama Samvatsaram</div>
-                            <div><strong>Ayanam:</strong> ${m.ayanam}</div>
-                            <div><strong>Masam:</strong> ${m.masam} Masam</div>
-                            <div><strong>Tithi:</strong> ${m.tithiName}</div>
-                            <div><strong>Vasara (Varam):</strong> ${m.varamName}</div>
-                            <div><strong>Nakshatram:</strong> ${m.nakName}</div>
-                            <div><strong>Yogam:</strong> ${m.yogaName}</div>
-                            <div><strong>Karanam:</strong> ${m.karanaName}</div>
-                        </div>
-                        <hr style="border:none; border-top:1px dashed #d8cca8; margin:10px 0;">
-                        ${personalTaraHtml}
-                        <div style="color:#991b1b; margin-top:6px;"><strong>❌ Rahu Kalam (Avoid):</strong> ${m.rahuWindow}</div>
-                    </div>
+                    ${detailedPanchangBoxHtml}
 
                     <div>
                         <h4 style="margin:8px 0 4px; font-family:'Cinzel',serif; color:#4a0e0e; font-size:0.95rem;">
