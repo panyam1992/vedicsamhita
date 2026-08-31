@@ -954,37 +954,82 @@ const MAUDHYA_CONFIG = [
     { key: 'saturn',  name: 'Shani', english: 'Saturn', directOrb: 15, retroOrb: 15 }
 ];
 
-function computeMaudhyam(jd) {
+function getMaudhyaOrbLimit(jd, g) {
+    const l0 = getPlanetNirayana(jd, g.key);
+    const l1 = getPlanetNirayana(jd + 0.05, g.key);
+    let diffMotion = l1 - l0;
+    if (diffMotion < -180) diffMotion += 360;
+    if (diffMotion > 180) diffMotion -= 360;
+    const isRetro = (diffMotion < 0);
+    return isRetro ? g.retroOrb : g.directOrb;
+}
+
+function getGrahaSeparation(jd, key) {
     const sunNir = getSunNirayana(jd);
+    const l0 = getPlanetNirayana(jd, key);
+    let sep = Math.abs(l0 - sunNir);
+    if (sep > 180) sep = 360 - sep;
+    return sep;
+}
+
+function findMaudhyaEnd(jd, g) {
+    let curJD = jd;
+    let maxDays = 120;
+    let step = 0.25;
+    let foundBracket = false;
+    let tA = curJD, tB = curJD;
+
+    for (let i = 0; i < maxDays / step; i++) {
+        let t = curJD + i * step;
+        let sep = getGrahaSeparation(t, g.key);
+        let orb = getMaudhyaOrbLimit(t, g);
+        if (sep > orb) {
+            tA = t - step;
+            tB = t;
+            foundBracket = true;
+            break;
+        }
+    }
+
+    if (!foundBracket) return null;
+
+    // Bisection to find exact boundary to within seconds
+    for (let iter = 0; iter < 15; iter++) {
+        let mid = (tA + tB) / 2;
+        let sep = getGrahaSeparation(mid, g.key);
+        let orb = getMaudhyaOrbLimit(mid, g);
+        if (sep <= orb) {
+            tA = mid;
+        } else {
+            tB = mid;
+        }
+    }
+
+    return (tA + tB) / 2;
+}
+
+function computeMaudhyam(jd, tz) {
+    if (tz === undefined) tz = 5.5;
     const results = [];
 
     for (let g of MAUDHYA_CONFIG) {
-        const l0 = getPlanetNirayana(jd, g.key);
-        const l1 = getPlanetNirayana(jd + 0.05, g.key);
-        
-        let diffMotion = l1 - l0;
-        if (diffMotion < -180) diffMotion += 360;
-        if (diffMotion > 180) diffMotion -= 360;
-        const isRetro = (diffMotion < 0);
-
-        const orbLimit = isRetro ? g.retroOrb : g.directOrb;
-
-        let sep = Math.abs(l0 - sunNir);
-        if (sep > 180) sep = 360 - sep;
+        const orbLimit = getMaudhyaOrbLimit(jd, g);
+        const sep = getGrahaSeparation(jd, g.key);
 
         if (sep <= orbLimit) {
-            const sepDeg = Math.floor(sep);
-            const sepMin = Math.round((sep - sepDeg) * 60);
-            const sepStr = `${sepDeg}° ${String(sepMin).padStart(2, '0')}'`;
-            const motionStr = isRetro ? 'Retrograde' : 'Direct';
-            
+            const endJD = findMaudhyaEnd(jd, g);
+            let endStr = 'Ongoing';
+            if (endJD) {
+                const endLocal = jdToLocal(endJD, tz);
+                endStr = fmtDateTime(endLocal);
+            }
+
             results.push({
                 key: g.key,
                 name: `${g.name} Maudhyam`,
-                title: `${g.name} Maudhyam (${g.english} Combust)`,
-                detail: `Angular Separation: ${sepStr} (Orb Limit: ${orbLimit}°, Motion: ${motionStr})`,
-                sepStr: sepStr,
-                orbLimit: orbLimit,
+                title: `${g.name} Maudhyam`,
+                endJD: endJD,
+                endStr: endStr,
                 isGuruOrShukra: (g.key === 'jupiter' || g.key === 'venus')
             });
         }
@@ -1662,11 +1707,11 @@ function calculatePanchangam() {
     const maudhyamSection = document.getElementById('moudhyamSection');
     const maudhyamEl = document.getElementById('valMaudhyam');
     if (maudhyamSection && maudhyamEl) {
-        const maudhyas = computeMaudhyam(srJD);
+        const maudhyas = computeMaudhyam(srJD, tz);
         if (maudhyas.length > 0) {
             maudhyamSection.style.display = 'block';
             maudhyamEl.innerHTML = maudhyas.map(m => {
-                return `<li><strong>${m.title}</strong> <span class="end-info">— ${m.detail}</span></li>`;
+                return `<li><strong>${m.name}</strong> <span class="end-info">— ends ${m.endStr}</span></li>`;
             }).join('');
         } else {
             maudhyamSection.style.display = 'none';
