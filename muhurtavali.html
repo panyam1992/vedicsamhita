@@ -625,28 +625,51 @@ function autoCalculateProfile(num) {
     }
 }
 
+function getKalaVibhaga(sHrs, srHrs, ssHrs) {
+    if (sHrs >= (srHrs - 1.5) && sHrs < (srHrs + 3.0)) {
+        return { name: "🌅 Pratah Kala (Morning Window)", order: 1 };
+    } else if (sHrs >= (srHrs + 3.0) && sHrs < (ssHrs - 3.0)) {
+        return { name: "☀️ Madhyahna Kala (Midday Window)", order: 2 };
+    } else if (sHrs >= (ssHrs - 3.0) && sHrs <= (ssHrs + 0.5)) {
+        return { name: "🌇 Aparahna Kala (Afternoon Window)", order: 3 };
+    } else if (sHrs > (ssHrs + 0.5) && sHrs <= (ssHrs + 3.0)) {
+        return { name: "🌆 Pradosha / Sayam Kala (Evening Window)", order: 4 };
+    } else if (sHrs > (ssHrs + 3.0) && sHrs < 24) {
+        return { name: "🌙 Ratri / Nishi Kala (Night Window)", order: 5 };
+    } else if (sHrs >= 0 && sHrs < (srHrs - 1.5)) {
+        return { name: "🌙 Nishi / Ratri Kala (Late Night Window)", order: 6 };
+    } else {
+        return { name: "✨ Brahma Muhurta Kala (Pre-Dawn Window)", order: 7 };
+    }
+}
+
 /* ═══════════ COMPUTE PERSONALIZED MUHURTAMS ═══════════ */
 function generatePersonalizedMuhurtam() {
     autoCalculateProfile(1);
     autoCalculateProfile(2);
-
     const ceremonyId = document.getElementById('ceremonySelect').value;
-    const ceremony = CEREMONIES.find(c => c.id === ceremonyId) || CEREMONIES[0];
-    const rangeType = document.getElementById('dateRangeType').value;
+    const ceremony = CEREMONIES.find(c => c.id === ceremonyId);
+    const dateRangeType = document.getElementById('dateRangeType').value;
     const outputFormat = document.getElementById('outputFormat').value;
 
     let startDate = new Date();
     let endDate = new Date();
 
-    if (rangeType === '30days') {
+    if (dateRangeType === '30days') {
         endDate.setDate(startDate.getDate() + 30);
-    } else if (rangeType === 'ugadiYear') {
-        const ugadi = findUgadiDates();
-        startDate = ugadi.current;
-        endDate = ugadi.next;
-    } else if (rangeType === 'custom') {
-        startDate = new Date(document.getElementById('customStartDate').value);
-        endDate = new Date(document.getElementById('customEndDate').value);
+    } else if (dateRangeType === 'ugadiYear') {
+        const ugadiObj = findUgadiDates();
+        startDate = ugadiObj.current;
+        endDate = ugadiObj.next;
+    } else {
+        const cs = document.getElementById('customStartDate').value;
+        const ce = document.getElementById('customEndDate').value;
+        if (cs && ce) {
+            startDate = new Date(cs);
+            endDate = new Date(ce);
+        } else {
+            endDate.setDate(startDate.getDate() + 30);
+        }
     }
 
     const totalDays = Math.round((endDate - startDate) / (1000 * 60 * 60 * 24)) + 1;
@@ -702,66 +725,82 @@ function generatePersonalizedMuhurtam() {
                 if (chandraOffset2 === 8) continue;
             }
 
-            // 5. Compute Full Day Lagna Transitions & Pick Auspicious Daytime / Evening Lagna
+            // 5. Compute Full Day 8-Anga Panchangam
+            const sunNir = getSunNirayana(srJD);
+            let samvatsaram = '';
+            try { samvatsaram = getSamvatsaram(y, m, srJD); } catch(e) { samvatsaram = 'Parabhava'; }
+            const ayanam = getAyanam(sunNir);
+            let masam = '';
+            try { masam = getMasamRutu(sunNir, srJD).masam; } catch(e) { masam = 'Chaitra'; }
+            const yogaIdx = getYogaIdx(srJD);
+            const karanaIdx = getKaranaIdx(srJD);
+            const karanaName = getKaranaName(karanaIdx);
+
+            // 6. Full 24-Hour Whole-Day Lagna Sweep (Sunrise to next Sunrise)
             const transitions = getLagnaTransitions(srJD, nextSrJD, ceremonyCity.lat, ceremonyCity.lon, tz);
-            const abhijit = getAbhijitMuhurat(st.sunrise, st.sunset, dow);
             const rahu = getKalam(st.sunrise, st.sunset, RAHU_PARTS, dow);
-            const va = computeVarjyamAmrit(srJD, nextSrJD, tz);
 
-            // Find daytime favorable Lagna (e.g. Mithuna, Karkataka, Vrishabha, Simha, Kanya, Tula, Dhanu, Meena)
-            let chosenLagna = null;
-            for (let p of transitions) {
-                const s = jdToLocal(p.startJD, tz);
-                const sHrs = s.hours + s.minutes/60 + s.seconds/3600;
-                // Prefer daytime between sunrise and sunset
-                if (sHrs >= st.sunrise && sHrs <= st.sunset + 2) {
-                    chosenLagna = p;
-                    // If near midday/Abhijit, ideal
-                    if (abhijit && sHrs >= (abhijit.start - 2) && sHrs <= (abhijit.end + 2)) {
-                        break;
-                    }
+            const favorableLagnas = ceremony.favorableLagnas || [0,1,2,3,4,5,6,7,8,9,10,11];
+            const validWindows = [];
+
+            for (let tr of transitions) {
+                if (!favorableLagnas.includes(tr.rashiIdx)) continue;
+
+                const sLocal = jdToLocal(tr.startJD, tz);
+                const eLocal = jdToLocal(tr.endJD, tz);
+                const sHrs = sLocal.hours + sLocal.minutes/60 + sLocal.seconds/3600;
+                const eHrs = eLocal.hours + eLocal.minutes/60 + eLocal.seconds/3600;
+
+                // Check Rahu Kalam overlap (daytime only)
+                const isDaytime = (sHrs >= st.sunrise && sHrs <= st.sunset);
+                let overlapsRahu = false;
+                if (isDaytime && !(eHrs <= rahu.start || sHrs >= rahu.end)) {
+                    overlapsRahu = true;
                 }
+                // Skip if complete collision with Rahu Kalam
+                if (isDaytime && (sHrs >= rahu.start && eHrs <= rahu.end)) continue;
+
+                const midJD = (tr.startJD + tr.endJD) / 2;
+                const midLocal = jdToLocal(midJD, tz);
+                const midHrs = midLocal.hours + midLocal.minutes/60 + midLocal.seconds/3600;
+                const kala = getKalaVibhaga(sHrs, st.sunrise, st.sunset);
+
+                // Individual Lagna chart at midpoint of this specific Lagna
+                const navagrahas = getNavagrahaPositions(midJD);
+                const chartSvg = generateSouthIndianChartSVG(tr.rashiIdx, navagrahas);
+
+                validWindows.push({
+                    rashiIdx: tr.rashiIdx,
+                    rashiName: tr.rashiName,
+                    kalaName: kala.name,
+                    lagnaVyapti: `${fmtHMS(sHrs)} — ${fmtHMS(eHrs)}`,
+                    pradhanaSumuhurtam: fmtHMS(midHrs),
+                    midJD: midJD,
+                    chartSvg: chartSvg,
+                    overlapsRahu: overlapsRahu
+                });
             }
-            if (!chosenLagna && transitions.length > 0) chosenLagna = transitions[0];
 
-            const lagnaStartLocal = jdToLocal(chosenLagna.startJD, tz);
-            const lagnaEndLocal = jdToLocal(chosenLagna.endJD, tz);
-            const lagnaStartHrs = lagnaStartLocal.hours + lagnaStartLocal.minutes/60 + lagnaStartLocal.seconds/3600;
-            const lagnaEndHrs = lagnaEndLocal.hours + lagnaEndLocal.minutes/60 + lagnaEndLocal.seconds/3600;
-            
-            const lagnaWindowStr = `${fmtHMS(lagnaStartHrs)} — ${fmtHMS(lagnaEndHrs)}`;
-            const midLagnaJD = (chosenLagna.startJD + chosenLagna.endJD) / 2;
-            const peakTimeLocal = jdToLocal(midLagnaJD, tz);
-            const peakTimeStr = fmtHMS(peakTimeLocal.hours + peakTimeLocal.minutes/60 + peakTimeLocal.seconds/3600);
-
-            // Lagna chart at midpoint of the chosen Lagna
-            const navagrahas = getNavagrahaPositions(midLagnaJD);
-            const chartSvg = generateSouthIndianChartSVG(chosenLagna.rashiIdx, navagrahas);
-
-            let amritStr = '10:00 AM — 11:30 AM';
-            if (va && va.amrit) {
-                const as = jdToLocal(va.amrit.start, tz), ae = jdToLocal(va.amrit.end, tz);
-                amritStr = `${fmtDateTime(as)} — ${fmtDateTime(ae)}`;
+            if (validWindows.length > 0) {
+                shubhMuhurtas.push({
+                    dateStr: `${testD.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} (${VARA[dow].split(' ')[0]})`,
+                    samvatsaram: samvatsaram,
+                    ayanam: ayanam,
+                    masam: masam,
+                    tithiName: TITHI[tithiIdx],
+                    varamName: VARA[dow],
+                    nakName: NAKSHATRA[nakIdx],
+                    yogaName: YOGA[yogaIdx],
+                    karanaName: karanaName,
+                    tara1: tara1,
+                    chandra1: chandraOffset1,
+                    tara2: tara2,
+                    chandra2: chandraOffset2,
+                    rahuWindow: fmtRange(rahu.start, rahu.end),
+                    windows: validWindows,
+                    quality: '🌟 Uttama Shubha Muhurtam (Nirdosha Shuddhi)'
+                });
             }
-
-            shubhMuhurtas.push({
-                dateStr: `${testD.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })} (${VARA[dow].split(' ')[0]})`,
-                tithiName: TITHI[tithiIdx],
-                nakName: NAKSHATRA[nakIdx],
-                yogaName: YOGA[getYogaIdx(srJD)],
-                tara1: tara1,
-                chandra1: chandraOffset1,
-                tara2: tara2,
-                chandra2: chandraOffset2,
-                shubhLagnaName: `${chosenLagna.rashiName} Lagna`,
-                lagnaWindow: lagnaWindowStr,
-                peakTime: peakTimeStr,
-                abhijitWindow: abhijit ? fmtRange(abhijit.start, abhijit.end) : 'None',
-                rahuWindow: fmtRange(rahu.start, rahu.end),
-                amritWindow: amritStr,
-                chartSvg: chartSvg,
-                quality: '🌟 Highly Auspicious (Shubham)'
-            });
         } catch(e) {
             console.warn("Muhurta day error:", e);
         }
@@ -775,19 +814,21 @@ function generatePersonalizedMuhurtam() {
         ? `<strong>Ceremony:</strong> ${ceremony.title} | <strong>Location:</strong> ${ceremonyCity.name}<br><strong>${ceremony.p1}:</strong> ${g_p1.name} (${NAKSHATRA[g_p1.nakIdx-1]}, ${RASHI[g_p1.rashiIdx-1]}) | <strong>${ceremony.p2}:</strong> ${g_p2.name} (${NAKSHATRA[g_p2.nakIdx-1]}, ${RASHI[g_p2.rashiIdx-1]})`
         : `<strong>Ceremony:</strong> ${ceremony.title} | <strong>Location:</strong> ${ceremonyCity.name}<br><strong>Native:</strong> ${g_p1.name} (${NAKSHATRA[g_p1.nakIdx-1]}, ${RASHI[g_p1.rashiIdx-1]})`;
 
+    let totalMuhurtaWindows = shubhMuhurtas.reduce((acc, m) => acc + m.windows.length, 0);
+
     let html = `
     <div style="background:#fffcf5; border:2px solid #d4af37; border-radius:8px; padding:20px;">
         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:1.5px solid #d4af37; padding-bottom:12px; margin-bottom:15px; gap:10px;">
             <div>
                 <h3 style="margin:0; color:#4a0e0e; font-family:'Cinzel',serif; font-size:1.3rem;">
-                    ✨ Auspicious Muhurtam Results
+                    ✨ Auspicious Muhurtam Results (24-Hour Whole-Day Analysis)
                 </h3>
                 <p style="margin:6px 0 0; color:#555; font-size:0.92rem; line-height:1.5;">
                     ${headerSubtitle}
                 </p>
             </div>
             <div>
-                <span class="score-badge badge-excellent">Found ${shubhMuhurtas.length} Auspicious Dates</span>
+                <span class="score-badge badge-excellent">Found ${shubhMuhurtas.length} Auspicious Dates (${totalMuhurtaWindows} Total Sumuhurtams)</span>
             </div>
         </div>
     `;
@@ -801,58 +842,99 @@ function generatePersonalizedMuhurtam() {
         </div>`;
     } else {
         shubhMuhurtas.forEach((m, idx) => {
+            let personalTaraHtml = ceremony.mode === 'dual'
+                ? `<div><strong>🎯 Tara Bala (${ceremony.p1}):</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara1.name}</span> (${m.tara1.desc})</div>
+                   <div><strong>🎯 Tara Bala (${ceremony.p2}):</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara2.name}</span> (${m.tara2.desc})</div>
+                   <div><strong>🌙 Chandra Bala (${ceremony.p1}):</strong> House ${m.chandra1} from Janma Rashi (Favorable)</div>
+                   <div><strong>🌙 Chandra Bala (${ceremony.p2}):</strong> House ${m.chandra2} from Janma Rashi (Favorable)</div>`
+                : `<div><strong>🎯 Personal Tara Bala:</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara1.name}</span> (${m.tara1.desc})</div>
+                   <div><strong>🌙 Personal Chandra Bala:</strong> House ${m.chandra1} from Janma Rashi (Favorable)</div>`;
+
             if (outputFormat === 'short') {
+                let windowsListHtml = m.windows.map(w => `
+                    <div style="padding:6px 0; border-bottom:1px dashed #eee; font-size:0.9rem;">
+                        <strong>${w.kalaName}:</strong> <span style="color:#8b0000; font-weight:bold;">${w.rashiName} Lagna</span> | 
+                        <strong>Lagna Vyapti Kaalam:</strong> ${w.lagnaVyapti} | 
+                        <strong>⭐ Pradhana Sumuhurtam:</strong> <span style="color:#1b5e20; font-weight:bold;">${w.pradhanaSumuhurtam}</span>
+                    </div>
+                `).join('');
+
                 html += `
-                <div style="background:#fff; border:1px solid #c2b280; border-radius:6px; padding:12px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-                    <div>
+                <div style="background:#fff; border:1px solid #c2b280; border-radius:6px; padding:14px 18px; margin-bottom:14px; box-shadow:0 2px 6px rgba(0,0,0,0.03);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:1px solid #eee; padding-bottom:6px; margin-bottom:8px;">
                         <div style="font-family:'Cinzel',serif; font-size:1.05rem; font-weight:bold; color:#4a0e0e;">
                             📅 ${m.dateStr}
                         </div>
-                        <div style="font-size:0.9rem; color:#555; margin-top:3px;">
-                            <strong>Auspicious Lagna:</strong> ${m.shubhLagnaName} (${m.lagnaWindow}) | <strong>Peak Time:</strong> ${m.peakTime} | <strong>Star:</strong> ${m.nakName} | <strong>Tithi:</strong> ${m.tithiName}
-                        </div>
+                        <span class="score-badge badge-excellent">🌟 Uttama Shubha Muhurtam</span>
                     </div>
-                    <div>
-                        <span class="score-badge badge-excellent">${m.quality}</span>
+                    <div style="font-size:0.88rem; color:#444; background:#fbf9f2; padding:6px 10px; border-radius:4px; margin-bottom:8px; border:1px solid #eee;">
+                        <strong>Panchangam:</strong> ${m.samvatsaram} Nama Samvatsaram | ${m.masam} Masam | ${m.tithiName} | ${m.varamName} | ${m.nakName} Nakshatra | ${m.yogaName} Yoga | ${m.karanaName} Karana
                     </div>
+                    ${windowsListHtml}
                 </div>`;
             } else {
-                let personalTaraHtml = ceremony.mode === 'dual'
-                    ? `<div><strong>🎯 Tara Bala (${ceremony.p1}):</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara1.name}</span> (${m.tara1.desc})</div>
-                       <div><strong>🎯 Tara Bala (${ceremony.p2}):</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara2.name}</span> (${m.tara2.desc})</div>
-                       <div><strong>🌙 Chandra Bala (${ceremony.p1}):</strong> House ${m.chandra1} from Janma Rashi (Favorable)</div>
-                       <div><strong>🌙 Chandra Bala (${ceremony.p2}):</strong> House ${m.chandra2} from Janma Rashi (Favorable)</div>`
-                    : `<div><strong>🎯 Personal Tara Bala:</strong> <span style="color:#1b5e20; font-weight:bold;">${m.tara1.name}</span> (${m.tara1.desc})</div>
-                       <div><strong>🌙 Personal Chandra Bala:</strong> House ${m.chandra1} from Janma Rashi (Favorable)</div>`;
+                let windowsCardsHtml = m.windows.map((w, wIdx) => `
+                    <div style="background:#fffdf9; border:1.5px solid #d4af37; border-radius:6px; padding:14px; margin-top:12px; box-shadow:0 2px 6px rgba(0,0,0,0.03);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; margin-bottom:10px; border-bottom:1px solid #fae19c; padding-bottom:6px;">
+                            <span style="font-family:'Cinzel',serif; font-size:1rem; font-weight:bold; color:#8b0000;">
+                                ${w.kalaName} — ${w.rashiName} Lagna
+                            </span>
+                            <span style="font-size:0.8rem; background:#e8f5e9; color:#2e7d32; border:1px solid #a5d6a7; padding:2px 8px; border-radius:4px; font-weight:bold;">
+                                🌟 Uttama Muhurtam
+                            </span>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap:12px; align-items:center;">
+                            <div style="font-size:0.92rem; line-height:1.7;">
+                                <div><strong>🏛️ Rising Lagna:</strong> <span style="color:#8b0000; font-weight:bold;">${w.rashiName} Lagna</span></div>
+                                <div><strong>⏳ Lagna Vyapti Kaalam (Lagna Window):</strong> <span style="font-weight:bold; color:#333;">${w.lagnaVyapti}</span></div>
+                                <div><strong>⭐ Pradhana Sumuhurtam (Lagna Madhyama Kaalam):</strong> <span style="color:#1b5e20; font-weight:bold; font-size:1.05rem;">${w.pradhanaSumuhurtam}</span></div>
+                            </div>
+                            <div style="text-align:center;">
+                                <div style="font-family:'Cinzel',serif; font-size:0.82rem; font-weight:bold; color:#4a0e0e; margin-bottom:3px;">
+                                    🕉️ Lagna Kundali (${w.rashiName} at ${w.pradhanaSumuhurtam})
+                                </div>
+                                <div class="chart-container" style="display:flex; justify-content:center;">
+                                    ${w.chartSvg}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
 
                 html += `
-                <div style="background:#fff; border:1.5px solid #c2b280; border-radius:8px; padding:18px; margin-bottom:20px; box-shadow:0 3px 10px rgba(0,0,0,0.04);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:1px solid #eee; padding-bottom:8px; margin-bottom:12px;">
+                <div style="background:#fff; border:1.5px solid #c2b280; border-radius:8px; padding:18px; margin-bottom:22px; box-shadow:0 3px 10px rgba(0,0,0,0.04);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; border-bottom:1.5px solid #eee; padding-bottom:8px; margin-bottom:12px;">
                         <span style="font-family:'Cinzel',serif; font-size:1.15rem; font-weight:bold; color:#4a0e0e;">
-                            📅 Muhurtam #${idx+1}: ${m.dateStr}
+                            📅 Auspicious Date #${idx+1}: ${m.dateStr}
                         </span>
-                        <span class="score-badge badge-excellent">${m.quality}</span>
+                        <span class="score-badge badge-excellent">${m.windows.length} Auspicious Muhurtam Windows</span>
                     </div>
 
-                    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap:15px; align-items:center;">
-                        <div style="font-size:0.92rem; line-height:1.65;">
-                            <div><strong>🏛️ Auspicious Lagna:</strong> <span style="color:#8b0000; font-weight:bold;">${m.shubhLagnaName}</span> (${m.lagnaWindow})</div>
-                            <div><strong>⭐ Peak Sumuhurtam Time:</strong> <span style="color:#1b5e20; font-weight:bold; font-size:1rem;">${m.peakTime}</span> (Center of Auspicious Lagna)</div>
-                            <div><strong>☀️ Abhijit Muhurat:</strong> ${m.abhijitWindow} (Universal Midday Window)</div>
-                            <div><strong>✨ Panchangam:</strong> ${m.tithiName}, ${m.nakName} Nakshatra, ${m.yogaName} Yoga</div>
-                            ${personalTaraHtml}
-                            <div><strong>🍯 Amrit Kalam:</strong> ${m.amritWindow}</div>
-                            <div style="color:#991b1b;"><strong>❌ Avoid Rahu Kalam:</strong> ${m.rahuWindow}</div>
+                    <div style="background:#fdfcf7; border:1px solid #e0d7c3; border-radius:6px; padding:12px 16px; margin-bottom:14px; font-size:0.92rem; line-height:1.7;">
+                        <div style="font-family:'Cinzel',serif; font-weight:bold; color:#4a0e0e; margin-bottom:6px; border-bottom:1px solid #e8dec8; padding-bottom:4px;">
+                            📜 Panchangam for ${m.dateStr}
                         </div>
+                        <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:6px 15px;">
+                            <div><strong>Samvatsaram:</strong> ${m.samvatsaram} Nama Samvatsaram</div>
+                            <div><strong>Ayanam:</strong> ${m.ayanam}</div>
+                            <div><strong>Masam:</strong> ${m.masam} Masam</div>
+                            <div><strong>Tithi:</strong> ${m.tithiName}</div>
+                            <div><strong>Vasara (Varam):</strong> ${m.varamName}</div>
+                            <div><strong>Nakshatram:</strong> ${m.nakName}</div>
+                            <div><strong>Yogam:</strong> ${m.yogaName}</div>
+                            <div><strong>Karanam:</strong> ${m.karanaName}</div>
+                        </div>
+                        <hr style="border:none; border-top:1px dashed #d8cca8; margin:10px 0;">
+                        ${personalTaraHtml}
+                        <div style="color:#991b1b; margin-top:6px;"><strong>❌ Rahu Kalam (Avoid):</strong> ${m.rahuWindow}</div>
+                    </div>
 
-                        <div style="text-align:center;">
-                            <div style="font-family:'Cinzel',serif; font-size:0.85rem; font-weight:bold; color:#4a0e0e; margin-bottom:4px;">
-                                🕉️ Lagna Kundali (${m.shubhLagnaName} at ${m.peakTime})
-                            </div>
-                            <div class="chart-container">
-                                ${m.chartSvg}
-                            </div>
-                        </div>
+                    <div>
+                        <h4 style="margin:8px 0 4px; font-family:'Cinzel',serif; color:#4a0e0e; font-size:0.95rem;">
+                            🛕 Auspicious Muhurtams Available Throughout the 24-Hour Cycle (Sunrise to Sunrise):
+                        </h4>
+                        ${windowsCardsHtml}
                     </div>
                 </div>`;
             }
