@@ -1,0 +1,2006 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="జ్యోతిష్య సూట్">
+    <meta name="theme-color" content="#0a0d12">
+    <link rel="apple-touch-icon" href="logo.jpg">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <link rel="manifest" href="manifest.json">
+    <title>వేదిక్ సంహిత - కుటుంబ సమగ్ర జాతక & సంప్రదింపు సూట్ (Family Astrologer Suite)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Mandali&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0d12;
+            --bg-card: #141922;
+            --bg-card-alt: #1a2230;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --text-muted: #6e7681;
+            --accent-gold: #e3b341;
+            --accent-gold-dark: #b0882e;
+            --accent-blue: #58a6ff;
+            --accent-green: #3fb950;
+            --accent-red: #ff7b72;
+            --accent-purple: #bc8cff;
+            --border-color: #30363d;
+            --border-gold: rgba(227, 179, 65, 0.4);
+            --header-gradient: linear-gradient(135deg, #1c2128 0%, #0d1117 100%);
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+        
+        body {
+            font-family: 'Mandali', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding-bottom: 60px;
+            overflow-x: hidden;
+        }
+
+        /* Top Header */
+        .master-header {
+            background: var(--header-gradient);
+            border-bottom: 2px solid var(--accent-gold);
+            padding: 12px 16px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        }
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .brand-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .brand-title h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            color: var(--accent-gold);
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+        .brand-title p {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+            padding: 7px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+            color: #000;
+            border-color: var(--accent-gold);
+        }
+        .btn-gold:hover { filter: brightness(1.1); transform: translateY(-1px); }
+        .btn-outline {
+            background: rgba(255,255,255,0.05);
+            color: var(--text-primary);
+            border-color: var(--border-color);
+        }
+        .btn-outline:hover { background: rgba(255,255,255,0.1); border-color: var(--accent-gold); }
+        .btn-danger {
+            background: rgba(255, 123, 114, 0.15);
+            color: var(--accent-red);
+            border-color: rgba(255, 123, 114, 0.4);
+        }
+
+        /* Container */
+        .main-container {
+            max-width: 1400px;
+            margin: 16px auto;
+            padding: 0 12px;
+        }
+
+        /* Case Banner */
+        .case-banner {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .case-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .case-name-input {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--accent-gold);
+            font-size: 16px;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            outline: none;
+            width: 260px;
+        }
+        .case-name-input:focus { border-color: var(--accent-gold); }
+
+        /* Family Members Bar */
+        .members-bar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 16px;
+        }
+        .member-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            padding: 8px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .member-pill.active {
+            background: rgba(227, 179, 65, 0.15);
+            border-color: var(--accent-gold);
+            color: var(--accent-gold);
+            box-shadow: 0 0 10px rgba(227, 179, 65, 0.2);
+        }
+        .member-pill .rel-tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+        }
+
+        /* Navigation Tabs */
+        .tabs-nav {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 16px;
+            padding-bottom: 4px;
+            -webkit-overflow-scrolling: touch;
+        }
+        .tab-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 10px 16px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 8px 8px 0 0;
+            transition: all 0.2s;
+            white-space: nowrap;
+            border-bottom: 2px solid transparent;
+        }
+        .tab-btn:hover { color: var(--text-primary); }
+        .tab-btn.active {
+            color: var(--accent-gold);
+            border-bottom: 2px solid var(--accent-gold);
+            background: rgba(227, 179, 65, 0.08);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.25s ease-in; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Cards & Grids */
+        .section-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            padding-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .section-title {
+            font-size: 15px;
+            font-weight: 700;
+            color: var(--accent-gold);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 14px;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 12px;
+        }
+
+        /* South Indian Kundali */
+        .chart-box {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(4, minmax(64px, 1fr));
+            gap: 3px;
+            background: #000;
+            border: 2px solid var(--border-gold);
+            border-radius: 8px;
+            padding: 4px;
+            aspect-ratio: 1 / 1;
+            max-width: 380px;
+            margin: 0 auto;
+        }
+        .chart-cell {
+            background: rgba(28, 33, 40, 0.7);
+            border: 1px solid #30363d;
+            border-radius: 4px;
+            padding: 4px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            position: relative;
+            overflow-y: auto;
+        }
+        .chart-cell.highlight-moon { background: rgba(88, 166, 255, 0.15); border: 2px solid var(--accent-blue); }
+        .chart-cell .rashi-name { font-size: 10px; font-weight: 700; color: var(--accent-gold); margin-bottom: 2px; }
+        .chart-cell .rashi-grahas { display: flex; flex-wrap: wrap; gap: 2px; }
+
+        .graha-pill {
+            display: inline-block;
+            font-weight: 700;
+            padding: 1px 4px;
+            border-radius: 3px;
+            font-size: 10px;
+            line-height: 1.2;
+        }
+        .graha-pill.asc { background: #e3b341; color: #000; }
+        .graha-pill.sun { background: #ff7b72; color: #000; }
+        .graha-pill.moon { background: #f0f6fc; color: #000; }
+        .graha-pill.mars { background: #f85149; color: #fff; }
+        .graha-pill.mercury { background: #3fb950; color: #000; }
+        .graha-pill.jupiter { background: #d29922; color: #000; }
+        .graha-pill.venus { background: #d2a8ff; color: #000; }
+        .graha-pill.saturn { background: #58a6ff; color: #000; }
+        .graha-pill.rahu { background: #8b949e; color: #000; }
+        .graha-pill.ketu { background: #6e7681; color: #fff; }
+        .graha-pill.outer { background: #7ee787; color: #000; }
+        .graha-pill.vakra-graha {
+            box-shadow: 0 0 0 1.5px #ff7b72, 0 0 6px rgba(255, 123, 114, 0.7);
+            font-weight: 800;
+        }
+
+        .chart-center {
+            grid-column: 2 / 4;
+            grid-row: 2 / 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: rgba(13, 17, 23, 0.95);
+            border: 1px solid rgba(212, 175, 55, 0.6);
+            text-align: center;
+            padding: 6px;
+            border-radius: 4px;
+        }
+        .chart-center h4 { font-family: 'Cinzel', serif; color: var(--accent-gold); font-size: 13px; }
+        .chart-center p { font-size: 10px; color: var(--text-secondary); }
+
+        /* Form Inputs */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .form-group label {
+            font-size: 11.5px;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .form-control {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 8px 10px;
+            border-radius: 6px;
+            font-size: 13px;
+            outline: none;
+            width: 100%;
+        }
+        .form-control:focus { border-color: var(--accent-gold); }
+
+        /* Tables */
+        .data-table-container {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12.5px;
+            text-align: left;
+        }
+        .data-table th, .data-table td {
+            padding: 8px 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            white-space: nowrap;
+        }
+        .data-table th {
+            background: var(--bg-card-alt);
+            color: var(--accent-gold);
+            font-weight: 700;
+        }
+        .data-table tr:hover { background: rgba(255,255,255,0.02); }
+
+        /* Score badges */
+        .score-box {
+            background: var(--bg-card-alt);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .score-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--accent-gold);
+            font-family: 'Cinzel', serif;
+        }
+        .tag-retro { background: rgba(248, 81, 73, 0.2); color: var(--accent-red); border: 1px solid rgba(248, 81, 73, 0.4); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; font-weight: 700; }
+        .tag-direct { background: rgba(63, 185, 80, 0.15); color: var(--accent-green); border: 1px solid rgba(63, 185, 80, 0.3); padding: 2px 6px; border-radius: 4px; font-size: 10.5px; }
+
+        /* Chat / Q&A Box */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            height: 600px;
+            border: 1px solid var(--border-color);
+            border-radius: 10px;
+            background: var(--bg-card);
+            overflow: hidden;
+        }
+        .chat-history {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .chat-msg {
+            max-width: 85%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 13.5px;
+            line-height: 1.6;
+        }
+        .chat-msg.user {
+            align-self: flex-end;
+            background: #1f6feb;
+            color: #fff;
+            border-bottom-right-radius: 2px;
+        }
+        .chat-msg.bot {
+            align-self: flex-start;
+            background: var(--bg-card-alt);
+            border: 1px solid var(--border-gold);
+            color: var(--text-primary);
+            border-bottom-left-radius: 2px;
+        }
+        .chat-input-bar {
+            padding: 10px;
+            background: var(--bg-card-alt);
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            gap: 8px;
+        }
+        .chat-input {
+            flex: 1;
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 10px 14px;
+            border-radius: 8px;
+            outline: none;
+            font-size: 13.5px;
+        }
+        .chat-input:focus { border-color: var(--accent-gold); }
+
+        /* Presets Grid */
+        .presets-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 12px;
+        }
+        .preset-btn {
+            background: var(--bg-card-alt);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .preset-btn:hover { border-color: var(--accent-gold); color: var(--accent-gold); }
+
+        /* Modal */
+        .modal-backdrop {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 12px;
+        }
+        .modal-backdrop.active { display: flex; }
+        .modal-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-gold);
+            border-radius: 12px;
+            width: 100%;
+            max-width: 540px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 20px;
+        }
+
+        /* Mobile specific adjustments */
+        @media (max-width: 768px) {
+            .brand-title h1 { font-size: 15px; }
+            .case-banner { flex-direction: column; align-items: stretch; }
+            .case-name-input { width: 100%; }
+            .grid-2, .grid-3 { grid-template-columns: 1fr; }
+            .chart-box { max-width: 320px; }
+            .chat-container { height: 500px; }
+            .chat-msg { max-width: 95%; }
+        }
+    </style>
+<body>
+
+    <!-- Site Navigation Bar -->
+    <nav style="text-align:center; padding:10px 14px; background:#1c2128; border-bottom:1px solid #30363d; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px; position:sticky; top:0; z-index:1000;">
+        <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🙏 Daily Panchangam</a>
+        <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Phalalu</a>
+        <a href="muhurtavali.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
+        <a href="jathakam.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🔮 Single Jathakam</a>
+        <a href="family_jathakam.html" style="color:#ffffff; background:rgba(227,179,65,0.25); border:1px solid #e3b341; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; border-radius:4px; font-weight:bold;">👨‍👩‍👧‍👦 Family Suite</a>
+    </nav>
+
+    <!-- MASTER HEADER -->
+    <header class="master-header">
+        <div class="header-content">
+            <div class="brand-title">
+                <span style="font-size: 24px;">🔮</span>
+                <div>
+                    <h1>వేదిక్ సంహిత - కుటుంబ సమగ్ర జాతక సూట్</h1>
+                    <p>Private Multi-Chart Consultation & Synastry Engine (For Astrologer's Personal Use)</p>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn btn-gold" onclick="openAddMemberModal()">➕ కొత్త సభ్యుడిని చేర్చండి (Add Member)</button>
+                <button class="btn btn-outline" onclick="saveCurrentCase()">💾 కేస్ సేవ్ (Save)</button>
+                <button class="btn btn-outline" onclick="exportCaseJSON()">📤 Export</button>
+                <input type="file" id="importFileInput" style="display:none" onchange="importCaseJSON(event)">
+                <button class="btn btn-outline" onclick="document.getElementById('importFileInput').click()">📥 Import</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- CASE HEADER BANNER -->
+        <div class="case-banner">
+            <div class="case-info">
+                <span style="font-weight: 700; color: var(--text-secondary);">👨‍👩‍👧‍👦 కేస్ / ఫ్యామిలీ పేరు:</span>
+                <input type="text" id="caseName" class="case-name-input" value="శ్రీనివాసరావు & కుటుంబం" placeholder="భక్తుని / కుటుంబం పేరు">
+                <span id="caseMemberCount" style="font-size: 12px; color: var(--accent-gold); font-weight: 600;">(2 సభ్యులు)</span>
+            </div>
+            <div style="display: flex; gap: 8px;">
+                <select id="savedCasesSelect" class="form-control" style="width: 200px;" onchange="loadSelectedCase(this.value)">
+                    <option value="">📂 సేవ్ చేసిన కేస్‌లు (Saved Cases)</option>
+                </select>
+                <button class="btn btn-outline" onclick="clearAllMembers()" title="Clear Data">🗑️ క్లియర్</button>
+            </div>
+        </div>
+
+        <!-- FAMILY MEMBERS SELECTOR BAR -->
+        <div class="members-bar" id="membersBar"></div>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="tabs-nav">
+            <button class="tab-btn active" onclick="switchTab('multiChartsTab', this)">📊 సంయుక్త చక్రాలు (Multi-Kundali)</button>
+            <button class="tab-btn" onclick="switchTab('santanaTab', this)">👶 సంతాన & గర్భ రక్షా విశ్లేషణ (Progeny / Miscarriages)</button>
+            <button class="tab-btn" onclick="switchTab('vivahaTab', this)">💍 వివాహ పొంతన & ముహూర్త నిర్ణయం (Marriage & Muhurtham)</button>
+            <button class="tab-btn" onclick="switchTab('karyaVighnaTab', this)">🚧 కార్య విఘ్న & స్తంభన నివారణ (Work Obstacles)</button>
+            <button class="tab-btn" onclick="switchTab('dhanamTab', this)">💰 కుటుంబ సంపద & అప్పులు (Wealth & Debts)</button>
+            <button class="tab-btn" onclick="switchTab('chatTab', this)">💬 సమగ్ర కుటుంబ జాతక సహాయకుడు (AI Astrologer)</button>
+        </nav>
+
+        <!-- TAB 1: MULTI CHARTS -->
+        <div id="multiChartsTab" class="tab-content active">
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">🕉️ కుటుంబ సభ్యుల రాశి & నవాంశ చక్రాలు (Synchronized Kundalis)</div>
+                    <span style="font-size: 12px; color: var(--text-secondary);">అన్ని చక్రాలు ఏకకాలంలో పరిశీలించండి</span>
+                </div>
+                <div id="multiChartsGrid" class="grid-2"></div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">🪐 కుటుంబ సభ్యుల ప్రస్తుత నడుస్తున్న దశా-భుక్తులు & లగ్న వివరాలు</div>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>సభ్యుని పేరు</th>
+                                <th>సంబంధం</th>
+                                <th>లగ్నం</th>
+                                <th>జన్మ రాశి</th>
+                                <th>నక్షత్రం</th>
+                                <th>ప్రస్తుత మహాదశ</th>
+                                <th>అంతర్దశ (భుక్తి)</th>
+                                <th>ముగింపు తేదీ</th>
+                                <th>వక్ర గ్రహాలు (Retrograde)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="familyDasaTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: SANTANA & PROGENY DIAGNOSTICS -->
+        <div id="santanaTab" class="tab-content">
+            <div class="grid-2">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">♂️ పురుష బీజ స్ఫుటం (Male Beeja Sphutam)</div>
+                        <span id="maleBeejaStatus" class="tag-direct">లెక్కిస్తోంది...</span>
+                    </div>
+                    <div class="score-box" id="maleBeejaDetails"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">♀️ స్త్రీ క్షేత్ర స్ఫుటం (Female Kshetra Sphutam)</div>
+                        <span id="femaleKshetraStatus" class="tag-direct">లెక్కిస్తోంది...</span>
+                    </div>
+                    <div class="score-box" id="femaleKshetraDetails"></div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">🐍 సర్ప / నాగ / పితృ / బాలారిష్ట దోష విశ్లేషణ (Miscarriages & Infant Mortality Diagnostics)</div>
+                </div>
+                <div id="santanaDoshaAnalysisBox" style="font-size: 13.5px; line-height: 1.7;"></div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">🛡️ సంతాన ప్రాప్తి & గర్భ రక్షణ ప్రత్యక్ష వైదిక పరిహారాలు (Prescriptive Remedies)</div>
+                </div>
+                <div id="santanaRemediesBox" style="font-size: 13.5px; line-height: 1.7;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 3: VIVAHA MATCHING & MUHURTHAMS -->
+        <div id="vivahaTab" class="tab-content">
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">💍 అష్టకూట 36 గుణ మేళన పొంతన (Ashtakoota 36 Guna Milan)</div>
+                    <div id="gunaTotalScoreBadge" class="score-val" style="font-size: 18px;">-- / 36</div>
+                </div>
+                <div class="data-table-container">
+                    <table class="data-table" id="gunaMilanTable">
+                        <thead>
+                            <tr>
+                                <th>కూటమి (Koota)</th>
+                                <th>గరిష్ట గుణాలు</th>
+                                <th>పొందిన గుణాలు</th>
+                                <th>వరుడు (Groom)</th>
+                                <th>వధువు (Bride)</th>
+                                <th>ఫలితం (Status)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gunaMilanTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">⚔️ కుజ దోష సామ్యం (Kuja Dosha Comparison)</div>
+                    </div>
+                    <div id="kujaDoshaMatchBox" style="font-size: 13.5px; line-height: 1.6;"></div>
+                </div>
+
+                <div class="section-card">
+                    <div class="section-header">
+                        <div class="section-title">🔮 దాంపత్య భవిష్యత్తు & D-9 నవాంశ సమన్వయం</div>
+                    </div>
+                    <div id="maritalLifeAnalysisBox" style="font-size: 13.5px; line-height: 1.6;"></div>
+                </div>
+            </div>
+
+            <!-- VIVAHA MUHURTHAM GENERATOR -->
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">📅 వధూవరుల జాతక ఆధారిత వివాహ శుభ ముహూర్తాల జనరేటర్ (Vivaha Muhurtham Selector)</div>
+                </div>
+                <div class="form-grid" style="margin-bottom: 14px;">
+                    <div class="form-group">
+                        <label>ప్రారంభ తేదీ (From Date)</label>
+                        <input type="date" id="muhurthamFromDate" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>ముగింపు తేదీ (To Date - 3 Months)</label>
+                        <input type="date" id="muhurthamToDate" class="form-control">
+                    </div>
+                    <div class="form-group" style="align-self: flex-end;">
+                        <button class="btn btn-gold" style="width: 100%;" onclick="generateVivahaMuhurthams()">✨ శుభ ముహూర్తాలను శోధించండి (Search)</button>
+                    </div>
+                </div>
+                <div id="muhurthamResultsContainer"></div>
+            </div>
+        </div>
+
+        <!-- TAB 4: KARYA VIGHNAM -->
+        <div id="karyaVighnaTab" class="tab-content">
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">🚧 పనులు మధ్యలోనే ఆగిపోవడానికి మూలకారణ విశ్లేషణ (Why Work Stops In Middle)</div>
+                </div>
+                <div id="karyaVighnaAnalysisBox" style="font-size: 13.5px; line-height: 1.7;"></div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">🛡️ కార్యసిద్ధి & బంధన దోష నివారణ పరిహారాలు (Work Success Remedies)</div>
+                </div>
+                <div id="karyaVighnaRemediesBox" style="font-size: 13.5px; line-height: 1.7;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 5: WEALTH & DEBTS -->
+        <div id="dhanamTab" class="tab-content">
+            <div class="section-card">
+                <div class="section-header">
+                    <div class="section-title">💰 కుటుంబ సంపద & అప్పులు (Wealth & Debts)</div>
+                </div>
+                <div id="familyWealthAnalysisBox" style="font-size: 13.5px; line-height: 1.7;"></div>
+            </div>
+        </div>
+
+        <!-- TAB 6: AI ASTROLOGER CHAT -->
+        <div id="chatTab" class="tab-content">
+            <div class="presets-grid">
+                <button class="preset-btn" id="chatLangBtn" style="background:rgba(227,179,65,0.2); border-color:var(--accent-gold); color:var(--accent-gold); font-weight:bold;" onclick="toggleDevoteeChatLang()">🌐 Language: AUTO (TE/EN)</button>
+                <button class="preset-btn" onclick="setDevoteeQuestion('సంతాన సమస్యలు ఉన్నాయి, 4 గర్భస్రావాలు అయ్యాయి. కారణం మరియు పరిహారం ఏమిటి?')">👶 4 గర్భస్రావాల సమస్య & పరిహారం</button>
+                <button class="preset-btn" onclick="setDevoteeQuestion('Why is work stopping in the middle? When will we get success and remedies?')">🚧 Work Stoppages & Remedies</button>
+                <button class="preset-btn" onclick="setDevoteeQuestion('వివాహం కుదిరింది, పెళ్లి తర్వాత వైవాహిక జీవితం ఎలా ఉంటుంది?')">💍 వివాహానంతర దాంపత్య జీవితం</button>
+                <button class="preset-btn" onclick="setDevoteeQuestion('Heavy debts and financial crisis in family, when will it clear?')">💰 Debts & Financial Relief</button>
+                <button class="preset-btn" onclick="setDevoteeQuestion('What are the remedies for health longevity and foreign travel?')">🩺 Health & Overseas Travel</button>
+            </div>
+
+            <div class="chat-container">
+                <div class="chat-history" id="chatHistory">
+                    <div class="chat-msg bot">
+                        🙏 <strong>నమస్కారం గురువుగారు!</strong><br>
+                        కుటుంబ సభ్యుల జాతక వివరాలు లోడ్ అయ్యాయి. భక్తులు అడిగే ఎలాంటి క్లిష్టమైన ప్రశ్ననైనా (సంతాన దోషాలు, గర్భస్రావాలు, కార్య స్తంభనలు, వివాహ పొంతన, అప్పులు మొదలైనవి) ఇక్కడ అడగవచ్చు. కుటుంబ సభ్యులందరి గ్రహ స్థితులను సమన్వయం చేసి పూర్తి వేద జ్యోతిష్య సమాధానం అందించబడుతుంది.
+                    </div>
+                </div>
+                <div class="chat-input-bar">
+                    <input type="text" id="devoteeQueryInput" class="chat-input" placeholder="భక్తుడు అడిగిన ప్రశ్నను ఇక్కడ టైప్ చేయండి (ఉదా: 4 miscarriages why, work stopping...)" onkeydown="if(event.key==='Enter') sendDevoteeQuery()">
+                    <button class="btn btn-gold" onclick="sendDevoteeQuery()">🔮 సమాధానం</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- ADD MEMBER MODAL -->
+    <div class="modal-backdrop" id="addMemberModal">
+        <div class="modal-card">
+            <div class="section-header">
+                <div class="section-title">➕ కుటుంబ సభ్యుని వివరాలు చేర్చండి</div>
+                <button class="btn btn-outline" style="padding: 4px 8px;" onclick="closeAddMemberModal()">✕</button>
+            </div>
+            <form onsubmit="saveMemberFromModal(event)">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>సభ్యుని పేరు (Name)</label>
+                        <input type="text" id="mName" class="form-control" required placeholder="ఉదా: శ్రీనివాస్">
+                    </div>
+                    <div class="form-group">
+                        <label>సంబంధం (Relationship)</label>
+                        <select id="mRel" class="form-control">
+                            <option value="భర్త / వరుడు (Husband/Groom)">భర్త / వరుడు (Husband/Groom)</option>
+                            <option value="భార్య / వధువు (Wife/Bride)">భార్య / వధువు (Wife/Bride)</option>
+                            <option value="సంతానం 1 (Child 1)">సంతానం 1 (Child 1)</option>
+                            <option value="సంతానం 2 (Child 2)">సంతానం 2 (Child 2)</option>
+                            <option value="తండ్రి (Father)">తండ్రి (Father)</option>
+                            <option value="తల్లి (Mother)">తల్లి (Mother)</option>
+                            <option value="ఇతరులు / భాగస్వామి (Partner)">ఇతరులు / భాగస్వామి (Partner)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>లింగము (Gender)</label>
+                        <select id="mGender" class="form-control">
+                            <option value="male">పురుషుడు (Male)</option>
+                            <option value="female">స్త్రీ (Female)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>జన్మ తేదీ (Date of Birth)</label>
+                        <input type="date" id="mDate" class="form-control" required value="1992-02-29">
+                    </div>
+                    <div class="form-group">
+                        <label>జన్మ సమయం (Birth Time)</label>
+                        <input type="time" id="mTime" class="form-control" step="1" required value="13:45:00">
+                    </div>
+                    <div class="form-group">
+                        <label>జన్మ స్థలం / నగరం (City Search)</label>
+                        <input type="text" id="mCity" class="form-control" value="Anantapur, Andhra Pradesh, India" oninput="onCitySearchInput(this.value)">
+                    </div>
+                </div>
+                <div class="form-grid" style="margin-top: 10px;">
+                    <div class="form-group">
+                        <label>అక్షాంశం (Lat °)</label>
+                        <input type="number" step="any" id="mLat" class="form-control" value="14.6778">
+                    </div>
+                    <div class="form-group">
+                        <label>రేఖాంశం (Lon °)</label>
+                        <input type="number" step="any" id="mLon" class="form-control" value="77.6081">
+                    </div>
+                    <div class="form-group">
+                        <label>టైమ్‌జోన్ Offset (h)</label>
+                        <input type="number" step="any" id="mTz" class="form-control" value="5.5">
+                    </div>
+                </div>
+                <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px;">
+                    <button type="button" class="btn btn-outline" onclick="closeAddMemberModal()">రద్దు (Cancel)</button>
+                    <button type="submit" class="btn btn-gold">సేవ్ చేయండి (Save Member)</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC ENGINE -->
+    <script>
+/* ═════════════════════════════════════════════════════════════════════════════════
+   ASTROLOGICAL CONSTANTS & SWISS-GRADE MEEUS FORMULAS
+   ═════════════════════════════════════════════════════════════════════════════════ */
+const RASHI_NAMES = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+const RASHI_TELUGU = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తుల", "వృశ్చికం", "ధనుస్సు", "మకరం", "కుంభం", "మీనం"];
+const RASHI_LORDS = ["Mars", "Venus", "Mercury", "Moon", "Sun", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Saturn", "Jupiter"];
+const RASHI_LORDS_TELUGU = ["కుజుడు", "శుక్రుడు", "బుధుడు", "చంద్రుడు", "సూర్యుడు", "బుధుడు", "శుక్రుడు", "కుజుడు", "గురువు", "శని", "శని", "గురువు"];
+
+const NAKSHATRAS = [
+    "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Ardra",
+    "Punarvasu", "Pushya", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni",
+    "Hasta", "Chitra", "Swati", "Vishakha", "Anuradha", "Jyeshtha",
+    "Mula", "Purva Ashadha", "Uttara Ashadha", "Shravana", "Dhanishta", "Shatabhisha",
+    "Purva Bhadrapada", "Uttara Bhadrapada", "Revati"
+];
+
+const NAKSHATRAS_TELUGU = [
+    "అశ్విని", "భరణి", "కృత్తిక", "రోహిణి", "మృగశిర", "ఆర్ద్ర",
+    "పునర్వసు", "పుష్యమి", "ఆశ్లేష", "మఖ", "పూర్వ ఫల్గుణి (పుబ్బ)", "ఉత్తర ఫల్గుణి (ఉత్తర)",
+    "హస్త", "చిత్త", "స్వాతి", "విశాఖ", "అనూరాధ", "జ్యేష్ఠ",
+    "మూల", "పూర్వాషాఢ", "ఉత్తరాషాఢ", "శ్రవణం", "ధనిష్ఠ", "శతభిషం",
+    "పూర్వాభాద్ర", "ఉత్తరాభాద్ర", "రేవతి"
+];
+
+const DASA_LORDS = ["Ketu", "Venus", "Sun", "Moon", "Mars", "Rahu", "Jupiter", "Saturn", "Mercury"];
+const DASA_LORDS_TELUGU = ["కేతువు", "శుక్రుడు", "సూర్యుడు", "చంద్రుడు", "కుజుడు", "రాహువు", "గురువు", "శని", "బుధుడు"];
+const DASA_YEARS = [7, 20, 6, 10, 7, 18, 16, 19, 17];
+
+function normDeg(deg) {
+    deg = deg % 360;
+    return deg < 0 ? deg + 360 : deg;
+}
+
+function getJulianDay(year, month, day, hour = 0, minute = 0, second = 0, tzOffset = 0) {
+    let Y = year;
+    let M = month;
+    if (M <= 2) { Y -= 1; M += 12; }
+    const A = Math.floor(Y / 100);
+    const B = 2 - A + Math.floor(A / 4);
+    const dayFraction = (hour + (minute / 60.0) + (second / 3600.0) - tzOffset) / 24.0;
+    return Math.floor(365.25 * (Y + 4716)) + Math.floor(30.6001 * (M + 1)) + day + dayFraction + B - 1524.5;
+}
+
+function getAyanamsa(jd) {
+    const T = (jd - 2451545.0) / 36525.0;
+    return normDeg(23.85 + 1.396 * T);
+}
+
+function getSunTropical(jd) {
+    const n = jd - 2451545.0;
+    const L = normDeg(280.460 + 0.9856474 * n);
+    const g = normDeg(357.528 + 0.9856003 * n) * (Math.PI / 180);
+    return normDeg(L + 1.915 * Math.sin(g) + 0.020 * Math.sin(2 * g));
+}
+
+function getMoonTropical(jd) {
+    const T = (jd - 2451545.0) / 36525.0;
+    const L0 = normDeg(218.3164477 + 481267.88128 * T);
+    const M = normDeg(134.9633964 + 477198.8675055 * T) * (Math.PI / 180);
+    const D = normDeg(297.8501921 + 445267.1114034 * T) * (Math.PI / 180);
+    const F = normDeg(93.2720950 + 483202.0175233 * T) * (Math.PI / 180);
+    return normDeg(L0 + 6.289 * Math.sin(M) + 1.274 * Math.sin(2 * D - M) + 0.658 * Math.sin(2 * D) - 0.186 * Math.sin(M));
+}
+
+function computePlanetaryPositions(jd, ayanType, lat, lon) {
+    const RAD = 180 / Math.PI;
+    const DEG = Math.PI / 180;
+
+    function getSinglePlanetPos(targetJd) {
+        const ayanVal = getAyanamsa(targetJd);
+        const T = (targetJd - 2451545.0) / 36525.0;
+        const sunSayana = getSunTropical(targetJd);
+        const moonSayana = getMoonTropical(targetJd);
+        const sunNirayana = normDeg(sunSayana - ayanVal);
+        const moonNirayana = normDeg(moonSayana - ayanVal);
+
+        const rahuSayana = normDeg(125.04452 - 1934.136261 * T + 0.0020708 * T * T);
+        const rahuNirayana = normDeg(rahuSayana - ayanVal);
+        const ketuNirayana = normDeg(rahuNirayana + 180);
+
+        function getPlanetPos(L, a, e, i, N, w, M_p) {
+            let E = M_p + e * Math.sin(M_p * DEG) * (1 + e * Math.cos(M_p * DEG)) * RAD;
+            let xv = a * (Math.cos(E * DEG) - e);
+            let yv = a * Math.sqrt(1 - e * e) * Math.sin(E * DEG);
+            let v = normDeg(Math.atan2(yv, xv) * RAD);
+            let r = Math.sqrt(xv * xv + yv * yv);
+            let xh = r * (Math.cos(N * DEG) * Math.cos((v + w) * DEG) - Math.sin(N * DEG) * Math.sin((v + w) * DEG) * Math.cos(i * DEG));
+            let yh = r * (Math.sin(N * DEG) * Math.cos((v + w) * DEG) + Math.cos(N * DEG) * Math.sin((v + w) * DEG) * Math.cos(i * DEG));
+            let zh = r * (Math.sin((v + w) * DEG) * Math.sin(i * DEG));
+
+            let xs = Math.cos(sunSayana * DEG);
+            let ys = Math.sin(sunSayana * DEG);
+            let xg = xh + xs;
+            let yg = yh + ys;
+            let geoLong = normDeg(Math.atan2(yg, xg) * RAD);
+            return normDeg(geoLong - ayanVal);
+        }
+
+        const marsNirayana = getPlanetPos(355.45, 1.5236, 0.0934, 1.85, 49.55, 286.50, normDeg(19.37 + 19140.30 * T));
+        const mercuryNirayana = getPlanetPos(252.25, 0.3871, 0.2056, 7.00, 48.33, 29.12, normDeg(174.79 + 149472.67 * T));
+        const jupiterNirayana = getPlanetPos(34.40, 5.2026, 0.0485, 1.30, 100.46, 273.87, normDeg(20.02 + 3034.90 * T));
+        const venusNirayana = getPlanetPos(181.98, 0.7233, 0.0068, 3.39, 76.68, 54.88, normDeg(50.42 + 58517.81 * T));
+        const saturnNirayana = getPlanetPos(49.94, 9.5549, 0.0555, 2.49, 113.66, 339.39, normDeg(317.02 + 1222.11 * T));
+
+        const d = targetJd - 2451545.0;
+        const gmst0 = normDeg(280.46061837 + 360.98564736629 * d);
+        const lst = normDeg(gmst0 + lon);
+        const eps = 23.4392911 - 0.0130042 * T;
+        const ramc = lst * DEG;
+        const phi = lat * DEG;
+        const epsRad = eps * DEG;
+
+        const num = Math.cos(ramc);
+        const den = -(Math.sin(ramc) * Math.cos(epsRad) + Math.tan(phi) * Math.sin(epsRad));
+        let ascSayana = normDeg(Math.atan2(num, den) * RAD);
+        if (Math.abs(normDeg(ascSayana - lst) - 90) > 90) {
+            ascSayana = normDeg(ascSayana + 180);
+        }
+        const lagnaNirayana = normDeg(ascSayana - ayanVal);
+
+        return {
+            Sun: sunNirayana,
+            Moon: moonNirayana,
+            Mars: marsNirayana,
+            Mercury: mercuryNirayana,
+            Jupiter: jupiterNirayana,
+            Venus: venusNirayana,
+            Saturn: saturnNirayana,
+            Rahu: rahuNirayana,
+            Ketu: ketuNirayana,
+            Lagna: lagnaNirayana
+        };
+    }
+
+    const pos0 = getSinglePlanetPos(jd);
+    const dt = 0.04;
+    const pos1 = getSinglePlanetPos(jd + dt);
+
+    function calcSpeedAndMotion(name, p0Deg, p1Deg) {
+        let diff = p1Deg - p0Deg;
+        if (diff > 180) diff -= 360;
+        if (diff < -180) diff += 360;
+        const speed = diff / dt;
+        let isRetro = (speed < 0);
+        if (name === 'Rahu' || name === 'Ketu') isRetro = true;
+        if (name === 'Sun' || name === 'Moon' || name === 'Lagna') isRetro = false;
+        return {
+            deg: p0Deg,
+            speed: parseFloat(speed.toFixed(4)),
+            isRetro: isRetro,
+            motion: isRetro ? 'Retrograde' : 'Direct'
+        };
+    }
+
+    return {
+        Sun: { ...calcSpeedAndMotion('Sun', pos0.Sun, pos1.Sun), name_te: "సూర్యుడు" },
+        Moon: { ...calcSpeedAndMotion('Moon', pos0.Moon, pos1.Moon), name_te: "చంద్రుడు" },
+        Mars: { ...calcSpeedAndMotion('Mars', pos0.Mars, pos1.Mars), name_te: "కుజుడు" },
+        Mercury: { ...calcSpeedAndMotion('Mercury', pos0.Mercury, pos1.Mercury), name_te: "బుధుడు" },
+        Jupiter: { ...calcSpeedAndMotion('Jupiter', pos0.Jupiter, pos1.Jupiter), name_te: "గురువు" },
+        Venus: { ...calcSpeedAndMotion('Venus', pos0.Venus, pos1.Venus), name_te: "శుక్రుడు" },
+        Saturn: { ...calcSpeedAndMotion('Saturn', pos0.Saturn, pos1.Saturn), name_te: "శని" },
+        Rahu: { ...calcSpeedAndMotion('Rahu', pos0.Rahu, pos1.Rahu), name_te: "రాహువు" },
+        Ketu: { ...calcSpeedAndMotion('Ketu', pos0.Ketu, pos1.Ketu), name_te: "కేతువు" },
+        Lagna: { ...calcSpeedAndMotion('Lagna', pos0.Lagna, pos1.Lagna), name_te: "లగ్నం" }
+    };
+}
+
+function getKPLords(longitude) {
+    longitude = normDeg(longitude);
+    const rashiIdx = Math.floor(longitude / 30);
+    const signLord = RASHI_LORDS[rashiIdx];
+
+    const nakSpan = 360.0 / 27.0;
+    const nakIdx = Math.floor(longitude / nakSpan);
+    const nakName = NAKSHATRAS[nakIdx % 27];
+    const nakNameTe = NAKSHATRAS_TELUGU[nakIdx % 27];
+    const nakPada = Math.floor((longitude % nakSpan) / (nakSpan / 4)) + 1;
+    const starLord = DASA_LORDS[nakIdx % 9];
+
+    return {
+        rashiIdx,
+        rashiName: RASHI_NAMES[rashiIdx],
+        rashiNameTe: RASHI_TELUGU[rashiIdx],
+        signLord,
+        signLordTe: RASHI_LORDS_TELUGU[rashiIdx],
+        nakIdx,
+        nakName,
+        nakNameTe,
+        nakPada,
+        starLord
+    };
+}
+
+function calculateDasaHierarchy(moonDeg, birthDate) {
+    const nakSpan = 360.0 / 27.0;
+    const nakIdx = Math.floor(moonDeg / nakSpan);
+    const remDeg = moonDeg % nakSpan;
+    const fracLeft = 1.0 - (remDeg / nakSpan);
+
+    const startLordIdx = nakIdx % 9;
+    const dasaArray = [];
+    let curDate = new Date(birthDate);
+
+    for (let i = 0; i < 9; i++) {
+        const lordIdx = (startLordIdx + i) % 9;
+        const lordName = DASA_LORDS[lordIdx];
+        const lordNameTe = DASA_LORDS_TELUGU[lordIdx];
+        const totalYears = DASA_YEARS[lordIdx];
+        const actualYears = (i === 0) ? (totalYears * fracLeft) : totalYears;
+
+        const startDate = new Date(curDate);
+        curDate.setTime(curDate.getTime() + actualYears * 365.2422 * 86400000);
+        const endDate = new Date(curDate);
+
+        // Bhuktis
+        const bhuktis = [];
+        let bCurDate = new Date(startDate);
+        for (let j = 0; j < 9; j++) {
+            const bIdx = (lordIdx + j) % 9;
+            const bYears = (totalYears * DASA_YEARS[bIdx]) / 120.0;
+            const bStart = new Date(bCurDate);
+            bCurDate.setTime(bCurDate.getTime() + bYears * 365.2422 * 86400000);
+            const bEnd = new Date(bCurDate);
+            bhuktis.push({
+                lord: DASA_LORDS[bIdx],
+                lordTe: DASA_LORDS_TELUGU[bIdx],
+                start: bStart.toISOString().split('T')[0],
+                end: bEnd.toISOString().split('T')[0]
+            });
+        }
+
+        dasaArray.push({
+            lord: lordName,
+            lordTe: lordNameTe,
+            start: startDate.toISOString().split('T')[0],
+            end: endDate.toISOString().split('T')[0],
+            bhuktis
+        });
+    }
+
+    return dasaArray;
+}
+
+function getActiveDasaNode(dasaTree, checkDateStr) {
+    const cTime = new Date(checkDateStr || new Date()).getTime();
+    for (const md of dasaTree) {
+        if (cTime >= new Date(md.start).getTime() && cTime <= new Date(md.end).getTime()) {
+            for (const bh of md.bhuktis) {
+                if (cTime >= new Date(bh.start).getTime() && cTime <= new Date(bh.end).getTime()) {
+                    return { md, bh };
+                }
+            }
+            return { md, bh: md.bhuktis[0] };
+        }
+    }
+    return { md: dasaTree[0], bh: dasaTree[0].bhuktis[0] };
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
+   FAMILY CASE & STATE MANAGEMENT
+   ═════════════════════════════════════════════════════════════════════════════════ */
+let FAMILY_MEMBERS = [
+    {
+        id: 'mem_1',
+        name: 'శ్రీనివాసరావు',
+        rel: 'భర్త / వరుడు (Husband/Groom)',
+        gender: 'male',
+        date: '1990-05-15',
+        time: '08:30:00',
+        city: 'Hyderabad, Telangana, India',
+        lat: 17.3850,
+        lon: 78.4867,
+        tz: 5.5
+    },
+    {
+        id: 'mem_2',
+        name: 'లక్ష్మీ ప్రసన్న',
+        rel: 'భార్య / వధువు (Wife/Bride)',
+        gender: 'female',
+        date: '1992-02-29',
+        time: '13:45:00',
+        city: 'Anantapur, Andhra Pradesh, India',
+        lat: 14.6778,
+        lon: 77.6081,
+        tz: 5.5
+    }
+];
+
+let ACTIVE_MEMBER_ID = 'all';
+
+function renderMembersBar() {
+    const bar = document.getElementById('membersBar');
+    if (!bar) return;
+    bar.innerHTML = '';
+
+    const allPill = document.createElement('div');
+    allPill.className = `member-pill ${ACTIVE_MEMBER_ID === 'all' ? 'active' : ''}`;
+    allPill.innerHTML = `<span>👥 అందరూ (All View)</span>`;
+    allPill.onclick = () => { ACTIVE_MEMBER_ID = 'all'; renderAll(); };
+    bar.appendChild(allPill);
+
+    FAMILY_MEMBERS.forEach(m => {
+        const pill = document.createElement('div');
+        pill.className = `member-pill ${ACTIVE_MEMBER_ID === m.id ? 'active' : ''}`;
+        pill.innerHTML = `
+            <span>${m.gender === 'male' ? '👨' : '👩'} ${m.name}</span>
+            <span class="rel-tag">${m.rel.split(' ')[0]}</span>
+            <span style="color:var(--accent-red); margin-left:4px;" onclick="event.stopPropagation(); deleteMember('${m.id}')">✕</span>
+        `;
+        pill.onclick = () => { ACTIVE_MEMBER_ID = m.id; renderAll(); };
+        bar.appendChild(pill);
+    });
+
+    const countEl = document.getElementById('caseMemberCount');
+    if (countEl) countEl.textContent = `(${FAMILY_MEMBERS.length} సభ్యులు)`;
+}
+
+function calculateMemberChart(m) {
+    const [y, mon, d] = m.date.split('-').map(Number);
+    const [h, min, s] = m.time.split(':').map(Number);
+    const jd = getJulianDay(y, mon, d, h, min, s, m.tz);
+    const planets = computePlanetaryPositions(jd, 'lahiri', m.lat, m.lon);
+    const moonKP = getKPLords(planets.Moon.deg);
+    const lagnaKP = getKPLords(planets.Lagna.deg);
+    const dasaTree = calculateDasaHierarchy(planets.Moon.deg, m.date);
+    const activeDasa = getActiveDasaNode(dasaTree, new Date().toISOString().split('T')[0]);
+
+    return {
+        member: m,
+        planets,
+        moonKP,
+        lagnaKP,
+        dasaTree,
+        activeDasa
+    };
+}
+
+function renderMultiChartsGrid(charts) {
+    const grid = document.getElementById('multiChartsGrid');
+    if (!grid) return;
+    grid.innerHTML = '';
+
+    charts.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'section-card';
+        card.innerHTML = `
+            <div class="section-header">
+                <div class="section-title">
+                    ${c.member.gender === 'male' ? '👨' : '👩'} ${c.member.name} (${c.member.rel.split(' ')[0]})
+                </div>
+                <span style="font-size:12px; color:var(--accent-gold);">లగ్నం: ${c.lagnaKP.rashiNameTe} | రాశి: ${c.moonKP.rashiNameTe}</span>
+            </div>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+                <div>
+                    <div style="text-align:center; font-size:11.5px; font-weight:700; color:var(--accent-gold); margin-bottom:4px;">🕉️ D-1 రాశి చక్రం</div>
+                    <div class="chart-box" id="chart_d1_${c.member.id}"></div>
+                </div>
+                <div>
+                    <div style="text-align:center; font-size:11.5px; font-weight:700; color:var(--accent-blue); margin-bottom:4px;">🔮 D-9 నవాంశ చక్రం</div>
+                    <div class="chart-box" id="chart_d9_${c.member.id}"></div>
+                </div>
+            </div>
+        `;
+        grid.appendChild(card);
+
+        setTimeout(() => {
+            renderSouthChartDOM(`chart_d1_${c.member.id}`, c.planets, false, c.moonKP.rashiIdx);
+            renderSouthChartDOM(`chart_d9_${c.member.id}`, c.planets, true, -1);
+        }, 10);
+    });
+}
+
+function renderSouthChartDOM(containerId, planets, isNavamsa, highlightRasi = -1) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = '';
+
+    const signGrid = [11, 0, 1, 2, 10, -1, -1, 3, 9, -1, -1, 4, 8, 7, 6, 5];
+    const signGrahas = Array.from({ length: 12 }, () => []);
+
+    for (const [pName, pObj] of Object.entries(planets)) {
+        let deg = pObj.deg;
+        const isRetro = (pObj.isRetro || pObj.motion === 'Retrograde') && !['Rahu', 'Ketu', 'Lagna'].includes(pName);
+        if (isNavamsa) {
+            const nakSpan = 360.0 / 27.0;
+            const padaSpan = nakSpan / 4.0;
+            const padaIdx = Math.floor(deg / padaSpan);
+            const navRashi = padaIdx % 12;
+            signGrahas[navRashi].push({ name: pName, deg, isRetro });
+        } else {
+            const rIdx = Math.floor(deg / 30);
+            signGrahas[rIdx].push({ name: pName, deg, isRetro });
+        }
+    }
+
+    for (let i = 0; i < 16; i++) {
+        const signIdx = signGrid[i];
+        if (signIdx === -1) {
+            if (i === 5) {
+                const centerDiv = document.createElement('div');
+                centerDiv.className = 'chart-center';
+                centerDiv.innerHTML = `<h4>${isNavamsa ? 'D-9 NAVAMSA' : 'D-1 RASI'}</h4><p>${isNavamsa ? 'నవాంశ' : 'రాశి'}</p>`;
+                container.appendChild(centerDiv);
+            }
+            continue;
+        }
+
+        const cell = document.createElement('div');
+        cell.className = 'chart-cell';
+        if (highlightRasi === signIdx) cell.classList.add('highlight-moon');
+
+        cell.innerHTML = `<div class="rashi-name">${RASHI_TELUGU[signIdx]}</div>`;
+        const grahasDiv = document.createElement('div');
+        grahasDiv.className = 'rashi-grahas';
+
+        for (const g of signGrahas[signIdx]) {
+            const pill = document.createElement('span');
+            pill.className = `graha-pill ${getGrahaClass(g.name)} ${g.isRetro ? 'vakra-graha' : ''}`;
+            const shortTe = { Lagna: 'ల', Sun: 'రవి', Moon: 'చం', Mars: 'కు', Mercury: 'బు', Jupiter: 'గు', Venus: 'శు', Saturn: 'శని', Rahu: 'రా', Ketu: 'కే' }[g.name] || g.name;
+            pill.textContent = shortTe + (g.isRetro ? '(వ)' : '');
+            grahasDiv.appendChild(pill);
+        }
+
+        cell.appendChild(grahasDiv);
+        container.appendChild(cell);
+    }
+}
+
+function getGrahaClass(name) {
+    const map = { Lagna: 'asc', Sun: 'sun', Moon: 'moon', Mars: 'mars', Mercury: 'mercury', Jupiter: 'jupiter', Venus: 'venus', Saturn: 'saturn', Rahu: 'rahu', Ketu: 'ketu' };
+    return map[name] || 'outer';
+}
+
+function renderFamilyDasaTable(charts) {
+    const tbody = document.getElementById('familyDasaTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+
+    charts.forEach(c => {
+        const retroGrahas = Object.entries(c.planets)
+            .filter(([k, v]) => v.isRetro && !['Rahu', 'Ketu', 'Lagna'].includes(k))
+            .map(([k, v]) => `${v.name_te || k} (వక్రం)`);
+
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><strong>${c.member.name}</strong></td>
+            <td><span class="tag-direct">${c.member.rel}</span></td>
+            <td><strong>${c.lagnaKP.rashiNameTe}</strong></td>
+            <td>${c.moonKP.rashiNameTe}</td>
+            <td>${c.moonKP.nakNameTe} (${c.moonKP.nakPada})</td>
+            <td><strong style="color:var(--accent-gold);">${c.activeDasa.md.lordTe}</strong></td>
+            <td><strong style="color:var(--accent-blue);">${c.activeDasa.bh.lordTe}</strong></td>
+            <td>${c.activeDasa.bh.end}</td>
+            <td>${retroGrahas.length ? `<span class="tag-retro">${retroGrahas.join(', ')}</span>` : '<span style="color:var(--text-muted);">(None)</span>'}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
+   SANTANA & MISCARRIAGE ROOT-CAUSE ENGINE (పుత్రదోష & బాలారిష్ట విశ్లేషణ)
+   ═════════════════════════════════════════════════════════════════════════════════ */
+function analyzeSantanaAndMiscarriages(charts) {
+    const husband = charts.find(c => c.member.gender === 'male' || c.member.rel.includes('భర్త') || c.member.rel.includes('వరుడు')) || charts[0];
+    const wife = charts.find(c => c.member.gender === 'female' || c.member.rel.includes('భార్య') || c.member.rel.includes('వధువు')) || (charts.length > 1 ? charts[1] : charts[0]);
+
+    if (!husband || !wife) return;
+
+    // Beeja Sphutam = Sun + Venus + Jupiter
+    const beejaDeg = normDeg(husband.planets.Sun.deg + husband.planets.Venus.deg + husband.planets.Jupiter.deg);
+    const beejaRasiIdx = Math.floor(beejaDeg / 30);
+    const isBeejaOdd = (beejaRasiIdx % 2 === 0);
+
+    // Kshetra Sphutam = Moon + Mars + Jupiter
+    const kshetraDeg = normDeg(wife.planets.Moon.deg + wife.planets.Mars.deg + wife.planets.Jupiter.deg);
+    const kshetraRasiIdx = Math.floor(kshetraDeg / 30);
+    const isKshetraEven = (kshetraRasiIdx % 2 === 1);
+
+    const beejaBox = document.getElementById('maleBeejaDetails');
+    if (beejaBox) {
+        beejaBox.innerHTML = `
+            <div style="font-size:14px;">బీజ స్ఫుట రేఖాంశం: <strong>${fmtDMS(beejaDeg)}</strong> (${RASHI_TELUGU[beejaRasiIdx]})</div>
+            <p style="font-size:12.5px; color:${isBeejaOdd ? 'var(--accent-green)' : 'var(--accent-red)'}; font-weight:700;">
+                ${isBeejaOdd ? '✅ పురుష బీజ బలం ఉత్తమం (Beeja Sphutam is in Odd Sign - Highly Fertile).' : '⚠️ బీజ స్ఫుటంలో మధ్యమ బలం (Beeja Sphutam in Even Sign - Medical & Spiritual boost advised).'}
+            </p>
+        `;
+        document.getElementById('maleBeejaStatus').className = isBeejaOdd ? 'tag-direct' : 'tag-retro';
+        document.getElementById('maleBeejaStatus').textContent = isBeejaOdd ? 'శుభ బలం (Strong)' : 'పరిహారం అవసరం (Needs Remedy)';
+    }
+
+    const kshetraBox = document.getElementById('femaleKshetraDetails');
+    if (kshetraBox) {
+        kshetraBox.innerHTML = `
+            <div style="font-size:14px;">క్షేత్ర స్ఫుట రేఖాంశం: <strong>${fmtDMS(kshetraDeg)}</strong> (${RASHI_TELUGU[kshetraRasiIdx]})</div>
+            <p style="font-size:12.5px; color:${isKshetraEven ? 'var(--accent-green)' : 'var(--accent-red)'}; font-weight:700;">
+                ${isKshetraEven ? '✅ స్త్రీ క్షేత్ర బలం సంపూర్ణం (Kshetra Sphutam in Even Sign - Highly Auspicious for Garbhadharana).' : '⚠️ గర్భ ధారణలో ఆటంకాలు, క్షేత్ర దోషం (Kshetra Sphutam afflicted - Garbha Raksha remedy required).'}
+            </p>
+        `;
+        document.getElementById('femaleKshetraStatus').className = isKshetraEven ? 'tag-direct' : 'tag-retro';
+        document.getElementById('femaleKshetraStatus').textContent = isKshetraEven ? 'శుభ బలం (Strong)' : 'గర్భరక్ష పరిహారం (Requires Care)';
+    }
+
+    const wife5thSign = (wife.lagnaKP.rashiIdx + 4) % 12;
+    const wife5thLord = RASHI_LORDS_TELUGU[wife5thSign];
+    const hasSarpaDosha = [wife.planets.Rahu.deg, wife.planets.Ketu.deg, wife.planets.Saturn.deg].some(d => Math.floor(d/30) === wife5thSign);
+    const isPutrakarakaAfflicted = wife.planets.Jupiter.isRetro || [wife.planets.Rahu.deg, wife.planets.Ketu.deg].some(d => Math.abs(d - wife.planets.Jupiter.deg) < 12);
+
+    const doshaBox = document.getElementById('santanaDoshaAnalysisBox');
+    if (doshaBox) {
+        doshaBox.innerHTML = `
+            <div style="background:rgba(255,123,114,0.06); border:1px solid rgba(255,123,114,0.3); border-radius:8px; padding:14px;">
+                <h4 style="color:var(--accent-red); margin-bottom:8px;">⚠️ గర్భస్రావాలు (Miscarriages) & బాలారిష్ట సమస్యల మూలకారణాలు:</h4>
+                <ul style="margin-left:20px; line-height:1.7;">
+                    <li><strong>భార్య 5వ భావం (గర్భస్థానం):</strong> ${RASHI_TELUGU[wife5thSign]} రాశి (అధిపతి: ${wife5thLord}). ${hasSarpaDosha ? '<span style="color:var(--accent-red); font-weight:700;">పాప గ్రహాల (రాహు/కేతు/శని) సంయోగం వల్ల సర్ప/నాగ దోషం లేదా గర్భస్రావ యోగం ఏర్పడుతోంది.</span>' : 'సాధారణ శుభ దృష్టి ఉన్నది.'}</li>
+                    <li><strong>పుత్రకారకుడు (దేవగురువు):</strong> గురువు ${wife.planets.Jupiter.isRetro ? '<span style="color:var(--accent-red);">వక్ర గతిలో</span>' : 'శుభ గతిలో'} ఉన్నారు. ${isPutrakarakaAfflicted ? 'రాహు-కేతువుల ప్రభావం వల్ల గర్భధారణ నిలవడంలో తీవ్ర ఆటంకాలు ఏర్పడుతున్నాయి.' : 'గురుబలం తోడ్పడుతోంది.'}</li>
+                    <li><strong>బాలారిష్ట యోగ విశ్లేషణ:</strong> చంద్రునికి 6/8/12 స్థానాల్లో పాపగ్రహాల సంచారం ఉన్నప్పుడు శిశు జననం జరిగిన స్వల్ప కాలంలోనే ఆయుర్దాయ గండాలు (Infant Longevity blocks) వస్తాయి. దీనికి ఆయుష్య హోమం & మహా మృత్యుంజయ శాంతి తప్పనిసరి.</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    const remBox = document.getElementById('santanaRemediesBox');
+    if (remBox) {
+        remBox.innerHTML = `
+            <div style="background:rgba(227,179,65,0.06); border:1px solid var(--accent-gold); border-radius:8px; padding:14px;">
+                <h4 style="color:var(--accent-gold); margin-bottom:8px;">🪔 గర్భ రక్షణ & దీర్ఘాయుష్షు గల సంతాన ప్రాప్తి శాంతి విధానాలు:</h4>
+                <ol style="margin-left:20px; line-height:1.8;">
+                    <li><strong>శ్రీ సంతాన గోపాల హోమం & మూలమంత్ర జపం:</strong> దంపతులు ఇద్దరి పేరున <em>"ఓం శ్రీం హ్రీం క్లీం గ్లౌం దేవకీసుత గోవింద వాసుదేవ జగత్పతే దేహి మే తనయం కృష్ణ త్వామహం శరణం గతః"</em> 108 సార్లు రోజూ పఠించాలి.</li>
+                    <li><strong>శ్రీకాళహస్తి లేదా కుక్కే సుబ్రహ్మణ్య సర్పదోష శాంతి / నాగ ప్రతిష్ఠ:</strong> గర్భస్రావాల నివారణకు ఆశ్లేష బలి లేదా నాగదోష శాంతి అత్యంత ఫలప్రదం.</li>
+                    <li><strong>శ్రీ షష్ఠీ దేవి స్తోత్ర పారాయణ:</strong> గర్భం దాల్చినప్పటి నుండి ప్రసవం వరకు తల్లి రోజూ శ్రీ షష్ఠీ దేవి కవచం/స్తోత్రం చదవడం ద్వారా గర్భ రక్షణ సిద్ధిస్తుంది.</li>
+                    <li><strong>బాలారిష్ట నివారణకు:</strong> శిశువు జన్మించగానే <strong>రుద్రాభిషేకం</strong> మరియు <strong>ఆయుష్య హోమం</strong> చేయించి సువర్ణ ప్రసాదం అందించాలి.</li>
+                </ol>
+            </div>
+        `;
+    }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
+   VIVAHA MATCHING & MUHURTHAM GENERATOR
+   ═════════════════════════════════════════════════════════════════════════════════ */
+function analyzeVivahaMatching(charts) {
+    const groom = charts.find(c => c.member.gender === 'male' || c.member.rel.includes('భర్త') || c.member.rel.includes('వరుడు')) || charts[0];
+    const bride = charts.find(c => c.member.gender === 'female' || c.member.rel.includes('భార్య') || c.member.rel.includes('వధువు')) || (charts.length > 1 ? charts[1] : charts[0]);
+
+    if (!groom || !bride) return;
+
+    const gNak = groom.moonKP.nakIdx;
+    const bNak = bride.moonKP.nakIdx;
+    const gRasi = groom.moonKP.rashiIdx;
+    const bRasi = bride.moonKP.rashiIdx;
+
+    const getVarna = (r) => [3,7,11].includes(r)?4:[0,4,8].includes(r)?3:[1,5,9].includes(r)?2:1;
+    const varnaScore = getVarna(gRasi) >= getVarna(bRasi) ? 1 : 0;
+    const vasyaScore = (gRasi === bRasi || (gRasi+6)%12 === bRasi) ? 2 : 1;
+
+    const taraGtoB = ((bNak - gNak + 27) % 9) + 1;
+    const taraBtoG = ((gNak - bNak + 27) % 9) + 1;
+    const isTaraGoodG = ![3, 5, 7].includes(taraGtoB);
+    const isTaraGoodB = ![3, 5, 7].includes(taraBtoG);
+    let taraScore = 0;
+    if (isTaraGoodG && isTaraGoodB) taraScore = 3;
+    else if (isTaraGoodG || isTaraGoodB) taraScore = 1.5;
+
+    const yoniScore = (gNak % 14 === bNak % 14) ? 4 : 2;
+    const gLord = RASHI_LORDS[gRasi];
+    const bLord = RASHI_LORDS[bRasi];
+    const maitriScore = (gLord === bLord) ? 5 : 3;
+
+    const ganaScore = (gNak % 3 === bNak % 3) ? 6 : (gNak % 3 === 2 && bNak % 3 === 0) ? 0 : 4;
+    const rDiff = (bRasi - gRasi + 12) % 12;
+    const isShadashtaka = (rDiff === 5 || rDiff === 7);
+    const isDwirdwadasa = (rDiff === 1 || rDiff === 11);
+    const bhakootScore = (isShadashtaka || isDwirdwadasa) ? 0 : 7;
+
+    const gNadi = gNak % 3;
+    const bNadi = bNak % 3;
+    const nadiScore = (gNadi !== bNadi) ? 8 : 0;
+
+    const totalScore = varnaScore + vasyaScore + taraScore + yoniScore + maitriScore + ganaScore + bhakootScore + nadiScore;
+
+    const scoreBadge = document.getElementById('gunaTotalScoreBadge');
+    if (scoreBadge) {
+        scoreBadge.textContent = `${totalScore} / 36`;
+        scoreBadge.style.color = totalScore >= 18 ? 'var(--accent-green)' : 'var(--accent-red)';
+    }
+
+    const tbody = document.getElementById('gunaMilanTableBody');
+    if (tbody) {
+        tbody.innerHTML = `
+            <tr><td>1. వర్ణ కూటం (Varna)</td><td>1</td><td><strong>${varnaScore}</strong></td><td>-</td><td>-</td><td>${varnaScore ? '✅ అనుకూలం' : 'సాధారణం'}</td></tr>
+            <tr><td>2. వశ్య కూటం (Vasya)</td><td>2</td><td><strong>${vasyaScore}</strong></td><td>-</td><td>-</td><td>✅ అనుకూలం</td></tr>
+            <tr><td>3. తారాబలం (Tara)</td><td>3</td><td><strong>${taraScore}</strong></td><td>${taraGtoB}వ తార</td><td>${taraBtoG}వ తార</td><td>${taraScore >= 2 ? '✅ శుభం' : '⚠️ పరిహారం'}</td></tr>
+            <tr><td>4. యోని కూటం (Yoni)</td><td>4</td><td><strong>${yoniScore}</strong></td><td>-</td><td>-</td><td>✅ అనుకూలం</td></tr>
+            <tr><td>5. గ్రహ మైత్రి (Maitri)</td><td>5</td><td><strong>${maitriScore}</strong></td><td>${groom.moonKP.signLordTe}</td><td>${bride.moonKP.signLordTe}</td><td>${maitriScore >= 3 ? '✅ శుభం' : 'సాధారణం'}</td></tr>
+            <tr><td>6. గణ కూటం (Gana)</td><td>6</td><td><strong>${ganaScore}</strong></td><td>-</td><td>-</td><td>${ganaScore >= 4 ? '✅ శుభం' : '⚠️ భిన్న గణం'}</td></tr>
+            <tr><td>7. భకూట కూటం (Bhakoot)</td><td>7</td><td><strong>${bhakootScore}</strong></td><td>${groom.moonKP.rashiNameTe}</td><td>${bride.moonKP.rashiNameTe}</td><td>${bhakootScore === 7 ? '✅ శుభం' : '<span style="color:var(--accent-red);">⚠️ షడాష్టక/ద్విర్ద్వాదశ దోషం</span>'}</td></tr>
+            <tr><td>8. నాడీ కూటం (Nadi)</td><td>8</td><td><strong>${nadiScore}</strong></td><td>${['ఆది', 'మధ్య', 'అంత్య'][gNadi]}</td><td>${['ఆది', 'మధ్య', 'అంత్య'][bNadi]}</td><td>${nadiScore === 8 ? '✅ ఏకనాడి లేదు (శుభం)' : '<span style="color:var(--accent-red);">⚠️ ఏకనాడీ దోషం</span>'}</td></tr>
+        `;
+    }
+
+    const isGroomKuja = [1, 2, 4, 7, 8, 12].includes((Math.floor(groom.planets.Mars.deg/30) - groom.lagnaKP.rashiIdx + 12) % 12 + 1);
+    const isBrideKuja = [1, 2, 4, 7, 8, 12].includes((Math.floor(bride.planets.Mars.deg/30) - bride.lagnaKP.rashiIdx + 12) % 12 + 1);
+
+    const kujaBox = document.getElementById('kujaDoshaMatchBox');
+    if (kujaBox) {
+        kujaBox.innerHTML = `
+            <p><strong>వరునికి కుజ దోషం:</strong> ${isGroomKuja ? '<span class="tag-retro">ఉన్నది</span>' : '<span class="tag-direct">లేదు</span>'}</p>
+            <p style="margin-top:4px;"><strong>వధువుకు కుజ దోషం:</strong> ${isBrideKuja ? '<span class="tag-retro">ఉన్నది</span>' : '<span class="tag-direct">లేదు</span>'}</p>
+            <div style="margin-top:8px; padding:10px; border-radius:6px; background:rgba(255,255,255,0.04);">
+                <strong>తీర్పు:</strong> ${(isGroomKuja === isBrideKuja) ? '✅ ఇద్దరికీ సమాన దోషం ఉండడం లేదా లేకపోవడం వల్ల <strong>కుజ దోష సామ్యం (రద్దు)</strong> జరిగింది.' : '⚠️ ఒకరికి మాత్రమే కుజ దోషం ఉన్నది. వివాహానికి ముందు <strong>సుబ్రహ్మణ్య కళ్యాణం / కుంభ వివాహం</strong> పరిహారం మంచిది.'}
+            </div>
+        `;
+    }
+
+    const maritalBox = document.getElementById('maritalLifeAnalysisBox');
+    if (maritalBox) {
+        maritalBox.innerHTML = `
+            <p>• <strong>మాంగల్య బలం:</strong> వధువు జాతకంలో 8వ అధిపతి స్థితి ఆధారంగా దాంపత్య రక్ష ఉత్తమంగా ఉన్నది.</p>
+            <p style="margin-top:4px;">• <strong>నవాంశ సమన్వయం:</strong> D-9 చక్రంలో శుక్ర-గురుల స్థానాలు పరస్పర అనుకూలతను మరియు గృహ సౌఖ్యాన్ని సూచిస్తున్నాయి.</p>
+            <p style="margin-top:4px;">• <strong>సమగ్ర నిర్ణయం:</strong> మొత్తం గుణాలు ${totalScore}/36. ${(totalScore >= 18 && !(isShadashtaka && nadiScore === 0)) ? 'వివాహం నిరభ్యంతరంగా జరిపించవచ్చు.' : 'శాంతి పరిహారాలు జరిపించిన తర్వాత ముహూర్తం పెట్టడం శ్రేయస్కరం.'}</p>
+        `;
+    }
+}
+
+function generateVivahaMuhurthams() {
+    const fromDateStr = document.getElementById('muhurthamFromDate').value || new Date().toISOString().split('T')[0];
+    const toDateStr = document.getElementById('muhurthamToDate').value || new Date(Date.now() + 90*86400000).toISOString().split('T')[0];
+
+    const resultsDiv = document.getElementById('muhurthamResultsContainer');
+    if (!resultsDiv) return;
+
+    resultsDiv.innerHTML = '<p style="color:var(--accent-gold);">🔍 ముహూర్తాలను శోధిస్తోంది...</p>';
+
+    const groom = FAMILY_MEMBERS.find(m => m.gender === 'male' || m.rel.includes('భర్త') || m.rel.includes('వరుడు')) || FAMILY_MEMBERS[0];
+    const bride = FAMILY_MEMBERS.find(m => m.gender === 'female' || m.rel.includes('భార్య') || m.rel.includes('వధువు')) || (FAMILY_MEMBERS.length > 1 ? FAMILY_MEMBERS[1] : FAMILY_MEMBERS[0]);
+
+    const gMoonDeg = computePlanetaryPositions(getJulianDay(...groom.date.split('-').map(Number), 12, 0, 0, 5.5), 'lahiri', 14, 78).Moon.deg;
+    const bMoonDeg = computePlanetaryPositions(getJulianDay(...bride.date.split('-').map(Number), 12, 0, 0, 5.5), 'lahiri', 14, 78).Moon.deg;
+
+    const gNakIdx = Math.floor(gMoonDeg / (360/27));
+    const bNakIdx = Math.floor(bMoonDeg / (360/27));
+
+    const auspiciousMuhurthams = [];
+    let cur = new Date(fromDateStr);
+    const end = new Date(toDateStr);
+
+    const goodVivahaNaks = [3, 4, 9, 10, 11, 12, 14, 16, 18, 19, 20, 25, 26];
+    const goodVivahaVaras = [1, 3, 4, 5];
+
+    while (cur <= end && auspiciousMuhurthams.length < 8) {
+        const y = cur.getFullYear();
+        const m = cur.getMonth() + 1;
+        const d = cur.getDate();
+        const jd = getJulianDay(y, m, d, 10, 0, 0, 5.5);
+        const planets = computePlanetaryPositions(jd, 'lahiri', 14.6778, 77.6081);
+
+        const moonDeg = planets.Moon.deg;
+        const tNakIdx = Math.floor(moonDeg / (360/27));
+        const dayOfWeek = cur.getDay();
+
+        const gTara = ((tNakIdx - gNakIdx + 27) % 9) + 1;
+        const bTara = ((tNakIdx - bNakIdx + 27) % 9) + 1;
+
+        const isGoodGTara = ![3, 5, 7].includes(gTara);
+        const isGoodBTara = ![3, 5, 7].includes(bTara);
+
+        if (goodVivahaNaks.includes(tNakIdx) && goodVivahaVaras.includes(dayOfWeek) && isGoodGTara && isGoodBTara) {
+            const weddingLagna = RASHI_TELUGU[(tNakIdx + 3) % 12];
+            auspiciousMuhurthams.push({
+                date: cur.toISOString().split('T')[0],
+                dayName: ['ఆదివారం', 'సోమవారం', 'మంగళవారం', 'బుధవారం', 'గురువారం', 'శుక్రవారం', 'శనివారం'][dayOfWeek],
+                nakshatra: NAKSHATRAS_TELUGU[tNakIdx],
+                lagna: weddingLagna,
+                timeSlot: 'ఉదయం 08:45 నుండి 10:15 వరకు (అమృత ఘడియలు)',
+                gTara,
+                bTara
+            });
+        }
+        cur.setDate(cur.getDate() + 1);
+    }
+
+    if (auspiciousMuhurthams.length === 0) {
+        resultsDiv.innerHTML = `<p style="color:var(--accent-red);">ఎంచుకున్న కాలంలో వధూవరుల ఇద్దరి తారాబలానికి సరిపోయే వివాహ ముహూర్తాలు లభించలేదు. దయచేసి తదుపరి నెలలను శోధించండి.</p>`;
+        return;
+    }
+
+    resultsDiv.innerHTML = `
+        <div class="data-table-container">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>వివాహ తేదీ</th>
+                        <th>వారం</th>
+                        <th>శుభ నక్షత్రం</th>
+                        <th>వివాహ లగ్నం</th>
+                        <th>శుభ ముహూర్త సమయం</th>
+                        <th>వరుని తార</th>
+                        <th>వధువు తార</th>
+                        <th>ఎంపిక</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${auspiciousMuhurthams.map(m => `
+                        <tr>
+                            <td><strong style="color:var(--accent-gold);">${m.date}</strong></td>
+                            <td>${m.dayName}</td>
+                            <td><strong>${m.nakshatra}</strong></td>
+                            <td><span class="tag-direct">${m.lagna} లగ్నం</span></td>
+                            <td>${m.timeSlot}</td>
+                            <td>${m.gTara}వ తార (శుభం)</td>
+                            <td>${m.bTara}వ తార (శుభం)</td>
+                            <td><button class="btn btn-gold" style="font-size:11px; padding:3px 8px;" onclick="alert('ముహూర్తం ఖరారు చేయబడింది: ' + '${m.date} ' + '${m.lagna}')">లగ్న పత్రిక</button></td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        </div>
+    `;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
+   KARYA VIGHNAM & WEALTH DIAGNOSTICS
+   ═════════════════════════════════════════════════════════════════════════════════ */
+function analyzeKaryaVighnamAndWealth(charts) {
+    const head = charts[0];
+    if (!head) return;
+
+    const kvBox = document.getElementById('karyaVighnaAnalysisBox');
+    if (kvBox) {
+        kvBox.innerHTML = `
+            <div style="background:rgba(88,166,255,0.06); border:1px solid rgba(88,166,255,0.3); border-radius:8px; padding:14px;">
+                <h4 style="color:var(--accent-blue); margin-bottom:8px;">🔍 ఏ పని మొదలుపెట్టినా మధ్యలోనే ఆగిపోవడానికి గల జ్యోతిష్య కారణాలు:</h4>
+                <ul style="margin-left:20px; line-height:1.8;">
+                    <li><strong>8వ భావం (ఆటంకాలు & అడ్డంకులు):</strong> లగ్నం నుండి 8వ స్థానంలో పాపగ్రహాల దృష్టి ఉన్నప్పుడు ప్రారంభించిన పనులలో ఊహించని స్తంభనలు ఏర్పడతాయి.</li>
+                    <li><strong>10వ భావం (కర్మ & వ్యాపార బలం):</strong> 10వ అధిపతి మరియు ప్రస్తుత నడుస్తున్న అంతర్దశా నాథుని మధ్య 6/8 (షడాష్టక) సంబంధం ఉన్నప్పుడు కాంట్రాక్టులు, ఉద్యోగ ప్రాజెక్టులు చేతివరకు వచ్చి ఆగిపోతాయి.</li>
+                    <li><strong>బంధన / స్తంభన యోగం:</strong> రాహువు లేదా శని ప్రభావం లగ్నాధిపతిపై ఉన్నప్పుడు శ్రమకు తగిన ప్రతిఫలం దక్కక నిరాశ కలుగుతుంది.</li>
+                </ul>
+            </div>
+        `;
+    }
+
+    const kvRemBox = document.getElementById('karyaVighnaRemediesBox');
+    if (kvRemBox) {
+        kvRemBox.innerHTML = `
+            <div style="background:rgba(227,179,65,0.06); border:1px solid var(--accent-gold); border-radius:8px; padding:14px;">
+                <h4 style="color:var(--accent-gold); margin-bottom:8px;">🛡️ సంపూర్ణ కార్యసిద్ధి & స్తంభన నివారణ వైదిక మార్గాలు:</h4>
+                <ol style="margin-left:20px; line-height:1.8;">
+                    <li><strong>శ్రీ సుదర్శన హోమం:</strong> సర్వ విఘ్న నివారణకు మరియు ఆగిపోయిన పనులు త్వరితగతిన పూర్తి కావడానికి సుదర్శన యంత్ర పూజ లేదా హోమం చేయించండి.</li>
+                    <li><strong>పంచముఖ హనుమాన్ కవచ పారాయణ:</strong> మంగళ లేదా శనివారం నాడు సింధూర పూజతో హనుమాన్ చాలీసా 11 సార్లు పఠించండి.</li>
+                    <li><strong>శ్రీ గణపతి అథర్వశీర్ష అభిషేకం:</strong> ప్రతి సంకష్టహర చతుర్థి నాడు గరికతో విఘ్నేశ్వరునికి పూజ చేయండి.</li>
+                </ol>
+            </div>
+        `;
+    }
+
+    const wBox = document.getElementById('familyWealthAnalysisBox');
+    if (wBox) {
+        wBox.innerHTML = `
+            <div style="background:rgba(63,185,80,0.06); border:1px solid rgba(63,185,80,0.3); border-radius:8px; padding:14px;">
+                <h4 style="color:var(--accent-green); margin-bottom:8px;">💰 కుటుంబ సంపద, లక్ష్మీ కటాక్షం & అప్పుల విముక్తి:</h4>
+                <p>• <strong>ధన భావాలు (2 & 11):</strong> కుటుంబ సంపాదనలో లక్ష్మీ స్థానాధిపతి శుక్రుడు మరియు లాభాధిపతి గురువుల సమన్వయం వల్ల క్రమంగా సంపద వృద్ధి చెందుతుంది.</p>
+                <p style="margin-top:6px;">• <strong>అప్పుల నివారణ (6వ భావం):</strong> అప్పుల బాధల నుండి ఉపశమనం పొందడానికి ప్రతి మంగళవారం <strong>ఋణవిమోచన అంగారక స్తోత్రం</strong> పఠించడం అత్యంత శ్రేయస్కరం.</p>
+            </div>
+        `;
+    }
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
+   INTERACTIVE MULTI-CHART AI ASTROLOGER Q&A ENGINE
+   ═════════════════════════════════════════════════════════════════════════════════ */
+function sendDevoteeQuery() {
+    const input = document.getElementById('devoteeQueryInput');
+    const query = input.value.trim();
+    if (!query) return;
+
+    const history = document.getElementById('chatHistory');
+    const userMsg = document.createElement('div');
+    userMsg.className = 'chat-msg user';
+    userMsg.textContent = query;
+    history.appendChild(userMsg);
+    input.value = '';
+
+    setTimeout(() => {
+        const botMsg = document.createElement('div');
+        botMsg.className = 'chat-msg bot';
+        botMsg.innerHTML = generateDevoteeAnswer(query);
+        history.appendChild(botMsg);
+        history.scrollTop = history.scrollHeight;
+    }, 400);
+}
+
+function setDevoteeQuestion(q) {
+    document.getElementById('devoteeQueryInput').value = q;
+    sendDevoteeQuery();
+}
+
+let DEVOTEE_CHAT_LANG = 'auto'; // 'auto', 'te', 'en'
+
+function toggleDevoteeChatLang() {
+    if (DEVOTEE_CHAT_LANG === 'auto') DEVOTEE_CHAT_LANG = 'en';
+    else if (DEVOTEE_CHAT_LANG === 'en') DEVOTEE_CHAT_LANG = 'te';
+    else DEVOTEE_CHAT_LANG = 'auto';
+
+    const btn = document.getElementById('chatLangBtn');
+    if (btn) {
+        btn.textContent = `🌐 Language: ${DEVOTEE_CHAT_LANG.toUpperCase()}`;
+    }
+}
+
+function generateDevoteeAnswer(query) {
+    const qLower = query.toLowerCase();
+    const isTeluguText = /[\u0C00-\u0C7F]/.test(query);
+    const isEn = (DEVOTEE_CHAT_LANG === 'en') || (DEVOTEE_CHAT_LANG === 'auto' && !isTeluguText);
+
+    const charts = FAMILY_MEMBERS.map(calculateMemberChart);
+    const husband = charts.find(c => c.member.gender === 'male') || charts[0];
+    const wife = charts.find(c => c.member.gender === 'female') || (charts.length > 1 ? charts[1] : charts[0]);
+
+    // 1. సంతానం, గర్భస్రావాలు & బాలారిష్ట విశ్లేషణ (Progeny, Miscarriages & Garbha Raksha)
+    if (qLower.includes('miscarriage') || qLower.includes('గర్భస్రావ') || qLower.includes('సంతాన') || qLower.includes('died') || qLower.includes('child') || qLower.includes('ectopic') || qLower.includes('గర్భ') || qLower.includes('పిల్లలు') || qLower.includes('progeny') || qLower.includes('baby') || qLower.includes('conceive') || qLower.includes('pregnancy')) {
+        if (isEn) {
+            return `
+                🔮 <strong>Progeny, Miscarriage Root Causes & Garbha Raksha Analysis:</strong><br><br>
+                Comprehensive family astrological synastry reveals that miscarriages and infant longevity hurdles are primarily driven by <strong>5th House Sarpa/Naga Dosha, Putrakaraka affliction, and Balarishta planetary alignments</strong>:<br>
+                • <strong>Husband's Chart (${husband.member.name}):</strong> Ascendant: <strong>${husband.lagnaKP.rashiName}</strong>, Moon Sign: <strong>${husband.moonKP.rashiName}</strong>. Male Beeja Sphutam indicates moderate strength requiring Jupiterian propitiation.<br>
+                • <strong>Wife's Chart (${wife.member.name}):</strong> Ascendant: <strong>${wife.lagnaKP.rashiName}</strong>, Moon Sign: <strong>${wife.moonKP.rashiName}</strong>. 5th house of pregnancy influenced by Rahu/Ketu/Saturn nodal axis, causing temporary vulnerability in embryo retention.<br>
+                • <strong>Active Dasa Period:</strong> Wife is currently running <strong>${wife.activeDasa.md.lord} Mahadasa - ${wife.activeDasa.bh.lord} Bhukti</strong>. Propitiation during this phase is essential for safe pregnancy.<br><br>
+                🛡️ <strong>Prescribed Vedic Remedies:</strong><br>
+                1. <strong>Sarpa Dosha Shanti / Naga Pratishta:</strong> Couple should perform Sarpa Shanti together at <strong>Srikalahasti or Kukke Subrahmanya Kshetra</strong>.<br>
+                2. <strong>Sri Santana Gopala Homam & Japa:</strong> Chanted 108 times daily before conception:<br>
+                <em>"Om Shreem Hreem Kleem Glaum Devakisuta Govinda Vasudeva Jagatpate Dehi Me Tanayam Krishna Tvamaham Sharanam Gatah"</em><br>
+                3. <strong>Sri Shashti Devi Stotram:</strong> Recited daily throughout pregnancy for absolute fetal protection.<br>
+                4. <strong>Balarishta Longevity Shield:</strong> Perform <strong>Ayushya Homam & Maha Mrityunjaya Rudrabhishekam</strong> upon child's birth.
+            `;
+        }
+        return `
+            🔮 <strong>సంతాన ప్రాప్తి, గర్భ రక్షణ & దోష నివారణ సమగ్ర విశ్లేషణ:</strong><br><br>
+            కుటుంబ జాతకాలను సమగ్రంగా పరిశీలించగా, గర్భస్రావాలు లేదా గర్భధారణలో తీవ్ర ఆటంకాలు ఏర్పడటానికి <strong>సర్ప/నాగ దోషం, 5వ భావాధిపతిపై పాపగ్రహాల దృష్టి మరియు బాలారిష్ట యోగాలు</strong> ప్రధాన కారణాలుగా ఉన్నాయి:<br>
+            • <strong>భర్త జాతకం (${husband.member.name}):</strong> లగ్నం: <strong>${husband.lagnaKP.rashiNameTe}</strong>, రాశి: <strong>${husband.moonKP.rashiNameTe}</strong>. పురుష బీజ స్ఫుటం సాధారణ బలం కలిగి ఉన్నప్పటికీ, శుక్ర-గురుల సమన్వయం శాంతి అవసరాన్ని సూచిస్తోంది.<br>
+            • <strong>భార్య జాతకం (${wife.member.name}):</strong> లగ్నం: <strong>${wife.lagnaKP.rashiNameTe}</strong>, రాశి: <strong>${wife.moonKP.rashiNameTe}</strong>. స్త్రీ క్షేత్ర స్ఫుటం మరియు 5వ భావంలో రాహు/కేతు/శని కారకత్వ ప్రభావం వల్ల పిండ రక్షణకు ప్రత్యేక ఆధ్యాత్మిక బలం అవసరం.<br>
+            • <strong>ప్రస్తుత దశ:</strong> భార్యకు ప్రస్తుతం <strong>${wife.activeDasa.md.lordTe} మహాదశలో ${wife.activeDasa.bh.lordTe} భుక్తి</strong> నడుస్తోంది. ఈ కాలంలో శాంతి జరిపించడం అత్యంత ముఖ్యం.<br><br>
+            🛡️ <strong>సూచించిన ప్రత్యక్ష వైదిక పరిహారాలు:</strong><br>
+            1. <strong>శ్రీకాళహస్తి లేదా కుక్కే సుబ్రహ్మణ్య క్షేత్రంలో సర్పదోష శాంతి / నాగ ప్రతిష్ఠ:</strong> దంపతులు ఇద్దరూ కలిసి ఈ శాంతి పూజ జరిపించాలి.<br>
+            2. <strong>శ్రీ సంతాన గోపాల హోమం & జపం:</strong> రోజూ 108 సార్లు <em>"ఓం శ్రీం హ్రీం క్లీం గ్లౌం దేవకీసుత గోవింద వాసుదేవ జగత్పతే దేహి మే తనయం కృష్ణ త్వామహం శరణం గతః"</em> మంత్రాన్ని జపించాలి.<br>
+            3. <strong>శ్రీ షష్ఠీ దేవి స్తోత్ర పారాయణ:</strong> గర్భం దాల్చినప్పటి నుండి ప్రసవం వరకు తల్లి రోజూ శ్రీ షష్ఠీ దేవి స్తోత్రం చదవాలి.<br>
+            4. <strong>బాలారిష్ట నివారణ:</strong> శిశువు జన్మించిన వెంటనే <strong>ఆయుష్య హోమం</strong> మరియు <strong>రుద్రాభిషేకం</strong> చేయించాలి.
+        `;
+    }
+
+    // 2. కార్య విఘ్నాలు, పనులు ఆగిపోవడం & స్తంభనలు (Work Obstacles & Career Stoppages)
+    if (qLower.includes('stop') || qLower.includes('ఆగిపో') || qLower.includes('పని') || qLower.includes('work') || qLower.includes('middle') || qLower.includes('success') || qLower.includes('కార్య') || qLower.includes('విఘ్న') || qLower.includes('obstacle') || qLower.includes('delay')) {
+        if (isEn) {
+            return `
+                🔮 <strong>Work Obstacles & Career Stoppage Root-Cause Analysis:</strong><br><br>
+                Astrological analysis indicates that projects stopping mid-way or career opportunities slipping at the last moment are caused by <strong>8th House (Vighna Bhavam) afflictions and Saturn-Rahu nodal blockage on the 10th lord (Karma Sthana)</strong>:<br>
+                • <strong>Family Head (${husband.member.name}):</strong> Ascendant: <strong>${husband.lagnaKP.rashiName}</strong>, Moon: <strong>${husband.moonKP.rashiName}</strong>. Currently operating under <strong>${husband.activeDasa.md.lord} Mahadasa - ${husband.activeDasa.bh.lord} Bhukti</strong>.<br>
+                • <strong>Transit (Gochara) Status:</strong> Transit nodal pressure induces unexpected friction and bureaucratic delays.<br><br>
+                🛡️ <strong>Remedies for Uninhibited Success (Karya Siddhi):</strong><br>
+                1. <strong>Sri Sudarshana Homam:</strong> Conduct Sudarshana Yantra Pooja or Homam to remove invisible hurdles and accelerate stalled works.<br>
+                2. <strong>Ganapati Atharvasheersha:</strong> Offer 21 Durva grass blades with abhishekam every Sankashta Chaturthi.<br>
+                3. <strong>Panchamukha Hanuman Kavacham:</strong> Recite Hanuman Chalisa 11 times on Tuesdays or Saturdays.
+            `;
+        }
+        return `
+            🔮 <strong>కార్య విఘ్నాలు & స్తంభన నివారణ జాతక విశ్లేషణ:</strong><br><br>
+            ప్రారంభించిన ఏ పనైనా మధ్యలోనే ఆగిపోవడానికి లేదా చేతివరకు వచ్చిన అవకాశాలు చేజారిపోవడానికి కుటుంబ పెద్ద జాతకంలో <strong>8వ భావ ఆటంకాలు (Vighna Bhavam) మరియు 10వ కర్మాధిపతిపై శని-రాహువుల బంధన గోచార ప్రభావం</strong> ప్రధాన కారణాలు:<br>
+            • <strong>కుటుంబ యజమాని (${husband.member.name}):</strong> లగ్నం: <strong>${husband.lagnaKP.rashiNameTe}</strong>, రాశి: <strong>${husband.moonKP.rashiNameTe}</strong>. ప్రస్తుతం <strong>${husband.activeDasa.md.lordTe} మహాదశలో ${husband.activeDasa.bh.lordTe} భుక్తి</strong> నడుస్తోంది.<br>
+            • <strong>గోచార గ్రహ స్థితి:</strong> రాహువు మరియు శనిల సంచారం వల్ల సంకల్పించిన పనుల్లో ఊహించని జాప్యం కలుగుతోంది.<br><br>
+            🛡️ <strong>సంపూర్ణ కార్యసిద్ధి పరిహారాలు:</strong><br>
+            1. <strong>శ్రీ సుదర్శన హోమం:</strong> సర్వ విఘ్న నివారణకు మరియు ఆగిపోయిన పనులు వేగవంతం కావడానికి సుదర్శన యంత్ర పూజ లేదా హోమం చేయించండి.<br>
+            2. <strong>గణపతి అథర్వశీర్షం:</strong> ప్రతి సంకష్టహర చతుర్థి నాడు విఘ్నేశ్వరునికి 21 గరిక పోచలతో పూజ చేయండి.<br>
+            3. <strong>పంచముఖ హనుమాన్ కవచం:</strong> మంగళవారం లేదా శనివారం నాడు సింధూర పూజతో హనుమాన్ చాలీసా 11 సార్లు పఠించండి.
+        `;
+    }
+
+    // 3. వివాహం & దాంపత్య జీవితం (Marriage & Post-Marital Life)
+    if (qLower.includes('marr') || qLower.includes('వివాహ') || qLower.includes('పెళ్లి') || qLower.includes('life') || qLower.includes('సంబంధ') || qLower.includes('భార్య') || qLower.includes('భర్త') || qLower.includes('spouse') || qLower.includes('wedding')) {
+        if (isEn) {
+            return `
+                🔮 <strong>Marriage Compatibility & Post-Marital Life Analysis (D-9 Navamsa):</strong><br><br>
+                Comparative synastry between the couple shows:<br>
+                • <strong>Groom (${husband.member.name}):</strong> Moon Sign: <strong>${husband.moonKP.rashiName}</strong>, Nakshatra: <strong>${husband.moonKP.nakName}</strong>.<br>
+                • <strong>Bride (${wife.member.name}):</strong> Moon Sign: <strong>${wife.moonKP.rashiName}</strong>, Nakshatra: <strong>${wife.moonKP.nakName}</strong>.<br>
+                • <strong>Ashtakoota 36 Guna Milan:</strong> High score with harmonious mental, intellectual, and physical compatibility. No severe Nadi or Bhakoot Dosha.<br>
+                • <strong>Kuja Dosha Samyam:</strong> Mars positions are evenly matched, cancelling mutual dosha and protecting marital harmony.<br>
+                • <strong>Navamsa (D-9) Strength:</strong> Fosters mutual respect, financial growth after marriage, and domestic happiness.<br><br>
+                🛡️ <strong>Remedies:</strong> Worship Sri Lakshmi-Venkateswara Swamy on Fridays for lifelong marital bliss.
+            `;
+        }
+        return `
+            🔮 <strong>వివాహ పొంతన & దాంపత్య జీవిత సమగ్ర విశ్లేషణ:</strong><br><br>
+            వధూవరుల జాతకాలను సరిపోల్చగా:<br>
+            • <strong>వరుడు (${husband.member.name}):</strong> రాశి: <strong>${husband.moonKP.rashiNameTe}</strong>, నక్షత్రం: <strong>${husband.moonKP.nakNameTe}</strong>.<br>
+            • <strong>వధువు (${wife.member.name}):</strong> రాశి: <strong>${wife.moonKP.rashiNameTe}</strong>, నక్షత్రం: <strong>${wife.moonKP.nakNameTe}</strong>.<br>
+            • <strong>అష్టకూట 36 గుణములు:</strong> ఉత్తమ గుణ మేళనం సిద్ధిస్తోంది. ప్రధాన దోషాలైన నాడీ లేదా భకూట దోషాల తీవ్రత లేదు.<br>
+            • <strong>కుజ దోష సామ్యం:</strong> ఇద్దరి జాతకాల్లో కుజ ప్రభావం సమానంగా సమతుల్యం అయి దాంపత్య బలాన్ని ఇస్తోంది.<br>
+            • <strong>నవాంశ (D-9) ఫలం:</strong> పరస్పర గౌరవం, దాంపత్య సౌఖ్యం మరియు సమాజంలో ఉన్నత గౌరవం లభిస్తాయి.<br><br>
+            🛡️ <strong>శుభ దాంపత్య పరిహారాలు:</strong> శుక్రవారం నాడు లక్ష్మీ సమేత శ్రీనివాస కళ్యాణం జరిపించడం లేదా రోజూ శ్రీ వేంకటేశ్వర వజ్రకవచం పఠించడం శ్రేయస్కరం.
+        `;
+    }
+
+    // 4. ఆర్థిక సంక్షోభం, అప్పులు & ధన లాభం (Wealth & Debts)
+    if (qLower.includes('money') || qLower.includes('ధన') || qLower.includes('అప్పు') || qLower.includes('debt') || qLower.includes('loan') || qLower.includes('wealth') || qLower.includes('ఆర్థిక') || qLower.includes('finance')) {
+        if (isEn) {
+            return `
+                🔮 <strong>Family Wealth, Debt Relief & Financial Recovery Analysis:</strong><br><br>
+                Analysis of the 2nd (wealth), 11th (gains), and 6th (debts) houses reveals:<br>
+                • <strong>Financial Potential:</strong> While wealth accumulation potential is positive, temporary 6th house expenditures have drained cash reserves.<br>
+                • <strong>Recovery Timeline:</strong> Financial pressure eases significantly and cash inflow stabilizes towards the end of the current Bhukti period.<br><br>
+                🛡️ <strong>Remedies for Prosperity & Debt Clearance:</strong><br>
+                1. Recite <strong>Runa Vimochana Angaraka Stotram</strong> 11 times every Tuesday.<br>
+                2. Light a cow ghee lamp to Goddess Mahalakshmi and recite <strong>Kanakadhara Stotram</strong> on Fridays.
+            `;
+        }
+        return `
+            🔮 <strong>కుటుంబ ఆర్థిక స్థితి & అప్పుల విముక్తి విశ్లేషణ:</strong><br><br>
+            కుటుంబంలో ధన భావాలైన 2వ (ధన స్థానం), 11వ (లాభ స్థానం) మరియు 6వ (ఋణ స్థానం) స్థితులను పరిశీలించగా:<br>
+            • <strong>ధనలాభ యోగం:</strong> యజమాని జాతకంలో ధనాధిపతి స్థానం బాగున్నప్పటికీ, 6వ భావ వ్యయాలు అధికంగా ఉండటం వల్ల వచ్చిన ధనం నిలవడం లేదు.<br>
+            • <strong>ముగింపు కాలం:</strong> ప్రస్తుత నడుస్తున్న అంతర్దశ ముగిసే సమయానికి అప్పుల ఒత్తిడి క్రమంగా తగ్గి ఆర్థిక స్థిరత్వం ఏర్పడుతుంది.<br><br>
+            🛡️ <strong>ఋణ విమోచన & లక్ష్మీ కటాక్ష పరిహారాలు:</strong><br>
+            1. ప్రతి మంగళవారం <strong>ఋణవిమోచన అంగారక స్తోత్రం</strong> 11 సార్లు పఠించండి.<br>
+            2. శుక్రవారం నాడు ఆవునెయ్యితో లక్ష్మీ దేవి ముందు దీపారాధన చేసి <strong>కనకధారా స్తోత్రం</strong> చదవండి.<br>
+            3. ప్రతి పౌర్ణమి నాడు సత్యనారాయణ స్వామి వ్రతం జరిపించండి.
+        `;
+    }
+
+    // 5. ఆరోగ్యం & ఆయుష్షు రక్షణ (Health & Longevity)
+    if (qLower.includes('health') || qLower.includes('ఆరోగ్య') || qLower.includes('disease') || qLower.includes('surgery') || qLower.includes('ఆయుష') || qLower.includes('రోహి') || qLower.includes('illness')) {
+        if (isEn) {
+            return `
+                🔮 <strong>Family Health & Longevity Protection Analysis:</strong><br><br>
+                Sun (vitality), Moon (mental stamina), and Lagna lord analysis indicates:<br>
+                • <strong>Health Profile:</strong> Influence on 6th/8th houses suggests minor gastric or metabolic fluctuations, but 8th lord benefic protection ensures long life.<br><br>
+                🛡️ <strong>Remedies:</strong> Recite <strong>Aditya Hridaya Stotram</strong> at sunrise and perform <strong>Maha Mrityunjaya Rudrabhishekam</strong> on Mondays.
+            `;
+        }
+        return `
+            🔮 <strong>కుటుంబ సభ్యుల ఆరోగ్యం & ఆయుష్షు రక్షా విశ్లేషణ:</strong><br><br>
+            ఆరోగ్య కారకుడైన సూర్యుడు, మానసిక కారకుడైన చంద్రుడు మరియు లగ్నాధిపతి స్థితులను పరిశీలించగా:<br>
+            • <strong>ఆరోగ్య పరిస్థితి:</strong> 6వ మరియు 8వ భావాలపై పాపగ్రహ దృష్టి వల్ల వాత, పిత్త అసమతుల్యత లేదా జీర్ణకోశ సమస్యలు వచ్చే అవకాశం ఉంది.<br>
+            • <strong>దీర్ఘాయుష్షు బలం:</strong> 8వ భావాధిపతి శుభ దృష్టిలో ఉండటం వల్ల ప్రాణాపాయాలు లేవు, తగిన జాగ్రత్తలతో ఆరోగ్యం కుదుటపడుతుంది.<br><br>
+            🛡️ <strong>ఆరోగ్య రక్షా పరిహారాలు:</strong><br>
+            1. రోజూ ఉదయం <strong>ఆదిత్య హృదయ స్తోత్రం</strong> పఠించి సూర్య భగవానునికి అర్ఘ్యం సమర్పించండి.<br>
+            2. ప్రతి సోమవారం శివాలయంలో <strong>మహా మృత్యుంజయ మంత్రం</strong>తో రుద్రాభిషేకం చేయించండి.<br>
+            3. ధన్వంతరి స్తోత్రం పఠించడం శ్రేయస్కరం.
+        `;
+    }
+
+    // 6. విదేశీ యోగం & ప్రయాణాలు (Foreign Travel & Overseas Careers)
+    if (qLower.includes('foreign') || qLower.includes('విదేశ') || qLower.includes('visa') || qLower.includes('travel') || qLower.includes('abroad')) {
+        if (isEn) {
+            return `
+                🔮 <strong>Foreign Travel & Overseas Opportunities Analysis:</strong><br><br>
+                9th (fortune/travel) and 12th (overseas stay) houses indicate strong planetary support for international relocation and MNC careers during the current benefic Bhukti.<br><br>
+                🛡️ <strong>Remedies:</strong> Offer Rahu Kala Deepam to Goddess Durga on Saturdays and pray to Sri Raghavendra Swamy.
+            `;
+        }
+        return `
+            🔮 <strong>విదేశీ యోగం & దూర ప్రయాణాల విశ్లేషణ:</strong><br><br>
+            జాతకంలో 9వ (భాగ్య/విదేశీ ప్రయాణ స్థానం) మరియు 12వ (దూర దేశ నివాస స్థానం) భావాలను పరిశీలించగా:<br>
+            • <strong>విదేశీ యోగం:</strong> చర రాశిలో ఉన్న జల తత్వ గ్రహాల ప్రభావం వల్ల విదేశీ ప్రయాణం లేదా బహుళజాతి సంస్థల్లో (MNCs) ఉద్యోగ ప్రాప్తి బలపడుతోంది.<br>
+            • <strong>వీసా & అనుమతులు:</strong> ప్రస్తుత నడుస్తున్న శుభ భుక్తి కాలంలో విదేశీ వీసా మంజూరయ్యే అవకాశాలు పుష్కలంగా ఉన్నాయి.<br><br>
+            🛡️ <strong>విదేశీ యోగ పరిహారాలు:</strong> శనివారం నాడు దుర్గాదేవికి రాహుకాల దీపారాధన చేయడం మరియు శ్రీ రాఘవేంద్ర స్వామి ఆరాధన ఫలప్రదం.
+        `;
+    }
+
+    // డిఫాల్ట్ సమగ్ర సమాధానం (Default Response)
+    if (isEn) {
+        return `
+            🔮 <strong>Family Horoscope Consultation Response (${query}):</strong><br><br>
+            Synchronizing planetary positions and running periods across all family members:<br>
+            • <strong>Head of Family (${husband.member.name}):</strong> Ascendant: <strong>${husband.lagnaKP.rashiName}</strong>, Moon: <strong>${husband.moonKP.rashiName}</strong>. Running <strong>${husband.activeDasa.md.lord}-${husband.activeDasa.bh.lord}</strong>.<br>
+            • <strong>Spouse (${wife.member.name}):</strong> Ascendant: <strong>${wife.lagnaKP.rashiName}</strong>, Moon: <strong>${wife.moonKP.rashiName}</strong>. Running <strong>${wife.activeDasa.md.lord}-${wife.activeDasa.bh.lord}</strong>.<br>
+            • Daily recitation of <strong>Sri Lakshmi Narasimha Karavalamba Stotram</strong> and <strong>Sri Suktam</strong> brings auspicious peace and prosperity to the entire household.
+        `;
+    }
+    return `
+        🔮 <strong>కుటుంబ సమగ్ర జాతక పరిశీలన సమాధానం (${query}):</strong><br><br>
+        కుటుంబ సభ్యులందరి లగ్న, రాశి మరియు దశా-భుక్తులను సమన్వయం చేయగా:<br>
+        • <strong>కుటుంబ యజమాని (${husband.member.name}):</strong> <strong>${husband.lagnaKP.rashiNameTe}</strong> లగ్నం, రాశి: <strong>${husband.moonKP.rashiNameTe}</strong>. ప్రస్తుతం <strong>${husband.activeDasa.md.lordTe} మహాదశలో ${husband.activeDasa.bh.lordTe} భుక్తి</strong> నడుస్తోంది.<br>
+        • <strong>కుటుంబ ఇల్లాలు (${wife.member.name}):</strong> <strong>${wife.lagnaKP.rashiNameTe}</strong> లగ్నం, రాశి: <strong>${wife.moonKP.rashiNameTe}</strong>. ప్రస్తుతం <strong>${wife.activeDasa.md.lordTe} మహాదశలో ${wife.activeDasa.bh.lordTe} భుక్తి</strong> నడుస్తోంది.<br>
+        • ఈ కాలంలో కుటుంబ శ్రేయస్సు, శాంతి మరియు సర్వతోముఖాభివృద్ధి కొరకు <strong>శ్రీ లక్ష్మీ నరసింహ కరావలంబ స్తోత్రం</strong> మరియు <strong>శ్రీ సూక్త పారాయణ</strong> విశేష శుభ ఫలితాలను చేకూరుస్తాయి.
+    `;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
+   MODAL & CASE STORAGE
+   ═════════════════════════════════════════════════════════════════════════════════ */
+function openAddMemberModal() {
+    document.getElementById('addMemberModal').classList.add('active');
+}
+function closeAddMemberModal() {
+    document.getElementById('addMemberModal').classList.remove('active');
+}
+
+function saveMemberFromModal(e) {
+    e.preventDefault();
+    const newMem = {
+        id: 'mem_' + Date.now(),
+        name: document.getElementById('mName').value,
+        rel: document.getElementById('mRel').value,
+        gender: document.getElementById('mGender').value,
+        date: document.getElementById('mDate').value,
+        time: document.getElementById('mTime').value,
+        city: document.getElementById('mCity').value,
+        lat: parseFloat(document.getElementById('mLat').value) || 14.6778,
+        lon: parseFloat(document.getElementById('mLon').value) || 77.6081,
+        tz: parseFloat(document.getElementById('mTz').value) || 5.5
+    };
+    FAMILY_MEMBERS.push(newMem);
+    closeAddMemberModal();
+    renderAll();
+}
+
+function deleteMember(id) {
+    if (FAMILY_MEMBERS.length <= 1) {
+        alert('కనీసం ఒక సభ్యుని జాతకం ఉండాలి!');
+        return;
+    }
+    FAMILY_MEMBERS = FAMILY_MEMBERS.filter(m => m.id !== id);
+    renderAll();
+}
+
+function clearAllMembers() {
+    if (confirm('కుటుంబ సభ్యుల డేటాను క్లియర్ చేయాలా?')) {
+        FAMILY_MEMBERS = [];
+        renderAll();
+    }
+}
+
+function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    const target = document.getElementById(tabId);
+    if (target) target.classList.add('active');
+    if (btn) btn.classList.add('active');
+}
+
+function saveCurrentCase() {
+    const caseName = document.getElementById('caseName').value.trim() || 'Untitled Case';
+    const caseData = {
+        name: caseName,
+        savedAt: new Date().toISOString(),
+        members: FAMILY_MEMBERS
+    };
+    const key = 'vs_family_case_' + caseName.replace(/\s+/g, '_');
+    localStorage.setItem(key, JSON.stringify(caseData));
+    updateSavedCasesDropdown();
+    alert(`✅ కేస్ "${caseName}" విజయవంతంగా సేవ్ చేయబడింది!`);
+}
+
+function updateSavedCasesDropdown() {
+    const select = document.getElementById('savedCasesSelect');
+    if (!select) return;
+    select.innerHTML = '<option value="">📂 సేవ్ చేసిన కేస్‌లు (Saved Cases)</option>';
+    for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k.startsWith('vs_family_case_')) {
+            try {
+                const data = JSON.parse(localStorage.getItem(k));
+                const opt = document.createElement('option');
+                opt.value = k;
+                opt.textContent = `${data.name} (${data.members.length} సభ్యులు)`;
+                select.appendChild(opt);
+            } catch (err) {}
+        }
+    }
+}
+
+function loadSelectedCase(key) {
+    if (!key) return;
+    try {
+        const data = JSON.parse(localStorage.getItem(key));
+        if (data && data.members) {
+            FAMILY_MEMBERS = data.members;
+            document.getElementById('caseName').value = data.name;
+            renderAll();
+        }
+    } catch (e) {
+        alert('కేస్ లోడ్ చేయడంలో లోపం!');
+    }
+}
+
+function exportCaseJSON() {
+    const caseName = document.getElementById('caseName').value.trim() || 'FamilyCase';
+    const blob = new Blob([JSON.stringify({ name: caseName, members: FAMILY_MEMBERS }, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${caseName}_AstrologyCase.json`;
+    a.click();
+}
+
+function importCaseJSON(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+        try {
+            const data = JSON.parse(evt.target.result);
+            if (data && data.members) {
+                FAMILY_MEMBERS = data.members;
+                if (data.name) document.getElementById('caseName').value = data.name;
+                renderAll();
+                alert('✅ కేస్ ఫైల్ విజయవంతంగా ఇంపోర్ట్ చేయబడింది!');
+            }
+        } catch (err) {
+            alert('చెల్లని JSON ఫైల్!');
+        }
+    };
+    reader.readAsText(file);
+}
+
+function onCitySearchInput(q) {
+    if (!q || q.length < 3) return;
+    const cityMap = {
+        'hyderabad': { lat: 17.3850, lon: 78.4867, tz: 5.5 },
+        'anantapur': { lat: 14.6778, lon: 77.6081, tz: 5.5 },
+        'bangalore': { lat: 12.9716, lon: 77.5946, tz: 5.5 },
+        'tirupati': { lat: 13.6288, lon: 79.4192, tz: 5.5 },
+        'vijayawada': { lat: 16.5062, lon: 80.6480, tz: 5.5 },
+        'visakhapatnam': { lat: 17.6868, lon: 83.2185, tz: 5.5 },
+        'chennai': { lat: 13.0827, lon: 80.2707, tz: 5.5 }
+    };
+    const key = q.toLowerCase().split(',')[0].trim();
+    if (cityMap[key]) {
+        document.getElementById('mLat').value = cityMap[key].lat;
+        document.getElementById('mLon').value = cityMap[key].lon;
+        document.getElementById('mTz').value = cityMap[key].tz;
+    }
+}
+
+function fmtDMS(deg) {
+    deg = normDeg(deg);
+    const d = Math.floor(deg);
+    const mFloat = (deg - d) * 60;
+    const m = Math.floor(mFloat);
+    const s = Math.round((mFloat - m) * 60);
+    return `${d}° ${m}' ${s}"`;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
+   MASTER RENDER FUNCTION
+   ═════════════════════════════════════════════════════════════════════════════════ */
+function renderAll() {
+    renderMembersBar();
+    const activeList = ACTIVE_MEMBER_ID === 'all' ? FAMILY_MEMBERS : FAMILY_MEMBERS.filter(m => m.id === ACTIVE_MEMBER_ID);
+    const charts = (activeList.length ? activeList : FAMILY_MEMBERS).map(calculateMemberChart);
+
+    renderMultiChartsGrid(charts);
+    renderFamilyDasaTable(charts);
+    analyzeSantanaAndMiscarriages(charts);
+    analyzeVivahaMatching(charts);
+    analyzeKaryaVighnamAndWealth(charts);
+}
+
+// Initialization on DOM Load
+window.addEventListener('DOMContentLoaded', () => {
+    updateSavedCasesDropdown();
+    renderAll();
+
+    const today = new Date();
+    const next3Months = new Date(Date.now() + 90 * 86400000);
+    const fromEl = document.getElementById('muhurthamFromDate');
+    const toEl = document.getElementById('muhurthamToDate');
+    if (fromEl) fromEl.value = today.toISOString().split('T')[0];
+    if (toEl) toEl.value = next3Months.toISOString().split('T')[0];
+});
+    </script>
+</body>
+</html>

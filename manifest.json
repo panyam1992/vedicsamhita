@@ -1,0 +1,19 @@
+{
+  "name": "వేదిక్ సంహిత - జ్యోతిష్య & పంచాంగ సూట్",
+  "short_name": "వేదిక్ సంహిత",
+  "description": "Vedic Astrology & Panchangam Suite with Family Consultation, Vivaha Muhurtham & Kundali",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0a0d12",
+  "theme_color": "#0a0d12",
+  "icons": [
+    {
+      "src": "logo.jpg",
+      "sizes": "192x192 512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ]
+}
