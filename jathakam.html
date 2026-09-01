@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vedic Samhita - Vedic Birth Horoscope & Gochara Astrology (Jathakam & Gochara Astrology)</title>
-    <meta name="description" content="Calculate accurate Vedic Birth Horoscope (Jathakam), Gochara Transit Predictions, KP Stellar Lords, Vimshottari Dasa, and South/North Indian Kundali Charts.">
+    <meta name="description" content="Calculate accurate Vedic Birth Horoscope (Jathakam), Gochara Transit Predictions, KP Stellar Lords, Vimshottari Dasa, and South Indian Rasi and Navamsa Kundali Charts.">
     <link rel="canonical" href="https://www.vedicsamhita.com/jathakam.html" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -558,20 +558,6 @@
         .chart-center p {
             font-size: 11px;
             color: var(--text-secondary);
-        }
-
-        /* North Indian Chart SVG */
-        .north-chart-container {
-            width: 100%;
-            max-width: 440px;
-            aspect-ratio: 1 / 1;
-            margin: 0 auto;
-            position: relative;
-        }
-
-        .north-chart-container svg {
-            width: 100%;
-            height: 100%;
         }
 
         /* Data Tables */
@@ -1215,15 +1201,6 @@
                     <span style="font-size: 11px; color: var(--text-secondary);">D9 Harmonic</span>
                 </div>
                 <div class="chart-box" id="southNavamsaChart"></div>
-            </div>
-        </div>
-
-        <!-- North Indian Chart Section -->
-        <div class="section-card" style="margin-top: 20px;">
-            <div class="section-header">
-                <div class="section-title">🏛️ North Indian Diamond Chart (D1)</div>
-            </div>
-            <div class="north-chart-container" id="northChartContainer"></div>
         </div>
     </div>
 
@@ -2668,7 +2645,6 @@ function calculateAll() {
     // 3. Charts
     renderSouthChart('southRasiChart', planets, false);
     renderSouthChart('southNavamsaChart', planets, true);
-    renderNorthChart('northChartContainer', planets);
 
     // 4. Tables & Trees
     renderPlanetTable(planets);
@@ -2774,47 +2750,6 @@ function getGrahaClass(name) {
         Jupiter: 'jupiter', Venus: 'venus', Saturn: 'saturn', Rahu: 'rahu', Ketu: 'ketu'
     };
     return map[name] || 'outer';
-}
-
-/* Render North Indian Diamond Chart (SVG) */
-function renderNorthChart(containerId, planets) {
-    const container = document.getElementById(containerId);
-    const ascRashi = Math.floor(planets.Lagna.deg / 30);
-
-    const houseGrahas = Array.from({ length: 12 }, () => []);
-    for (const [pName, pObj] of Object.entries(planets)) {
-        const rIdx = Math.floor(pObj.deg / 30);
-        const houseIdx = (rIdx - ascRashi + 12) % 12;
-        const gLabel = (CURRENT_LANG === 'te') ? getGrahaTeluguShort(pName) : (pName === 'Lagna' ? 'ASC' : pName.substring(0, 2));
-        houseGrahas[houseIdx].push(gLabel);
-    }
-
-    const svg = `
-    <svg viewBox="0 0 400 400" width="100%" height="100%">
-        <rect x="5" y="5" width="390" height="390" fill="none" stroke="#d4af37" stroke-width="2"/>
-        <line x1="5" y1="5" x2="395" y2="395" stroke="#d4af37" stroke-width="1.5"/>
-        <line x1="395" y1="5" x2="5" y2="395" stroke="#d4af37" stroke-width="1.5"/>
-        <polygon points="200,5 395,200 200,395 5,200" fill="none" stroke="#d4af37" stroke-width="1.5"/>
-        
-        <text x="200" y="50" fill="#e3b341" font-size="12" font-weight="bold" text-anchor="middle">${ascRashi + 1}</text>
-        <text x="200" y="110" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">${houseGrahas[0].join(' ')}</text>
-
-        <text x="100" y="50" fill="#e3b341" font-size="12" text-anchor="middle">${(ascRashi + 1) % 12 + 1}</text>
-        <text x="100" y="90" fill="#fff" font-size="11" text-anchor="middle">${houseGrahas[1].join(' ')}</text>
-
-        <text x="300" y="50" fill="#e3b341" font-size="12" text-anchor="middle">${(ascRashi + 11) % 12 + 1}</text>
-        <text x="300" y="90" fill="#fff" font-size="11" text-anchor="middle">${houseGrahas[11].join(' ')}</text>
-
-        <text x="80" y="200" fill="#e3b341" font-size="12" font-weight="bold" text-anchor="middle">${(ascRashi + 3) % 12 + 1}</text>
-        <text x="120" y="200" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">${houseGrahas[3].join(' ')}</text>
-
-        <text x="200" y="360" fill="#e3b341" font-size="12" font-weight="bold" text-anchor="middle">${(ascRashi + 6) % 12 + 1}</text>
-        <text x="200" y="300" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">${houseGrahas[6].join(' ')}</text>
-
-        <text x="320" y="200" fill="#e3b341" font-size="12" font-weight="bold" text-anchor="middle">${(ascRashi + 9) % 12 + 1}</text>
-        <text x="280" y="200" fill="#fff" font-size="13" font-weight="bold" text-anchor="middle">${houseGrahas[9].join(' ')}</text>
-    </svg>`;
-    container.innerHTML = svg;
 }
 
 /* Render Planetary Table */
@@ -3024,7 +2959,6 @@ function applyHoraryAscendant(deg) {
     CURRENT_DATA.planets.Lagna.deg = deg;
     renderSouthChart('southRasiChart', CURRENT_DATA.planets, false);
     renderSouthChart('southNavamsaChart', CURRENT_DATA.planets, true);
-    renderNorthChart('northChartContainer', CURRENT_DATA.planets);
     generatePhalitalu(CURRENT_DATA.planets, CURRENT_DATA.cusps, CURRENT_DATA.dasa);
     showTab('chartsTab', document.querySelectorAll('.tab-btn')[2]);
     alert(`Ascendant set to ${fmtDMS(deg)} based on Horary Number!`);
