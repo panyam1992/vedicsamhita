@@ -1,0 +1,74 @@
+═══════════════════════════════════════════════════════════════════════════════
+                      VEDIC SAMHITA — PLATFORM ARCHITECTURE
+                      RULES FOR SUPER ADMIN & USERS (RBAC)
+═══════════════════════════════════════════════════════════════════════════════
+
+1. UI, Language & Navigation
+-------------------------------------------------------------------------------
+• Universal Landing Page:
+  The Panchangam page acts as the default homepage upon launch for everyone, 
+  including both Standard Users and the Super Admin.
+
+• Unified & Responsive Design:
+  The app and website must share identical backgrounds and branding, scaling 
+  flawlessly to fit any device screen (mobile, tablet, or desktop) without 
+  losing visual quality.
+
+• Session-Based Localization:
+  English is the default language. Users can toggle to Telugu instantly; 
+  this choice dynamically translates the interface for that specific user’s 
+  session without affecting anyone else.
+
+
+2. Geolocation & Data Privacy
+-------------------------------------------------------------------------------
+• Contextual Location Rules:
+  The system auto-detects location (with a manual override option). The location 
+  set on the Panchangam page acts as a temporary default, but sensitive pages 
+  (Muhurtavali, Jatakam) strictly require fresh, independent location entry 
+  every time.
+
+• Zero-Login & Ephemeral Data:
+  Users browse entirely anonymously. Personal birth or timeline data is never 
+  saved to databases, device storage, or cookies, ensuring strict privacy 
+  compliance.
+
+• Session Purge:
+  Closing the app, exiting the browser, or refreshing permanently wipes all 
+  user inputs. Returning users must enter their details from scratch.
+
+
+3. Security & Content Sharing
+-------------------------------------------------------------------------------
+• Anti-Capture Restrictions:
+  Standard users are strictly blocked from taking device screenshots, recording 
+  screens, right-clicking, copying text, or using AI scraping tools to extract 
+  data.
+
+• Smart Deep Linking:
+  Content can only be shared via system-generated secure links. When a non-user 
+  clicks a shared link, it bypasses any login walls and routes them directly 
+  to the specific Muhurtam or story (opening the native app if installed, or the 
+  web browser if not).
+
+
+4. Role-Based Access Controls (RBAC)
+-------------------------------------------------------------------------------
+• Strict Access Segmentation:
+  Standard users are permanently restricted to public pages and are blocked 
+  from discovering or accessing any backend management URLs.
+
+• Super Admin Profile (vedicsamhita):
+  This is the master account with complete visibility over both the 
+  public-facing ecosystem and backend administrative panels.
+
+• Admin Bypass Privileges:
+  The Super Admin is fully exempt from all security restrictions, allowing 
+  them to freely screenshot, copy, export, and share data as needed.
+
+• Broadcast Management:
+  The Super Admin can publish new content (e.g., Ekadashi Vrata Kathas, festival 
+  updates) and trigger global push notifications. When users click these 
+  notifications, they are taken directly to the newly published announcement.
+
+═══════════════════════════════════════════════════════════════════════════════
