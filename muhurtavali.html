@@ -951,7 +951,10 @@ function generatePersonalizedMuhurtam() {
                     </div>
                     ${windowsListHtml}
 
-                    <div style="margin-top:12px; display:flex; justify-content:flex-end;">
+                    <div style="margin-top:12px; display:flex; justify-content:flex-end; gap:8px; flex-wrap:wrap;">
+                        <button onclick="shareMuhurtamLink('${m.dateStr}', '${m.samvatsaram}', '${m.masam}', '${m.tithiName}')" style="padding:6px 14px; background:#fff; color:#4a0e0e; border:1px solid #c2b280; border-radius:4px; font-family:'Cinzel',serif; font-size:0.85rem; cursor:pointer; font-weight:bold; transition:all 0.2s;">
+                            🔗 Share Link
+                        </button>
                         <button id="btnToggleDetail_${idx}" onclick="toggleMuhurtaDetail(${idx})" style="padding:6px 16px; background:#4a0e0e; color:#d4af37; border:1px solid #d4af37; border-radius:4px; font-family:'Cinzel',serif; font-size:0.85rem; cursor:pointer; font-weight:bold; transition:all 0.2s;">
                             🔍 View Detailed Muhurtam & Chart
                         </button>
@@ -974,7 +977,12 @@ function generatePersonalizedMuhurtam() {
                         <span style="font-family:'Cinzel',serif; font-size:1.15rem; font-weight:bold; color:#4a0e0e;">
                             📅 Auspicious Date #${idx+1}: ${m.dateStr}
                         </span>
-                        <span class="score-badge badge-excellent">${m.windows.length} Auspicious Muhurtam Windows</span>
+                        <div style="display:flex; align-items:center; gap:8px;">
+                            <button onclick="shareMuhurtamLink('${m.dateStr}', '${m.samvatsaram}', '${m.masam}', '${m.tithiName}')" style="padding:4px 10px; background:#fff; color:#4a0e0e; border:1px solid #c2b280; border-radius:4px; font-family:'Cinzel',serif; font-size:0.8rem; cursor:pointer; font-weight:bold;">
+                                🔗 Share
+                            </button>
+                            <span class="score-badge badge-excellent">${m.windows.length} Auspicious Muhurtam Windows</span>
+                        </div>
                     </div>
 
                     ${detailedPanchangBoxHtml}
@@ -995,6 +1003,44 @@ function generatePersonalizedMuhurtam() {
     resCont.scrollIntoView({ behavior: 'smooth' });
 }
 
+function shareMuhurtamLink(dateStr, samvat, masam, tithi) {
+    if (window.VedicSecurity) {
+        const link = window.VedicSecurity.generateDeepLink('muhurta', {
+            date: dateStr,
+            samvatsaram: samvat,
+            masam: masam,
+            tithi: tithi,
+            city: document.getElementById('ceremonyCityInput').value || 'Selected City'
+        });
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(link).then(() => {
+                window.VedicSecurity.showToast('🔗 Secure Deep Link copied to clipboard!');
+            }).catch(() => {
+                prompt('Copy this secure deep link:', link);
+            });
+        } else {
+            prompt('Copy this secure deep link:', link);
+        }
+    }
+}
+
+function checkMuhurtavaliDeepLink() {
+    if (window.VedicSecurity) {
+        const dl = window.VedicSecurity.decodeDeepLink();
+        if (dl && dl.type === 'muhurta' && dl.data) {
+            const banner = document.createElement('div');
+            banner.style.cssText = 'background:#fff8e7; border:1.5px solid #d4af37; border-radius:8px; padding:15px; margin-bottom:20px; text-align:center; font-family:EB Garamond,serif; box-shadow:0 4px 12px rgba(0,0,0,0.06);';
+            banner.innerHTML = `<h3 style="font-family:Cinzel,serif; color:#4a0e0e; margin:0 0 6px;">🔗 Shared Vedic Muhurtam</h3>
+                <p style="margin:0; font-size:1.1rem; color:#8b0000;"><strong>Date:</strong> ${dl.data.date} | <strong>Location:</strong> ${dl.data.city}</p>
+                <p style="margin:4px 0 0; font-size:0.95rem; color:#555;">${dl.data.samvatsaram} Nama Samvatsaram | ${dl.data.masam} Masam | ${dl.data.tithi}</p>`;
+            const container = document.querySelector('.muhurta-container');
+            if (container && container.children.length > 1) {
+                container.insertBefore(banner, container.children[1]);
+            }
+        }
+    }
+}
+
 // Close city dropdowns when clicked outside
 document.addEventListener('click', (e) => {
     if (!e.target.closest('#ceremonyCityInput')) {
@@ -1011,8 +1057,12 @@ document.addEventListener('click', (e) => {
     }
 });
 
-window.addEventListener('DOMContentLoaded', initApp);
+window.addEventListener('DOMContentLoaded', () => {
+    initApp();
+    checkMuhurtavaliDeepLink();
+});
 </script>
+<script src="security-rbac.js"></script>
 <script src="pwa.js"></script>
 </body>
 </html>

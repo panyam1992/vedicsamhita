@@ -4030,6 +4030,10 @@ document.addEventListener('keydown', function(e) {
 });
 
 function copyTable(tableId) {
+    if (window.VedicSecurity && !window.VedicSecurity.isSuperAdmin()) {
+        window.VedicSecurity.showToast('🔒 Copying is restricted. Super Admin bypass required.');
+        return;
+    }
     const el = document.getElementById(tableId);
     const range = document.createRange();
     range.selectNode(el);
@@ -4037,7 +4041,7 @@ function copyTable(tableId) {
     window.getSelection().addRange(range);
     document.execCommand('copy');
     window.getSelection().removeAllRanges();
-    alert('పట్టిక కాపీ చేయబడింది!');
+    alert('Table copied to clipboard!');
 }
 
 window.addEventListener('DOMContentLoaded', function() {
@@ -4045,6 +4049,7 @@ window.addEventListener('DOMContentLoaded', function() {
     calculateAll();
 });
 </script>
+<script src="security-rbac.js"></script>
 <script src="pwa.js"></script>
 </body>
 </html>
