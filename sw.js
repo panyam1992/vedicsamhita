@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vedicsamhita-v1.1';
+const CACHE_NAME = 'vedicsamhita-v1.2';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',
@@ -8,6 +8,7 @@ const ASSETS_TO_CACHE = [
   './muhurtavali.html',
   './styles.css',
   './panchangam-v18.js',
+  './security-rbac.js',
   './manifest.json',
   './logo.jpg'
 ];
