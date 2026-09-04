@@ -210,6 +210,9 @@ const FESTIVALS_TE_MAP = {
     "Nandotsav": "నందోత్సవం",
     "Dahi Handi / Utlotsavam (Gopala Kala)": "దహీ హండీ / ఉట్లోత్సవం (గోపాలకాలా)",
     "Santana Gopala Vratam": "సంతాన గోపాల వ్రతం",
+    "Kanchi Jagadguru Aradhana (50th Acharya Pujyasri Chandrachudendra Saraswati)": "కంచి జగద్గురు ఆరాధన (50వ పీఠాధిపతి పూజ్యశ్రీ చంద్రచూడేంద్ర సరస్వతి)",
+    "Kanchi Jagadguru Aradhana": "కంచి జగద్గురు ఆరాధన",
+    "Sri Krishnadevaraya Rajyabhishekam": "శ్రీకృష్ణదేవరాయ రాజ్యాభిషేకం",
     "Hartalika Teej / Swarna Gowri Vratam": "హరితాళికా తీజ్ / స్వర్ణగౌరీ వ్రతం",
     "Varaha Jayanti": "శ్రీ వరాహ జయంతి",
     "Vinayaka Chavithi / Ganesh Chaturthi (Madhyahna Vyapini)": "వినాయక చవితి / గణేష్ చతుర్థి (మధ్యాహ్న వ్యాపిని)",
@@ -310,6 +313,9 @@ const FESTIVALS_TE_MAP = {
 
 const SIGNIFICANCE_TE_MAP = {
     "Santana Gopala Vratam (Lord Sri Krishna Aradhana for progeny blessings)": "శ్రీ సంతాన గోపాల వ్రతం (సంతాన ప్రాప్తికై శ్రీకృష్ణార్చన)",
+    "Kanchi Jagadguru Aradhana (50th Acharya Pujyasri Chandrachudendra Saraswati Swamigal Aradhana)": "కంచి జగద్గురు ఆరాధన (కంచి కామకోటి 50వ పీఠాధిపతి పూజ్యశ్రీ చంద్రచూడేంద్ర సరస్వతీ శంకరాచార్య స్వామివారి ఆరాధన)",
+    "Kanchi Jagadguru Aradhana (Pujyasri Chandrachudendra Saraswati Aradhana)": "కంచి జగద్గురు ఆరాధన (పూజ్యశ్రీ చంద్రచూడేంద్ర సరస్వతీ స్వామివారి ఆరాధన)",
+    "Sri Krishnadevaraya Rajyabhishekam (Coronation of Emperor Sri Krishnadevaraya on Janmashtami in 1509 CE)": "శ్రీకృష్ణదేవరాయ రాజ్యాభిషేకం (విజయనగర సామ్రాజ్యాధినేత పట్టాభిషేక దినోత్సవం - 1509 క్రీ.శ.)",
     "Pradhana Anaghashtami Vratam (Sri Dattatreya & Sri Anagha Lakshmi Puja - Brahmanda Purana)": "ప్రధాన అనఘాష్టమి వ్రతం (శ్రీ దత్తాత్రేయ & శ్రీ అనఘా లక్ష్మీ పూజ - బ్రహ్మాండ పురాణోక్తం)",
     "Masa Anaghashtami Vratam (Sri Dattatreya Swamy & Anagha Lakshmi Puja - Brahmanda Purana)": "మాస అనఘాష్టమి వ్రతం (శ్రీ దత్తాత్రేయ స్వామి & అనఘా లక్ష్మీ పూజ - బ్రహ్మాండ పురాణోక్తం)",
     "Kalashtami Vratam (Kala Bhairava Puja & Fasting)": "కాలాష్టమి వ్రతం (కాలభైరవ పూజ & ఉపవాసం)",
@@ -2377,10 +2383,14 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         fests.push("Dahi Handi / Utlotsavam (Gopala Kala)");
     }
 
-    // SANTANA GOPALA VRATAM
+    // SANTANA GOPALA VRATAM, KANCHI JAGADGURU ARADHANA & SRI KRISHNADEVARAYA RAJYABHISHEKAM
     if (lunarMonth === 5 && (tSr === 22 || dayTithis.includes(22))) {
         fests.push("Santana Gopala Vratam");
+        fests.push("Kanchi Jagadguru Aradhana (50th Acharya Pujyasri Chandrachudendra Saraswati)");
+        fests.push("Sri Krishnadevaraya Rajyabhishekam");
         sigs.push("Santana Gopala Vratam (Lord Sri Krishna Aradhana for progeny blessings)");
+        sigs.push("Kanchi Jagadguru Aradhana (50th Acharya Pujyasri Chandrachudendra Saraswati Swamigal Aradhana)");
+        sigs.push("Sri Krishnadevaraya Rajyabhishekam (Coronation of Emperor Sri Krishnadevaraya on Janmashtami in 1509 CE)");
     }
 
     // 17. HARTALIKA TEEJ / SWARNA GOWRI VRATAM & VARAHA JAYANTI (Bhadrapada Shukla Tritiya)
