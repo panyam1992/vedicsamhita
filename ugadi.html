@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="ఉగాది ఫలాలు">
+    <meta name="apple-mobile-web-app-title" content="Vedic Samhita">
     <meta name="theme-color" content="#4a0e0e">
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
@@ -18,8 +18,8 @@
     <link rel="stylesheet" href="styles.css?v=3">
     <style>
         :root {
-            --bg-primary: #faf7f0;
-            --bg-card: #ffffff;
+            --bg-primary: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%) fixed;
+            --bg-card: rgba(255, 255, 255, 0.95);
             --bg-card-alt: #fcf9f2;
             --border-gold: #d4af37;
             --border-subtle: #c2b280;
@@ -36,10 +36,29 @@
         
         body {
             font-family: 'Mandali', 'Inter', -apple-system, sans-serif;
-            background: var(--bg-primary);
+            background: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%) fixed;
             color: var(--text-dark);
             min-height: 100vh;
             padding-bottom: 50px;
+            position: relative;
+        }
+
+        /* ─── Background Logo Watermark in Light Mode ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(540px, 85vw);
+            height: min(540px, 85vw);
+            background: url('logo.jpg') no-repeat center center;
+            background-size: contain;
+            opacity: 0.07;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            filter: grayscale(15%);
         }
 
         .site-nav {
@@ -475,6 +494,10 @@
     <script src="panchangam-v18.js?v=8"></script>
     <script>
 let CURRENT_UGADI_LANG = 'te';
+try {
+    const saved = localStorage.getItem('VS_LANG');
+    if (saved === 'te' || saved === 'en') CURRENT_UGADI_LANG = saved;
+} catch(e) {}
 
 function normDeg(deg) {
     deg = deg % 360;
@@ -1099,6 +1122,7 @@ function renderUgadiChart(jd) {
 
 function toggleLanguage() {
     CURRENT_UGADI_LANG = (CURRENT_UGADI_LANG === 'te') ? 'en' : 'te';
+    try { localStorage.setItem('VS_LANG', CURRENT_UGADI_LANG); } catch(e) {}
     document.getElementById('langBtnText').textContent = (CURRENT_UGADI_LANG === 'te') ? 'English' : 'తెలుగు';
     
     // Update headers
@@ -1173,6 +1197,17 @@ window.onload = function() {
         const cityInput = document.getElementById('citySearch');
         if (cityInput) cityInput.value = window._selectedCity.name;
     }
+
+    const isTe = (CURRENT_UGADI_LANG === 'te');
+    document.getElementById('langBtnText').textContent = isTe ? 'English' : 'తెలుగు';
+    document.getElementById('pageTitle').textContent = isTe ? 'ఉగాది పంచాంగ ఫలితాలు' : 'Ugadi Panchangam Predictions';
+    document.getElementById('pageSubTitle').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం & వార్షిక ఫలాలు' : 'Rajadi Navanayaka Nirnayam & Annual Predictions';
+    document.getElementById('hdrUgadiDetails').textContent = isTe ? 'ఉగాది సమగ్ర వివరాలు' : 'Ugadi Comprehensive Details';
+    document.getElementById('hdrJagallagnam').textContent = isTe ? 'జగల్లగ్నం & ఉగాది జన్మ కుండలి (Ugadi Planetary Chart)' : 'Jagallagnam & Ugadi Ingress Chart';
+    document.getElementById('hdrNavanayaka').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం (9 Planetary Rulers & Shlokas)' : 'Rajadi Navanayaka Nirnayam (9 Planetary Rulers)';
+    document.getElementById('hdrSankranti').textContent = isTe ? 'మకర సంక్రాంతి పురుష లక్షణాలు (Makara Sankranti Purusha)' : 'Makara Sankranti Purusha Features';
+    document.getElementById('hdrKandaya').textContent = isTe ? '27 నక్షత్రాల కందాయ ఫలాలు (Kandaya Phalam)' : '27 Nakshatras Kandaya Phalam';
+    document.getElementById('hdrAdayaVyaya').textContent = isTe ? '12 రాశుల ఆదాయ - వ్యయాలు & రాజపూజ్య - అవమానాలు' : '12 Rashis Adaya-Vyaya & Rajapujya-Avamana';
 
     calculateUgadiPhalalu();
 };

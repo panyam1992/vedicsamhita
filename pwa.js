@@ -50,8 +50,8 @@
             banner.style.cssText = 'position:fixed; bottom:16px; left:50%; transform:translateX(-50%); z-index:99999; background:linear-gradient(135deg, #161b22, #0d1117); border:1.5px solid #d4af37; border-radius:30px; padding:8px 18px; box-shadow:0 8px 24px rgba(0,0,0,0.6); display:flex; align-items:center; gap:12px; font-family:"Inter",sans-serif; animation:slideUp 0.4s ease-out;';
             banner.innerHTML = `
                 <img src="logo.jpg" style="width:28px; height:28px; border-radius:50%; border:1px solid #d4af37;" alt="Logo">
-                <span style="color:#ffffff; font-size:13px; font-weight:600;">వేదిక్ సంహిత మొబైల్ యాప్</span>
-                <button id="pwaInstallBtnTrigger" style="background:#d4af37; color:#1a0f00; border:none; border-radius:20px; padding:6px 14px; font-size:12px; font-weight:bold; cursor:pointer;">📲 ఇన్‌స్టాల్ (Install)</button>
+                <span style="color:#ffffff; font-size:13px; font-weight:600;">Vedic Samhita App</span>
+                <button id="pwaInstallBtnTrigger" style="background:#d4af37; color:#1a0f00; border:none; border-radius:20px; padding:6px 14px; font-size:12px; font-weight:bold; cursor:pointer;">📲 Install App</button>
                 <button id="pwaCloseBanner" style="background:transparent; color:#8b949e; border:none; font-size:16px; cursor:pointer; padding:0 4px;">✕</button>
             `;
             document.body.appendChild(banner);
@@ -81,9 +81,9 @@
                 deferredPrompt = null;
             });
         } else if (isIos()) {
-            alert('🍎 iPhone / iPad లో యాప్ ఇన్‌స్టాల్ చేయడానికి:\n\n1. క్రింద ఉన్న Share బటన్ [ ⎋ ] పై నొక్కండి.\n2. జాబితాలో క్రిందికి స్క్రోల్ చేసి "Add to Home Screen" (హోమ్ స్క్రీన్‌కు జోడించు) ఎంచుకోండి.\n3. పైన కుడివైపున "Add" పై నొక్కండి.');
+            alert('🍎 To install Vedic Samhita App on iPhone / iPad:\n\n1. Tap the Share button [ ⎋ ] at the bottom of Safari.\n2. Scroll down and tap "Add to Home Screen".\n3. Tap "Add" in the top right corner.');
         } else {
-            alert('📱 యాప్ ఇన్‌స్టాల్ చేయడానికి:\n\nబ్రౌజర్ పైన కుడివైపున ఉన్న 3 చుక్కలు (⋮ Menu) పై నొక్కి "Install App" లేదా "Add to Home screen" ఎంచుకోండి!');
+            alert('📱 To install Vedic Samhita App:\n\nClick the 3 dots (⋮ Menu) at the top right of your browser and select "Install App" or "Add to Home screen"!');
         }
     }
 

@@ -40,31 +40,73 @@
         }
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body {
-            font-family: 'EB Garamond', 'Cormorant Garamond', Georgia, serif;
-            background: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%);
+            font-family: 'EB Garamond', 'Mandali', 'Cormorant Garamond', Georgia, serif;
+            background: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%) fixed;
             color: var(--text);
             min-height: 100vh;
             padding: 20px 15px;
+            position: relative;
+        }
+
+        /* ─── Background Logo Watermark in Light Mode ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(540px, 85vw);
+            height: min(540px, 85vw);
+            background: url('logo.jpg') no-repeat center center;
+            background-size: contain;
+            opacity: 0.07;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            filter: grayscale(15%);
+        }
+
+        .lang-toggle-btn {
+            background: #d4a853;
+            color: #4a0e0e;
+            border: 1px solid #b8860b;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-family: 'Cinzel', 'Mandali', serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+        .lang-toggle-btn:hover {
+            background: #fff8e7;
+            color: #6b1d1d;
+            transform: scale(1.03);
         }
 
         /* ─── INPUT SECTION (Compact) ─── */
         .input-section {
             max-width: 740px; margin: 0 auto 18px;
-            background: #fff; border-radius: 10px;
-            padding: 12px 20px; border: 1px solid var(--border-gold);
-            box-shadow: 0 3px 14px rgba(139,69,19,0.06);
+            background: rgba(255, 255, 255, 0.95); border-radius: 10px;
+            padding: 12px 20px; border: 1.5px solid var(--border-gold);
+            box-shadow: 0 3px 16px rgba(139,69,19,0.08);
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            position: relative; z-index: 1;
         }
         .input-section h2 {
             text-align: center; color: var(--maroon); margin-bottom: 8px;
             font-family: 'Cinzel', Georgia, serif; font-size: 0.95rem;
-            letter-spacing: 1.5px; font-weight: 600;
+            letter-spacing: 1.5px; font-weight: 700;
         }
         .input-grid {
             display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;
         }
         .input-grid label {
-            display: block; font-weight: 600; font-size: 0.75rem;
+            display: block; font-weight: 700; font-size: 0.75rem;
             color: var(--saffron); margin-bottom: 3px; text-transform: uppercase;
             letter-spacing: 0.5px;
         }
@@ -72,6 +114,7 @@
             width: 100%; padding: 7px 10px; border: 1.5px solid #e0d5c5;
             border-radius: 6px; font-size: 0.85rem;
             background: var(--warm-white); transition: border-color 0.2s;
+            color: #2D1810; font-weight: 600;
         }
         .input-grid select:focus, .input-grid input:focus {
             border-color: var(--gold); outline: none;
@@ -80,12 +123,12 @@
         #customCoords { display: none; }
         .btn-calc {
             width: 100%; background: linear-gradient(135deg, var(--maroon), var(--dark-maroon));
-            color: #FFF8E7; border: none; padding: 9px; font-size: 0.9rem;
-            font-weight: 600; border-radius: 6px; cursor: pointer;
+            color: #FFF8E7; border: none; padding: 10px; font-size: 0.92rem;
+            font-weight: 700; border-radius: 6px; cursor: pointer;
             font-family: 'Cinzel', Georgia, serif; letter-spacing: 1.5px;
             transition: all 0.25s; text-transform: uppercase;
         }
-        .btn-calc:hover { opacity: 0.9; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(75,14,14,0.3); }
+        .btn-calc:hover { opacity: 0.92; transform: translateY(-1px); box-shadow: 0 4px 14px rgba(75,14,14,0.3); }
         .btn-print {
             display: inline-block; margin-top: 10px; background: var(--maroon);
             color: #fff; border: none; padding: 8px 22px; font-size: 0.82rem;
@@ -96,7 +139,8 @@
         /* ─── PANCHANGAM DOCUMENT ─── */
         .panchang-doc {
             max-width: 740px; margin: 0 auto;
-            background: linear-gradient(180deg, #FFFEF9 0%, #FFF8E7 40%, #FFF5DE 100%);
+            background: rgba(255, 254, 248, 0.96);
+            backdrop-filter: blur(5px);
             border: 3px double var(--border-gold);
             border-radius: 6px; padding: 35px 40px;
             position: relative;
@@ -104,25 +148,52 @@
         }
         .panchang-doc::before {
             content: ''; position: absolute; inset: 8px;
-            border: 1px solid rgba(218,165,32,0.2); pointer-events: none;
+            border: 1px solid rgba(218,165,32,0.25); pointer-events: none;
             border-radius: 3px;
         }
-        /* Watermark Om */
+        /* Document Logo Watermark */
         .panchang-doc::after {
-            content: 'ॐ'; position: absolute;
+            content: ''; position: absolute;
             top: 50%; left: 50%; transform: translate(-50%,-50%);
-            font-size: 22rem; color: rgba(218,165,32,0.04);
+            width: min(440px, 80%);
+            height: min(440px, 80%);
+            background: url('logo.jpg') no-repeat center center;
+            background-size: contain;
+            opacity: 0.05;
             pointer-events: none; z-index: 0;
-            font-family: serif;
+            border-radius: 50%;
         }
         .panchang-doc > * { position: relative; z-index: 1; }
 
-        /* ─── HEADER ─── */
+        /* ─── HIGHLIGHTED TEXT STYLES ─── */
         .panchang-title {
             text-align: center; font-size: 2rem; color: var(--dark-maroon);
-            letter-spacing: 5px; margin-bottom: 8px;
-            font-family: 'Cinzel', Georgia, serif; font-weight: 700;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.06);
+            letter-spacing: 4px; margin-bottom: 8px;
+            font-family: 'Cinzel', 'Mandali', Georgia, serif; font-weight: 700;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.9);
+        }
+        .section-title {
+            text-align: center; font-size: 1.4rem; color: var(--dark-maroon);
+            letter-spacing: 2px; margin: 20px 0 14px;
+            font-family: 'Cinzel', 'Mandali', Georgia, serif; font-weight: 700;
+            text-shadow: 0 1px 2px rgba(255,255,255,0.9);
+        }
+        .plabel, .time-label, .klabel {
+            font-weight: 700; color: var(--dark-maroon);
+            letter-spacing: 0.5px;
+        }
+        .pval, .time-val, .kval, .akshara {
+            font-weight: 600; color: #1f0f08;
+            letter-spacing: 0.2px;
+        }
+        .pval strong, .time-val strong, .kval strong {
+            font-weight: 700; color: #000;
+        }
+        .auspicious {
+            color: #0d5f15 !important; font-weight: 700;
+        }
+        .inauspicious {
+            color: #8c1010 !important; font-weight: 700;
         }
         .slokas-row {
             display: flex; justify-content: space-between; flex-wrap: wrap;

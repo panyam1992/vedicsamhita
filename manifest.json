@@ -1,13 +1,13 @@
 {
-  "name": "వేదిక్ సంహిత - జ్యోతిష్య & పంచాంగ సూట్",
-  "short_name": "వేదిక్ సంహిత",
-  "description": "Vedic Astrology & Panchangam Suite with Family Consultation, Vivaha Muhurtham & Kundali",
+  "name": "Vedic Samhita - Panchangam & Vedic Astrology",
+  "short_name": "Vedic Samhita",
+  "description": "Vedic Astrology & Panchangam Suite with Daily Panchangam, Muhurthams, Kundali and Horoscopes",
   "start_url": "./index.html",
   "scope": "./",
   "id": "vedicsamhita-app",
   "display": "standalone",
   "orientation": "portrait-primary",
-  "background_color": "#0a0d12",
+  "background_color": "#FFF8E7",
   "theme_color": "#4a0e0e",
   "icons": [
     {

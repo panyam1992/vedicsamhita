@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="జ్యోతిష్య సూట్">
+    <meta name="apple-mobile-web-app-title" content="Vedic Samhita">
     <meta name="theme-color" content="#0a0d12">
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
@@ -14,32 +14,51 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Mandali&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-primary: #0a0d12;
-            --bg-card: #141922;
-            --bg-card-alt: #1a2230;
-            --text-primary: #f0f6fc;
-            --text-secondary: #8b949e;
-            --text-muted: #6e7681;
-            --accent-gold: #e3b341;
-            --accent-gold-dark: #b0882e;
-            --accent-blue: #58a6ff;
-            --accent-green: #3fb950;
-            --accent-red: #ff7b72;
-            --accent-purple: #bc8cff;
-            --border-color: #30363d;
-            --border-gold: rgba(227, 179, 65, 0.4);
-            --header-gradient: linear-gradient(135deg, #1c2128 0%, #0d1117 100%);
+            --bg-primary: #FFF8E7;
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --bg-card-alt: #FFFDF8;
+            --text-primary: #2D1810;
+            --text-secondary: #5A4030;
+            --text-muted: #7B6B5E;
+            --accent-gold: #B8860B;
+            --accent-gold-dark: #8B6508;
+            --accent-blue: #1A5276;
+            --accent-green: #1E8449;
+            --accent-red: #A93226;
+            --accent-purple: #6C3483;
+            --border-color: #DAA520;
+            --border-gold: rgba(184, 134, 11, 0.4);
+            --header-gradient: linear-gradient(135deg, #4a0e0e 0%, #6b1d1d 100%);
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         body {
             font-family: 'Mandali', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background: var(--bg-primary);
+            background: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%) fixed;
             color: var(--text-primary);
             min-height: 100vh;
             padding-bottom: 60px;
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* ─── Background Logo Watermark in Light Mode ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: min(540px, 85vw);
+            height: min(540px, 85vw);
+            background: url('logo.jpg') no-repeat center center;
+            background-size: contain;
+            opacity: 0.07;
+            pointer-events: none;
+            z-index: 0;
+            border-radius: 50%;
+            filter: grayscale(15%);
         }
 
         /* Top Header */
@@ -521,7 +540,7 @@
 <body>
 
     <!-- Site Navigation Bar -->
-    <nav style="text-align:center; padding:10px 14px; background:#1c2128; border-bottom:1px solid #30363d; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px; position:sticky; top:0; z-index:1000;">
+    <nav style="text-align:center; padding:10px 14px; background:#4a0e0e; border-bottom:1px solid #d4af37; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px; position:sticky; top:0; z-index:1000;">
         <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🙏 Daily Panchangam</a>
         <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Phalalu</a>
         <a href="muhurtavali.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>

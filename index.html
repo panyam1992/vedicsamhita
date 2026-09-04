@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="వేదిక్ సంహిత">
+    <meta name="apple-mobile-web-app-title" content="Vedic Samhita">
     <meta name="theme-color" content="#4a0e0e">
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
@@ -47,22 +47,23 @@
 
 <!-- Site Navigation -->
 <div style="text-align:center; padding:10px 14px; background:#4a0e0e; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:12px;">
-    <a href="index.html" style="color:#ffffff; background:rgba(212,168,83,0.3); border-radius:4px; padding:4px 8px; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; font-weight:bold;">🙏 Daily Panchangam</a>
-    <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Phalalu</a>
-    <a href="jathakam.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🔮 Single Jathakam</a>
-    <a href="muhurtavali.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
-    <a href="family_jathakam.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
+    <a href="index.html" id="navDaily" style="color:#ffffff; background:rgba(212,168,83,0.3); border-radius:4px; padding:4px 8px; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; font-weight:bold;">🙏 Daily Panchangam</a>
+    <a href="ugadi.html" id="navUgadi" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Phalalu</a>
+    <a href="jathakam.html" id="navJathakam" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🔮 Single Jathakam</a>
+    <a href="muhurtavali.html" id="navMuhurta" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
+    <a href="family_jathakam.html" id="navFamily" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
+    <button class="lang-toggle-btn" onclick="toggleLanguage()">🌐 <span id="langBtnText">తెలుగు</span></button>
 </div>
 
 <div class="input-section">
-    <h2>🙏 Vedic Panchangam — Daily Calculator</h2>
+    <h2 id="lblInputHeader">🙏 Vedic Panchangam — Daily Calculator</h2>
     <div class="input-grid">
         <div style="position: relative;">
             <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 4px;">
-                <label for="citySearch">Location / City</label>
+                <label for="citySearch" id="lblLocation">Location / City</label>
                 <div>
-                    <span onclick="autoDetectLocation()" style="font-size:0.8rem; color:#8b0000; cursor:pointer; text-decoration:underline; margin-right:10px;">📍 Auto-Detect Location</span>
-                    <span onclick="toggleCustomLocation()" style="font-size:0.8rem; color:#8b0000; cursor:pointer; text-decoration:underline;">Custom Coordinates</span>
+                    <span id="btnAutoDetect" onclick="autoDetectLocation()" style="font-size:0.8rem; color:#8b0000; cursor:pointer; text-decoration:underline; margin-right:10px;">📍 Auto-Detect Location</span>
+                    <span id="btnCustomCoords" onclick="toggleCustomLocation()" style="font-size:0.8rem; color:#8b0000; cursor:pointer; text-decoration:underline;">Custom Coordinates</span>
                 </div>
             </div>
             <input type="text" id="citySearch" placeholder="Type city name..." autocomplete="off" oninput="onCitySearchInput(this.value)" onkeydown="if(event.key==='Enter'){onCitySearchEnter(this.value);}" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:1rem; box-sizing:border-box;">
@@ -70,7 +71,7 @@
         </div>
         
         <div>
-            <label for="datePicker">Date</label>
+            <label for="datePicker" id="lblDate">Date</label>
             <input type="date" id="datePicker">
         </div>
     </div>
@@ -79,7 +80,7 @@
         <div><label>Longitude</label><input type="number" id="lonInput" step="0.0001" value="-96.8236"></div>
         <div><label>UTC Offset (hrs)</label><input type="number" id="tzInput" step="0.5" value="-5"></div>
     </div>
-    <button class="btn-calc" onclick="calculatePanchangam()">🙏 Calculate Panchangam</button>
+    <button class="btn-calc" id="btnCalculate" onclick="calculatePanchangam()">🙏 Calculate Panchangam</button>
 </div>
 
 
@@ -100,44 +101,44 @@
 
     <!-- Sun & Moon Times -->
     <div class="times-grid">
-        <div class="time-row"><span class="time-label">Sunrise</span> <span class="time-val" id="valSunrise"></span></div>
-        <div class="time-row"><span class="time-label">Sunset</span> <span class="time-val" id="valSunset"></span></div>
-        <div class="time-row"><span class="time-label">Moonrise</span> <span class="time-val" id="valMoonrise"></span></div>
-        <div class="time-row"><span class="time-label">Moonset</span> <span class="time-val" id="valMoonset"></span></div>
-        <div class="time-row"><span class="time-label">Sun Rashi</span> <span class="time-val" id="valSunRashi"></span></div>
-        <div class="time-row"><span class="time-label">Moon Rashi</span> <span class="time-val" id="valMoonRashi"></span></div>
+        <div class="time-row"><span class="time-label" id="lblSunrise">Sunrise</span> <span class="time-val" id="valSunrise"></span></div>
+        <div class="time-row"><span class="time-label" id="lblSunset">Sunset</span> <span class="time-val" id="valSunset"></span></div>
+        <div class="time-row"><span class="time-label" id="lblMoonrise">Moonrise</span> <span class="time-val" id="valMoonrise"></span></div>
+        <div class="time-row"><span class="time-label" id="lblMoonset">Moonset</span> <span class="time-val" id="valMoonset"></span></div>
+        <div class="time-row"><span class="time-label" id="lblSunRashi">Sun Rashi</span> <span class="time-val" id="valSunRashi"></span></div>
+        <div class="time-row"><span class="time-label" id="lblMoonRashi">Moon Rashi</span> <span class="time-val" id="valMoonRashi"></span></div>
     </div>
 
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
     <!-- Panchangam Elements -->
-    <h2 class="section-title">Panchangam</h2>
-    <div class="pitem"><span class="plabel">Samvatsaram</span> <span class="pval" id="valSamvatsaram"></span></div>
-    <div class="pitem"><span class="plabel">Ayanam</span> <span class="pval" id="valAyanam"></span></div>
-    <div class="pitem"><span class="plabel">Rutu</span> <span class="pval" id="valRutu"></span></div>
-    <div class="pitem"><span class="plabel">Masam</span> <span class="pval" id="valMasam"></span></div>
+    <h2 class="section-title" id="hdrPanchangam">Panchangam</h2>
+    <div class="pitem"><span class="plabel" id="lblSamvatsaram">Samvatsaram</span> <span class="pval" id="valSamvatsaram"></span></div>
+    <div class="pitem"><span class="plabel" id="lblAyanam">Ayanam</span> <span class="pval" id="valAyanam"></span></div>
+    <div class="pitem"><span class="plabel" id="lblRutu">Rutu</span> <span class="pval" id="valRutu"></span></div>
+    <div class="pitem"><span class="plabel" id="lblMasam">Masam</span> <span class="pval" id="valMasam"></span></div>
     <div id="adhikaMasamNote" style="display:none;background:#fff8e1;border-left:3px solid #e67e22;padding:8px 12px;margin:6px 0;font-size:0.82rem;line-height:1.5;border-radius:4px;font-family:'EB Garamond',serif;"></div>
-    <div class="pitem"><span class="plabel">Paksham</span> <span class="pval" id="valPaksham"></span></div>
-    <div class="plist-label">Tithi</div>
+    <div class="pitem"><span class="plabel" id="lblPaksham">Paksham</span> <span class="pval" id="valPaksham"></span></div>
+    <div class="plist-label" id="lblTithi">Tithi</div>
     <ol class="plist" id="valTithi"></ol>
-    <div class="pitem"><span class="plabel">Vasara</span> <span class="pval" id="valVasara"></span></div>
-    <div class="plist-label">Nakshatram</div>
+    <div class="pitem"><span class="plabel" id="lblVasara">Vasara</span> <span class="pval" id="valVasara"></span></div>
+    <div class="plist-label" id="lblNakshatram">Nakshatram</div>
     <ol class="plist" id="valNakshatra"></ol>
-    <div class="plist-label">Yogam</div>
+    <div class="plist-label" id="lblYogam">Yogam</div>
     <ol class="plist" id="valYoga"></ol>
-    <div class="plist-label">Karanam</div>
+    <div class="plist-label" id="lblKaranam">Karanam</div>
     <ol class="plist" id="valKarana"></ol>
-    <div class="plist-label">Nakshatra Padam</div>
+    <div class="plist-label" id="lblPadam">Nakshatra Padam</div>
     <ol class="plist" id="valPadam"></ol>
     <div id="moudhyamSection" style="display:none;">
-        <div class="plist-label">Maudhyam</div>
+        <div class="plist-label" id="lblMaudhyam">Maudhyam</div>
         <ol class="plist" id="valMaudhyam"></ol>
     </div>
 
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
     <!-- Festivals & Vratas -->
-    <h2 class="section-title">Festivals & Vratas</h2>
+    <h2 class="section-title" id="hdrFestivals">Festivals & Vratas</h2>
     <div id="festivalSection" style="display:none; text-align:center; padding: 12px; background: #fff8e1; border: 1px solid #d4af37; border-radius: 8px; margin-bottom: 10px;">
         <div id="valFestivals" class="akshara" style="font-size:1.05rem; color:#b8860b; font-weight:bold; line-height:1.5;"></div>
     </div>
@@ -146,7 +147,7 @@
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
     <!-- Day & Night Choghadiya Timings -->
-    <h2 class="section-title">Day & Night Choghadiya Timings</h2>
+    <h2 class="section-title" id="hdrChoghadiya">Day & Night Choghadiya Timings</h2>
     <div style="margin: 12px 0;">
         <div style="display: flex; gap: 8px; justify-content: center; margin-bottom: 12px;">
             <button id="btnDayChoghadiya" onclick="toggleChoghadiyaTab('day')" style="padding: 6px 16px; font-family:'Cinzel',serif; font-size:0.85rem; border-radius:4px; border:1px solid #4a0e0e; background:#4a0e0e; color:#fff8e7; cursor:pointer; font-weight:bold; transition:all 0.2s;">☀️ Day Choghadiya</button>
@@ -157,8 +158,8 @@
         
         <!-- Choghadiya Quick Activity Guide -->
         <div style="margin-top: 14px; background: rgba(255, 248, 231, 0.7); border: 1px solid #daa520; border-radius: 6px; padding: 10px 14px; font-size: 0.85rem; line-height: 1.5;">
-            <strong style="color: #4a0e0e; font-family: 'Cinzel', serif;">Principles of Choghadiya:</strong>
-            <ul style="margin: 6px 0 0 18px; padding: 0;">
+            <strong style="color: #4a0e0e; font-family: 'Cinzel', serif;" id="lblChoghadiyaRulesTitle">Principles of Choghadiya:</strong>
+            <ul id="choghadiyaPrinciplesList" style="margin: 6px 0 0 18px; padding: 0;">
                 <li><strong style="color: #1b5e20;">Amrit (Chandra):</strong> Highly Auspicious — Best for all good beginnings, celebrations & pujas.</li>
                 <li><strong style="color: #1b5e20;">Shubh (Guru):</strong> Auspicious — Best for ceremonies, education, signing contracts & official work.</li>
                 <li><strong style="color: #1b5e20;">Labh (Budha):</strong> Auspicious — Best for commerce, financial deals, buying vehicles & investments.</li>
@@ -173,7 +174,7 @@
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
     <!-- Lagna Section -->
-    <h2 class="section-title">Lagna Details</h2>
+    <h2 class="section-title" id="hdrLagna">Lagna Details</h2>
     <div class="lagna-section">
         <div class="lagna-chart-wrap">
             <div style="text-align:center;margin-bottom:6px;">
@@ -197,19 +198,19 @@
             </div>
         </div>
         <div class="lagna-details">
-            <div class="kalam-item"><span class="klabel">Udaya Lagna</span> <span class="kval akshara" id="valLagnaRashi"></span></div>
-            <div class="kalam-item"><span class="klabel">Lagna Degree</span> <span class="kval akshara" id="valLagnaDeg"></span></div>
-            <div class="kalam-item"><span class="klabel">Lagna Lord</span> <span class="kval akshara" id="valLagnaLord"></span></div>
-            <div class="kalam-item"><span class="klabel">Sun's Rashi</span> <span class="kval akshara" id="valSunInRashi"></span></div>
-            <div class="kalam-item"><span class="klabel">Moon's Rashi</span> <span class="kval akshara" id="valMoonInRashi"></span></div>
-            <div class="kalam-item"><span class="klabel">Jagat Lagna</span> <span class="kval akshara" id="valJagatLagna"></span></div>
-            <div class="kalam-item"><span class="klabel">Varsha Lagna</span> <span class="kval akshara" id="valVarshaLagna"></span></div>
-            <h3 style="margin:12px 0 6px; color:#4a0e0e; font-family:'Cinzel',serif; font-size:0.95rem;">Navagraha Positions</h3>
+            <div class="kalam-item"><span class="klabel" id="lblUdayaLagna">Udaya Lagna</span> <span class="kval akshara" id="valLagnaRashi"></span></div>
+            <div class="kalam-item"><span class="klabel" id="lblLagnaDeg">Lagna Degree</span> <span class="kval akshara" id="valLagnaDeg"></span></div>
+            <div class="kalam-item"><span class="klabel" id="lblLagnaLord">Lagna Lord</span> <span class="kval akshara" id="valLagnaLord"></span></div>
+            <div class="kalam-item"><span class="klabel" id="lblSunInRashi">Sun's Rashi</span> <span class="kval akshara" id="valSunInRashi"></span></div>
+            <div class="kalam-item"><span class="klabel" id="lblMoonInRashi">Moon's Rashi</span> <span class="kval akshara" id="valMoonInRashi"></span></div>
+            <div class="kalam-item"><span class="klabel" id="lblJagatLagna">Jagat Lagna</span> <span class="kval akshara" id="valJagatLagna"></span></div>
+            <div class="kalam-item"><span class="klabel" id="lblVarshaLagna">Varsha Lagna</span> <span class="kval akshara" id="valVarshaLagna"></span></div>
+            <h3 style="margin:12px 0 6px; color:#4a0e0e; font-family:'Cinzel',serif; font-size:0.95rem;" id="lblNavagrahaHeader">Navagraha Positions</h3>
             <div id="grahaPositions" class="lagna-transitions akshara"></div>
         </div>
     </div>
 
-    <h3 style="margin:16px 0 8px; color:#4a0e0e; font-family:'Cinzel',serif; font-size:1.05rem; text-align:center;">Today Lagna Timings</h3>
+    <h3 style="margin:16px 0 8px; color:#4a0e0e; font-family:'Cinzel',serif; font-size:1.05rem; text-align:center;" id="lblTodayLagnaTimings">Today Lagna Timings</h3>
     <div id="lagnaTransitions" class="lagna-transitions akshara" style="overflow-x:auto;"></div>
 
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
@@ -217,7 +218,7 @@
 
 
     <!-- Blessings -->
-    <div class="blessings">
+    <div class="blessings" id="valBlessings">
         Shubham Bhavatu...<br>
         Sarvejanah Sukhinobhavantu...<br>
         Lokassamastassukhinobhavantu...<br>
@@ -228,9 +229,9 @@
 
     <!-- Note -->
     <div class="note-section">
-        <div class="note-title">Important Note</div>
+        <div class="note-title" id="lblNoteTitle">Important Note</div>
         <div id="valNote"></div>
-        <div class="contact-info">
+        <div class="contact-info" id="valContactInfo">
             For inquiries and services:<br>
             <strong>Vedic Samhita</strong><br>
             Website: <a href="https://vedicsamhita.com" style="color:#8b0000; text-decoration:none; font-weight:bold;">vedicsamhita.com</a><br>
@@ -256,7 +257,7 @@
     </div>
     
     <div style="margin-top:20px; text-align:center;">
-        <button onclick="document.getElementById('grahanamModal').style.display='none'" style="padding:8px 20px; font-size: 1rem; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-family:inherit; font-weight:bold;">Close</button>
+        <button id="gModalCloseBtn" onclick="document.getElementById('grahanamModal').style.display='none'" style="padding:8px 20px; font-size: 1rem; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-family:inherit; font-weight:bold;">Close</button>
     </div>
   </div>
 </div>

@@ -43,6 +43,412 @@ const CITIES = {
     aarhus:    { name:"Aarhus, Denmark",           lat:56.2639,  lon:9.5018,   stdTz:1,  dstTz:2,  dst:'UK' },
 };
 
+
+// ─── Plain & Simple Bilingual Language Engine (English & Telugu) ───
+let CURRENT_LANG = 'en';
+try {
+    const saved = localStorage.getItem('VS_LANG');
+    if (saved === 'te' || saved === 'en') CURRENT_LANG = saved;
+} catch(e) {}
+
+const SAMVATSARAM_TE = [
+    "ప్రభవ","విభవ","శుక్ల","ప్రమోద్యూత","ప్రజోత్పత్తి","ఆంగీరస","శ్రీముఖ","భావ","యువ","ధాత",
+    "ఈశ్వర","బహుధాన్య","ప్రమాది","విక్రమ","వృష","చిత్రభాను","స్వభాను","తారణ","పార్థివ","వ్యయ",
+    "సర్వజిత్తు","సర్వధారి","విరోధి","వికృతి","ఖర","నందన","విజయ","జయ","మన్మథ","దుర్ముఖి",
+    "హేవిలంబి","విలంబి","వికారి","శార్వరి","ప్లవ","శుభకృతు","శోభకృతు","క్రోధి","విశ్వావసు","పరాభవ",
+    "ప్లవంగ","కీలక","సౌమ్య","సాధారణ","విరోధికృతు","పరిధావి","ప్రమాదీచ","ఆనంద","రాక్షస","నల",
+    "పింగళ","కాళయుక్తి","సిద్ధార్థి","రౌద్రి","దుర్మతి","దుందుభి","రుధిరోద్గారి","రక్తాక్షి","క్రోధన","అక్షయ"
+];
+
+const TITHI_TE = [
+    "శుక్ల పాడ్యమి", "శుక్ల విదియ", "శుక్ల తదియ", "శుక్ల చవితి", "శుక్ల పంచమి",
+    "శుక్ల షష్ఠి", "శుక్ల సప్తమి", "శుక్ల అష్టమి", "శుక్ల నవమి", "శుక్ల దశమి",
+    "శుక్ల ఏకాదశి", "శుక్ల ద్వాదశి", "శుక్ల త్రయోదశి", "శుక్ల చతుర్దశి", "పూర్ణిమ",
+    "కృష్ణ పాడ్యమి", "కృష్ణ విదియ", "కృష్ణ తదియ", "కృష్ణ చవితి", "కృష్ణ పంచమి",
+    "కృష్ణ షష్ఠి", "కృష్ణ సప్తమి", "కృష్ణ అష్టమి", "కృష్ణ నవమి", "కృష్ణ దశమి",
+    "కృష్ణ ఏకాదశి", "కృష్ణ ద్వాదశి", "కృష్ణ త్రయోదశి", "కృష్ణ చతుర్దశి", "అమావాస్య"
+];
+
+const NAKSHATRA_TE = [
+    "అశ్విని", "భరణి", "కృత్తిక", "రోహిణి", "మృగశిర", "ఆరుద్ర",
+    "పునర్వసు", "పుష్యమి", "ఆశ్లేష", "మఘ", "పూర్వ ఫల్గుని (పుబ్బ)", "ఉత్తర ఫల్గుని (ఉత్తర)",
+    "హస్త", "చిత్ర", "స్వాతి", "విశాఖ", "అనూరాధ", "జ్యేష్ఠ",
+    "మూల", "పూర్వాషాఢ", "ఉత్తరాషాఢ", "శ్రవణం", "ధనిష్ఠ", "శతభిషం",
+    "పూర్వాభాద్ర", "ఉత్తరాభాద్ర", "రేవతి"
+];
+
+const YOGA_TE = [
+    "విష్కంభం", "ప్రీతి", "ఆయుష్మాన్", "సౌభాగ్యం", "శోభనం", "అతిగండం",
+    "సుకుర్మ", "ధృతి", "శూలం", "గండం", "వృద్ధి", "ధ్రువం",
+    "వ్యాఘాతం", "హర్షణం", "వజ్రం", "సిద్ధి", "వ్యతీపాతం", "వరియాన్",
+    "పరిఘం", "శివం", "సిద్ధం", "సాధ్యం", "శుభం", "శుక్లం",
+    "బ్రహ్మం", "ఐంద్రం", "వైధృతి"
+];
+
+const VARA_TE = [
+    "ఆదివారం (భానువాసరం)", "సోమవారం (ఇందువాసరం)", "మంగళవారం (భౌమవాసరం)",
+    "బుధవారం (సౌమ్యవాసరం)", "గురువారం (బృహస్పతివాసరం)", "శుక్రవారం (భృగువాసరం)", "శనివారం (స్థిరవాసరం)"
+];
+
+const MASAM_TE = [
+    "చైత్రం", "వైశాఖం", "జ్యేష్ఠం", "ఆషాఢం", "శ్రావణం", "భాద్రపదం",
+    "ఆశ్వయుజం", "కార్తీకం", "మార్గశిర", "పుష్యం", "మాఘం", "ఫాల్గుణం"
+];
+
+const RUTU_TE = [
+    "వసంత ఋతువు", "గ్రీష్మ ఋతువు", "వర్ష ఋతువు", "శరద్ ఋతువు", "హేమంత ఋతువు", "శిశిర ఋతువు"
+];
+
+const RASHI_TE = [
+    "మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య",
+    "తుల", "వృశ్చికం", "ధనుస్సు", "మకరం", "కుంభం", "మీనం"
+];
+
+const KARANA_TE = [
+    "బవ", "బాలవ", "కౌలవ", "తైతిల", "గరజి", "వణిజ", "విష్టి (భద్ర)",
+    "శకుని", "చతుష్పాద", "నాగవ", "కింస్తుఘ్నం"
+];
+
+const MONTH_ABBR_TE = ['జనవరి','ఫిబ్రవరి','మార్చి','ఏప్రిల్','మే','జూన్','జూలై','ఆగస్టు','సెప్టెంబర్','అక్టోబర్','నవంబర్','డిసెంబర్'];
+
+const GRAHA_NAMES_EN = {
+    Su: 'Sun (Surya)', Mo: 'Moon (Chandra)', Ma: 'Mars (Kuja)', Me: 'Mercury (Budha)',
+    Ju: 'Jupiter (Guru)', Ve: 'Venus (Shukra)', Sa: 'Saturn (Shani)', Ra: 'Rahu', Ke: 'Ketu'
+};
+const GRAHA_NAMES_TE = {
+    Su: 'సూర్యుడు', Mo: 'చంద్రుడు', Ma: 'కుజుడు (అంగారకుడు)', Me: 'బుధుడు',
+    Ju: 'గురుడు (బృహస్పతి)', Ve: 'శుక్రుడు', Sa: 'శని', Ra: 'రాహువు', Ke: 'కేతువు'
+};
+
+const RASHI_LORDS_TE = [
+    "కుజుడు (అంగారకుడు)", "శుక్రుడు", "బుధుడు", "చంద్రుడు", "సూర్యుడు", "బుధుడు",
+    "శుక్రుడు", "కుజుడు", "గురుడు (బృహస్పతి)", "శని", "శని", "గురుడు (బృహస్పతి)"
+];
+
+const MAUDHYA_NAMES_TE = {
+    jupiter: 'గురు మౌఢ్యం',
+    venus: 'శుక్ర మౌఢ్యం',
+    mars: 'కుజ మౌఢ్యం',
+    mercury: 'బుధ మౌఢ్యం',
+    saturn: 'శని మౌఢ్యం'
+};
+const MAUDHYA_NAMES_EN = {
+    jupiter: 'Guru Maudhyam (Jupiter Combustion)',
+    venus: 'Shukra Maudhyam (Venus Combustion)',
+    mars: 'Kuja Maudhyam (Mars Combustion)',
+    mercury: 'Budha Maudhyam (Mercury Combustion)',
+    saturn: 'Shani Maudhyam (Saturn Combustion)'
+};
+
+const CHOGHADIYA_PROPS_TE = {
+    Amrit: { name: 'అమృతం', ruler: 'చంద్రుడు', nature: 'అమృత (అత్యుత్తమం)', isGood: true },
+    Shubh: { name: 'శుభం',    ruler: 'గురుడు',    nature: 'శుభ (ఉత్తమం)',     isGood: true },
+    Labh:  { name: 'లాభం',   ruler: 'బుధుడు',   nature: 'లాభ (శుభం)',       isGood: true },
+    Char:  { name: 'చరం',    ruler: 'శుక్రుడు',  nature: 'చర (శుభం)',       isGood: true },
+    Udveg: { name: 'ఉద్వేగం', ruler: 'సూర్యుడు',   nature: 'ఉద్వేగ (అశుభం)',   isGood: false },
+    Rog:   { name: 'రోగం',    ruler: 'కుజుడు',    nature: 'రోగ (అశుభం)',     isGood: false },
+    Kaal:  { name: 'కాలం',   ruler: 'శని',      nature: 'కాల (అశుభం)',     isGood: false }
+};
+
+const CHOGHADIYA_PROPS_EN = {
+    Amrit: { name: 'Amrit', ruler: 'Moon',    nature: 'Highly Auspicious', isGood: true },
+    Shubh: { name: 'Shubh', ruler: 'Jupiter', nature: 'Auspicious',        isGood: true },
+    Labh:  { name: 'Labh',  ruler: 'Mercury', nature: 'Auspicious',        isGood: true },
+    Char:  { name: 'Char',  ruler: 'Venus',   nature: 'Auspicious (Travel)', isGood: true },
+    Udveg: { name: 'Udveg', ruler: 'Sun',     nature: 'Inauspicious',      isGood: false },
+    Rog:   { name: 'Rog',   ruler: 'Mars',    nature: 'Inauspicious',      isGood: false },
+    Kaal:  { name: 'Kaal',  ruler: 'Saturn',  nature: 'Inauspicious',      isGood: false }
+};
+
+const CHOGHADIYA_PRINCIPLES_TE = `
+    <li><strong style="color: #1b5e20;">అమృతం (చంద్రుడు):</strong> అత్యుత్తమం — సమస్త శుభకార్యాలకు, పూజలకు అత్యంత శ్రేష్ఠం.</li>
+    <li><strong style="color: #1b5e20;">శుభం (గురుడు):</strong> ఉత్తమం — పూజలు, శుభకార్యాలు, విద్యారంభం, పత్రాల సంతకాలకు అనుకూలం.</li>
+    <li><strong style="color: #1b5e20;">లాభం (బుధుడు):</strong> శుభప్రదం — వ్యాపారం, ధన లావాదేవీలు, నూతన కొనుగోళ్లకు శ్రేష్ఠం.</li>
+    <li><strong style="color: #1b5e20;">చరం (శుక్రుడు):</strong> చలనం — ప్రయాణాలకు, బదిలీలకు, ప్రయాణ ఆరంభానికి అనుకూలం.</li>
+    <li><strong style="color: #991b1b;">ఉద్వేగం (సూర్యుడు):</strong> అశుభం — ఆందోళన, ఆటంకాలు; ముఖ్యమైన కొత్త పనులు ప్రారంభించవద్దు.</li>
+    <li><strong style="color: #991b1b;">రోగం (కుజుడు):</strong> అశుభం — కలహాలు, అనారోగ్యం; వాదోపవాదాలు, వైద్య ఆరంభం నివారించండి.</li>
+    <li><strong style="color: #991b1b;">కాలం (శని):</strong> అత్యంత అశుభం — శని పాలిత సమయం; ఎలాంటి శుభకార్యాలు తలపెట్టరాదు.</li>
+`;
+
+const CHOGHADIYA_PRINCIPLES_EN = `
+    <li><strong style="color: #1b5e20;">Amrit (Moon):</strong> Highly Auspicious — Best for all good beginnings, celebrations & pujas.</li>
+    <li><strong style="color: #1b5e20;">Shubh (Jupiter):</strong> Auspicious — Best for ceremonies, education, signing contracts & official work.</li>
+    <li><strong style="color: #1b5e20;">Labh (Mercury):</strong> Auspicious — Best for commerce, financial deals, buying vehicles & investments.</li>
+    <li><strong style="color: #1b5e20;">Char (Venus):</strong> Auspicious — Best for travel, journeys, moving & dynamic activities.</li>
+    <li><strong style="color: #991b1b;">Udveg (Sun):</strong> Inauspicious — Anxiety & obstacles; avoid new ventures.</li>
+    <li><strong style="color: #991b1b;">Rog (Mars):</strong> Inauspicious — Conflicts & illness; avoid medical starts or disputes.</li>
+    <li><strong style="color: #991b1b;">Kaal (Saturn):</strong> Inauspicious — Ruled by Saturn; strictly avoid starting any auspicious venture.</li>
+`;
+
+const FESTIVALS_TE_MAP = {
+    "Ugadi — Telugu & Kannada New Year / Gudi Padwa": "ఉగాది — నూతన సంవత్సరాది / గుడి పడ్వా",
+    "Vasanta Navaratri Arambha": "వసంత నవరాత్రుల ప్రారంభం (ఘటస్థాపన)",
+    "Sri Rama Navami (Punarvasu Yukta)": "శ్రీరామ నవమి (పునర్వసు నక్షత్ర యుక్తం)",
+    "Sri Rama Navami": "శ్రీరామ నవమి",
+    "Akshaya Tritiya (Maha Punya Kalam - Rohini Yukta)": "అక్షయ తృతీయ (రోహిణి యుక్త మహా పుణ్యకాలం)",
+    "Akshaya Tritiya": "అక్షయ తృతీయ",
+    "Buddha Purnima": "బుద్ధ పూర్ణిమ",
+    "Guru Purnima / Vyasa Purnima": "గురు పౌర్ణమి / వ్యాస పూర్ణిమ",
+    "Naga Panchami": "నాగ పంచమి",
+    "Varalakshmi Vratam": "శ్రావణ వరలక్ష్మీ వ్రతం",
+    "Raksha Bandhan / Rig & Yajur Veda Upakarma": "రక్షాబంధన్ / రాఖీ పౌర్ణమి / వేదోపాకర్మ",
+    "Sri Krishna Janmashtami / Jayanti (Nishita Kaal & Rohini)": "శ్రీకృష్ణ జన్మాష్టమి (రోహిణి యుక్త నిశీథ కాలం)",
+    "Sri Krishna Janmashtami (Smartha / Nishita Kaal)": "శ్రీకృష్ణ జన్మాష్టమి (స్మార్త నిశీథ పూజ)",
+    "Sri Krishna Janmashtami (Vaishnava / Udaya Tithi)": "శ్రీకృష్ణ జన్మాష్టమి (వైష్ణవ ఉదయతిథి)",
+    "Vinayaka Chavithi / Ganesh Chaturthi (Madhyahna Vyapini)": "వినాయక చవితి / గణేష్ చతుర్థి (మధ్యాహ్న వ్యాపిని)",
+    "Rishi Panchami": "ఋషి పంచమి",
+    "Ananta Padmanabha Chaturdashi": "అనంత పద్మనాభ చతుర్దశి",
+    "Sharada Navaratri Ghatasthapana / Kalashasthapana": "శరన్నవరాత్రుల ప్రారంభం (కలశస్థాపన)",
+    "Durgashtami (Maha Ashtami)": "దుర్గాష్టమి (మహాష్టమి)",
+    "Mahanavami / Ayudha Puja": "మహార్నవమి / ఆయుధ పూజ",
+    "Vijayadashami / Dussehra (Shravana Nakshatra Yukta)": "విజయదశమి / దసరా (శ్రవణ నక్షత్ర యుక్తం)",
+    "Vijayadashami / Dussehra": "విజయదశమి / దసరా",
+    "Naraka Chaturdashi (Abhyangana Snanam)": "నరక చతుర్దశి (అభ్యంగన స్నానం)",
+    "Deepavali (Lakshmi Puja / Pradosha Vyapini)": "దీపావళి (శ్రీ మహాలక్ష్మి పూజ / ప్రదోష కాలం)",
+    "Bali Padyami / Govardhan Puja / Kartika Shukla Padyami": "బలి పాడ్యమి / గోవర్ధన పూజ",
+    "Kartika Purnima / Dev Deepavali / Jwala Toranam": "కార్తీక పౌర్ణమి / జ్వాలా తోరణం / దేవ దీపావళి",
+    "Vaikuntha Ekadashi / Mukkoti Ekadashi / Gita Jayanti": "వైకుంఠ ఏకాదశి / ముక్కోటి ఏకాదశి / గీతా జయంతి",
+    "Makara Sankranti / Pongal (Uttarayana Punya Kalam)": "మకర సంక్రాంతి / పొంగల్ (ఉత్తరాయణ పుణ్యకాలం)",
+    "Ratha Saptami (Surya Jayanti / Arogya Saptami)": "రథ సప్తమి (సూర్య జయంతి / ఆరోగ్య సప్తమి)",
+    "Maha Shivaratri (Lingodbhava / Nishita Kaal)": "మహా శివరాత్రి (లింగోద్భవ / నిశీథ కాలం)",
+    "Holika Dahan / Kamadahana (Pradosha Vyapini)": "హోళికా దహనం / కామదహనం",
+    "Holi (Dhulandi / Vasantotsav / Rangawali Holi)": "హోలీ (ధూళండి / వసంతోత్సవం)"
+};
+
+const SIGNIFICANCE_TE_MAP = {
+    "Shukla Ekadashi Vratam (Upavasam & Vishnu Puja)": "శుక్ల ఏకాదశి వ్రతం (ఉపవాసం & శ్రీమహావిష్ణు పూజ)",
+    "Krishna Ekadashi Vratam (Upavasam & Vishnu Puja)": "కృష్ణ ఏకాదశి వ్రతం (ఉపవాసం & శ్రీమహావిష్ణు పూజ)",
+    "Soma Pradosha Vratam (Shiva Puja at Pradosha)": "సోమ ప్రదోష వ్రతం (ప్రదోష కాల శివార్చన)",
+    "Bhauma Pradosha Vratam (Runa Vimochana Shiva Puja)": "భౌమ ప్రదోష వ్రతం (ఋణవిమోచన శివ పూజ)",
+    "Shani Pradosha Vratam (Mahaphala Shiva Puja)": "శని ప్రదోష వ్రతం (మహాఫల ప్రద శివ పూజ)",
+    "Pradosha Vratam (Shiva Puja at Pradosha)": "ప్రదోష వ్రతం (సాయంకాల శివార్చన)",
+    "Angaaraki Sankashta Chaturthi (Highly Auspicious Ganesha Puja)": "అంగారక సంకష్ట చతుర్థి (విఘ్నేశ్వర విశేష పూజ)",
+    "Sankashta Chaturthi (Chandrodaya Ganesha Vratam)": "సంకష్టహర చతుర్థి (చంద్రోదయ గణపతి వ్రతం)",
+    "Masa Vinayaka Chaturthi": "మాస వినాయక చవితి",
+    "Bhanu Saptami (Surya Aradhana & Gayatri Japa Mahatmyam)": "భాను సప్తమి (సూర్య ఆరాధన & గాయత్రీ జప మహత్యం)",
+    "Budha Ashtami (Budha Graha Puja & Vishnu Sahasranama)": "బుధ అష్టమి (బుధ గ్రహ పూజ & విష్ణు సహస్రనామ పారాయణ)",
+    "Somavara Amavasya (Aswattha Pradakshina & Pitru Tarpanam)": "సోమవార అమావాస్య (అశ్వత్థ ప్రదక్షిణ & పితృ తర్పణం)",
+    "Masa Shivaratri (Lingarchana & Bilva Archana)": "మాస శివరాత్రి (లింగార్చన & బిల్వార్చన)",
+    "Purnima (Sri Satyanarayana Swamy Vratam & Chandradarshanam)": "పూర్ణిమ (శ్రీ సత్యనారాయణ స్వామి వ్రతం & చంద్రదర్శనం)",
+    "Amavasya (Pitru Tarpanam & Tila Homam)": "అమావాస్య (పితృ తర్పణం & తిల హోమం)",
+    "🌟 Amrita Siddhi Yoga (Auspicious for ceremonies, purchases & milestones)": "🌟 అమృత సిద్ధి యోగం (సమస్త శుభకార్యాలకు, కొనుగోళ్లకు అత్యంత శుభం)",
+    "✨ Sarvartha Siddhi Yoga (All undertakings yield accomplishment)": "✨ సర్వార్థ సిద్ధి యోగం (తలపెట్టిన సమస్త పనులు విజయవంతం)",
+    "⚠️ Vishti (Bhadra) Karana present — Avoid auspicious beginnings & travel during Bhadra": "⚠️ విష్టి (భద్ర) కరణం — భద్ర కాలంలో శుభకార్యాలు, ప్రయాణాలు నివారించండి",
+    "⚠️ Vaidhriti Yoga (Mahapata) — Highly auspicious for Japa & Dana; avoid vivaha/grihapravesha": "⚠️ వైధృతి యోగం (మహాపాతం) — జప, దానాలకు శ్రేష్ఠం; వివాహాది శుభకార్యాలు వర్జ్యం",
+    "⚠️ Vyatipata Yoga (Mahapata) — Highly auspicious for Japa & Dana; avoid vivaha/grihapravesha": "⚠️ వ్యతీపాత యోగం (మహాపాతం) — జప, దానాలకు శ్రేష్ఠం; వివాహాది శుభకార్యాలు వర్జ్యం"
+};
+
+const I18N_DICT = {
+    en: {
+        navDaily: "🙏 Daily Panchangam",
+        navUgadi: "📜 Ugadi Predictions",
+        navJathakam: "🔮 Single Horoscope",
+        navMuhurta: "✨ Muhurtas",
+        navFamily: "👨‍👩‍👧‍👦 Family Horoscope",
+        langBtn: "🌐 తెలుగు",
+        inputHeader: "🙏 Vedic Panchangam — Daily Calculator",
+        location: "Location / City",
+        autoDetect: "📍 Auto-Detect Location",
+        customCoords: "Custom Coordinates",
+        date: "Date",
+        calculate: "🙏 Calculate Panchangam",
+        sunrise: "Sunrise",
+        sunset: "Sunset",
+        moonrise: "Moonrise",
+        moonset: "Moonset",
+        sunRashi: "Sun Rashi",
+        moonRashi: "Moon Rashi",
+        panchangam: "Panchangam",
+        samvatsaram: "Samvatsaram",
+        ayanam: "Ayanam",
+        rutu: "Rutu",
+        masam: "Masam",
+        paksham: "Paksham",
+        tithi: "Tithi",
+        vasara: "Vasara",
+        nakshatram: "Nakshatram",
+        yogam: "Yogam",
+        karanam: "Karanam",
+        padam: "Nakshatra Padam",
+        maudhyam: "Maudhyam",
+        festivals: "Festivals & Vratas",
+        choghadiya: "Day & Night Choghadiya Timings",
+        dayChoghadiyaBtn: "☀️ Day Choghadiya",
+        nightChoghadiyaBtn: "🌙 Night Choghadiya",
+        choghadiyaRulesTitle: "Principles of Choghadiya:",
+        lagna: "Lagna Details",
+        udayaLagna: "Udaya Lagna",
+        lagnaDeg: "Lagna Degree",
+        lagnaLord: "Lagna Lord",
+        sunInRashi: "Sun's Rashi",
+        moonInRashi: "Moon's Rashi",
+        jagatLagna: "Jagat Lagna",
+        varshaLagna: "Varsha Lagna",
+        navagrahaHeader: "Navagraha Positions",
+        todayLagnaTimings: "Today Lagna Timings",
+        noteTitle: "Important Note",
+        contactTitle: "For inquiries and services:",
+        blessings: `Shubham Bhavatu...<br>Sarvejanah Sukhinobhavantu...<br>Lokassamastassukhinobhavantu...<br>Shubhamastu... Mangalamastu...`,
+        contactInfo: `For inquiries and services:<br><strong>Vedic Samhita</strong><br>Website: <a href="https://vedicsamhita.com" style="color:#8b0000; text-decoration:none; font-weight:bold;">vedicsamhita.com</a><br>Email: <a href="mailto:1vedasamhita@gmail.com" style="color:#8b0000; text-decoration:none; font-weight:bold;">1vedasamhita@gmail.com</a>`,
+        gModalTitle: "Grahanam Details",
+        gModalClose: "Close"
+    },
+    te: {
+        navDaily: "🙏 దిన పంచాంగం",
+        navUgadi: "📜 ఉగాది ఫలితాలు",
+        navJathakam: "🔮 జన్మ జాతకం",
+        navMuhurta: "✨ ముహూర్తాలు",
+        navFamily: "👨‍👩‍👧‍👦 కుటుంబ జాతకం",
+        langBtn: "🌐 English",
+        inputHeader: "🙏 వేదిక్ పంచాంగం — దిన పంచాంగ గణన",
+        location: "ప్రాంతం / నగరం",
+        autoDetect: "📍 స్వయంచాలక ప్రాంతం",
+        customCoords: "కస్టమ్ కోఆర్డినేట్స్",
+        date: "తేదీ",
+        calculate: "🙏 పంచాంగం గణించండి",
+        sunrise: "సూర్యోదయం",
+        sunset: "సూర్యాస్తమయం",
+        moonrise: "చంద్రోదయం",
+        moonset: "చంద్రాస్తమయం",
+        sunRashi: "సూర్య రాశి",
+        moonRashi: "చంద్ర రాశి",
+        panchangam: "పంచాంగం",
+        samvatsaram: "సంవత్సరం",
+        ayanam: "అయనం",
+        rutu: "ఋతువు",
+        masam: "మాసం",
+        paksham: "పక్షం",
+        tithi: "తిథి",
+        vasara: "వాసరం (వారం)",
+        nakshatram: "నక్షత్రం",
+        yogam: "యోగం",
+        karanam: "కరణం",
+        padam: "నక్షత్ర పాదం",
+        maudhyam: "మౌఢ్యం",
+        festivals: "పండుగలు & వ్రతాలు",
+        choghadiya: "పగలు & రాత్రి చోఘడియా సమయాలు",
+        dayChoghadiyaBtn: "☀️ పగటి చోఘడియా",
+        nightChoghadiyaBtn: "🌙 రాత్రి చోఘడియా",
+        choghadiyaRulesTitle: "చోఘడియా ప్రాముఖ్యత & నియమాలు:",
+        lagna: "లగ్న వివరాలు",
+        udayaLagna: "ఉదయ లగ్నం",
+        lagnaDeg: "లగ్న డిగ్రీ",
+        lagnaLord: "లగ్నాధిపతి",
+        sunInRashi: "సూర్య రాశి",
+        moonInRashi: "చంద్ర రాశి",
+        jagatLagna: "జగత్ లగ్నం",
+        varshaLagna: "వర్ష లగ్నం",
+        navagrahaHeader: "నవగ్రహ స్థితులు",
+        todayLagnaTimings: "ఈరోజు లగ్న సమయాలు",
+        noteTitle: "ముఖ్య గమనిక",
+        contactTitle: "విచారణలు మరియు సేవల కోసం:",
+        blessings: `శుభం భవతు...<br>సర్వేజనాః సుఖినోభవంతు...<br>లోకాస్సమస్తాస్సుఖినోభవంతు...<br>శుభమస్తు... మంగళమస్తు...`,
+        contactInfo: `విచారణలు మరియు సేవల కోసం:<br><strong>వేదిక్ సంహిత</strong><br>వెబ్‌సైట్: <a href="https://vedicsamhita.com" style="color:#8b0000; text-decoration:none; font-weight:bold;">vedicsamhita.com</a><br>ఈమెయిల్: <a href="mailto:1vedasamhita@gmail.com" style="color:#8b0000; text-decoration:none; font-weight:bold;">1vedasamhita@gmail.com</a>`,
+        gModalTitle: "గ్రహణ సమగ్ర వివరాలు",
+        gModalClose: "మూసివేయి"
+    }
+};
+
+function setLanguage(lang) {
+    if (lang !== 'en' && lang !== 'te') return;
+    CURRENT_LANG = lang;
+    try {
+        localStorage.setItem('VS_LANG', CURRENT_LANG);
+    } catch(e) {}
+    updateLanguageUI();
+    calculatePanchangam();
+}
+
+function toggleLanguage() {
+    setLanguage(CURRENT_LANG === 'te' ? 'en' : 'te');
+}
+
+function updateLanguageUI() {
+    const isTe = (CURRENT_LANG === 'te');
+    const dict = I18N_DICT[CURRENT_LANG];
+    if (!dict) return;
+
+    // Update language button text
+    const langBtnText = document.getElementById('langBtnText');
+    if (langBtnText) {
+        langBtnText.textContent = isTe ? 'English' : 'తెలుగు';
+    }
+
+    // Update top nav
+    setElText('navDaily', dict.navDaily);
+    setElText('navUgadi', dict.navUgadi);
+    setElText('navJathakam', dict.navJathakam);
+    setElText('navMuhurta', dict.navMuhurta);
+    setElText('navFamily', dict.navFamily);
+
+    // Update input section
+    setElText('lblInputHeader', dict.inputHeader);
+    setElText('lblLocation', dict.location);
+    setElText('btnAutoDetect', dict.autoDetect);
+    setElText('btnCustomCoords', dict.customCoords);
+    setElText('lblDate', dict.date);
+    setElText('btnCalculate', dict.calculate);
+
+    // Update Sun & Moon labels
+    setElText('lblSunrise', dict.sunrise);
+    setElText('lblSunset', dict.sunset);
+    setElText('lblMoonrise', dict.moonrise);
+    setElText('lblMoonset', dict.moonset);
+    setElText('lblSunRashi', dict.sunRashi);
+    setElText('lblMoonRashi', dict.moonRashi);
+
+    // Update Panchangam section labels
+    setElText('hdrPanchangam', dict.panchangam);
+    setElText('lblSamvatsaram', dict.samvatsaram);
+    setElText('lblAyanam', dict.ayanam);
+    setElText('lblRutu', dict.rutu);
+    setElText('lblMasam', dict.masam);
+    setElText('lblPaksham', dict.paksham);
+    setElText('lblTithi', dict.tithi);
+    setElText('lblVasara', dict.vasara);
+    setElText('lblNakshatram', dict.nakshatram);
+    setElText('lblYogam', dict.yogam);
+    setElText('lblKaranam', dict.karanam);
+    setElText('lblPadam', dict.padam);
+    setElText('lblMaudhyam', dict.maudhyam);
+
+    // Update Festivals & Choghadiya
+    setElText('hdrFestivals', dict.festivals);
+    setElText('hdrChoghadiya', dict.choghadiya);
+    setElText('btnDayChoghadiya', dict.dayChoghadiyaBtn);
+    setElText('btnNightChoghadiya', dict.nightChoghadiyaBtn);
+    setElText('lblChoghadiyaRulesTitle', dict.choghadiyaRulesTitle);
+    setElHtml('choghadiyaPrinciplesList', isTe ? CHOGHADIYA_PRINCIPLES_TE : CHOGHADIYA_PRINCIPLES_EN);
+
+    // Update Lagna section
+    setElText('hdrLagna', dict.lagna);
+    setElText('lblUdayaLagna', dict.udayaLagna);
+    setElText('lblLagnaDeg', dict.lagnaDeg);
+    setElText('lblLagnaLord', dict.lagnaLord);
+    setElText('lblSunInRashi', dict.sunInRashi);
+    setElText('lblMoonInRashi', dict.moonInRashi);
+    setElText('lblJagatLagna', dict.jagatLagna);
+    setElText('lblVarshaLagna', dict.varshaLagna);
+    setElText('lblNavagrahaHeader', dict.navagrahaHeader);
+    setElText('lblTodayLagnaTimings', dict.todayLagnaTimings);
+
+    // Blessings & Note
+    setElHtml('valBlessings', dict.blessings);
+    setElText('lblNoteTitle', dict.noteTitle);
+    setElHtml('valContactInfo', dict.contactInfo);
+
+    // Grahanam Modal
+    setElText('gModalTitle', dict.gModalTitle);
+    setElText('gModalCloseBtn', dict.gModalClose);
+
+    // Chart style select options
+    const chartSelect = document.getElementById('chartStyleSelect');
+    if (chartSelect && chartSelect.options && chartSelect.options.length >= 2) {
+        chartSelect.options[0].text = isTe ? 'దక్షిణ భారత చక్రం' : 'South Indian';
+        chartSelect.options[1].text = isTe ? 'ఉత్తర భారత చక్రం' : 'North Indian';
+    }
+}
+
 const SAMVATSARAM = [
     "Prabhava","Vibhava","Sukla","Pramodyuta","Prajothpatthi","Angirasa","Srimukha","Bhava","Yuva","Dhatha",
     "Eeswara","Bahudhanya","Pramadi","Vikrama","Vrusha","Chitrabhanu","Svabhanu","Tharana","Parthiva","Vyaya",
@@ -162,7 +568,8 @@ function fmtHMS(decHrs) {
 }
 function fmtDateTime(o) {
     const ap = o.hours >= 12 ? 'PM' : 'AM'; let h = o.hours % 12; if (!h) h = 12;
-    return `${MONTH_ABBR[o.month-1]} ${o.day}, ${o.year} ${h}:${String(o.minutes).padStart(2,'0')}:${String(o.seconds).padStart(2,'0')} ${ap}`;
+    const mNames = (CURRENT_LANG === 'te') ? MONTH_ABBR_TE : MONTH_ABBR;
+    return `${mNames[o.month-1]} ${o.day}, ${o.year} ${h}:${String(o.minutes).padStart(2,'0')}:${String(o.seconds).padStart(2,'0')} ${ap}`;
 }
 function fmtEndTimeCompact(o, curDay) {
     const ap = o.hours >= 12 ? 'PM' : 'AM'; let h = o.hours % 12; if (!h) h = 12;
@@ -170,7 +577,8 @@ function fmtEndTimeCompact(o, curDay) {
     if (o.day === curDay) {
         return timeStr;
     } else {
-        return `${MONTH_ABBR[o.month-1]} ${o.day}, ${timeStr}`;
+        const mNames = (CURRENT_LANG === 'te') ? MONTH_ABBR_TE : MONTH_ABBR;
+        return `${mNames[o.month-1]} ${o.day}, ${timeStr}`;
     }
 }
 function fmtRange(h1, h2) { return `${fmtHMS(h1)} — ${fmtHMS(h2)}`; }
@@ -400,6 +808,7 @@ function getDayPadams(srJD, nextSrJD) {
         const endJD = computePadamEnd(jd);
 
         padams.push({
+            nakIdx: nakIdx,
             name: NAKSHATRA[nakIdx],
             padam: ordinal,
             padamNum: padamNum,
@@ -439,16 +848,19 @@ function computeChoghadiya(dow, srHrs, ssHrs, nextSrHrs) {
     const daySlotDur = dayDuration / 8;
     const dayStart = DAY_START_IDX[dow];
     const daySlots = [];
+    const isTe = (CURRENT_LANG === 'te');
     for (let i = 0; i < 8; i++) {
-        const name = DAY_CHOGHADIYA_ORDER[(dayStart + i) % 7];
+        const rawKey = DAY_CHOGHADIYA_ORDER[(dayStart + i) % 7];
+        const prop = isTe ? CHOGHADIYA_PROPS_TE[rawKey] : CHOGHADIYA_PROPS_EN[rawKey];
         const startH = srHrs + i * daySlotDur;
         const endH = srHrs + (i + 1) * daySlotDur;
         daySlots.push({
             slotNum: i + 1,
-            name: name,
-            ruler: CHOGHADIYA_PROPS[name].ruler,
-            nature: CHOGHADIYA_PROPS[name].nature,
-            isGood: CHOGHADIYA_PROPS[name].isGood,
+            rawKey: rawKey,
+            name: prop.name,
+            ruler: prop.ruler,
+            nature: prop.nature,
+            isGood: prop.isGood,
             startH: startH,
             endH: endH,
             timeStr: fmtRange(startH, endH)
@@ -460,15 +872,17 @@ function computeChoghadiya(dow, srHrs, ssHrs, nextSrHrs) {
     const nightStart = NIGHT_START_IDX[dow];
     const nightSlots = [];
     for (let i = 0; i < 8; i++) {
-        const name = NIGHT_CHOGHADIYA_ORDER[(nightStart + i) % 7];
+        const rawKey = NIGHT_CHOGHADIYA_ORDER[(nightStart + i) % 7];
+        const prop = isTe ? CHOGHADIYA_PROPS_TE[rawKey] : CHOGHADIYA_PROPS_EN[rawKey];
         const startH = ssHrs + i * nightSlotDur;
         const endH = ssHrs + (i + 1) * nightSlotDur;
         nightSlots.push({
             slotNum: i + 1,
-            name: name,
-            ruler: CHOGHADIYA_PROPS[name].ruler,
-            nature: CHOGHADIYA_PROPS[name].nature,
-            isGood: CHOGHADIYA_PROPS[name].isGood,
+            rawKey: rawKey,
+            name: prop.name,
+            ruler: prop.ruler,
+            nature: prop.nature,
+            isGood: prop.isGood,
             startH: startH,
             endH: endH,
             timeStr: fmtRange(startH, endH)
@@ -2050,16 +2464,25 @@ function _calculatePanchangamInner() {
     const brahma  = getBrahmaMuhurat(srHrs, prevSsHrs);
 
     // ══════ RENDER ══════
+    const isTe = (CURRENT_LANG === 'te');
     const tzStr = `UTC${tz >= 0 ? '+' : ''}${tz}`;
+    const mStr = isTe ? MONTH_ABBR_TE[m-1] : MONTH_ABBR[m-1];
 
-    document.getElementById('dateLocationBar').innerHTML = `${locName} &nbsp;|&nbsp; ${MONTH_ABBR[m-1]} ${d}, ${y}`;
+    document.getElementById('dateLocationBar').innerHTML = `${locName} &nbsp;|&nbsp; ${mStr} ${d}, ${y}`;
 
     setElText('valSunrise', fmtHMS(srHrs));
     setElText('valSunset', fmtHMS(ssHrs));
     setElText('valMoonrise', mt.moonrise);
     setElText('valMoonset', mt.moonset);
-    setElText('valSunRashi', rashi);
-    setElText('valMoonRashi', getMoonRashi(srJD));
+
+    const rashiIdx = RASHI.indexOf(rashi);
+    const dispSunRashi = (isTe && rashiIdx >= 0) ? RASHI_TE[rashiIdx] : rashi;
+    setElText('valSunRashi', dispSunRashi);
+
+    const moonRashiStr = getMoonRashi(srJD);
+    const moonRashiIdx = RASHI.indexOf(moonRashiStr);
+    const dispMoonRashi = (isTe && moonRashiIdx >= 0) ? RASHI_TE[moonRashiIdx] : moonRashiStr;
+    setElText('valMoonRashi', dispMoonRashi);
 
     // Location-Aware Kaala Vyapini Festival & Significance Engine
     const locFests = computeLocationFestivalsAndSignificance(
@@ -2153,22 +2576,43 @@ function _calculatePanchangamInner() {
         if (festSec) {
             if (fests.length > 0) {
                 if (festSec) festSec.style.display = 'block';
-                setElHtml('valFestivals', fests.map(f => `✨ ${f}`).join('; '));
+                const dispFests = fests.map(f => {
+                    if (isTe) {
+                        for (let [enK, teV] of Object.entries(FESTIVALS_TE_MAP)) {
+                            if (f.includes(enK)) return f.replace(enK, teV);
+                        }
+                    }
+                    return f;
+                });
+                setElHtml('valFestivals', dispFests.map(f => `✨ ${f}`).join('; '));
             } else {
                 if (festSec) festSec.style.display = 'none';
             }
         }
 
-    setElText('valSamvatsaram', samvatsaram);
-    setElText('valAyanam', ayanam);
-    setElText('valRutu', rutu);
-    // Enhanced Masam display with Adhika/Kshaya indicators
-    let masamHTML = `${masam} (${rashi})`;
+    // Samvatsaram
+    const samvatsaraIdx = SAMVATSARAM.indexOf(samvatsaram);
+    const dispSamvatsaram = (isTe && samvatsaraIdx >= 0) ? SAMVATSARAM_TE[samvatsaraIdx] : samvatsaram;
+    setElText('valSamvatsaram', dispSamvatsaram);
+
+    // Ayanam
+    const dispAyanam = isTe ? (ayanam === "Uttarayanam" ? "ఉత్తరాయణం" : "దక్షిణాయణం") : (ayanam === "Uttarayanam" ? "Uttarayana (Northward)" : "Dakshinayana (Southward)");
+    setElText('valAyanam', dispAyanam);
+
+    // Rutu
+    const rutuIdx = RUTU.indexOf(rutu);
+    const dispRutu = (isTe && rutuIdx >= 0) ? RUTU_TE[rutuIdx] : rutu;
+    setElText('valRutu', dispRutu);
+
+    // Masam & Rashi
+    const masamIdx = MASAM.indexOf(masam);
+    const dispMasam = (isTe && masamIdx >= 0) ? MASAM_TE[masamIdx] : masam;
+    let masamHTML = `${dispMasam} (${dispSunRashi})`;
     if (isAdhika) {
-        masamHTML += ` <span style="background:#e67e22;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">Purushottama Masam</span>`;
+        masamHTML += isTe ? ` <span style="background:#e67e22;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">అధిక మాసం (పురుషోత్తమ)</span>` : ` <span style="background:#e67e22;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">Purushottama Masam</span>`;
     }
     if (isKshaya) {
-        masamHTML += ` <span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">Kshaya Masam</span>`;
+        masamHTML += isTe ? ` <span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">క్షయ మాసం</span>` : ` <span style="background:#c0392b;color:#fff;padding:1px 6px;border-radius:3px;font-size:0.75rem;margin-left:4px;">Kshaya Masam</span>`;
     }
     setElHtml('valMasam', masamHTML);
 
@@ -2177,33 +2621,50 @@ function _calculatePanchangamInner() {
     if (adhikaNote) {
         if (isSamsarpa) {
             adhikaNote.style.display = 'block';
-                    adhikaNote.innerHTML = `<strong>🔸 Samsarpa Masam:</strong><br>
+            adhikaNote.innerHTML = isTe ? `<strong>🔸 సంసర్ప మాసం:</strong><br>
+        క్షయ మాసానికి ముందు వచ్చే అధిక మాసం.<br>
+        <span style="color:#c0392b">🚫 వర్జ్యం (నిషిద్ధం):</span> వివాహం, గృహప్రవేశం, నూతన కార్యాలు.<br>
+        <span style="color:#27ae60">✅ కర్తవ్యం (శుభప్రదం):</span> జపం, దానం, వ్రతాలు, దేవతా పూజలు.` : `<strong>🔸 Samsarpa Masam:</strong><br>
         Adhika Masam preceding a Kshaya Masam.<br>
         <span style="color:#c0392b">🚫 Inauspicious (Varjya):</span> Marriage, Housewarming, and major new ceremonies.<br>
         <span style="color:#27ae60">✅ Auspicious (Kartavya):</span> Japa, Dana, Vratas, and Divine Pujas.`;
         } else if (isAmhaspati) {
             adhikaNote.style.display = 'block';
-                    adhikaNote.innerHTML = `<strong>⚠️ Amhaspati Masam (Kshaya Masam):</strong><br>
+            adhikaNote.innerHTML = isTe ? `<strong>⚠️ అంహస్పతి మాసం (క్షయ మాసం):</strong><br>
+        ఒకే చంద్రమాసంలో రెండు సూర్య సంక్రమణాలు జరిగే అరుదైన మాసం.<br>
+        <span style="color:#c0392b">🚫 వర్జ్యం:</span> వివాహం, ఉపనయనం, గృహప్రవేశం, ప్రతిష్ఠలు.<br>
+        <span style="color:#27ae60">✅ కర్తవ్యం:</span> జపం, తపం, దానం, పితృ తర్పణం.` : `<strong>⚠️ Amhaspati Masam (Kshaya Masam):</strong><br>
         Rare lunar month with two Solar Sankrantis.<br>
         <span style="color:#c0392b">🚫 Inauspicious (Varjya):</span> Marriage, Upanayanam, Housewarming, Consecrations.<br>
         <span style="color:#27ae60">✅ Auspicious (Kartavya):</span> Japa, Dana, Meditation, and Pitru Tarpanam.`;
         } else if (isAdhika) {
             adhikaNote.style.display = 'block';
-                    adhikaNote.innerHTML = `<strong>🔸 Adhika Masam (Purushottama Masam):</strong><br>
+            adhikaNote.innerHTML = isTe ? `<strong>🔸 అధిక మాసం (పురుషోత్తమ మాసం):</strong><br>
+        సూర్య సంక్రాంతి లేని చంద్రమాసం.<br>
+        <span style="color:#c0392b">🚫 వర్జ్యం:</span> వివాహం, ఉపనయనం, గృహప్రవేశం, స్థిరాస్తి కొనుగోళ్లు.<br>
+        <span style="color:#27ae60">✅ కర్తవ్యం:</span> జపం, దానం, విష్ణు సహస్రనామ పారాయణ, దీపారాధన.` : `<strong>🔸 Adhika Masam (Purushottama Masam):</strong><br>
         Lunar month without a Solar Sankranti.<br>
         <span style="color:#c0392b">🚫 Inauspicious (Varjya):</span> Marriage, Upanayanam, Housewarming, New asset purchase.<br>
         <span style="color:#27ae60">✅ Auspicious (Kartavya):</span> Japa, Dana, Vrata, Sandhyavandanam, and Vishnu Sahasranama.`;
         } else if (isKshaya) {
             adhikaNote.style.display = 'block';
-                    adhikaNote.innerHTML = `<strong>⚠️ Kshaya Masam:</strong><br>
+            adhikaNote.innerHTML = isTe ? `<strong>⚠️ క్షయ మాసం:</strong><br>
+        ఒకే చంద్రమాసంలో రెండు సూర్య సంక్రమణాలు (19 నుండి 141 ఏళ్లకు ఒకసారి వస్తుంది).<br>
+        ఈ సంవత్సరంలో పంచాంగ సర్దుబాటు కోసం రెండు అధిక మాసాలు వస్తాయి.` : `<strong>⚠️ Kshaya Masam:</strong><br>
         Two Solar Sankrantis fall within a single lunar month (occurs once in 19 to 141 years).<br>
         Calendar adjustment includes two Adhika Masams in this year.`;
         } else {
             adhikaNote.style.display = 'none';
         }
     }
-    setElText('valPaksham', paksham);
-    setElText('valVasara', VARA[dow]);
+
+    // Paksham
+    const dispPaksham = isTe ? (paksham.includes("Shukla") ? "శుక్ల పక్షం" : "కృష్ణ పక్షం") : paksham;
+    setElText('valPaksham', dispPaksham);
+
+    // Vasara
+    const dispVasara = isTe ? VARA_TE[dow] : VARA[dow];
+    setElText('valVasara', dispVasara);
 
     renderList('valTithi', tithis, tz);
     renderList('valNakshatra', naks, tz);
@@ -2211,9 +2672,12 @@ function _calculatePanchangamInner() {
     // Render Nakshatra Padams with compact end times
     const padamEl = document.getElementById('valPadam');
     if (padamEl) {
+        const endsWord = isTe ? 'ముగింపు' : 'ends';
         padamEl.innerHTML = padams.map(p => {
             const endLocal = jdToLocal(p.endJD, tz);
-            return `<li><strong><span class="akshara">${p.name}</span> (${p.padam} Padam)</strong> <span class="end-info">— ends ${fmtEndTimeCompact(endLocal, d)}</span></li>`;
+            const nakName = isTe ? (NAKSHATRA_TE[p.nakIdx] || p.name) : p.name;
+            const padamText = isTe ? `${p.padamNum}వ పాదం` : `${p.padam} Padam`;
+            return `<li><strong><span class="akshara">${nakName}</span> (${padamText})</strong> <span class="end-info">— ${endsWord} ${fmtEndTimeCompact(endLocal, d)}</span></li>`;
         }).join('');
     }
 
@@ -2224,8 +2688,11 @@ function _calculatePanchangamInner() {
         const maudhyas = computeMaudhyam(srJD, tz);
         if (maudhyas.length > 0) {
             maudhyamSection.style.display = 'block';
+            const endsWord = isTe ? 'ముగింపు' : 'ends';
             maudhyamEl.innerHTML = maudhyas.map(m => {
-                return `<li><strong>${m.name}</strong> <span class="end-info">— ends ${m.endStr}</span></li>`;
+                const mName = isTe ? (MAUDHYA_NAMES_TE[m.key] || m.name) : (MAUDHYA_NAMES_EN[m.key] || m.name);
+                const endStr = (isTe && m.endStr === 'Ongoing') ? 'కొనసాగుతోంది' : m.endStr;
+                return `<li><strong>${mName}</strong> <span class="end-info">— ${endsWord} ${endStr}</span></li>`;
             }).join('');
         } else {
             maudhyamSection.style.display = 'none';
@@ -2242,20 +2709,21 @@ function _calculatePanchangamInner() {
     const dEl = document.getElementById('valDurmuhurat');
     if (dEl) dEl.innerHTML = durm.map(dd => `<li>${fmtRange(dd.start, dd.end)}</li>`).join('');
 
+    const noneText = isTe ? 'ఈ రోజున లేదు' : 'None during this day';
     if (va.varjyam) {
         const vs = jdToLocal(va.varjyam.start, tz), ve = jdToLocal(va.varjyam.end, tz);
         setElText('valVarjyam', `${fmtDateTime(vs)} — ${fmtDateTime(ve)}`);
     } else {
-        setElText('valVarjyam', 'None during this day');
+        setElText('valVarjyam', noneText);
     }
 
-    setElText('valAbhijit', abhijit ? fmtRange(abhijit.start, abhijit.end) : 'None during this day');
+    setElText('valAbhijit', abhijit ? fmtRange(abhijit.start, abhijit.end) : noneText);
 
     if (va.amrit) {
         const as = jdToLocal(va.amrit.start, tz), ae = jdToLocal(va.amrit.end, tz);
         setElText('valAmrit', `${fmtDateTime(as)} — ${fmtDateTime(ae)}`);
     } else {
-        setElText('valAmrit', 'None during this day');
+        setElText('valAmrit', noneText);
     }
 
     setElText('valBrahma', fmtRange(brahma.start, brahma.end));
@@ -2269,7 +2737,17 @@ function _calculatePanchangamInner() {
     setElText('valPratah', fmtRange(pratah.start, pratah.end));
     const sayam = getSayamSandhya(ssHrs);
     setElText('valSayam', fmtRange(sayam.start, sayam.end));
-    setElHtml('valImportance', significance.length > 0 ? significance.map(s => `• ${s}`).join('<br>') : (fests.length === 0 ? '• Nitya Vidhi / Regular daily Vedic observances' : ''));
+
+    const dispSigs = significance.map(s => {
+        if (isTe) {
+            for (let [enK, teV] of Object.entries(SIGNIFICANCE_TE_MAP)) {
+                if (s.includes(enK)) return s.replace(enK, teV);
+            }
+        }
+        return s;
+    });
+    const defaultSig = isTe ? '• నిత్య విధి / రోజువారీ వేద నియమాలు' : '• Nitya Vidhi / Regular daily Vedic observances';
+    setElHtml('valImportance', dispSigs.length > 0 ? dispSigs.map(s => `• ${s}`).join('<br>') : (fests.length === 0 ? defaultSig : ''));
 
     // ══════ CHOGHADIYA RENDERING ══════
     const dayCont = document.getElementById('dayChoghadiyaContainer');
@@ -2280,14 +2758,18 @@ function _calculatePanchangamInner() {
         const { daySlots, nightSlots } = computeChoghadiya(dow, srHrs, ssHrs, nextSrHrs);
 
         function renderChoghadiyaTable(slots, isNight) {
+            const hPeriod = isTe ? 'కాలం' : 'Period';
+            const hRuler = isTe ? 'అధిపతి' : 'Ruler';
+            const hNature = isTe ? 'శుభాశుభం' : 'Nature';
+            const hWindow = isTe ? 'సమయం' : 'Time Window';
             let html = `<table class="choghadiya-table">
                 <thead>
                     <tr>
                         <th style="width:8%; text-align:center;">#</th>
-                        <th style="width:22%;">Period</th>
-                        <th style="width:18%;">Ruler</th>
-                        <th style="width:22%;">Nature</th>
-                        <th style="width:30%;">Time Window</th>
+                        <th style="width:22%;">${hPeriod}</th>
+                        <th style="width:18%;">${hRuler}</th>
+                        <th style="width:22%;">${hNature}</th>
+                        <th style="width:30%;">${hWindow}</th>
                     </tr>
                 </thead>
                 <tbody>`;
@@ -2315,17 +2797,26 @@ function _calculatePanchangamInner() {
     const grahas = getNavagrahaPositions(srJD);
 
     // Lagna details
-    setElText('valLagnaRashi', lagnaAtSr.rashiName);
-    setElText('valLagnaDeg', `${lagnaAtSr.rashiName} ${lagnaAtSr.degStr}`);
-    setElText('valLagnaLord', lagnaAtSr.lord);
-    setElText('valSunInRashi', grahas[0].rashiName);
-    setElText('valMoonInRashi', grahas[1].rashiName);
+    const lagnaRashiIdx = lagnaAtSr.rashiIdx;
+    const dispLagnaRashi = isTe ? RASHI_TE[lagnaRashiIdx] : lagnaAtSr.rashiName;
+    const dispLagnaLord = isTe ? RASHI_LORDS_TE[lagnaRashiIdx] : lagnaAtSr.lord;
+
+    setElText('valLagnaRashi', dispLagnaRashi);
+    setElText('valLagnaDeg', `${dispLagnaRashi} ${lagnaAtSr.degStr}`);
+    setElText('valLagnaLord', dispLagnaLord);
+
+    const sunGrahaRashiIdx = grahas[0].rashi;
+    const moonGrahaRashiIdx = grahas[1].rashi;
+    setElText('valSunInRashi', isTe ? RASHI_TE[sunGrahaRashiIdx] : grahas[0].rashiName);
+    setElText('valMoonInRashi', isTe ? RASHI_TE[moonGrahaRashiIdx] : grahas[1].rashiName);
 
     // Jagat Lagna & Varsha Lagna
     const jagatInfo = findChaitraAmavasya(y, lat, lon);
     const varshaInfo = findMeshaSankranti(y, lat, lon);
-    setElText('valJagatLagna', `${jagatInfo.lagna.rashiName} ${jagatInfo.lagna.degStr}`);
-    setElText('valVarshaLagna', `${varshaInfo.lagna.rashiName} ${varshaInfo.lagna.degStr}`);
+    const jagatRashiIdx = jagatInfo.lagna.rashiIdx;
+    const varshaRashiIdx = varshaInfo.lagna.rashiIdx;
+    setElText('valJagatLagna', `${isTe ? RASHI_TE[jagatRashiIdx] : jagatInfo.lagna.rashiName} ${jagatInfo.lagna.degStr}`);
+    setElText('valVarshaLagna', `${isTe ? RASHI_TE[varshaRashiIdx] : varshaInfo.lagna.rashiName} ${varshaInfo.lagna.degStr}`);
 
     // SVG Chart — store grahas globally for chart toggle
     window._lagnaChartData = { lagnaIdx: lagnaAtSr.rashiIdx, grahas: grahas };
@@ -2337,18 +2828,23 @@ function _calculatePanchangamInner() {
     }
 
     // Graha positions table
+    const thGraha = isTe ? 'గ్రహం' : 'Graha';
+    const thRashi = isTe ? 'రాశి' : 'Rashi';
+    const thDegree = isTe ? 'డిగ్రీ' : 'Degree';
     let grahaHTML = '<table style="width:100%; border-collapse:collapse; font-size:0.78rem;">' +
         '<tr style="background:#4a0e0e;">' +
-        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Graha</th>' +
-        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Rashi</th>' +
-        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Degree</th></tr>';
+        `<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">${thGraha}</th>` +
+        `<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">${thRashi}</th>` +
+        `<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">${thDegree}</th></tr>`;
     grahas.forEach((g, idx) => {
         const degInR = g.deg % 30;
         let dW = Math.floor(degInR);
         let mP = Math.round((degInR - dW) * 60);
         if (mP >= 60) { mP = 0; dW++; }
         const bgColor = idx % 2 === 0 ? '#fff' : '#f9f5eb';
-        grahaHTML += `<tr style="background:${bgColor};"><td style="padding:3px 6px; border:1px solid #ddd; color:${g.color};font-weight:bold">${g.full}</td><td style="padding:3px 6px; border:1px solid #ddd;"><span class="akshara">${g.rashiName}</span></td><td style="padding:3px 6px; border:1px solid #ddd;">${dW}°${String(mP).padStart(2,'0')}'</td></tr>`;
+        const gName = isTe ? (GRAHA_NAMES_TE[g.name] || g.full) : (GRAHA_NAMES_EN[g.name] || g.full);
+        const rName = isTe ? RASHI_TE[g.rashi] : g.rashiName;
+        grahaHTML += `<tr style="background:${bgColor};"><td style="padding:3px 6px; border:1px solid #ddd; color:${g.color};font-weight:bold">${gName}</td><td style="padding:3px 6px; border:1px solid #ddd;"><span class="akshara">${rName}</span></td><td style="padding:3px 6px; border:1px solid #ddd;">${dW}°${String(mP).padStart(2,'0')}'</td></tr>`;
     });
     grahaHTML += '</table>';
     setElHtml('grahaPositions', grahaHTML);
@@ -2358,7 +2854,7 @@ function _calculatePanchangamInner() {
 
     // Helper: extract "9:15 AM" from "Aug 21, 2026 9:15:23 AM"
     function extractTime(dtStr) {
-        if (dtStr === 'Sunrise') return 'Sunrise';
+        if (dtStr === 'Sunrise') return isTe ? 'సూర్యోదయం' : 'Sunrise';
         const parts = dtStr.split(' ');
         const timeFull = parts[3] || '';
         const ampm = parts[4] || '';
@@ -2366,12 +2862,15 @@ function _calculatePanchangamInner() {
         return `${hm} ${ampm}`;
     }
 
+    const thStart = isTe ? 'ప్రారంభం' : 'Start';
+    const thEnd = isTe ? 'ముగింపు' : 'End';
+    const thPush = isTe ? 'పుష్కరాంశ' : 'Pushkaramsha';
     let transHTML = '<table style="width:100%; border-collapse:collapse; font-size:0.78rem;">' +
         '<tr style="background:#4a0e0e;">' +
-        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Rashi</th>' +
-        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Start</th>' +
-        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">End</th>' +
-        '<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">Pushkaramsha</th></tr>';
+        `<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">${thRashi}</th>` +
+        `<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">${thStart}</th>` +
+        `<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">${thEnd}</th>` +
+        `<th style="padding:4px 6px; text-align:left; border:1px solid #ddd; color:#fff !important;">${thPush}</th></tr>`;
     periods.forEach((p, idx) => {
         const pushWins = getPushkaraWindows(p, lat, lon, tz);
         let pushCol = '—';
@@ -2381,8 +2880,9 @@ function _calculatePanchangamInner() {
             ).join('<br>');
         }
         const bgColor = idx % 2 === 0 ? '#fff' : '#f9f5eb';
+        const rName = isTe ? RASHI_TE[p.rashiIdx] : p.rashiName;
         transHTML += `<tr style="background:${bgColor};">
-            <td style="padding:3px 6px; border:1px solid #ddd; font-weight:bold; color:#4a0e0e;"><span class="akshara">${p.rashiName}</span></td>
+            <td style="padding:3px 6px; border:1px solid #ddd; font-weight:bold; color:#4a0e0e;"><span class="akshara">${rName}</span></td>
             <td style="padding:3px 6px; border:1px solid #ddd;">${extractTime(p.startTime)}</td>
             <td style="padding:3px 6px; border:1px solid #ddd;">${extractTime(p.endTime)}</td>
             <td style="padding:3px 6px; border:1px solid #ddd;">${pushCol}</td>
@@ -2391,7 +2891,11 @@ function _calculatePanchangamInner() {
     transHTML += '</table>';
     setElHtml('lagnaTransitions', transHTML);
 
-    document.getElementById('valNote').innerHTML = `<strong>NOTE:-</strong> This panchangam is calculated for <strong>${locName}</strong>. If applicable, DST is also calculated.`;
+    if (isTe) {
+        document.getElementById('valNote').innerHTML = `<strong>ముఖ్య గమనిక:-</strong> ఈ పంచాంగం <strong>${locName}</strong> కోసం ఖగోళ సిద్ధాంతాల ప్రకారం గణించబడింది. వర్తించే చోట్ల డేలైట్ సేవింగ్ టైమ్ (DST) కూడా పరిగణించబడింది.`;
+    } else {
+        document.getElementById('valNote').innerHTML = `<strong>NOTE:-</strong> This panchangam is calculated for <strong>${locName}</strong>. If applicable, Daylight Saving Time (DST) is also calculated.`;
+    }
 
     
 
@@ -2404,6 +2908,7 @@ document.getElementById('resultsSection').style.display = 'block';
 
 function applyTransliteration() {
     if (!window.Sanscript) return;
+    if (CURRENT_LANG === 'te') return; // In Telugu mode, preserve authentic Telugu script
     
     const elements = document.querySelectorAll('.akshara');
     elements.forEach(el => {
@@ -2441,10 +2946,19 @@ function applyTransliteration() {
 function renderList(elId, items, tz, showPadam) {
     const el = document.getElementById(elId);
     if (!el) return;
+    const isTe = (CURRENT_LANG === 'te');
+    const endsWord = isTe ? 'ముగింపు' : 'ends';
     el.innerHTML = items.map(it => {
         const endLocal = jdToLocal(it.endJD, tz);
-        const padamStr = (showPadam && it.padam) ? ` — ${it.padam} Padam` : '';
-        return `<li><strong class="akshara">${it.name}</strong>${padamStr} <span class="end-info">— ends ${fmtDateTime(endLocal)}</span></li>`;
+        let displayName = it.name;
+        if (isTe) {
+            if (elId === 'valTithi' && TITHI_TE[it.idx]) displayName = TITHI_TE[it.idx];
+            else if (elId === 'valNakshatra' && NAKSHATRA_TE[it.idx]) displayName = NAKSHATRA_TE[it.idx];
+            else if (elId === 'valYoga' && YOGA_TE[it.idx]) displayName = YOGA_TE[it.idx];
+            else if (elId === 'valKarana' && KARANA_TE[it.idx]) displayName = KARANA_TE[it.idx];
+        }
+        const padamStr = (showPadam && it.padam) ? (isTe ? ` — ${it.padamNum || it.padam}వ పాదం` : ` — ${it.padam} Padam`) : '';
+        return `<li><strong class="akshara">${displayName}</strong>${padamStr} <span class="end-info">— ${endsWord} ${fmtDateTime(endLocal)}</span></li>`;
     }).join('');
 }
 
@@ -3171,6 +3685,7 @@ document.addEventListener('click', function(event) {
 });
 
 window.onload = function() {
+    updateLanguageUI();
     const datePicker = document.getElementById('datePicker');
     if (datePicker) {
         datePicker.value = new Date().toISOString().split('T')[0];
