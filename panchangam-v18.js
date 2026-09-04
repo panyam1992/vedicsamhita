@@ -257,6 +257,8 @@ const FESTIVALS_TE_MAP = {
     "Holi (Dhulandi / Vasantotsav / Rangawali Holi)": "హోలీ (ధూళండి / వసంతోత్సవం)",
     
     // Recurring Monthly Festivals
+    "Pradhana Anaghashtami (Sri Anagha Devi Sametha Dattatreya Vratam - Brahmanda Purana)": "ప్రధాన అనఘాష్టమి (శ్రీ అనఘాదేవి సమేత దత్తాత్రేయ వ్రతం - బ్రహ్మాండ పురాణోక్తం)",
+    "Masa Anaghashtami Vratam (Sri Dattatreya & Anagha Devi Puja)": "మాస అనఘాష్టమి వ్రతం (శ్రీ దత్తాత్రేయ & అనఘాదేవి పూజ)",
     "Kalashtami (Masa Kalashtami / Bhairava Ashtami)": "కాలాష్టమి (భైరవాష్టమి)",
     "Masik Durgashtami (Durga Puja & Vratam)": "మాసిక దుర్గాష్టమి (దుర్గా పూజ & వ్రతం)",
     "Masa Vinayaka Chaturthi": "మాస వినాయక చవితి",
@@ -308,6 +310,8 @@ const FESTIVALS_TE_MAP = {
 
 const SIGNIFICANCE_TE_MAP = {
     "Santana Gopala Vratam (Lord Sri Krishna Aradhana for progeny blessings)": "శ్రీ సంతాన గోపాల వ్రతం (సంతాన ప్రాప్తికై శ్రీకృష్ణార్చన)",
+    "Pradhana Anaghashtami Vratam (Sri Dattatreya & Sri Anagha Lakshmi Puja - Brahmanda Purana)": "ప్రధాన అనఘాష్టమి వ్రతం (శ్రీ దత్తాత్రేయ & శ్రీ అనఘా లక్ష్మీ పూజ - బ్రహ్మాండ పురాణోక్తం)",
+    "Masa Anaghashtami Vratam (Sri Dattatreya Swamy & Anagha Lakshmi Puja - Brahmanda Purana)": "మాస అనఘాష్టమి వ్రతం (శ్రీ దత్తాత్రేయ స్వామి & అనఘా లక్ష్మీ పూజ - బ్రహ్మాండ పురాణోక్తం)",
     "Kalashtami Vratam (Kala Bhairava Puja & Fasting)": "కాలాష్టమి వ్రతం (కాలభైరవ పూజ & ఉపవాసం)",
     "Rohini Vratam (Auspicious fasting during Rohini Nakshatra)": "రోహిణీ వ్రతం (రోహిణీ నక్షత్ర విశేష వ్రతం)",
     "Shravana Shukravara Puja (Kumkumarchana & Sri Mahalakshmi Aradhana)": "శ్రావణ శుక్రవార పూజ (కుంకుమార్చన & శ్రీ మహాలక్ష్మి ఆరాధన)",
@@ -2619,11 +2623,19 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
 
     // ─── RECURRING MONTHLY VRATAS & OBSERVANCES ───────────────────────
     
-    // KALASHTAMI (Every Krishna Ashtami)
+    // KALASHTAMI & ANAGHASHTAMI (Every Krishna Ashtami - Brahmanda Purana)
     if (tSr === 22 || dayTithis.includes(22)) {
         if (!fests.some(f => f.includes("Kala Bhairava Jayanti"))) {
             fests.push("Kalashtami (Masa Kalashtami / Bhairava Ashtami)");
             sigs.push("Kalashtami Vratam (Kala Bhairava Puja & Fasting)");
+        }
+        // Anagha Vratam for Lord Dattatreya Swamy and Anagha Lakshmi (Brahmanda Puranam)
+        if (lunarMonth === 9) {
+            fests.push("Pradhana Anaghashtami (Sri Anagha Devi Sametha Dattatreya Vratam - Brahmanda Purana)");
+            sigs.push("Pradhana Anaghashtami Vratam (Sri Dattatreya & Sri Anagha Lakshmi Puja - Brahmanda Purana)");
+        } else {
+            fests.push("Masa Anaghashtami Vratam (Sri Dattatreya & Anagha Devi Puja)");
+            sigs.push("Masa Anaghashtami Vratam (Sri Dattatreya Swamy & Anagha Lakshmi Puja - Brahmanda Purana)");
         }
     }
 

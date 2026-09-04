@@ -1959,11 +1959,19 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
 
     // ─── RECURRING MONTHLY VRATAS & OBSERVANCES ───────────────────────
     
-    // KALASHTAMI (Every Krishna Ashtami)
+    // KALASHTAMI & ANAGHASHTAMI (Every Krishna Ashtami - Brahmanda Purana)
     if (tSr === 22 || dayTithis.includes(22)) {
         if (!fests.some(f => f.includes("Kala Bhairava Jayanti"))) {
             fests.push("Kalashtami (Masa Kalashtami / Bhairava Ashtami)");
             sigs.push("Kalashtami Vratam (Kala Bhairava Puja & Fasting)");
+        }
+        // Anagha Vratam for Lord Dattatreya Swamy and Anagha Lakshmi (Brahmanda Puranam)
+        if (lunarMonth === 9) {
+            fests.push("Pradhana Anaghashtami (Sri Anagha Devi Sametha Dattatreya Vratam - Brahmanda Purana)");
+            sigs.push("Pradhana Anaghashtami Vratam (Sri Dattatreya & Sri Anagha Lakshmi Puja - Brahmanda Purana)");
+        } else {
+            fests.push("Masa Anaghashtami Vratam (Sri Dattatreya & Anagha Devi Puja)");
+            sigs.push("Masa Anaghashtami Vratam (Sri Dattatreya Swamy & Anagha Lakshmi Puja - Brahmanda Purana)");
         }
     }
 
