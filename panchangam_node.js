@@ -1568,6 +1568,10 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     const midnightJD      = ssJD + (nighttime / 2);                   // Nishita Kaala (Local Midnight)
     const arunodayaJD     = srJD - (48 / (60 * 24));                  // Dawn (48 mins before sunrise)
 
+    // Previous night midnight (for festivals following previous midnight like Janmashtami/Nandotsav)
+    const prevSsJD        = ssJD - 1.0;
+    const prevMidnightJD  = prevSsJD + ((srJD - prevSsJD) / 2);
+
     const getT = (jd) => getTithiIdx(jd);
     const getN = (jd) => getNakIdx(jd);
 
@@ -1577,10 +1581,12 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     const tPrad = getT(pradoshaMidJD);
     const tNish = getT(midnightJD);
     const tArun = getT(arunodayaJD);
+    const tPrevNish = getT(prevMidnightJD);
 
     const nSr   = getN(srJD);
     const nMadh = getN(madhyahnaMidJD);
     const nNish = getN(midnightJD);
+    const nPrevNish = getN(prevMidnightJD);
 
     const dayTithis = tithis.map(t => t.idx);
     const dayNaks   = naks.map(n => n.idx);
@@ -1594,7 +1600,12 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         fests.push("Vasanta Navaratri Arambha");
     }
 
-    // 2. SRI RAMA NAVAMI (Chaitra Shukla Navami at Madhyahna)
+    // 2. MATSYA JAYANTI (Chaitra Shukla Tritiya)
+    if (lunarMonth === 1 && (tSr === 2 || dayTithis.includes(2))) {
+        fests.push("Matsya Jayanti");
+    }
+
+    // 3. SRI RAMA NAVAMI (Chaitra Shukla Navami at Madhyahna)
     if (lunarMonth === 1 && (tMadh === 8 || (tSr === 8 && tMadh <= 8) || (dayTithis.includes(8) && tSr === 7))) {
         if (nMadh === 6 || nSr === 6) {
             fests.push("Sri Rama Navami (Punarvasu Yukta)");
@@ -1603,31 +1614,66 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         }
     }
 
-    // 3. AKSHAYA TRITIYA (Vaishakha Shukla Tritiya at Sunrise/Purvahna)
+    // 4. HANUMAN JAYANTI (Chaitra Purnima in North/West; Vaishakha Krishna Dashami in AP/TS)
+    if (lunarMonth === 1 && (tSr === 14 || dayTithis.includes(14))) {
+        fests.push("Hanuman Jayanti (Chaitra Purnima)");
+    }
+    if (lunarMonth === 2 && (tSr === 24 || dayTithis.includes(24))) {
+        fests.push("Hanuman Jayanti (Telugu / Andhra tradition)");
+    }
+
+    // 5. AKSHAYA TRITIYA & PARASHURAMA JAYANTI (Vaishakha Shukla Tritiya)
     if (lunarMonth === 2 && (tSr === 2 || tMadh === 2 || dayTithis.includes(2))) {
         if (nSr === 3 || nMadh === 3) {
             fests.push("Akshaya Tritiya (Maha Punya Kalam - Rohini Yukta)");
         } else {
             fests.push("Akshaya Tritiya");
         }
+        fests.push("Parashurama Jayanti");
     }
 
-    // 4. BUDDHA PURNIMA (Vaishakha Purnima)
+    // 6. SRI NARASIMHA JAYANTI (Vaishakha Shukla Chaturdashi at Sunset/Pradosha)
+    if (lunarMonth === 2 && (tPrad === 13 || tSr === 13 || dayTithis.includes(13))) {
+        fests.push("Sri Narasimha Jayanti (Pradosha Vyapini)");
+    }
+
+    // 7. BUDDHA PURNIMA / KURMA JAYANTI (Vaishakha Purnima)
     if (lunarMonth === 2 && (tSr === 14 || dayTithis.includes(14))) {
         fests.push("Buddha Purnima");
+        fests.push("Kurma Jayanti");
     }
 
-    // 5. GURU PURNIMA / VYASA PURNIMA (Ashadha Purnima)
+    // 8. VAT SAVITRI VRATAM (Jyeshtha Purnima / Vat Purnima)
+    if (lunarMonth === 3 && (tSr === 14 || dayTithis.includes(14))) {
+        fests.push("Vata Savitri Vratam (Vat Purnima)");
+    }
+
+    // 9. GANGA DUSSEHRA (Jyeshtha Shukla Dashami)
+    if (lunarMonth === 3 && (tSr === 9 || dayTithis.includes(9))) {
+        fests.push("Ganga Dussehra (Ganga Avatarana)");
+    }
+
+    // 10. JAGANNATH RATHA YATRA (Ashadha Shukla Dwitiya)
+    if (lunarMonth === 4 && (tSr === 1 || dayTithis.includes(1))) {
+        fests.push("Jagannath Ratha Yatra (Puri)");
+    }
+
+    // 11. GURU PURNIMA / VYASA PURNIMA (Ashadha Purnima)
     if (lunarMonth === 4 && (tSr === 14 || dayTithis.includes(14))) {
         fests.push("Guru Purnima / Vyasa Purnima");
     }
 
-    // 6. NAGA PANCHAMI (Shravana Shukla Panchami at Sunrise/Madhyahna)
+    // 12. BHEEMANA AMAVASYA (Ashadha Amavasya)
+    if (lunarMonth === 4 && (tSr === 29 || dayTithis.includes(29))) {
+        fests.push("Bheemana Amavasya / Deepa Puja");
+    }
+
+    // 13. NAGA PANCHAMI (Shravana Shukla Panchami at Sunrise/Madhyahna)
     if (lunarMonth === 5 && (tSr === 4 || tMadh === 4 || (dayTithis.includes(4) && tSr === 3))) {
         fests.push("Naga Panchami");
     }
 
-    // 7. VARALAKSHMI VRATAM (Friday in Shravana Shukla Paksha before Purnima)
+    // 14. VARALAKSHMI VRATAM (Friday in Shravana Shukla Paksha before Purnima)
     if (dow === 5 && lunarMonth === 5 && tSr < 14) {
         let purnimaWithinWeek = false;
         for (let checkDays = 1; checkDays <= 7; checkDays++) {
@@ -1638,80 +1684,198 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         }
     }
 
-    // 8. RAKSHA BANDHAN / UPAKARMA (Shravana Purnima at Aparahna or Sunrise)
+    // 15. RAKSHA BANDHAN / UPAKARMA (Shravana Purnima at Aparahna or Sunrise)
     if (lunarMonth === 5 && (tSr === 14 || tApar === 14 || (dayTithis.includes(14) && tSr === 13))) {
         fests.push("Raksha Bandhan / Rig & Yajur Veda Upakarma");
+        fests.push("Hayagriva Jayanti");
     }
 
-    // 9. SRI KRISHNA JANMASHTAMI (Shravana Krishna Ashtami at local Nishita Kaal / Midnight)
-    // Smartha tradition celebrates on the night with Ashtami at local midnight
+    // 16. SRI KRISHNA JANMASHTAMI & GOKULASHTAMI (Shravana Krishna Ashtami)
+    let isJanmashtamiToday = false;
+    let isJanmashtamiYesterday = (lunarMonth === 5 && tPrevNish === 22);
+
     if (lunarMonth === 5 && (tNish === 22 || (tPrad === 22 && tSr === 21))) {
+        isJanmashtamiToday = true;
         if (nNish === 3 || nSr === 3) {
             fests.push("Sri Krishna Janmashtami / Jayanti (Nishita Kaal & Rohini)");
         } else {
             fests.push("Sri Krishna Janmashtami (Smartha / Nishita Kaal)");
         }
+        fests.push("Gokulashtami");
     } else if (lunarMonth === 5 && (tSr === 22 || (dayTithis.includes(22) && tSr === 21))) {
-        fests.push("Sri Krishna Janmashtami (Vaishnava / Udaya Tithi)");
+        isJanmashtamiToday = true;
+        fests.push("Sri Krishna Janmashtami / Gokulashtami (Vaishnava / Udaya Tithi)");
     }
 
-    // 10. GANESH CHATURTHI / VINAYAKA CHAVITHI (Bhadrapada Shukla Chavithi at Madhyahna)
+    // NANDOTSAV & DAHI HANDI (Utlotsavam)
+    if (lunarMonth === 5 && (isJanmashtamiYesterday || (isJanmashtamiToday && tSr === 22))) {
+        fests.push("Nandotsav");
+        fests.push("Dahi Handi / Utlotsavam (Gopala Kala)");
+    }
+
+    // SANTANA GOPALA VRATAM
+    if (lunarMonth === 5 && (tSr === 22 || dayTithis.includes(22))) {
+        fests.push("Santana Gopala Vratam");
+        sigs.push("Santana Gopala Vratam (Lord Sri Krishna Aradhana for progeny blessings)");
+    }
+
+    // 17. HARTALIKA TEEJ / SWARNA GOWRI VRATAM & VARAHA JAYANTI (Bhadrapada Shukla Tritiya)
+    if (lunarMonth === 6 && (tSr === 2 || tMadh === 2 || dayTithis.includes(2))) {
+        fests.push("Hartalika Teej / Swarna Gowri Vratam");
+        fests.push("Varaha Jayanti");
+    }
+
+    // 18. GANESH CHATURTHI / VINAYAKA CHAVITHI (Bhadrapada Shukla Chavithi at Madhyahna)
     if (lunarMonth === 6 && (tMadh === 3 || (tSr === 3 && tMadh <= 3) || (dayTithis.includes(3) && tSr === 2))) {
         fests.push("Vinayaka Chavithi / Ganesh Chaturthi (Madhyahna Vyapini)");
     }
 
-    // 11. RISHI PANCHAMI (Bhadrapada Shukla Panchami at Madhyahna)
+    // 19. RISHI PANCHAMI (Bhadrapada Shukla Panchami at Madhyahna)
     if (lunarMonth === 6 && (tMadh === 4 || tSr === 4)) {
         fests.push("Rishi Panchami");
     }
 
-    // 12. ANANTA CHATURDASHI (Bhadrapada Shukla Chaturdashi)
+    // 20. RADHA ASHTAMI / MAHALAXMI VRATA ARAMBHA (Bhadrapada Shukla Ashtami)
+    if (lunarMonth === 6 && (tSr === 7 || tMadh === 7 || dayTithis.includes(7))) {
+        fests.push("Radha Ashtami");
+        fests.push("Mahalaxmi Vrata Arambha");
+    }
+
+    // 21. VAMANA JAYANTI (Bhadrapada Shukla Dvadashi)
+    if (lunarMonth === 6 && (tSr === 11 || tMadh === 11 || dayTithis.includes(11))) {
+        fests.push("Vamana Jayanti");
+    }
+
+    // 22. ANANTA CHATURDASHI (Bhadrapada Shukla Chaturdashi)
     if (lunarMonth === 6 && (tMadh === 13 || tSr === 13 || dayTithis.includes(13))) {
         fests.push("Ananta Padmanabha Chaturdashi");
     }
 
-    // 13. SHARADA NAVARATRI ARAMBHA (Ashwayuja Shukla Padyami at Sunrise or Kshaya Pratipada)
+    // 23. PITRU PAKSHA (MAHALAYA PAKSHA) ARAMBHA
+    if (lunarMonth === 6 && (tSr === 14 || dayTithis.includes(14))) {
+        fests.push("Mahalaya Paksha (Pitru Paksha) Arambha");
+    }
+
+    // 24. SARVA PITRU MAHALAYA AMAVASYA (Bhadrapada Amavasya)
+    if (lunarMonth === 6 && (tSr === 29 || dayTithis.includes(29))) {
+        fests.push("Mahalaya Amavasya / Sarva Pitru Amavasya (Peddala Amavasya)");
+    }
+
+    // 25. SHARADA NAVARATRI ARAMBHA (Ashwayuja Shukla Padyami at Sunrise or Kshaya Pratipada)
     if ((lunarMonth === 7 && tSr === 0) || (lunarMonth === 6 && tSr === 29 && dayTithis.includes(0) && nextSrTithi !== 0)) {
         fests.push("Sharada Navaratri Ghatasthapana / Kalashasthapana");
     }
     if (lunarMonth === 7 && tSr === 7) fests.push("Durgashtami (Maha Ashtami)");
     if (lunarMonth === 7 && tSr === 8) fests.push("Mahanavami / Ayudha Puja");
 
-    // 14. VIJAYADASHAMI / DUSSEHRA (Ashwayuja Shukla Dashami at Aparahna / Vijaya Muhurtam)
+    // 26. VIJAYADASHAMI / DUSSEHRA (Ashwayuja Shukla Dashami at Aparahna / Vijaya Muhurtam)
     if (lunarMonth === 7 && (tApar === 9 || tSr === 9 || (dayTithis.includes(9) && tSr === 8))) {
         if (nSr === 21 || nMadh === 21) {
             fests.push("Vijayadashami / Dussehra (Shravana Nakshatra Yukta)");
         } else {
             fests.push("Vijayadashami / Dussehra");
         }
+        fests.push("Madhva Jayanti");
     }
 
-    // 15. NARAKA CHATURDASHI (Ashwayuja Krishna Chaturdashi at Arunodaya / Dawn)
+    // 27. SHARAD PURNIMA / KOJAGIRI PURNIMA (Ashwayuja Purnima)
+    if (lunarMonth === 7 && (tPrad === 14 || tNish === 14 || tSr === 14 || dayTithis.includes(14))) {
+        fests.push("Sharad Purnima / Kojagiri Purnima / Kumara Purnima");
+    }
+
+    // 28. ATLA TADDE (Ashwayuja Krishna Tritiya)
+    if (lunarMonth === 7 && (tSr === 17 || dayTithis.includes(17))) {
+        fests.push("Atla Tadde (Telugu women vrata)");
+    }
+
+    // 29. KARWA CHAUTH (Karak Chaturthi - Ashwayuja/Kartika Krishna Chaturthi)
+    if ((lunarMonth === 7 || lunarMonth === 8) && (tSr === 18 || (dayTithis.includes(18) && tSr === 17))) {
+        fests.push("Karwa Chauth (Karak Chaturthi)");
+    }
+
+    // 30. AHOI ASHTAMI (Ashwayuja Krishna Ashtami)
+    if (lunarMonth === 7 && (tSr === 22 || dayTithis.includes(22))) {
+        fests.push("Ahoi Ashtami");
+    }
+
+    // 31. GOVATSA DWADASHI / VASUBARAS (Ashwayuja Krishna Dvadashi)
+    if (lunarMonth === 7 && (tPrad === 26 || tSr === 26 || dayTithis.includes(26))) {
+        fests.push("Govatsa Dwadashi / Vasubaras");
+    }
+
+    // 32. DHANTERAS / DHANTRAYODASHI (Ashwayuja Krishna Trayodashi)
+    if (lunarMonth === 7 && (tPrad === 27 || tSr === 27 || dayTithis.includes(27))) {
+        fests.push("Dhanteras / Dhantrayodashi (Dhanvantari Jayanti / Yama Deepam)");
+    }
+
+    // 33. NARAKA CHATURDASHI (Ashwayuja Krishna Chaturdashi at Arunodaya / Dawn)
     if (lunarMonth === 7 && (tArun === 28 || tSr === 28 || (dayTithis.includes(28) && tSr === 27))) {
         fests.push("Naraka Chaturdashi (Abhyangana Snanam)");
     }
 
-    // 16. DEEPAVALI / LAKSHMI PUJA (Ashwayuja Amavasya at Pradosha / Sunset)
+    // 34. DEEPAVALI / LAKSHMI PUJA (Ashwayuja Amavasya at Pradosha / Sunset)
     if (lunarMonth === 7 && (tPrad === 29 || tNish === 29 || (tSr === 29 && tPrad === 29) || (dayTithis.includes(29) && tSr === 28))) {
         fests.push("Deepavali (Lakshmi Puja / Pradosha Vyapini)");
+        fests.push("Kedar Gauri Vratam");
     }
 
-    // 17. BALI PADYAMI / GOVARDHAN PUJA (Kartika Shukla Padyami)
+    // 35. BALI PADYAMI / GOVARDHAN PUJA (Kartika Shukla Padyami)
     if ((lunarMonth === 8 && tSr === 0) || (lunarMonth === 7 && tSr === 29 && dayTithis.includes(0) && nextSrTithi !== 0)) {
         fests.push("Bali Padyami / Govardhan Puja / Kartika Shukla Padyami");
     }
 
-    // 18. KARTIKA PURNIMA / DEV DEEPAVALI (Kartika Purnima at Pradosha)
+    // 36. BHAI DOOJ / YAMA DWITIYA (Kartika Shukla Dwitiya)
+    if (lunarMonth === 8 && (tSr === 1 || tApar === 1 || dayTithis.includes(1))) {
+        fests.push("Bhai Dooj / Yama Dwitiya / Bhagini Hasta Bhojanam");
+    }
+
+    // 37. NAGULA CHAVITHI (Kartika Shukla Chaturthi)
+    if (lunarMonth === 8 && (tSr === 3 || dayTithis.includes(3))) {
+        fests.push("Nagula Chavithi");
+    }
+
+    // 38. CHHATH PUJA (Kartika Shukla Shashthi)
+    if (lunarMonth === 8 && (tSr === 5 || tPrad === 5 || dayTithis.includes(5))) {
+        fests.push("Chhath Puja (Surya Shashthi / Dala Chhath)");
+    }
+
+    // 39. GOPASHTAMI (Kartika Shukla Ashtami)
+    if (lunarMonth === 8 && (tSr === 7 || dayTithis.includes(7))) {
+        fests.push("Gopashtami (Go Puja)");
+    }
+
+    // 40. AKSHAYA NAVAMI / AMLA NAVAMI (Kartika Shukla Navami)
+    if (lunarMonth === 8 && (tSr === 8 || dayTithis.includes(8))) {
+        fests.push("Akshaya Navami / Amla Navami (Dhatri Puja)");
+    }
+
+    // 41. TULASI VIVAHAM / KSHEERABDHI DWADASHI (Kartika Shukla Dvadashi)
+    if (lunarMonth === 8 && (tPrad === 11 || tSr === 11 || dayTithis.includes(11))) {
+        fests.push("Tulasi Vivaham / Ksheerabdhi Dwadashi (Chiluka Dwadashi)");
+    }
+
+    // 42. KARTIKA PURNIMA / DEV DEEPAVALI (Kartika Purnima at Pradosha)
     if (lunarMonth === 8 && (tPrad === 14 || tSr === 14 || dayTithis.includes(14))) {
         fests.push("Kartika Purnima / Dev Deepavali / Jwala Toranam");
     }
 
-    // 19. VAIKUNTHA EKADASHI / MUKKOTI EKADASHI (Margashira Shukla Ekadashi at Sunrise)
-    if (lunarMonth === 9 && (tSr === 10 || (dayTithis.includes(10) && tSr === 9))) {
-        fests.push("Vaikuntha Ekadashi / Mukkoti Ekadashi / Gita Jayanti");
+    // 43. SUBRAMANYA SASHTI / CHAMPA SHASHTHI (Margashira Shukla Shashthi)
+    if (lunarMonth === 9 && (tSr === 5 || dayTithis.includes(5))) {
+        fests.push("Subramanya Sashti / Champa Shashthi");
     }
 
-    // 20. MAKARA SANKRANTI / PONGAL (Solar Ingress into Makara)
+    // 44. DATTATREYA JAYANTI (Margashira Purnima at Pradosha)
+    if (lunarMonth === 9 && (tPrad === 14 || tSr === 14 || dayTithis.includes(14))) {
+        fests.push("Dattatreya Jayanti");
+        fests.push("Annapurna Jayanti");
+    }
+
+    // 45. KALA BHAIRAVA JAYANTI (Margashira Krishna Ashtami)
+    if (lunarMonth === 9 && (tSr === 22 || dayTithis.includes(22))) {
+        fests.push("Kala Bhairava Jayanti (Maha Kalashtami)");
+    }
+
+    // 46. MAKARA SANKRANTI / PONGAL (Solar Ingress into Makara)
     const sunNirNow = getSunNirayana(srJD);
     const sunNirYesterday = getSunNirayana(srJD - 1.0);
     if ((sunNirYesterday < 270 && sunNirNow >= 270) || (Math.floor(sunNirNow / 30) === 9 && (m === 1 && (d >= 13 && d <= 16)))) {
@@ -1720,70 +1884,208 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         }
     }
 
-    // 21. RATHA SAPTAMI (Magha Shukla Saptami at Arunodaya / Sunrise)
+    // 47. VASANTA PANCHAMI / SRI PANCHAMI (Magha Shukla Panchami)
+    if (lunarMonth === 10 && (tMadh === 4 || tSr === 4 || dayTithis.includes(4))) {
+        fests.push("Vasanta Panchami / Sri Panchami (Saraswati Puja)");
+    }
+
+    // 48. RATHA SAPTAMI (Magha Shukla Saptami at Arunodaya / Sunrise)
     if (lunarMonth === 10 && (tSr === 6 || tArun === 6 || (dayTithis.includes(6) && tSr === 5))) {
         fests.push("Ratha Saptami (Surya Jayanti / Arogya Saptami)");
     }
 
-    // 22. MAHA SHIVARATRI (Magha Krishna Chaturdashi at local Nishita Kaal / Midnight)
+    // 49. BHISHMA ASHTAMI (Magha Shukla Ashtami)
+    if (lunarMonth === 10 && (tSr === 7 || tMadh === 7 || dayTithis.includes(7))) {
+        fests.push("Bhishma Ashtami (Bhishma Tarpanam)");
+    }
+
+    // 50. MAHA SHIVARATRI (Magha Krishna Chaturdashi at local Nishita Kaal / Midnight)
     if (lunarMonth === 11 && (tNish === 28 || (tPrad === 28 && tSr === 28) || (dayTithis.includes(28) && tSr === 27))) {
         fests.push("Maha Shivaratri (Lingodbhava / Nishita Kaal)");
     }
 
-    // 23. HOLIKA DAHAN / KAMADAHANA (Phalguna Purnima at Pradosha / Ratri)
+    // 51. HOLIKA DAHAN / KAMADAHANA (Phalguna Purnima at Pradosha / Ratri)
     if (lunarMonth === 12 && (tPrad === 14 || tNish === 14 || (dayTithis.includes(14) && tSr === 13))) {
         fests.push("Holika Dahan / Kamadahana (Pradosha Vyapini)");
     }
 
-    // 24. HOLI (Dhulandi / Vasantotsav on following day)
+    // 52. HOLI (Dhulandi / Vasantotsav on following day)
     if (lunarMonth === 12 && (tSr === 15 || (tSr === 14 && tPrad === 15))) {
         fests.push("Holi (Dhulandi / Vasantotsav / Rangawali Holi)");
     }
 
-    // ─── VRATAS & SIGNIFICANCE ───────────────────────────────────────
-    if (tSr === 10) sigs.push("Shukla Ekadashi Vratam (Upavasam & Vishnu Puja)");
-    if (tSr === 25) sigs.push("Krishna Ekadashi Vratam (Upavasam & Vishnu Puja)");
+    // ─── NAMED EKADASHIS (All 24 Ekadashis) ───────────────────────────
+    const SHUKLA_EKADASHIS = {
+        1: "Kamada Ekadashi",
+        2: "Mohini Ekadashi",
+        3: "Nirjala Ekadashi (Pandava Bhima Ekadashi)",
+        4: "Devashayani Ekadashi / Prathama Ekadashi (Chaturmasya Arambha)",
+        5: "Shravana Putrada Ekadashi (Pavitropana)",
+        6: "Parivartini / Parsva Ekadashi (Vamana Jayanti)",
+        7: "Papankusha Ekadashi",
+        8: "Prabodhini / Devutthana Ekadashi",
+        9: "Mokshada Ekadashi / Vaikuntha Ekadashi / Mukkoti Ekadashi / Gita Jayanti",
+        10: "Pausha Putrada Ekadashi",
+        11: "Jaya / Bhaimi Ekadashi",
+        12: "Amalaki Ekadashi"
+    };
 
-    if (tPrad === 12 || tPrad === 27 || (tSr === 12 && tPrad === 12) || (tSr === 27 && tPrad === 27)) {
-        if (dow === 1) sigs.push("Soma Pradosha Vratam (Shiva Puja at Pradosha)");
-        else if (dow === 2) sigs.push("Bhauma Pradosha Vratam (Runa Vimochana Shiva Puja)");
-        else if (dow === 6) sigs.push("Shani Pradosha Vratam (Mahaphala Shiva Puja)");
-        else sigs.push("Pradosha Vratam (Shiva Puja at Pradosha)");
+    const KRISHNA_EKADASHIS = {
+        1: "Varuthini Ekadashi",
+        2: "Apara Ekadashi",
+        3: "Yogini Ekadashi",
+        4: "Kamika Ekadashi",
+        5: "Aja / Annada Ekadashi",
+        6: "Indira Ekadashi (Pitru Paksha Ekadashi)",
+        7: "Rama Ekadashi",
+        8: "Utpanna Ekadashi",
+        9: "Saphala Ekadashi",
+        10: "Shattila Ekadashi",
+        11: "Vijaya Ekadashi",
+        12: "Papmochani Ekadashi"
+    };
+
+    if (tSr === 10 || (dayTithis.includes(10) && tSr === 9)) {
+        const ekName = SHUKLA_EKADASHIS[lunarMonth] || "Shukla Ekadashi";
+        fests.push(`${ekName} Vratam`);
+        sigs.push(`${ekName} (Upavasam & Sri Maha Vishnu Puja)`);
     }
 
-    if (tPrad === 18 || tNish === 18 || tSr === 18) {
-        if (dow === 2) sigs.push("Angaaraki Sankashta Chaturthi (Highly Auspicious Ganesha Puja)");
-        else sigs.push("Sankashta Chaturthi (Chandrodaya Ganesha Vratam)");
+    if (tSr === 25 || (dayTithis.includes(25) && tSr === 24)) {
+        const ekName = KRISHNA_EKADASHIS[lunarMonth] || "Krishna Ekadashi";
+        fests.push(`${ekName} Vratam`);
+        sigs.push(`${ekName} (Upavasam & Sri Maha Vishnu Puja)`);
     }
 
-    if (tMadh === 3 || tSr === 3) {
-        if (!fests.some(f => f.includes('Ganesh') || f.includes('Chavithi'))) {
-            sigs.push("Masa Vinayaka Chaturthi");
+    // ─── RECURRING MONTHLY VRATAS & OBSERVANCES ───────────────────────
+    
+    // KALASHTAMI (Every Krishna Ashtami)
+    if (tSr === 22 || dayTithis.includes(22)) {
+        if (!fests.some(f => f.includes("Kala Bhairava Jayanti"))) {
+            fests.push("Kalashtami (Masa Kalashtami / Bhairava Ashtami)");
+            sigs.push("Kalashtami Vratam (Kala Bhairava Puja & Fasting)");
         }
     }
 
-    if (dow === 0 && (tSr === 6 || dayTithis.includes(6))) {
-        sigs.push("Bhanu Saptami (Surya Aradhana & Gayatri Japa Mahatmyam)");
+    // MASIK DURGASHTAMI (Every Shukla Ashtami)
+    if (tSr === 7 || dayTithis.includes(7)) {
+        if (!fests.some(f => f.includes("Durgashtami") || f.includes("Radha Ashtami") || f.includes("Bhishma Ashtami"))) {
+            fests.push("Masik Durgashtami (Durga Puja & Vratam)");
+            sigs.push("Masik Durgashtami (Durga Devi Puja & Lalitha Sahasranama)");
+        }
     }
 
-    if (dow === 3 && (tSr === 22 || dayTithis.includes(22))) {
-        sigs.push("Budha Ashtami (Budha Graha Puja & Vishnu Sahasranama)");
+    // MASA VINAYAKA CHATURTHI (Every Shukla Chaturthi)
+    if (tMadh === 3 || tSr === 3 || dayTithis.includes(3)) {
+        if (!fests.some(f => f.includes("Vinayaka Chavithi") || f.includes("Ganesh Chaturthi"))) {
+            fests.push("Masa Vinayaka Chaturthi");
+            sigs.push("Masa Vinayaka Chaturthi (Ganesha Puja & Modaka Naivedyam)");
+        }
     }
 
-    if (dow === 1 && (tSr === 29 || dayTithis.includes(29))) {
-        sigs.push("Somavara Amavasya (Aswattha Pradakshina & Pitru Tarpanam)");
+    // SANKASHTA CHATURTHI (Every Krishna Chaturthi)
+    if (tPrad === 18 || tNish === 18 || tSr === 18 || (dayTithis.includes(18) && tSr === 17)) {
+        if (!fests.some(f => f.includes("Karwa Chauth"))) {
+            if (dow === 2) {
+                fests.push("Angaaraki Sankashta Chaturthi (Highly Auspicious Ganesha Puja)");
+                sigs.push("Angaaraki Sankashta Chaturthi (Runa Vimochana Ganapati Puja & Moonrise Arghya)");
+            } else {
+                fests.push("Sankashta Chaturthi (Chandrodaya Ganesha Vratam)");
+                sigs.push("Sankashta Chaturthi (Sankatahara Ganapati Vratam & Moonrise Arghya)");
+            }
+        }
     }
 
-    if ((tNish === 28 || tSr === 28) && !fests.some(f => f.includes('Maha Shivaratri'))) {
+    // SKANDA SASHTI (Every Shukla Shashthi)
+    if (tSr === 5 || dayTithis.includes(5)) {
+        if (!fests.some(f => f.includes("Subramanya Sashti") || f.includes("Chhath"))) {
+            fests.push("Skanda Sashti (Subramanya Swamy Vratam)");
+            sigs.push("Skanda Sashti (Lord Murugan / Kartikeya Puja)");
+        }
+    }
+
+    // PRADOSHA VRATAM (Trayodashi at Pradosha)
+    if (tPrad === 12 || tPrad === 27 || (tSr === 12 && tPrad === 12) || (tSr === 27 && tPrad === 27)) {
+        if (dow === 1) {
+            fests.push("Soma Pradosha Vratam");
+            sigs.push("Soma Pradosha Vratam (Shiva Puja at Pradosha)");
+        } else if (dow === 2) {
+            fests.push("Bhauma Pradosha Vratam");
+            sigs.push("Bhauma Pradosha Vratam (Runa Vimochana Shiva Puja)");
+        } else if (dow === 6) {
+            fests.push("Shani Pradosha Vratam");
+            sigs.push("Shani Pradosha Vratam (Mahaphala Shiva Puja)");
+        } else {
+            fests.push("Pradosha Vratam");
+            sigs.push("Pradosha Vratam (Shiva Puja at Pradosha)");
+        }
+    }
+
+    // MASA SHIVARATRI (Krishna Chaturdashi)
+    if ((tNish === 28 || tSr === 28 || dayTithis.includes(28)) && !fests.some(f => f.includes('Maha Shivaratri'))) {
+        fests.push("Masa Shivaratri");
         sigs.push("Masa Shivaratri (Lingarchana & Bilva Archana)");
     }
 
-    if (tSr === 14 || tPrad === 14) {
+    // PURNIMA
+    if (tSr === 14 || tPrad === 14 || dayTithis.includes(14)) {
+        fests.push("Purnima");
         sigs.push("Purnima (Sri Satyanarayana Swamy Vratam & Chandradarshanam)");
     }
 
-    if (tSr === 29 || tApar === 29) {
-        sigs.push("Amavasya (Pitru Tarpanam & Tila Homam)");
+    // AMAVASYA
+    if (tSr === 29 || tApar === 29 || dayTithis.includes(29)) {
+        if (dow === 1) {
+            fests.push("Somavati Amavasya");
+            sigs.push("Somavara Amavasya (Aswattha Pradakshina & Pitru Tarpanam)");
+        } else if (dow === 6) {
+            fests.push("Shani Amavasya");
+            sigs.push("Shani Amavasya (Shani Shanti Puja & Pitru Tarpanam)");
+        } else {
+            fests.push("Amavasya");
+            sigs.push("Amavasya (Pitru Tarpanam & Tila Homam)");
+        }
+    }
+
+    // ROHINI VRATAM (Whenever Rohini Nakshatra prevails)
+    if (nSr === 3 || dayNaks.includes(3)) {
+        fests.push("Rohini Vratam");
+        sigs.push("Rohini Vratam (Auspicious fasting during Rohini Nakshatra)");
+    }
+
+    // MASIK KARTHIGAI (Whenever Krittika Nakshatra prevails)
+    if (nSr === 2 || dayNaks.includes(2)) {
+        fests.push("Masik Karthigai (Krittika Deepam)");
+        sigs.push("Masik Karthigai (Subramanya Swamy Puja & Deeparadhana)");
+    }
+
+    // SHRAVANA NAKSHATRA VRATAM (Whenever Shravana Nakshatra prevails)
+    if (nSr === 21 || dayNaks.includes(21)) {
+        sigs.push("Shravana Nakshatra Vratam (Sri Venkateswara Swamy Puja)");
+    }
+
+    // SHRAVANA SHUKRAVARA SRI LAKSHMI PUJA (Fridays in Shravana month)
+    if (lunarMonth === 5 && dow === 5) {
+        fests.push("Shravana Shukravara Sri Lakshmi Puja");
+        sigs.push("Shravana Shukravara Puja (Kumkumarchana & Sri Mahalakshmi Aradhana)");
+    }
+
+    // KARTIKA SOMAVARA VRATAM (Mondays in Kartika month)
+    if (lunarMonth === 8 && dow === 1) {
+        fests.push("Kartika Somavara Vratam");
+        sigs.push("Kartika Somavara Vratam (Shivaradhana & Nitya Deeparadhana)");
+    }
+
+    // BHANU SAPTAMI (Sunday Saptami)
+    if (dow === 0 && (tSr === 6 || dayTithis.includes(6))) {
+        fests.push("Bhanu Saptami");
+        sigs.push("Bhanu Saptami (Surya Aradhana & Gayatri Japa Mahatmyam)");
+    }
+
+    // BUDHA ASHTAMI (Wednesday Ashtami)
+    if (dow === 3 && (tSr === 22 || dayTithis.includes(22))) {
+        fests.push("Budha Ashtami");
+        sigs.push("Budha Ashtami (Budha Graha Puja & Vishnu Sahasranama)");
     }
 
     // Special Auspicious Yogas
@@ -1930,6 +2232,7 @@ function calculatePanchangam() {
             document.getElementById('valFestivals').innerHTML = fests.map(f => `✨ ${f}`).join('; ');
         } else {
             festSec.style.display = 'none';
+            document.getElementById('valFestivals').innerHTML = '';
         }
     }
 
@@ -2029,7 +2332,7 @@ function calculatePanchangam() {
     document.getElementById('valPratah').textContent = fmtRange(pratah.start, pratah.end);
     const sayam = getSayamSandhya(ssHrs);
     document.getElementById('valSayam').textContent = fmtRange(sayam.start, sayam.end);
-    document.getElementById('valImportance').innerHTML = significance.length > 0 ? significance.map(s => `• ${s}`).join('<br>') : (fests.length === 0 ? '• Nitya Vidhi / Regular daily Vedic observances' : '');
+    document.getElementById('valImportance').innerHTML = significance.length > 0 ? significance.map(s => `• ${s}`).join('<br>') : '• Nitya Vidhi / Regular daily Vedic observances';
 
     // ══════ LAGNA RENDERING ══════
     const lagnaAtSr = computeLagna(srJD, lat, lon);
