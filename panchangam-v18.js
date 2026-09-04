@@ -1680,6 +1680,7 @@ function getDaySignificance(masam, tithiIdx, nakIdx, gregMonth, gregDay, dow) {
     if (lunarMonth === 1 && tithiIdx >= 0 && tithiIdx <= 8) sig.push("Vasanta Navaratri");
     if (lunarMonth === 6 && tithiIdx === 13) sig.push("Ananta Chaturdashi");
     if (lunarMonth === 5 && tithiIdx === 11) sig.push("Putrada Ekadashi / Shravana Dvadashi");
+    if (lunarMonth === 9 && tithiIdx === 10) sig.push("Vaikuntha Ekadashi / Mukkoti Ekadashi / Gita Jayanti");
     
     
     return [...new Set(sig)];
@@ -1764,8 +1765,17 @@ function _calculatePanchangamInner() {
     const prevSsHrs = stPrev ? stPrev.sunset : ssHrs;
     const brahma  = getBrahmaMuhurat(srHrs, prevSsHrs);
 
-    // Day significance
-    const significance = getDaySignificance(masam, tithiAtSr, naks[0].idx, m, d, dow);
+    // Day significance (check all active tithis of the day)
+    let allSigs = [];
+    tithis.forEach(t => {
+        let currentMasam = masam;
+        if (t.idx === 0 && masam) {
+            const mIdx = MASAM.indexOf(masam.replace('Adhika ', '').split('-')[0].split(' (')[0].trim());
+            if (mIdx !== -1) currentMasam = MASAM[(mIdx + 1) % 12];
+        }
+        allSigs.push(...getDaySignificance(currentMasam, t.idx, naks[0]?.idx ?? 0, m, d, dow));
+    });
+    const significance = [...new Set(allSigs)];
 
     // ══════ RENDER ══════
     const tzStr = `UTC${tz >= 0 ? '+' : ''}${tz}`;
@@ -1783,17 +1793,17 @@ function _calculatePanchangamInner() {
         const baseMasam = masam.replace('Adhika ', '').split('-')[0].split(' (')[0].trim();
         const masamIdx = MASAM.indexOf(baseMasam);
         const solarMonthIdx = RASHI.indexOf(rashi);
-        const tithiAnga = getTithiIdx(srJD) + 1;
-        const nakAnga = getNakIdx(srJD) + 1;
+        const activeTithiAngas = tithis.map(t => t.idx + 1);
+        const activeNakAngas = naks.map(n => n.idx + 1);
         
         let fests = [];
         for (const fest of FESTIVAL_RULES) {
             if (fest.month_type === 'lunar_month') {
-                if (fest.month_number === (masamIdx + 1) && fest.anga_type === 'tithi' && fest.anga_number === tithiAnga) {
+                if (fest.month_number === (masamIdx + 1) && fest.anga_type === 'tithi' && activeTithiAngas.includes(fest.anga_number)) {
                     fests.push(fest.names_sa ? fest.names_sa[0] : fest.id);
                 }
             } else if (fest.month_type === 'solar_sidereal_month') {
-                if (fest.month_number === (solarMonthIdx + 1) && fest.anga_type === 'nakshatra' && fest.anga_number === nakAnga) {
+                if (fest.month_number === (solarMonthIdx + 1) && fest.anga_type === 'nakshatra' && activeNakAngas.includes(fest.anga_number)) {
                     fests.push(fest.names_sa ? fest.names_sa[0] : fest.id);
                 }
             }

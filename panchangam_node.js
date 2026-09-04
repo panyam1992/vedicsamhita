@@ -1540,6 +1540,7 @@ function getDaySignificance(masam, tithiIdx, nakIdx, gregMonth, gregDay, dow) {
     if (lunarMonth === 1 && tithiIdx >= 0 && tithiIdx <= 8) sig.push("Vasanta Navaratri");
     if (lunarMonth === 6 && tithiIdx === 13) sig.push("Ananta Chaturdashi");
     if (lunarMonth === 5 && tithiIdx === 11) sig.push("Putrada Ekadashi / Shravana Dvadashi");
+    if (lunarMonth === 9 && tithiIdx === 10) sig.push("Vaikuntha Ekadashi / Mukkoti Ekadashi / Gita Jayanti");
     
     if (sig.length === 0) sig.push("No special significance noted for this day");
     return [...new Set(sig)];
@@ -1634,18 +1635,17 @@ function calculatePanchangam() {
     if (typeof FESTIVAL_RULES !== 'undefined') {
         const baseMasam = masam.replace('Adhika ', '').split('-')[0].split(' (')[0].trim();
         const masamIdx = MASAM.indexOf(baseMasam);
-        const solarMonthIdx = RASHI.indexOf(rashi);
-        const tithiAnga = getTithiIdx(srJD) + 1;
-        const nakAnga = getNakIdx(srJD) + 1;
+        const activeTithiAngas = tithis.map(t => t.idx + 1);
+        const activeNakAngas = naks.map(n => n.idx + 1);
         
         let fests = [];
         for (const fest of FESTIVAL_RULES) {
             if (fest.month_type === 'lunar_month') {
-                if (fest.month_number === (masamIdx + 1) && fest.anga_type === 'tithi' && fest.anga_number === tithiAnga) {
+                if (fest.month_number === (masamIdx + 1) && fest.anga_type === 'tithi' && activeTithiAngas.includes(fest.anga_number)) {
                     fests.push(fest.names_sa ? fest.names_sa[0] : fest.id);
                 }
             } else if (fest.month_type === 'solar_sidereal_month') {
-                if (fest.month_number === (solarMonthIdx + 1) && fest.anga_type === 'nakshatra' && fest.anga_number === nakAnga) {
+                if (fest.month_number === (solarMonthIdx + 1) && fest.anga_type === 'nakshatra' && activeNakAngas.includes(fest.anga_number)) {
                     fests.push(fest.names_sa ? fest.names_sa[0] : fest.id);
                 }
             }

@@ -701,9 +701,9 @@
 <nav style="text-align:center; padding:10px 14px; background:#161b22; border-bottom:1px solid #30363d; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px; position:sticky; top:0; z-index:1000;">
     <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🙏 Daily Panchangam</a>
     <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Phalalu</a>
-    <a href="muhurtavali.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
     <a href="jathakam.html" style="color:#ffffff; background:rgba(227,179,65,0.25); border:1px solid #e3b341; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; border-radius:4px; font-weight:bold;">🔮 Single Jathakam</a>
-    <a href="family_jathakam.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
+    <a href="muhurtavali.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
+    <a href="family_jathakam.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
 </nav>
 
 <div class="container">
@@ -786,11 +786,11 @@
     <nav class="tabs">
         <button class="tab-btn active" onclick="showTab('chartsTab', this)">📊 కుండలి / చక్రాలు & ఫలితాలు (Charts & Predictions)</button>
         <button class="tab-btn" onclick="showTab('dasaTab', this)">🌳 వింశోత్తరి దశా ఫలితాలు & పరిహారాలు (Dasa)</button>
-        <button class="tab-btn" onclick="showTab('gocharaTab', this)">🪐 గోచార ఫలితాలు (Gochara Transits)</button>
-        <button class="tab-btn" onclick="showTab('chatTab', this)">💬 జాతక సహాయకుడు (Astro Chat)</button>
-        <button class="tab-btn" onclick="showTab('kpLordsTab', this)">⭐ KP వివరాలు & లార్డ్స్</button>
-        <button class="tab-btn" onclick="showTab('cuspsTab', this)">🏠 భావ సంధి & Cusps</button>
-        <button class="tab-btn" onclick="showTab('aspectsTab', this)">📐 గ్రహ దృష్టి & Aspects</button>
+        <button class="tab-btn admin-only" onclick="showTab('gocharaTab', this)">🪐 గోచార ఫలితాలు (Gochara Transits)</button>
+        <button class="tab-btn admin-only" onclick="showTab('chatTab', this)">💬 జాతక సహాయకుడు (Astro Chat)</button>
+        <button class="tab-btn admin-only" onclick="showTab('kpLordsTab', this)">⭐ KP వివరాలు & లార్డ్స్</button>
+        <button class="tab-btn admin-only" onclick="showTab('cuspsTab', this)">🏠 భావ సంధి & Cusps</button>
+        <button class="tab-btn admin-only" onclick="showTab('aspectsTab', this)">📐 గ్రహ దృష్టి & Aspects</button>
     </nav>
 
     <!-- TAB 1: CHARTS & PREDICTIONS -->
@@ -862,7 +862,7 @@
                 <div class="phalita-text" id="phLagnaOverview"></div>
             </div>
 
-            <div class="phalita-card">
+            <div class="phalita-card admin-only">
                 <div class="phalita-card-header">
                     <span class="phalita-icon">⏳</span>
                     <h3 id="phDasaTitle">ప్రస్తుత నడుస్తున్న దశ ఫలితం</h3>
@@ -871,7 +871,7 @@
             </div>
         </div>
 
-        <div class="two-col-grid">
+        <div class="two-col-grid admin-only">
             <div class="section-card">
                 <div class="section-header">
                     <div class="section-title">✨ జాతకంలో ప్రముఖ శుభ యోగాలు (Auspicious Yogas)</div>
@@ -888,7 +888,7 @@
         </div>
 
         <!-- 4. 12 HOUSE INTERPRETATIONS -->
-        <div class="section-card" style="margin-top: 18px;">
+        <div class="section-card admin-only" style="margin-top: 18px;">
             <div class="section-header">
                 <div class="section-title">🏛️ ద్వాదశ భావాల సమగ్ర ఫలితాలు (12 House Interpretations)</div>
                 <span style="font-size: 12px; color: var(--text-secondary);">వివరాల కొరకు ప్రతి భావాన్ని క్లిక్ చేయండి</span>
@@ -899,9 +899,9 @@
 
     <!-- TAB 2: DASA PHALITALU & PARIHARAMS -->
     <div id="dasaTab" class="tab-content">
-        <div class="dasa-result-box" id="activeDasaPhalitaCard"></div>
+        <div class="dasa-result-box admin-only" id="activeDasaPhalitaCard"></div>
 
-        <div class="section-card">
+        <div class="section-card admin-only">
             <div class="section-header">
                 <div class="section-title">🔍 ఏ దశ-అంతర్దశ ఫలితాలైనా తెలుసుకోండి (Dasa Explorer)</div>
             </div>
@@ -935,7 +935,7 @@
     </div>
 
     <!-- TAB 3: GOCHARA -->
-    <div id="gocharaTab" class="tab-content">
+    <div id="gocharaTab" class="tab-content admin-only">
         <div class="panchangam-box" id="transitPanchangamCard" style="margin-bottom:16px;"></div>
 
         <div class="section-card">
@@ -988,7 +988,7 @@
     </div>
 
     <!-- TAB 4: JATHAKA CHAT (ASTRO CHATBOT) -->
-    <div id="chatTab" class="tab-content">
+    <div id="chatTab" class="tab-content admin-only">
         <div class="chat-container">
             <div class="chat-header">
                 <div class="chat-header-title">
@@ -1026,7 +1026,7 @@
     </div>
 
     <!-- TAB 5: KP STELLAR -->
-    <div id="kpLordsTab" class="tab-content">
+    <div id="kpLordsTab" class="tab-content admin-only">
         <div class="section-card">
             <div class="section-header">
                 <div class="section-title">🪐 KP 4-Fold గ్రహ స్థితులు & లార్డ్స్</div>
@@ -1055,7 +1055,7 @@
     </div>
 
     <!-- TAB 6: HOUSE CUSPS -->
-    <div id="cuspsTab" class="tab-content">
+    <div id="cuspsTab" class="tab-content admin-only">
         <div class="section-card">
             <div class="section-header">
                 <div class="section-title">🏠 భావ ప్రారంభాలు & కస్ప్స్ (1 to 12 Bhavas)</div>
@@ -1081,7 +1081,7 @@
     </div>
 
     <!-- TAB 7: ASPECTS -->
-    <div id="aspectsTab" class="tab-content">
+    <div id="aspectsTab" class="tab-content admin-only">
         <div class="section-card">
             <div class="section-header">
                 <div class="section-title">📐 గ్రహ దృక్కులు & Aspects</div>

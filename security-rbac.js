@@ -274,11 +274,16 @@
             sessionStorage.removeItem(ADMIN_STORAGE_KEY);
             isSuperAdmin = false;
             applyAntiCapture();
+            applyRoleVisibility();
             renderAdminBadge();
             document.getElementById('vs-admin-login-form').style.display = 'block';
             document.getElementById('vs-admin-dashboard').style.display = 'none';
             modal.style.display = 'none';
             showSecurityToast('Logged out of Super Admin mode.');
+            const path = (window.location.pathname || '').toLowerCase();
+            if (path.endsWith('muhurtavali.html') || path.endsWith('family_jathakam.html')) {
+                window.location.replace('index.html');
+            }
         };
     }
 
@@ -292,6 +297,7 @@
             antiCaptureActive = false;
             sessionStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify({ user: ADMIN_USERNAME, time: Date.now() }));
             removeAntiCapture();
+            applyRoleVisibility();
             renderAdminBadge();
 
             document.getElementById('vs-admin-login-form').style.display = 'none';
@@ -419,13 +425,57 @@
         }
     }
 
+    function checkAdminRouteProtection() {
+        const path = (window.location.pathname || '').toLowerCase();
+        const isAdminRoute = path.endsWith('muhurtavali.html') || path.endsWith('family_jathakam.html');
+        if (isAdminRoute && !isSuperAdmin) {
+            if (window.location.hash.includes('admin')) {
+                openAdminLoginModal();
+            } else {
+                window.location.replace('index.html');
+            }
+        }
+    }
+
+    // Role-based visibility for Worldwide Standard Users vs Super Admin
+    function applyRoleVisibility() {
+        let style = document.getElementById('vs-admin-only-style');
+        if (!style) {
+            style = document.createElement('style');
+            style.id = 'vs-admin-only-style';
+            document.head.appendChild(style);
+        }
+
+        if (isSuperAdmin) {
+            style.textContent = `
+                .admin-only {
+                    display: inherit !important;
+                }
+                button.admin-only, a.admin-only {
+                    display: inline-flex !important;
+                }
+                .admin-only-block {
+                    display: block !important;
+                }
+            `;
+        } else {
+            style.textContent = `
+                .admin-only, .admin-only-block {
+                    display: none !important;
+                }
+            `;
+        }
+    }
+
     // Initialization
     function init() {
         applyAntiCapture();
+        applyRoleVisibility();
         initEphemeralPrivacy();
         renderBroadcastBanner();
         renderAdminBadge();
         checkUrlHash();
+        checkAdminRouteProtection();
 
         // Footer discreet admin seal
         const footer = document.querySelector('footer, .footer-content, .panchang-doc');
@@ -450,6 +500,7 @@
     window.VedicSecurity = {
         isSuperAdmin: () => isSuperAdmin,
         openAdminModal: openAdminLoginModal,
+        applyRoleVisibility,
         generateDeepLink,
         decodeDeepLink,
         showToast: showSecurityToast
