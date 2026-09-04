@@ -1409,8 +1409,11 @@ function getPushkaraWindows(period, lat, lon, tz) {
 /* ═══════════ DAY SIGNIFICANCE ═══════════ */
 
 
-// Map Telugu MASAM names → jyotisham month number (1-12)
+// Map MASAM names → jyotisham month number (1-12)
 const MASAM_TO_NUM = {
+    'Chaitra':1, 'Vaishakha':2, 'Jyeshtha':3, 'Ashadha':4,
+    'Shravana':5, 'Bhadrapada':6, 'Ashwayuja':7, 'Kartika':8,
+    'Margashirsha':9, 'Pushya':10, 'Magha':11, 'Phalguna':12,
     'Chaithramu':1, 'Vaisakhamu':2, 'Jyesthamu':3, 'Ashadhamu':4,
     'Sravanamu':5, 'Bhadhrapadamu':6, 'Asvayujamu':7, 'Karthikamu':8,
     'Margasiramu':9, 'Pushyamu':10, 'Maghamu':11, 'Phalgunamu':12
