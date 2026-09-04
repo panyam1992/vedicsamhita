@@ -16,6 +16,7 @@
     const ADMIN_STORAGE_KEY = 'VS_ADMIN_SESSION';
     const BROADCAST_STORAGE_KEY = 'VS_GLOBAL_BROADCAST';
     const ADMIN_USERNAME = 'vedicsamhita';
+    const ADMIN_EMAIL = '1vedasamhita@gmail.com';
     const ADMIN_SECRET_KEY = 'vedicsamhita'; // Default admin access key
 
     // State
@@ -28,7 +29,7 @@
             const sess = sessionStorage.getItem(ADMIN_STORAGE_KEY);
             if (sess) {
                 const data = JSON.parse(sess);
-                if (data && data.user === ADMIN_USERNAME && (Date.now() - data.time < 24 * 3600 * 1000)) {
+                if (data && (data.user === ADMIN_USERNAME || data.user === ADMIN_EMAIL) && (Date.now() - data.time < 24 * 3600 * 1000)) {
                     isSuperAdmin = true;
                     antiCaptureActive = false;
                 }
@@ -212,12 +213,12 @@
                 <button id="vs-admin-close" style="position:absolute; top:10px; right:14px; background:none; border:none; font-size:18px; cursor:pointer; color:#4a0e0e;">✕</button>
                 <div style="text-align:center; margin-bottom:16px;">
                     <h3 style="font-family:'Cinzel',serif; color:#4a0e0e; margin:0 0 4px;">👑 Super Admin Access</h3>
-                    <p style="font-size:12.5px; color:#666; margin:0;">Vedic Samhita Master Account (vedicsamhita)</p>
+                    <p style="font-size:12.5px; color:#666; margin:0;">Vedic Samhita Master Account (vedicsamhita / 1vedasamhita@gmail.com)</p>
                 </div>
                 <div id="vs-admin-login-form">
                     <div style="margin-bottom:12px;">
-                        <label style="font-size:13px; font-weight:bold; color:#333;">Admin ID</label>
-                        <input type="text" id="vs-admin-user" class="form-control" value="vedicsamhita" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; margin-top:4px; box-sizing:border-box;">
+                        <label style="font-size:13px; font-weight:bold; color:#333;">Admin ID / Email</label>
+                        <input type="text" id="vs-admin-user" class="form-control" value="1vedasamhita@gmail.com" style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; margin-top:4px; box-sizing:border-box;">
                     </div>
                     <div style="margin-bottom:16px;">
                         <label style="font-size:13px; font-weight:bold; color:#333;">Passphrase / Secret Key</label>
@@ -228,7 +229,7 @@
                 </div>
                 <div id="vs-admin-dashboard" style="display:none;">
                     <div style="padding:10px; background:#faf7f0; border:1px solid #d4a853; border-radius:6px; margin-bottom:14px; text-align:center;">
-                        <strong style="color:#4a0e0e;">👑 Super Admin Active: vedicsamhita</strong>
+                        <strong style="color:#4a0e0e;">👑 Super Admin Active: vedicsamhita (1vedasamhita@gmail.com)</strong>
                         <p style="font-size:11.5px; color:#666; margin:3px 0 0;">Security restrictions bypassed. Full export, print, and copy unlocked.</p>
                     </div>
                     <h4 style="margin:10px 0 6px; font-family:'Cinzel',serif; color:#4a0e0e; font-size:14px;">📢 Publish Global Broadcast Alert</h4>
@@ -288,14 +289,14 @@
     }
 
     function handleAdminLogin() {
-        const user = document.getElementById('vs-admin-user').value.trim();
+        const user = document.getElementById('vs-admin-user').value.trim().toLowerCase();
         const pass = document.getElementById('vs-admin-pass').value.trim();
         const err = document.getElementById('vs-admin-err');
 
-        if (user === ADMIN_USERNAME && (pass === ADMIN_SECRET_KEY || pass === 'vedicsamhita2026' || pass === 'admin123')) {
+        if ((user === ADMIN_USERNAME.toLowerCase() || user === ADMIN_EMAIL.toLowerCase()) && (pass === ADMIN_SECRET_KEY || pass === 'vedicsamhita2026' || pass === 'admin123')) {
             isSuperAdmin = true;
             antiCaptureActive = false;
-            sessionStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify({ user: ADMIN_USERNAME, time: Date.now() }));
+            sessionStorage.setItem(ADMIN_STORAGE_KEY, JSON.stringify({ user: user, time: Date.now() }));
             removeAntiCapture();
             applyRoleVisibility();
             renderAdminBadge();
@@ -305,7 +306,7 @@
             err.style.display = 'none';
             showSecurityToast('👑 Super Admin Access Unlocked! All restrictions bypassed.');
         } else {
-            err.textContent = 'Invalid credentials for vedicsamhita master profile.';
+            err.textContent = 'Invalid credentials for vedicsamhita / 1vedasamhita@gmail.com master profile.';
             err.style.display = 'block';
         }
     }
@@ -499,6 +500,8 @@
     // Expose global controller
     window.VedicSecurity = {
         isSuperAdmin: () => isSuperAdmin,
+        adminEmail: ADMIN_EMAIL,
+        adminUsername: ADMIN_USERNAME,
         openAdminModal: openAdminLoginModal,
         applyRoleVisibility,
         generateDeepLink,

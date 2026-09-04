@@ -58,17 +58,21 @@
   Standard users are permanently restricted to public pages and are blocked 
   from discovering or accessing any backend management URLs.
 
-• Super Admin Profile (vedicsamhita):
+• Super Admin Profile (vedicsamhita / 1vedasamhita@gmail.com):
   This is the master account with complete visibility over both the 
   public-facing ecosystem and backend administrative panels.
+  Master Email: 1vedasamhita@gmail.com (Authorized for Super Admin authentication
+  and automated 10-day advance Major Festival & Observance notifications).
 
 • Admin Bypass Privileges:
   The Super Admin is fully exempt from all security restrictions, allowing 
   them to freely screenshot, copy, export, and share data as needed.
 
-• Broadcast Management:
+• Broadcast & Notification Management:
   The Super Admin can publish new content (e.g., Ekadashi Vrata Kathas, festival 
   updates) and trigger global push notifications. When users click these 
   notifications, they are taken directly to the newly published announcement.
+  Super Admin receives automated 10-day advance Kaala Vyapini festival alerts
+  directly at 1vedasamhita@gmail.com.
 
 ═══════════════════════════════════════════════════════════════════════════════
