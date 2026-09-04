@@ -232,6 +232,11 @@
                         <strong style="color:#4a0e0e;">👑 Super Admin Active: vedicsamhita (1vedasamhita@gmail.com)</strong>
                         <p style="font-size:11.5px; color:#666; margin:3px 0 0;">Security restrictions bypassed. Full export, print, and copy unlocked.</p>
                     </div>
+                    <div style="margin:14px 0 16px;">
+                        <button id="vs-admin-open-rules-btn" style="width:100%; padding:10px; background:linear-gradient(135deg, #1b5e20, #2e7d32); color:#fff; border:none; border-radius:6px; font-family:'Cinzel',serif; font-size:13px; font-weight:bold; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; box-shadow:0 3px 8px rgba(0,0,0,0.2);">
+                            <span>📝 Open Rules & AI Brain Intake (నియమాలు / నోట్స్)</span>
+                        </button>
+                    </div>
                     <h4 style="margin:10px 0 6px; font-family:'Cinzel',serif; color:#4a0e0e; font-size:14px;">📢 Publish Global Broadcast Alert</h4>
                     <textarea id="vs-broadcast-input" placeholder="Enter festival alert, Ekadashi Vrata Katha link, or announcement..." style="width:100%; height:60px; padding:6px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:12px; box-sizing:border-box;"></textarea>
                     <div style="display:flex; gap:8px; margin-top:8px;">
@@ -253,6 +258,11 @@
         document.getElementById('vs-admin-submit-btn').onclick = handleAdminLogin;
         document.getElementById('vs-admin-pass').onkeydown = (e) => {
             if (e.key === 'Enter') handleAdminLogin();
+        };
+
+        document.getElementById('vs-admin-open-rules-btn').onclick = () => {
+            modal.style.display = 'none';
+            openRulesModal();
         };
 
         document.getElementById('vs-broadcast-btn').onclick = () => {
@@ -351,10 +361,41 @@
                 badge.title = 'Click to open Super Admin Panel';
                 badge.onclick = openAdminLoginModal;
                 document.body.appendChild(badge);
+
+                // Also render floating Rules & Notes Button for Super Admin
+                let rulesFloatBtn = document.getElementById('vs-floating-rules-btn');
+                if (!rulesFloatBtn) {
+                    rulesFloatBtn = document.createElement('button');
+                    rulesFloatBtn.id = 'vs-floating-rules-btn';
+                    rulesFloatBtn.style.cssText = `
+                        position: fixed;
+                        bottom: 20px;
+                        right: 18px;
+                        background: linear-gradient(135deg, #4a0e0e, #7a1818);
+                        color: #ffd700;
+                        border: 1.5px solid #d4a853;
+                        border-radius: 25px;
+                        padding: 8px 16px;
+                        font-family: 'Cinzel', 'Mandali', serif;
+                        font-size: 12.5px;
+                        font-weight: bold;
+                        box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+                        z-index: 10000;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        gap: 6px;
+                    `;
+                    rulesFloatBtn.innerHTML = '<span>📝 Rules & Brain Notes</span>';
+                    rulesFloatBtn.onclick = openRulesModal;
+                    document.body.appendChild(rulesFloatBtn);
+                }
             }
             badge.style.display = 'block';
         } else {
             if (badge) badge.style.display = 'none';
+            let rulesFloatBtn = document.getElementById('vs-floating-rules-btn');
+            if (rulesFloatBtn) rulesFloatBtn.style.display = 'none';
         }
     }
 
@@ -420,9 +461,435 @@
         return null;
     }
 
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // 6. Super Admin Rules & AI Brain Intake Module (Mobile & Web)
+    // ═══════════════════════════════════════════════════════════════════════
+    const RULES_STORAGE_KEY = 'VS_ADMIN_RULES_NOTES';
+
+    const INITIAL_SEED_RULES = [
+        {
+            id: 'rule-seed-1',
+            timestamp: '2026-09-04T18:45:00.000Z',
+            category: 'festival',
+            title: 'Masa Anaghashtami & Margashira Pradhana Anaghashtami',
+            body: 'Every Krishna Paksha Ashtami is Masa Anaghashtami Vratam for Lord Dattatreya Swamy and Sri Anagha Devi (Anagha Lakshmi). Margashira Krishna Ashtami is the Pradhana Anaghashtami of the year.',
+            reference: 'Brahmanda Purana (Dattatreya Samhita)',
+            status: 'applied'
+        },
+        {
+            id: 'rule-seed-2',
+            timestamp: '2026-09-04T18:55:00.000Z',
+            category: 'festival',
+            title: 'Kanchi Jagadguru Aradhana (50th Acharya)',
+            body: 'Kanchi Kamakoti Peetham 50th Acharya Pujyasri Chandrachudendra Saraswati I Aradhana on Shravana Krishna Ashtami.',
+            reference: 'Kanchi Matha Guru Parampara Charitra',
+            status: 'applied'
+        },
+        {
+            id: 'rule-seed-3',
+            timestamp: '2026-09-04T18:55:00.000Z',
+            category: 'festival',
+            title: 'Emperor Sri Krishnadevaraya Rajyabhishekam',
+            body: 'Historical coronation of Sri Krishnadevaraya took place on Sri Krishna Janmashtami (Shravana Krishna Ashtami) in 1509 CE.',
+            reference: 'Vijayanagara Epigraphica & Temple Records',
+            status: 'applied'
+        },
+        {
+            id: 'rule-seed-4',
+            timestamp: '2026-09-04T19:00:00.000Z',
+            category: 'graha',
+            title: 'Budha Maudhyam (Mercury Combustion) Surya Siddhanta 14° Limit',
+            body: 'Surya Siddhanta VII.13-14 strictly sets 14° for direct Mercury and 12° for retrograde Mercury. Atichara motion uses 12° threshold in reference panchangams.',
+            reference: 'Surya Siddhanta VII.13-14 & Muhurta Chintamani',
+            status: 'applied'
+        }
+    ];
+
+    function getStoredRules() {
+        try {
+            const raw = localStorage.getItem(RULES_STORAGE_KEY);
+            if (!raw) {
+                localStorage.setItem(RULES_STORAGE_KEY, JSON.stringify(INITIAL_SEED_RULES));
+                return INITIAL_SEED_RULES;
+            }
+            return JSON.parse(raw) || [];
+        } catch (e) {
+            return INITIAL_SEED_RULES;
+        }
+    }
+
+    function saveStoredRules(rules) {
+        try {
+            localStorage.setItem(RULES_STORAGE_KEY, JSON.stringify(rules));
+        } catch (e) {
+            console.error('Error saving rules:', e);
+        }
+    }
+
+    let speechRecognitionInstance = null;
+    let isSpeechActive = false;
+
+    function openRulesModal() {
+        if (!isSuperAdmin) {
+            openAdminLoginModal();
+            return;
+        }
+        createRulesModal();
+        const modal = document.getElementById('vs-rules-modal');
+        if (modal) {
+            renderRulesList();
+            modal.style.display = 'flex';
+        }
+    }
+
+    function createRulesModal() {
+        if (document.getElementById('vs-rules-modal')) return;
+
+        const modal = document.createElement('div');
+        modal.id = 'vs-rules-modal';
+        modal.style.cssText = `
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.75);
+            z-index: 99999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-family: 'EB Garamond', 'Mandali', serif;
+            backdrop-filter: blur(4px);
+        `;
+
+        modal.innerHTML = `
+            <div style="background:#FFFDF5; border:2px solid #d4a853; border-radius:12px; padding:20px; max-width:580px; width:92%; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 12px 35px rgba(0,0,0,0.6); box-sizing:border-box;">
+                <button id="vs-rules-close" style="position:absolute; top:12px; right:15px; background:none; border:none; font-size:22px; cursor:pointer; color:#4a0e0e; font-weight:bold;">✕</button>
+                
+                <div style="text-align:center; margin-bottom:14px; border-bottom:1.5px solid #d4a853; padding-bottom:8px;">
+                    <h3 style="font-family:'Cinzel',serif; color:#4a0e0e; margin:0; font-size:1.25rem;">📝 Super Admin Rules & AI Brain Intake</h3>
+                    <p style="font-size:12px; color:#6b5b4e; margin:3px 0 0;">సూపర్‌ అడ్మిన్ సిద్ధాంత నియమాలు & నోట్స్ — మొబైల్ వాయిస్ / టెక్స్ట్ ఇన్టేక్</p>
+                </div>
+
+                <!-- Input Form -->
+                <div style="background:#FFF8E7; border:1px solid #c2b280; border-radius:8px; padding:12px; margin-bottom:16px;">
+                    <div style="display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap;">
+                        <div style="flex:1; min-width:180px;">
+                            <label style="font-size:12px; font-weight:bold; color:#4a0e0e;">వర్గం / Category:</label>
+                            <select id="vs-rule-cat" style="width:100%; padding:6px 8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:13px; margin-top:3px; background:#fff;">
+                                <option value="festival">🕉️ Festival & Vratam (పండుగ / వ్రతం)</option>
+                                <option value="graha">🪐 Graha & Maudhyam (గ్రహ / మౌఢ్యం)</option>
+                                <option value="siddhanta">📜 Siddhanta Math & Muhurtha (సిద్ధాంతం / ముహూర్తం)</option>
+                                <option value="general">💡 General Custom / Note (సాధారణ గమనిక)</option>
+                            </select>
+                        </div>
+                        <div style="flex:1; min-width:180px;">
+                            <label style="font-size:12px; font-weight:bold; color:#4a0e0e;">శీర్షిక / Rule Title:</label>
+                            <input type="text" id="vs-rule-title" placeholder="e.g. Margashira Anaghashtami Rule" style="width:100%; padding:6px 8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:13px; margin-top:3px; box-sizing:border-box;">
+                        </div>
+                    </div>
+
+                    <!-- Voice Dictation Bar -->
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; flex-wrap:wrap; gap:6px;">
+                        <label style="font-size:12px; font-weight:bold; color:#4a0e0e;">వివరణ / Rule Details (Speak or Type):</label>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <select id="vs-speech-lang" style="font-size:11px; padding:3px 6px; border:1px solid #d4a853; border-radius:4px; background:#fff;">
+                                <option value="te-IN">🇮🇳 తెలుగు (Telugu)</option>
+                                <option value="en-US">🇺🇸 English</option>
+                            </select>
+                            <button id="vs-mic-btn" type="button" style="background:#b8860b; color:#fff; border:none; border-radius:15px; padding:4px 10px; font-size:11.5px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:4px; transition:all 0.2s;">
+                                <span>🎙️ Speak (మైక్)</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="vs-speech-indicator" style="display:none; font-size:11px; color:#b30000; font-weight:bold; margin-bottom:4px; animation:pulse 1s infinite;">
+                        🔴 Recording voice... మాట్లాడండి (Tap mic again to finish)...
+                    </div>
+
+                    <textarea id="vs-rule-body" rows="4" placeholder="Type or speak the rule here in plain Telugu or English... e.g. ప్రతి నెలా కృష్ణ పక్ష అష్టమి రోజున అనఘాష్టమి వ్రతం చేయాలి..." style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:13.5px; line-height:1.4; box-sizing:border-box; background:#fff;"></textarea>
+
+                    <div style="margin-top:8px;">
+                        <label style="font-size:12px; font-weight:bold; color:#4a0e0e;">శాస్త్ర ప్రమాణం / Classical Reference (Optional):</label>
+                        <input type="text" id="vs-rule-ref" placeholder="e.g. Brahmanda Puranam / Surya Siddhanta VII.13 / Nirnaya Sindhu" style="width:100%; padding:6px 8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:12.5px; margin-top:3px; box-sizing:border-box;">
+                    </div>
+
+                    <div style="margin-top:12px; display:flex; gap:8px;">
+                        <button id="vs-rule-submit-btn" style="flex:2; padding:9px 12px; background:#4a0e0e; color:#ffd700; border:none; border-radius:6px; font-family:'Cinzel',serif; font-size:13px; font-weight:bold; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+                            💾 Save Rule to AI Brain (సేవ్ చేయండి)
+                        </button>
+                        <button id="vs-rule-reset-btn" style="flex:1; padding:9px 8px; background:#eee; color:#444; border:none; border-radius:6px; font-size:12px; cursor:pointer;">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Existing Rules Header & Quick Actions -->
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
+                    <h4 style="margin:0; font-family:'Cinzel',serif; color:#4a0e0e; font-size:14px;">
+                        📚 Logged Rules & Brain Notes (<span id="vs-rules-count">0</span>)
+                    </h4>
+                    <div style="display:flex; gap:6px;">
+                        <button id="vs-rules-copy-ai-btn" style="background:#1B5E20; color:#fff; border:none; border-radius:4px; padding:5px 10px; font-size:11px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="Copy all pending notes formatted for AI assistant chat">
+                            📋 Copy for AI
+                        </button>
+                        <button id="vs-rules-export-btn" style="background:#555; color:#fff; border:none; border-radius:4px; padding:5px 9px; font-size:11px; cursor:pointer;" title="Download JSON file">
+                            📥 Export
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Rules List -->
+                <div id="vs-rules-list" style="max-height:260px; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
+                    <!-- Filled dynamically -->
+                </div>
+            </div>
+        `;
+
+        document.body.appendChild(modal);
+
+        // Events
+        document.getElementById('vs-rules-close').onclick = () => {
+            if (isSpeechActive && speechRecognitionInstance) {
+                speechRecognitionInstance.stop();
+            }
+            modal.style.display = 'none';
+        };
+
+        document.getElementById('vs-mic-btn').onclick = toggleSpeechRecognition;
+        document.getElementById('vs-rule-submit-btn').onclick = handleAddRule;
+        document.getElementById('vs-rule-reset-btn').onclick = resetRuleForm;
+        document.getElementById('vs-rules-copy-ai-btn').onclick = copyRulesForAIChat;
+        document.getElementById('vs-rules-export-btn').onclick = exportRulesAsJson;
+    }
+
+    function toggleSpeechRecognition() {
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        if (!SpeechRecognition) {
+            alert('🎙️ Voice dictation is supported on Chrome (Android & PC) and Safari (iOS 14.5+).\n\nYou can also use your mobile phone keyboard microphone button to dictate in Telugu or English!');
+            return;
+        }
+
+        const micBtn = document.getElementById('vs-mic-btn');
+        const indicator = document.getElementById('vs-speech-indicator');
+        const langSelect = document.getElementById('vs-speech-lang');
+        const bodyInput = document.getElementById('vs-rule-body');
+
+        if (isSpeechActive) {
+            if (speechRecognitionInstance) speechRecognitionInstance.stop();
+            isSpeechActive = false;
+            micBtn.style.background = '#b8860b';
+            micBtn.innerHTML = '<span>🎙️ Speak (మైక్)</span>';
+            if (indicator) indicator.style.display = 'none';
+            return;
+        }
+
+        try {
+            speechRecognitionInstance = new SpeechRecognition();
+            speechRecognitionInstance.lang = langSelect.value || 'te-IN';
+            speechRecognitionInstance.continuous = true;
+            speechRecognitionInstance.interimResults = true;
+
+            speechRecognitionInstance.onstart = () => {
+                isSpeechActive = true;
+                micBtn.style.background = '#b30000';
+                micBtn.innerHTML = '<span>⏹️ Stop (ఆపండి)</span>';
+                if (indicator) indicator.style.display = 'block';
+            };
+
+            speechRecognitionInstance.onresult = (e) => {
+                let finalTranscript = '';
+                for (let i = e.resultIndex; i < e.results.length; ++i) {
+                    if (e.results[i].isFinal) {
+                        finalTranscript += e.results[i][0].transcript + ' ';
+                    }
+                }
+                if (finalTranscript) {
+                    bodyInput.value = (bodyInput.value + ' ' + finalTranscript).trim();
+                }
+            };
+
+            speechRecognitionInstance.onerror = (e) => {
+                console.warn('Speech recognition error:', e.error);
+                isSpeechActive = false;
+                micBtn.style.background = '#b8860b';
+                micBtn.innerHTML = '<span>🎙️ Speak (మైక్)</span>';
+                if (indicator) indicator.style.display = 'none';
+            };
+
+            speechRecognitionInstance.onend = () => {
+                isSpeechActive = false;
+                micBtn.style.background = '#b8860b';
+                micBtn.innerHTML = '<span>🎙️ Speak (మైక్)</span>';
+                if (indicator) indicator.style.display = 'none';
+            };
+
+            speechRecognitionInstance.start();
+        } catch (err) {
+            alert('Could not start voice dictation: ' + err.message);
+        }
+    }
+
+    function handleAddRule() {
+        const cat = document.getElementById('vs-rule-cat').value;
+        const title = document.getElementById('vs-rule-title').value.trim();
+        const body = document.getElementById('vs-rule-body').value.trim();
+        const ref = document.getElementById('vs-rule-ref').value.trim();
+
+        if (!title && !body) {
+            alert('దయచేసి శీర్షిక లేదా వివరాలను నమోదు చేయండి (Please enter a rule title or details).');
+            return;
+        }
+
+        const newRule = {
+            id: 'rule-' + Date.now(),
+            timestamp: new Date().toISOString(),
+            category: cat,
+            title: title || 'Custom Siddhanta Rule',
+            body: body,
+            reference: ref || 'Siddhanta Tradition',
+            status: 'pending'
+        };
+
+        const list = getStoredRules();
+        list.unshift(newRule);
+        saveStoredRules(list);
+
+        resetRuleForm();
+        renderRulesList();
+        showSecurityToast('✅ Rule saved to AI Brain! Ready to sync.');
+    }
+
+    function resetRuleForm() {
+        document.getElementById('vs-rule-title').value = '';
+        document.getElementById('vs-rule-body').value = '';
+        document.getElementById('vs-rule-ref').value = '';
+    }
+
+    function renderRulesList() {
+        const listEl = document.getElementById('vs-rules-list');
+        const countEl = document.getElementById('vs-rules-count');
+        if (!listEl) return;
+
+        const rules = getStoredRules();
+        if (countEl) countEl.textContent = rules.length;
+
+        if (rules.length === 0) {
+            listEl.innerHTML = '<div style="text-align:center; padding:20px; color:#888; font-size:12px;">ఇంకా ఏ నియమాలు లేవు (No rules logged yet). Use the form above to add one!</div>';
+            return;
+        }
+
+        const catIcons = {
+            festival: '🕉️',
+            graha: '🪐',
+            siddhanta: '📜',
+            general: '💡'
+        };
+
+        listEl.innerHTML = rules.map(r => {
+            const isApplied = (r.status === 'applied');
+            const statusColor = isApplied ? '#1B5E20' : '#b8860b';
+            const statusLabel = isApplied ? '✅ Applied to Code' : '⏳ Pending AI Update';
+            const icon = catIcons[r.category] || '📜';
+            const dt = new Date(r.timestamp);
+            const dateStr = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+
+            return `
+                <div style="background:#fff; border:1px solid ${isApplied ? '#c3e6cb' : '#ffeeba'}; border-left:4px solid ${statusColor}; border-radius:6px; padding:10px; font-size:12.5px; position:relative;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
+                        <div>
+                            <strong style="color:#4a0e0e; font-size:13.5px;">${icon} ${escapeHtml(r.title)}</strong>
+                            <div style="font-size:11px; color:#777; margin:2px 0;">${dateStr} | <em>${escapeHtml(r.reference || 'Custom')}</em></div>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:6px;">
+                            <button onclick="window.VedicSecurity.toggleRuleStatus('${r.id}')" style="background:${statusColor}; color:#fff; border:none; border-radius:12px; padding:2px 8px; font-size:10.5px; cursor:pointer; font-weight:bold;" title="Click to toggle status">
+                                ${statusLabel}
+                            </button>
+                            <button onclick="window.VedicSecurity.deleteRule('${r.id}')" style="background:none; border:none; color:#c00; font-size:14px; cursor:pointer; padding:0 3px;" title="Delete rule">
+                                🗑️
+                            </button>
+                        </div>
+                    </div>
+                    <div style="margin-top:6px; color:#2d1810; line-height:1.4; white-space:pre-wrap;">${escapeHtml(r.body)}</div>
+                </div>
+            `;
+        }).join('');
+    }
+
+    function toggleRuleStatus(id) {
+        const list = getStoredRules();
+        const item = list.find(r => r.id === id);
+        if (item) {
+            item.status = (item.status === 'applied') ? 'pending' : 'applied';
+            saveStoredRules(list);
+            renderRulesList();
+        }
+    }
+
+    function deleteRule(id) {
+        if (!confirm('Are you sure you want to delete this rule note?')) return;
+        let list = getStoredRules();
+        list = list.filter(r => r.id !== id);
+        saveStoredRules(list);
+        renderRulesList();
+        showSecurityToast('Rule note deleted.');
+    }
+
+    function copyRulesForAIChat() {
+        const list = getStoredRules();
+        const pending = list.filter(r => r.status === 'pending');
+        const targetList = pending.length > 0 ? pending : list;
+
+        if (targetList.length === 0) {
+            alert('No rules to copy!');
+            return;
+        }
+
+        let txt = `# 📝 Vedic Samhita - Super Admin Rules & Notes Intake\n\n`;
+        txt += `Please review and update the Panchangam engine, festival calculations, and documentation notes with the following rules:\n\n`;
+
+        targetList.forEach((r, idx) => {
+            txt += `### ${idx + 1}. [${r.category.toUpperCase()}] ${r.title}\n`;
+            txt += `- **Status**: ${r.status}\n`;
+            txt += `- **Classical Reference**: ${r.reference || 'None'}\n`;
+            txt += `- **Rule Details**: ${r.body}\n\n`;
+        });
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(txt).then(() => {
+                alert('📋 Copied ' + targetList.length + ' rules to clipboard! You can now paste directly into our chat window.');
+            }).catch(e => {
+                prompt('Copy rules manually:', txt);
+            });
+        } else {
+            prompt('Copy rules manually:', txt);
+        }
+    }
+
+    function exportRulesAsJson() {
+        const list = getStoredRules();
+        const blob = new Blob([JSON.stringify(list, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'vedic_samhita_rules_notes.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
     function checkUrlHash() {
         if (window.location.hash === '#admin') {
             openAdminLoginModal();
+        } else if (window.location.hash === '#notes' || window.location.hash === '#rules' || window.location.hash === '#admin-notes') {
+            if (isSuperAdmin) {
+                openRulesModal();
+            } else {
+                openAdminLoginModal();
+            }
         }
     }
 
@@ -503,6 +970,9 @@
         adminEmail: ADMIN_EMAIL,
         adminUsername: ADMIN_USERNAME,
         openAdminModal: openAdminLoginModal,
+        openRulesModal: openRulesModal,
+        toggleRuleStatus: toggleRuleStatus,
+        deleteRule: deleteRule,
         applyRoleVisibility,
         generateDeepLink,
         decodeDeepLink,
