@@ -388,6 +388,8 @@ const I18N_DICT = {
         padam: "Nakshatra Padam",
         maudhyam: "Maudhyam",
         festivals: "Festivals & Vratas",
+        hdrDailyMuhurtas: "🌟 Daily Auspicious Muhurtha Indicators",
+        valMuhurtaDisclaimer: `<strong>⚠️ Important Shastric Note:</strong> This is a general calendar indicator based on daily Tithi, Vara, Nakshatra, and Season Shuddhis. Personal compatibility requires matching the bride/groom or householder's birth star (Tara Balam, Chandra Balam, Guru Balam) and calculating the exact rising Ascendant (Lagna) time. Please consult your family Pandit or Siddhanti to fix the final Muhurtham.`, 
         choghadiya: "Day & Night Choghadiya Timings",
         dayChoghadiyaBtn: "☀️ Day Choghadiya",
         nightChoghadiyaBtn: "🌙 Night Choghadiya",
@@ -442,6 +444,8 @@ const I18N_DICT = {
         padam: "నక్షత్ర పాదం",
         maudhyam: "మౌఢ్యం",
         festivals: "పండుగలు & వ్రతాలు",
+        hdrDailyMuhurtas: "🌟 నేటి శుభకార్యాల సూచిక (Daily Muhurtha Indicators)",
+        valMuhurtaDisclaimer: `<strong>⚠️ ముఖ్య శాస్త్రీయ గమనిక:</strong> ఇది తిథి, వార, నక్షత్ర మరియు మాస శుద్ధుల ఆధారంగా అందించబడిన సాధారణ పంచాంగ సూచన మాత్రమే. వధూవరుల లేదా గృహస్థుల వ్యక్తిగత జాతక తారాబలం, చంద్రబలం, గురుబలం మరియు ఖచ్చితమైన లగ్న సమయం కొరకు మీ కుల పురోహితులను లేదా సిద్ధాంతిని తప్పక సంప్రదించవలెను.`, 
         choghadiya: "పగలు & రాత్రి చోఘడియా సమయాలు",
         dayChoghadiyaBtn: "☀️ పగటి చోఘడియా",
         nightChoghadiyaBtn: "🌙 రాత్రి చోఘడియా",
@@ -530,6 +534,8 @@ function updateLanguageUI() {
 
     // Update Festivals & Choghadiya
     setElText('hdrFestivals', dict.festivals);
+    setElText('hdrDailyMuhurtas', dict.hdrDailyMuhurtas);
+    setElHtml('valMuhurtaDisclaimer', dict.valMuhurtaDisclaimer);
     setElText('hdrChoghadiya', dict.choghadiya);
     setElText('btnDayChoghadiya', dict.dayChoghadiyaBtn);
     setElText('btnNightChoghadiya', dict.nightChoghadiyaBtn);
@@ -3134,6 +3140,31 @@ function _calculatePanchangamInner() {
     renderList('valYoga', yogas, tz);
     renderList('valKarana', karanas, tz);
 
+    // ── Daily Auspicious Muhurtha Indicators ──
+    const dailyMuhurtaEl = document.getElementById('valDailyMuhurtas');
+    const muhurtaSecEl = document.getElementById('dailyMuhurtaSection');
+    if (dailyMuhurtaEl && muhurtaSecEl) {
+        const primaryTithiIdx = (tithis && tithis[0]) ? tithis[0].idx : tithiAtSr;
+        const primaryNakIdx = (naks && naks[0]) ? naks[0].idx : getNakIdx(srJD);
+        const primaryYogaIdx = (yogas && yogas[0]) ? yogas[0].idx : getYogaIdx(srJD);
+        const primaryKaranaIdx = (karanas && karanas[0]) ? karanas[0].idx : getKaranaIdx(srJD);
+
+        const mResults = evaluateDailyMuhurtas(srJD, tz, dow, primaryTithiIdx, primaryNakIdx, primaryYogaIdx, primaryKaranaIdx, sunNir, masam, isAdhika, isKshaya, ayanam, isTe);
+        dailyMuhurtaEl.innerHTML = mResults.map(item => `
+            <div class="muhurta-item">
+                <div class="muhurta-item-header">
+                    <span class="muhurta-item-title">${item.icon} ${item.name}</span>
+                    <span class="muhurta-badge ${item.badgeClass}">${item.badge}</span>
+                </div>
+                <div class="muhurta-item-note">${item.note}</div>
+            </div>
+        `).join('');
+
+        setElHtml('valMuhurtaDisclaimer', isTe ? I18N_DICT.te.valMuhurtaDisclaimer : I18N_DICT.en.valMuhurtaDisclaimer);
+        setElText('hdrDailyMuhurtas', isTe ? I18N_DICT.te.hdrDailyMuhurtas : I18N_DICT.en.hdrDailyMuhurtas);
+    }
+
+
     setElText('valRahu', fmtRange(rahu.start, rahu.end));
     setElText('valYamaganda', fmtRange(yama.start, yama.end));
     setElText('valGulika', fmtRange(guli.start, guli.end));
@@ -4158,4 +4189,141 @@ function toggleChartStyle() {
     } else {
         setElHtml('lagnaChart', generateSouthIndianChartSVG(data.lagnaIdx, data.grahas));
     }
+}
+
+
+function evaluateDailyMuhurtas(srJD, tz, dow, tithiIdx, nakIdx, yogaIdx, karanaIdx, sunNir, masam, isAdhika, isKshaya, ayanam, isTe) {
+    const maudhyas = computeMaudhyam(srJD, tz);
+    const isGuruMaudhyam = maudhyas.some(m => m.key === 'guru');
+    const isShukraMaudhyam = maudhyas.some(m => m.key === 'shukra');
+    const isMajorMaudhyam = isGuruMaudhyam || isShukraMaudhyam;
+
+    const riktaTithis = [3, 8, 13, 18, 23, 28]; // Chavithi, Navami, Chaturdashi
+    const isRikta = riktaTithis.includes(tithiIdx);
+    const isAmavasya = (tithiIdx === 29);
+    const isVishti = (karanaIdx === 6); // Bhadra Karana
+    const isMahapata = (yogaIdx === 16 || yogaIdx === 26); // Vyatipata or Vaidhriti
+    const isUttarayanam = (ayanam === 'Uttarayanam');
+
+    const results = [];
+
+    function makeItem(nameTe, nameEn, icon, status, noteTe, noteEn) {
+        return {
+            name: isTe ? nameTe : nameEn,
+            icon,
+            status, // 'good', 'neutral', 'bad'
+            badge: isTe ? (status === 'good' ? '✅ అనుకూలం' : (status === 'neutral' ? '🟡 పరిమితం' : '⊘ వర్జ్యం')) 
+                        : (status === 'good' ? '✅ Favorable' : (status === 'neutral' ? '🟡 Moderate' : '⊘ Inauspicious')),
+            badgeClass: status === 'good' ? 'badge-good' : (status === 'neutral' ? 'badge-neutral' : 'badge-bad'),
+            note: isTe ? noteTe : noteEn
+        };
+    }
+
+    // 1. VIVAHAM (Marriage)
+    {
+        const goodNaks = [3, 4, 9, 11, 12, 13, 14, 16, 18, 20, 25, 26];
+        const goodVaras = [1, 3, 4, 5];
+        const goodTithis = [1, 2, 4, 6, 9, 10, 12, 16, 17, 19, 21, 24, 26];
+
+        if (isMajorMaudhyam) {
+            results.push(makeItem('వివాహం (పెళ్లి)', 'Vivaham (Marriage)', '💍', 'bad', 'గురు/శుక్ర మౌఢ్యము వలన వివాహాది కార్యాలు నిషిద్ధం.', 'Prohibited due to Guru/Shukra Maudhyam (Combustion).'));
+        } else if (isAdhika || isKshaya) {
+            results.push(makeItem('వివాహం (పెళ్లి)', 'Vivaham (Marriage)', '💍', 'bad', 'అధిక/క్షయ మాసము వలన వివాహాలు వర్జ్యం.', 'Prohibited during Adhika/Kshaya Masam.'));
+        } else if (isRikta || isAmavasya) {
+            results.push(makeItem('వివాహం (పెళ్లి)', 'Vivaham (Marriage)', '💍', 'bad', 'రిక్త తిథి లేదా అమావాస్య వలన అనుకూలం కాదు.', 'Inauspicious due to Rikta Tithi or Amavasya.'));
+        } else if (dow === 2 || dow === 6) {
+            results.push(makeItem('వివాహం (పెళ్లి)', 'Vivaham (Marriage)', '💍', 'bad', 'మంగళ/శనివారం వివాహాలకు శాస్త్ర సమ్మతం కాదు.', 'Tuesday/Saturday avoided for wedding ceremonies.'));
+        } else if (isVishti || isMahapata) {
+            results.push(makeItem('వివాహం (పెళ్లి)', 'Vivaham (Marriage)', '💍', 'bad', 'విష్టి (భద్ర) కరణం లేదా మహాపాత యోగం వలన వర్జ్యం.', 'Inauspicious due to Vishti (Bhadra) Karana or Mahapata Yoga.'));
+        } else if (goodNaks.includes(nakIdx) && goodVaras.includes(dow) && goodTithis.includes(tithiIdx)) {
+            results.push(makeItem('వివాహం (పెళ్లి)', 'Vivaham (Marriage)', '💍', 'good', 'శాస్త్రీయ అనుకూల దినం (లగ్న శుద్ధి & దంపతుల తారాబలం చూడాలి).', 'Favorable Shastric Day (Verify Lagna & Couple Tara Balam with Pandit).'));
+        } else {
+            results.push(makeItem('వివాహం (పెళ్లి)', 'Vivaham (Marriage)', '💍', 'neutral', 'సాధారణ దినం — విశేష ముహూర్త బలం లేదు.', 'Ordinary Day — Lacks full primary Vivaha yogas.'));
+        }
+    }
+
+    // 2. GRUHAPRAVESHAM (Housewarming)
+    {
+        const goodNaks = [3, 4, 7, 11, 12, 13, 16, 20, 21, 22, 23, 25, 26];
+        const goodVaras = [1, 3, 4, 5];
+        const goodTithis = [1, 2, 4, 6, 7, 9, 10, 12, 16, 17, 19, 21, 24];
+
+        if (isMajorMaudhyam) {
+            results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'bad', 'మౌఢ్యము వలన నూతన గృహప్రవేశం నిషిద్ధం.', 'Prohibited due to Guru/Shukra Maudhyam.'));
+        } else if (isAdhika || isKshaya) {
+            results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'bad', 'అధిక/క్షయ మాసములో గృహప్రవేశం వర్జ్యం.', 'Prohibited during Adhika/Kshaya Masam.'));
+        } else if (isRikta || isAmavasya) {
+            results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'bad', 'రిక్త తిథి లేదా అమావాస్య వలన అనుకూలం కాదు.', 'Inauspicious due to Rikta Tithi or Amavasya.'));
+        } else if (dow === 2 || dow === 0) {
+            results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'bad', 'మంగళ/ఆదివారాలు నూతన గృహప్రవేశానికి వర్జ్యం.', 'Tuesday/Sunday avoided for new housewarming.'));
+        } else if (goodNaks.includes(nakIdx) && goodVaras.includes(dow) && goodTithis.includes(tithiIdx)) {
+            results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'good', 'శాస్త్రీయ అనుకూల దినం (స్థిర లగ్నం నిర్ణయించుకోవాలి).', 'Favorable Day (Select Sthira Lagna with Pandit).'));
+        } else {
+            results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'neutral', 'సాధారణ దినం — వాస్తు హోమం, లగ్న సమయం కోసం సిద్ధాంతిని సంప్రదించండి.', 'Moderate — Consult Siddhanti for specific Lagna and Vastu Homa.'));
+        }
+    }
+
+    // 3. UPANAYANAM (Sacred Thread)
+    {
+        const goodNaks = [0, 3, 4, 6, 7, 12, 13, 14, 16, 21, 22, 23, 26];
+        const goodVaras = [0, 1, 3, 4, 5];
+        const goodTithis = [1, 2, 4, 6, 9, 10, 12];
+
+        if (!isUttarayanam) {
+            results.push(makeItem('ఉపనయనం (వడుగు)', 'Upanayanam (Sacred Thread)', '🎓', 'bad', 'దక్షిణాయనము వలన నిషిద్ధం (ఉత్తరాయణంలో మాత్రమే చేయాలి).', 'Prohibited in Dakshinayana (Strictly permitted only in Uttarayanam).'));
+        } else if (isMajorMaudhyam) {
+            results.push(makeItem('ఉపనయనం (వడుగు)', 'Upanayanam (Sacred Thread)', '🎓', 'bad', 'గురు/శుక్ర మౌఢ్యము వలన ఉపనయనం వర్జ్యం.', 'Prohibited during Guru/Shukra Maudhyam.'));
+        } else if (isAdhika || isKshaya) {
+            results.push(makeItem('ఉపనయనం (వడుగు)', 'Upanayanam (Sacred Thread)', '🎓', 'bad', 'అధిక/క్షయ మాసములో ఉపనయనం నిషిద్ధం.', 'Prohibited in Adhika/Kshaya Masam.'));
+        } else if (isRikta || isAmavasya) {
+            results.push(makeItem('ఉపనయనం (వడుగు)', 'Upanayanam (Sacred Thread)', '🎓', 'bad', 'రిక్త తిథి వలన నిషిద్ధం.', 'Inauspicious due to Rikta Tithi.'));
+        } else if (goodNaks.includes(nakIdx) && goodVaras.includes(dow) && goodTithis.includes(tithiIdx)) {
+            results.push(makeItem('ఉపనయనం (వడుగు)', 'Upanayanam (Sacred Thread)', '🎓', 'good', 'ఉత్తరాయణ శుభ దినం (గురు బలం, లగ్న శుద్ధి చూడాలి).', 'Favorable Uttarayana Day (Check Guru Balam & Lagna with Pandit).'));
+        } else {
+            results.push(makeItem('ఉపనయనం (వడుగు)', 'Upanayanam (Sacred Thread)', '🎓', 'neutral', 'మధ్యమ దినం — పండితుల సలహా తీసుకోండి.', 'Moderate — Consult family priest.'));
+        }
+    }
+
+    // 4. VAHANA KHARIDU (Vehicle Purchase)
+    {
+        const goodNaks = [0, 3, 6, 7, 12, 13, 14, 21, 22, 23, 26];
+        const goodVaras = [0, 1, 3, 4, 5];
+        if (isRikta || isAmavasya || dow === 2) {
+            results.push(makeItem('వాహన కొనుగోలు', 'Vehicle Purchase', '🚗', 'bad', 'రిక్త తిథి లేదా మంగళవారం వలన అనుకూలం కాదు.', 'Inauspicious due to Rikta Tithi or Tuesday.'));
+        } else if (goodNaks.includes(nakIdx) && goodVaras.includes(dow)) {
+            results.push(makeItem('వాహన కొనుగోలు', 'Vehicle Purchase', '🚗', 'good', 'శుభప్రదం (రాహుకాలం, వర్జ్యం విడచి శుభ చోఘడియాలో తీసుకోవాలి).', 'Auspicious (Avoid Rahu Kalam & Varjyam; choose Shubha Choghadiya).'));
+        } else {
+            results.push(makeItem('వాహన కొనుగోలు', 'Vehicle Purchase', '🚗', 'neutral', 'సాధారణ దినం — లాభ, శుభ చోఘడియా వేళలలో చేయవచ్చు.', 'Acceptable during favorable Choghadiya (Labh / Shubh).'));
+        }
+    }
+
+    // 5. VYAPARARAMBHAM (New Business)
+    {
+        const goodNaks = [0, 3, 7, 11, 12, 13, 16, 21, 26];
+        const goodVaras = [1, 3, 4, 5];
+        const goodTithis = [1, 2, 4, 6, 9, 10, 11, 12];
+        if (isRikta || isAmavasya || isMajorMaudhyam) {
+            results.push(makeItem('నూతన వ్యాపారారంభం', 'New Business / Venture', '💼', 'bad', 'మౌఢ్యము లేదా రిక్త తిథి వలన ప్రారంభించరాదు.', 'Avoid starting new business on Rikta / Maudhyam days.'));
+        } else if (goodNaks.includes(nakIdx) && goodVaras.includes(dow) && goodTithis.includes(tithiIdx)) {
+            results.push(makeItem('నూతన వ్యాపారారంభం', 'New Business / Venture', '💼', 'good', 'నూతన ఒప్పందాలు, దుకాణ ప్రారంభానికి అనుకూలం.', 'Favorable for launching new business, shop, or agreements.'));
+        } else {
+            results.push(makeItem('నూతన వ్యాపారారంభం', 'New Business / Venture', '💼', 'neutral', 'సాధారణ దినం — అమృత, లాభ చోఘడియా వేళలు చూడాలి.', 'Moderate — Check auspicious Choghadiya (Amrit / Labh).'));
+        }
+    }
+
+    // 6. AKSHARABHYASAM / VIDYARAMBHAM
+    {
+        const goodNaks = [0, 3, 6, 7, 11, 12, 13, 14, 16, 21, 26];
+        const goodVaras = [0, 1, 3, 4, 5];
+        const goodTithis = [1, 2, 4, 6, 9, 10];
+        if (isRikta || isAmavasya || dow === 2) {
+            results.push(makeItem('అక్షరాభ్యాసం / విద్యారంభం', 'Aksharabhyasam / Education', '✍️', 'bad', 'రిక్త తిథి లేదా మంగళవారం వలన వర్జ్యం.', 'Inauspicious on Rikta Tithi or Tuesday.'));
+        } else if (goodNaks.includes(nakIdx) && goodVaras.includes(dow) && goodTithis.includes(tithiIdx)) {
+            results.push(makeItem('అక్షరాభ్యాసం / విద్యారంభం', 'Aksharabhyasam / Education', '✍️', 'good', 'విద్యా ప్రారంభానికి ప్రశస్తమైన దినం.', 'Highly auspicious for beginning education / writing.'));
+        } else {
+            results.push(makeItem('అక్షరాభ్యాసం / విద్యారంభం', 'Aksharabhyasam / Education', '✍️', 'neutral', 'సాధారణ దినం — గురు లేదా శుక్ర హోరలో ఆచరించవచ్చు.', 'Moderate — Perform during Guru or Shukra Hora.'));
+        }
+    }
+
+    return results;
 }

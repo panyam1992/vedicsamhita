@@ -469,3 +469,89 @@
     background: #fff9c4 !important;
     font-weight: 600;
 }
+
+/* ─── Daily Muhurtha Card ─── */
+.daily-muhurta-card {
+    background: rgba(255, 253, 245, 0.95);
+    border: 1.5px solid var(--border-gold);
+    border-radius: 10px;
+    padding: 16px 18px;
+    margin: 14px auto 20px;
+    max-width: 740px;
+    box-shadow: 0 4px 16px rgba(139, 69, 19, 0.08);
+}
+.muhurta-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 12px;
+    margin-bottom: 12px;
+}
+.muhurta-item {
+    background: #fff;
+    border: 1px solid #e2d7be;
+    border-radius: 8px;
+    padding: 10px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.muhurta-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+}
+.muhurta-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+.muhurta-item-title {
+    font-family: 'Cinzel', 'Mandali', serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: var(--dark-maroon);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.muhurta-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 12px;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+}
+.badge-good {
+    background: #e8f5e9;
+    color: #1b5e20;
+    border: 1px solid #a5d6a7;
+}
+.badge-neutral {
+    background: #fff8e1;
+    color: #b8860b;
+    border: 1px solid #ffe082;
+}
+.badge-bad {
+    background: #ffebee;
+    color: #c62828;
+    border: 1px solid #ffcdd2;
+}
+.muhurta-item-note {
+    font-size: 0.82rem;
+    color: #555;
+    line-height: 1.4;
+    font-family: 'EB Garamond', 'Mandali', Georgia, serif;
+}
+.muhurta-disclaimer {
+    background: #fff8e7;
+    border-left: 4px solid #b8860b;
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-size: 0.82rem;
+    color: #4a0e0e;
+    line-height: 1.5;
+    margin-top: 10px;
+    font-family: 'EB Garamond', 'Mandali', Georgia, serif;
+}
