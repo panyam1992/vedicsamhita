@@ -467,6 +467,8 @@
     // ═══════════════════════════════════════════════════════════════════════
     const RULES_STORAGE_KEY = 'VS_ADMIN_RULES_NOTES';
 
+    const CLOUD_VAULT_URL = 'https://raw.githubusercontent.com/panyam1992/vedicsamhita/main/ADMIN_RULES_VAULT.json';
+
     const INITIAL_SEED_RULES = [
         {
             id: 'rule-seed-1',
@@ -475,7 +477,8 @@
             title: 'Masa Anaghashtami & Margashira Pradhana Anaghashtami',
             body: 'Every Krishna Paksha Ashtami is Masa Anaghashtami Vratam for Lord Dattatreya Swamy and Sri Anagha Devi (Anagha Lakshmi). Margashira Krishna Ashtami is the Pradhana Anaghashtami of the year.',
             reference: 'Brahmanda Purana (Dattatreya Samhita)',
-            status: 'applied'
+            status: 'applied',
+            implementation: 'panchangam-v18.js: lines 2636-2648'
         },
         {
             id: 'rule-seed-2',
@@ -484,7 +487,8 @@
             title: 'Kanchi Jagadguru Aradhana (50th Acharya)',
             body: 'Kanchi Kamakoti Peetham 50th Acharya Pujyasri Chandrachudendra Saraswati I Aradhana on Shravana Krishna Ashtami.',
             reference: 'Kanchi Matha Guru Parampara Charitra',
-            status: 'applied'
+            status: 'applied',
+            implementation: 'panchangam-v18.js: line 2389'
         },
         {
             id: 'rule-seed-3',
@@ -493,7 +497,8 @@
             title: 'Emperor Sri Krishnadevaraya Rajyabhishekam',
             body: 'Historical coronation of Sri Krishnadevaraya took place on Sri Krishna Janmashtami (Shravana Krishna Ashtami) in 1509 CE.',
             reference: 'Vijayanagara Epigraphica & Temple Records',
-            status: 'applied'
+            status: 'applied',
+            implementation: 'panchangam-v18.js: line 2390'
         },
         {
             id: 'rule-seed-4',
@@ -502,9 +507,88 @@
             title: 'Budha Maudhyam (Mercury Combustion) Surya Siddhanta 14° Limit',
             body: 'Surya Siddhanta VII.13-14 strictly sets 14° for direct Mercury and 12° for retrograde Mercury. Atichara motion uses 12° threshold in reference panchangams.',
             reference: 'Surya Siddhanta VII.13-14 & Muhurta Chintamani',
-            status: 'applied'
+            status: 'applied',
+            implementation: 'panchangam-v18.js: strict 14° limit'
+        },
+        {
+            id: 'rule-1788571083964',
+            timestamp: '2026-09-05T01:18:03.964Z',
+            category: 'siddhanta',
+            title: 'క్షయమాసంలో ఉన్న రెండుమాసాలలో మెదటిమాసమే లుప్తమగును (అంహస్పతి)',
+            body: 'ద్విసంక్రాంతియుక్తస్య క్షయమాసస్య ప్రథమమాసః లుప్తో భవతి | సూర్యుడు ధనుస్సులో ఉండగా అమావాస్య పూర్తికాక మకరంలో పూర్తయినందున మార్గశిరం లుప్తమై పుష్యమాసం వచ్చింది. ఒకే చాంద్రమాసంలో రెండు సంక్రాంతులు వస్తే మొదటి మాసమే లుప్తమగును. దీనికి అంహస్పతి అని పేరు. శుద్ధమాసవత్ స్వాతంత్ర్యం కలదు.',
+            reference: 'కాలమాధవీయం (డా.శంకరమంచి రామకృష్ణ శాస్త్రి)',
+            status: 'applied',
+            implementation: 'panchangam-v18.js: lines 1409-1425 & SIDDHANTA_FESTIVAL_RULES_GUIDE.md Section 7.1'
+        },
+        {
+            id: 'rule-1788571004234',
+            timestamp: '2026-09-05T01:16:44.235Z',
+            category: 'siddhanta',
+            title: 'తిథి సమయాలు ప్రత్యక్షంగా దృగ్గోచరం కావు (12° కోణాంతర గణితం)',
+            body: 'తిథి ఆకాశంలో కనిపించే గీత కాదు. సూర్య-చంద్రుల స్ఫుట దీర్ఘాంశ భేదం ప్రతి 12° మారినప్పుడు తిథి పూర్తవుతుంది. టర్మినేటర్ వేగం ~15.4 km/h అయినప్పటికీ కంటితో చూసి తిథి ముగింపును నిర్ణయించడం అసాధ్యం. సూర్య సిద్ధాంత, దృగ్గణిత సూక్ష్మ గణితం చేతనే నిర్ణయించాలి.',
+            reference: 'సూర్య సిద్ధాంత సంప్రదాయం',
+            status: 'applied',
+            implementation: 'SIDDHANTA_FESTIVAL_RULES_GUIDE.md Section 7.2'
+        },
+        {
+            id: 'rule-1788570879692',
+            timestamp: '2026-09-05T01:14:39.693Z',
+            category: 'siddhanta',
+            title: 'గ్రిగోరియన్ ఆధారిత పౌర క్యాలెండర్ vs వైదిక నిరయణ సిద్ధాంతం',
+            body: 'గ్రిగోరియన్ క్యాలెండర్ లౌకిక అవసరాలకు సాయన విషువత్ కాలం స్థిరంగా ఉంచేందుకు ఏర్పడింది (లీప్ డే). వైదిక ధర్మాచరణకు సనాతన సూర్యసిద్ధాంత శుద్ధ నిరయణ గణితమే ప్రమాణం. క్షయ-అధిక మాసాలు వైదిక నిరయణ చాంద్రమానంలోనే సంభవిస్తాయి.',
+            reference: 'సూర్య సిద్ధాంత సంప్రదాయం & ధర్మశాస్త్రం',
+            status: 'applied',
+            implementation: 'SIDDHANTA_FESTIVAL_RULES_GUIDE.md Section 7.3'
         }
     ];
+
+
+    function syncWithCloudVault(callback) {
+        const cloudIndicator = document.getElementById('vs-cloud-sync-status');
+        if (cloudIndicator) {
+            cloudIndicator.innerHTML = '🔄 Syncing cloud...';
+            cloudIndicator.style.color = '#b8860b';
+        }
+
+        fetch(CLOUD_VAULT_URL + '?t=' + Date.now())
+            .then(res => {
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                return res.json();
+            })
+            .then(cloudRules => {
+                if (Array.isArray(cloudRules) && cloudRules.length > 0) {
+                    let localRules = getStoredRules();
+                    const localPending = localRules.filter(r => r.status === 'pending');
+                    
+                    // Map cloud rules by id
+                    const ruleMap = new Map();
+                    cloudRules.forEach(r => ruleMap.set(r.id, r));
+                    
+                    // Merge local pending rules so unsynced notes are never lost
+                    localPending.forEach(r => ruleMap.set(r.id, r));
+
+                    const merged = Array.from(ruleMap.values());
+                    merged.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    
+                    saveStoredRules(merged);
+                    renderRulesList();
+
+                    if (cloudIndicator) {
+                        cloudIndicator.innerHTML = '🟢 Cloud Vault Synced';
+                        cloudIndicator.style.color = '#1B5E20';
+                    }
+                }
+                if (callback) callback();
+            })
+            .catch(err => {
+                console.warn('Cloud sync error (offline fallback used):', err);
+                if (cloudIndicator) {
+                    cloudIndicator.innerHTML = '🟡 Local Mode (Saved on device)';
+                    cloudIndicator.style.color = '#888';
+                }
+                if (callback) callback();
+            });
+    }
 
     function getStoredRules() {
         try {
@@ -540,6 +624,7 @@
         if (modal) {
             renderRulesList();
             modal.style.display = 'flex';
+            syncWithCloudVault();
         }
     }
 
@@ -623,11 +708,19 @@
 
                 <!-- Existing Rules Header & Quick Actions -->
                 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:8px;">
-                    <h4 style="margin:0; font-family:'Cinzel',serif; color:#4a0e0e; font-size:14px;">
-                        📚 Logged Rules & Brain Notes (<span id="vs-rules-count">0</span>)
-                    </h4>
-                    <div style="display:flex; gap:6px;">
-                        <button id="vs-rules-copy-ai-btn" style="background:#1B5E20; color:#fff; border:none; border-radius:4px; padding:5px 10px; font-size:11px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="Copy all pending notes formatted for AI assistant chat">
+                    <div>
+                        <h4 style="margin:0; font-family:'Cinzel',serif; color:#4a0e0e; font-size:14px;">
+                            📚 Logged Rules & Brain Notes (<span id="vs-rules-count">0</span>)
+                        </h4>
+                        <div id="vs-cloud-sync-status" style="font-size:10.5px; color:#1B5E20; font-weight:bold; margin-top:2px;">
+                            🟢 Cloud Vault Synced
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:6px; align-items:center;">
+                        <button id="vs-rules-refresh-btn" style="background:#4a0e0e; color:#ffd700; border:1px solid #d4a853; border-radius:4px; padding:4px 8px; font-size:10.5px; font-weight:bold; cursor:pointer;" title="Refresh rules from GitHub Cloud Vault">
+                            🔄 Cloud Sync
+                        </button>
+                        <button id="vs-rules-copy-ai-btn" style="background:#1B5E20; color:#fff; border:none; border-radius:4px; padding:5px 10px; font-size:11px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="Copy all notes formatted for AI assistant chat">
                             📋 Copy for AI
                         </button>
                         <button id="vs-rules-export-btn" style="background:#555; color:#fff; border:none; border-radius:4px; padding:5px 9px; font-size:11px; cursor:pointer;" title="Download JSON file">
@@ -658,6 +751,8 @@
         document.getElementById('vs-rule-reset-btn').onclick = resetRuleForm;
         document.getElementById('vs-rules-copy-ai-btn').onclick = copyRulesForAIChat;
         document.getElementById('vs-rules-export-btn').onclick = exportRulesAsJson;
+        const refreshBtn = document.getElementById('vs-rules-refresh-btn');
+        if (refreshBtn) refreshBtn.onclick = () => syncWithCloudVault(() => showSecurityToast('☁️ Synced with Cloud Vault!'));
     }
 
     function toggleSpeechRecognition() {
@@ -763,6 +858,17 @@
         document.getElementById('vs-rule-ref').value = '';
     }
 
+
+    function sendRuleToGitHubIssue(id) {
+        const list = getStoredRules();
+        const r = list.find(x => x.id === id);
+        if (!r) return;
+        const title = encodeURIComponent(`[${r.category.toUpperCase()}] ${r.title}`);
+        const body = encodeURIComponent(`### 📝 Super Admin Rule Submission\n\n**Title**: ${r.title}\n**Category**: ${r.category}\n**Classical Reference**: ${r.reference || 'None'}\n**Date**: ${r.timestamp}\n\n### Rule Details:\n${r.body}\n\n---\n*Submitted via Vedic Samhita Mobile App*`);
+        const url = `https://github.com/panyam1992/vedicsamhita/issues/new?title=${title}&body=${body}`;
+        window.open(url, '_blank');
+    }
+
     function renderRulesList() {
         const listEl = document.getElementById('vs-rules-list');
         const countEl = document.getElementById('vs-rules-count');
@@ -791,23 +897,36 @@
             const dt = new Date(r.timestamp);
             const dateStr = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
+            const gitHubBtn = (!isApplied) ? `
+                <button onclick="window.VedicSecurity.sendToGitHub('${r.id}')" style="background:#24292e; color:#fff; border:none; border-radius:12px; padding:2px 8px; font-size:10px; cursor:pointer; display:inline-flex; align-items:center; gap:3px; margin-top:4px;" title="1-Tap Send to GitHub Issue">
+                    <span>🚀 1-Tap Send to GitHub</span>
+                </button>` : '';
+            const implNote = (isApplied && r.implementation) ? `
+                <div style="font-size:10.5px; color:#1b5e20; background:#e8f5e9; border-radius:4px; padding:2px 6px; margin-top:4px; display:inline-block;">
+                    💻 <strong>Live in Code:</strong> ${escapeHtml(r.implementation)}
+                </div>` : '';
+
             return `
-                <div style="background:#fff; border:1px solid ${isApplied ? '#c3e6cb' : '#ffeeba'}; border-left:4px solid ${statusColor}; border-radius:6px; padding:10px; font-size:12.5px; position:relative;">
+                <div style="background:#fff; border:1px solid ${isApplied ? '#c3e6cb' : '#ffeeba'}; border-left:5px solid ${statusColor}; border-radius:6px; padding:10px; font-size:12.5px; position:relative; box-shadow:0 1px 4px rgba(0,0,0,0.05);">
                     <div style="display:flex; justify-content:space-between; align-items:flex-start; gap:8px;">
-                        <div>
+                        <div style="flex:1;">
                             <strong style="color:#4a0e0e; font-size:13.5px;">${icon} ${escapeHtml(r.title)}</strong>
                             <div style="font-size:11px; color:#777; margin:2px 0;">${dateStr} | <em>${escapeHtml(r.reference || 'Custom')}</em></div>
+                            ${implNote}
                         </div>
-                        <div style="display:flex; align-items:center; gap:6px;">
-                            <button onclick="window.VedicSecurity.toggleRuleStatus('${r.id}')" style="background:${statusColor}; color:#fff; border:none; border-radius:12px; padding:2px 8px; font-size:10.5px; cursor:pointer; font-weight:bold;" title="Click to toggle status">
-                                ${statusLabel}
-                            </button>
-                            <button onclick="window.VedicSecurity.deleteRule('${r.id}')" style="background:none; border:none; color:#c00; font-size:14px; cursor:pointer; padding:0 3px;" title="Delete rule">
-                                🗑️
-                            </button>
+                        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+                            <div style="display:flex; align-items:center; gap:5px;">
+                                <button onclick="window.VedicSecurity.toggleRuleStatus('${r.id}')" style="background:${statusColor}; color:#fff; border:none; border-radius:12px; padding:3px 9px; font-size:10.5px; cursor:pointer; font-weight:bold;" title="Click to toggle status">
+                                    ${statusLabel}
+                                </button>
+                                <button onclick="window.VedicSecurity.deleteRule('${r.id}')" style="background:none; border:none; color:#c00; font-size:14px; cursor:pointer; padding:0 3px;" title="Delete rule">
+                                    🗑️
+                                </button>
+                            </div>
+                            ${gitHubBtn}
                         </div>
                     </div>
-                    <div style="margin-top:6px; color:#2d1810; line-height:1.4; white-space:pre-wrap;">${escapeHtml(r.body)}</div>
+                    <div style="margin-top:6px; color:#2d1810; line-height:1.4; white-space:pre-wrap; border-top:1px dashed #eee; padding-top:6px;">${escapeHtml(r.body)}</div>
                 </div>
             `;
         }).join('');

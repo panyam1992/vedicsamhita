@@ -1,0 +1,72 @@
+[
+  {
+    "id": "rule-seed-1",
+    "timestamp": "2026-09-04T18:45:00.000Z",
+    "category": "festival",
+    "title": "Masa Anaghashtami & Margashira Pradhana Anaghashtami",
+    "body": "Every Krishna Paksha Ashtami is Masa Anaghashtami Vratam for Lord Dattatreya Swamy and Sri Anagha Devi (Anagha Lakshmi). Margashira Krishna Ashtami is the Pradhana Anaghashtami of the year.",
+    "reference": "Brahmanda Purana (Dattatreya Samhita)",
+    "status": "applied",
+    "implementation": "panchangam-v18.js: lines 2636-2648 & panchangam_node.js: lines 1966-1978"
+  },
+  {
+    "id": "rule-seed-2",
+    "timestamp": "2026-09-04T18:55:00.000Z",
+    "category": "festival",
+    "title": "Kanchi Jagadguru Aradhana (50th Acharya)",
+    "body": "Kanchi Kamakoti Peetham 50th Acharya Pujyasri Chandrachudendra Saraswati I Aradhana on Shravana Krishna Ashtami.",
+    "reference": "Kanchi Matha Guru Parampara Charitra",
+    "status": "applied",
+    "implementation": "panchangam-v18.js: lines 214, 317, 2389"
+  },
+  {
+    "id": "rule-seed-3",
+    "timestamp": "2026-09-04T18:55:00.000Z",
+    "category": "festival",
+    "title": "Emperor Sri Krishnadevaraya Rajyabhishekam",
+    "body": "Historical coronation of Sri Krishnadevaraya took place on Sri Krishna Janmashtami (Shravana Krishna Ashtami) in 1509 CE.",
+    "reference": "Vijayanagara Epigraphica & Temple Records",
+    "status": "applied",
+    "implementation": "panchangam-v18.js: lines 215, 318, 2390"
+  },
+  {
+    "id": "rule-seed-4",
+    "timestamp": "2026-09-04T19:00:00.000Z",
+    "category": "graha",
+    "title": "Budha Maudhyam (Mercury Combustion) Surya Siddhanta 14° Limit",
+    "body": "Surya Siddhanta VII.13-14 strictly sets 14° for direct Mercury and 12° for retrograde Mercury. Atichara motion uses 12° threshold in reference panchangams.",
+    "reference": "Surya Siddhanta VII.13-14 & Muhurta Chintamani",
+    "status": "applied",
+    "implementation": "panchangam-v18.js: strict 14° threshold & SIDDHANTA_FESTIVAL_RULES_GUIDE.md"
+  },
+  {
+    "id": "rule-1788571083964",
+    "timestamp": "2026-09-05T01:18:03.964Z",
+    "category": "siddhanta",
+    "title": "క్షయమాసంలో ఉన్న రెండుమాసాలలో మెదటిమాసమే లుప్తమగును (అంహస్పతి)",
+    "body": "ద్విసంక్రాంతియుక్తస్య క్షయమాసస్య ప్రథమమాసః లుప్తో భవతి | సూర్యుడు ధనుస్సులో ఉండగా అమావాస్య పూర్తికాక మకరంలో పూర్తయినందున మార్గశిరం లుప్తమై పుష్యమాసం వచ్చింది. ఒకే చాంద్రమాసంలో రెండు సంక్రాంతులు వస్తే మొదటి మాసమే లుప్తమగును. దీనికి అంహస్పతి అని పేరు. శుద్ధమాసవత్ స్వాతంత్ర్యం కలదు.",
+    "reference": "కాలమాధవీయం (డా.శంకరమంచి రామకృష్ణ శాస్త్రి)",
+    "status": "applied",
+    "implementation": "panchangam-v18.js: lines 1409-1425 (Yugalibhuta Margashirsha-Pushyayo Amhaspati Mase) & SIDDHANTA_FESTIVAL_RULES_GUIDE.md Section 7.1"
+  },
+  {
+    "id": "rule-1788571004234",
+    "timestamp": "2026-09-05T01:16:44.235Z",
+    "category": "siddhanta",
+    "title": "తిథి సమయాలు ప్రత్యక్షంగా దృగ్గోచరం కావు (12° కోణాంతర గణితం)",
+    "body": "తిథి ఆకాశంలో కనిపించే గీత కాదు. సూర్య-చంద్రుల స్ఫుట దీర్ఘాంశ భేదం ప్రతి 12° మారినప్పుడు తిథి పూర్తవుతుంది. టర్మినేటర్ వేగం ~15.4 km/h అయినప్పటికీ కంటితో చూసి తిథి ముగింపును నిర్ణయించడం అసాధ్యం. సూర్య సిద్ధాంత, దృగ్గణిత సూక్ష్మ గణితం చేతనే నిర్ణయించాలి.",
+    "reference": "సూర్య సిద్ధాంత సంప్రదాయం",
+    "status": "applied",
+    "implementation": "SIDDHANTA_FESTIVAL_RULES_GUIDE.md Section 7.2"
+  },
+  {
+    "id": "rule-1788570879692",
+    "timestamp": "2026-09-05T01:14:39.693Z",
+    "category": "siddhanta",
+    "title": "గ్రిగోరియన్ ఆధారిత పౌర క్యాలెండర్ vs వైదిక నిరయణ సిద్ధాంతం",
+    "body": "గ్రిగోరియన్ క్యాలెండర్ లౌకిక అవసరాలకు సాయన విషువత్ కాలం స్థిరంగా ఉంచేందుకు ఏర్పడింది (లీప్ డే). వైదిక ధర్మాచరణకు సనాతన సూర్యసిద్ధాంత శుద్ధ నిరయణ గణితమే ప్రమాణం. క్షయ-అధిక మాసాలు వైదిక నిరయణ చాంద్రమానంలోనే సంభవిస్తాయి.",
+    "reference": "సూర్య సిద్ధాంత సంప్రదాయం & ధర్మశాస్త్రం",
+    "status": "applied",
+    "implementation": "SIDDHANTA_FESTIVAL_RULES_GUIDE.md Section 7.3"
+  }
+]
