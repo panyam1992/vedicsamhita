@@ -3150,7 +3150,9 @@ function _calculatePanchangamInner() {
         const primaryKaranaIdx = (karanas && karanas[0]) ? karanas[0].idx : getKaranaIdx(srJD);
 
         const mResults = evaluateDailyMuhurtas(srJD, tz, dow, primaryTithiIdx, primaryNakIdx, primaryYogaIdx, primaryKaranaIdx, sunNir, masam, isAdhika, isKshaya, ayanam, isTe);
-        dailyMuhurtaEl.innerHTML = mResults.map(item => `
+        const allInauspicious = mResults.every(item => item.status === 'bad');
+
+        const itemsHtml = mResults.map(item => `
             <div class="muhurta-item">
                 <div class="muhurta-item-header">
                     <span class="muhurta-item-title">${item.icon} ${item.name}</span>
@@ -3159,6 +3161,58 @@ function _calculatePanchangamInner() {
                 <div class="muhurta-item-note">${item.note}</div>
             </div>
         `).join('');
+
+        if (allInauspicious) {
+            let endDateStr = '';
+            const riktaTithis = [3, 8, 13, 18, 23, 28];
+            const isRikta = riktaTithis.includes(primaryTithiIdx);
+            const isAmavasya = (primaryTithiIdx === 29);
+
+            if (tithis && tithis[0] && tithis[0].endJD) {
+                const endLocal = jdToLocal(tithis[0].endJD, tz);
+                endDateStr = fmtDateTime(endLocal);
+            }
+
+            let reasonStr = '';
+            if (isAdhika || isKshaya) {
+                reasonStr = isTe 
+                    ? `అధిక / క్షయ మాసము వలన ఈ కాలంలో ఎటువంటి వివాహ, గృహప్రవేశాది శుభ ముహూర్తములు లేవు. శుద్ధ మాసము వచ్చేవరకు ముహూర్తాలు వర్జ్యం.`
+                    : `No auspicious Vivaha, Gruhapravesha, or major Muhurthams during Adhika / Kshaya Masam until the Shuddha Masam begins.`;
+            } else if (isRikta || isAmavasya) {
+                const tName = (tithis && tithis[0]) ? tithis[0].name : 'రిక్త తిథి';
+                reasonStr = isTe 
+                    ? `రిక్త తిథి / అమావాస్య (${tName}) వలన ఈ రోజున ఎటువంటి శుభ ముహూర్తములు లేవు. ఈ తిథి ముగిసే సమయం (${endDateStr ? endDateStr : 'మరుసటి రోజు'}) వరకు శుభకార్యాలు వర్జ్యం.`
+                    : `No auspicious Muhurthams on this date due to Rikta Tithi / Amavasya (${tName}). Prohibited until this tithi ends (${endDateStr ? endDateStr : 'next day'}).`;
+            } else if (dow === 2 || dow === 6) {
+                reasonStr = isTe 
+                    ? `మంగళ/శనివారం మరియు తిథి-నక్షత్ర దోషాల వలన ఈ రోజున విశేష శుభ ముహూర్తములు లేవు. తదుపరి శుభ దినం వరకు నిరీక్షించండి.`
+                    : `No primary auspicious Muhurthams on this date due to weekday / planetary restrictions. Please check the next favorable date.`;
+            } else {
+                reasonStr = isTe 
+                    ? `ఈ రోజున నూతన కార్యాలకు తగిన పంచాంగ శుద్ధి లేనందున ఎటువంటి శుభ ముహూర్తములు లేవు.`
+                    : `No auspicious Muhurthams on this date due to unfavorable planetary combinations.`;
+            }
+
+            dailyMuhurtaEl.innerHTML = `
+                <div class="no-muhurta-card" style="width:100%; box-sizing:border-box;">
+                    <div class="no-muhurta-title">
+                        <span>🚫</span>
+                        <span>${isTe ? 'ఈ రోజున ఎటువంటి శుభ ముహూర్తములు లేవు' : 'No Auspicious Muhurthams on this Date'}</span>
+                    </div>
+                    <div class="no-muhurta-desc">${reasonStr}</div>
+                    <div style="margin-top:12px;">
+                        <button type="button" class="btn-toggle-muhurta-details" onclick="window.toggleMuhurtaGridDetails()">
+                            <span id="btnMuhurtaGridToggleText">${isTe ? '🔍 వివరాలు చూడండి (View Breakdown)' : '🔍 View Breakdown'}</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="muhurtaBreakdownGrid" class="muhurta-grid" style="display:none; margin-top:14px; width:100%;">
+                    ${itemsHtml}
+                </div>
+            `;
+        } else {
+            dailyMuhurtaEl.innerHTML = itemsHtml;
+        }
 
         setElHtml('valMuhurtaDisclaimer', isTe ? I18N_DICT.te.valMuhurtaDisclaimer : I18N_DICT.en.valMuhurtaDisclaimer);
         setElText('hdrDailyMuhurtas', isTe ? I18N_DICT.te.hdrDailyMuhurtas : I18N_DICT.en.hdrDailyMuhurtas);
@@ -4327,3 +4381,18 @@ function evaluateDailyMuhurtas(srJD, tz, dow, tithiIdx, nakIdx, yogaIdx, karanaI
 
     return results;
 }
+
+window.toggleMuhurtaGridDetails = function() {
+    const grid = document.getElementById('muhurtaBreakdownGrid');
+    const btnText = document.getElementById('btnMuhurtaGridToggleText');
+    if (!grid) return;
+    const isHidden = (grid.style.display === 'none' || grid.style.display === '');
+    grid.style.display = isHidden ? 'grid' : 'none';
+    if (btnText) {
+        const isTe = (typeof CURRENT_LANG !== 'undefined' && CURRENT_LANG === 'te');
+        btnText.textContent = isHidden 
+            ? (isTe ? '▲ వివరాలు దాచండి (Hide Breakdown)' : '▲ Hide Breakdown')
+            : (isTe ? '🔍 వివరాలు చూడండి (View Breakdown)' : '🔍 View Breakdown');
+    }
+};
+

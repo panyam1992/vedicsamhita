@@ -822,6 +822,8 @@
         }
     }
 
+    let editingRuleId = null;
+
     function handleAddRule() {
         const cat = document.getElementById('vs-rule-cat').value;
         const title = document.getElementById('vs-rule-title').value.trim();
@@ -833,29 +835,82 @@
             return;
         }
 
-        const newRule = {
-            id: 'rule-' + Date.now(),
-            timestamp: new Date().toISOString(),
-            category: cat,
-            title: title || 'Custom Siddhanta Rule',
-            body: body,
-            reference: ref || 'Siddhanta Tradition',
-            status: 'pending'
-        };
-
         const list = getStoredRules();
-        list.unshift(newRule);
-        saveStoredRules(list);
+
+        if (editingRuleId) {
+            const existingIdx = list.findIndex(r => r.id === editingRuleId);
+            if (existingIdx !== -1) {
+                list[existingIdx].category = cat;
+                list[existingIdx].title = title || 'Custom Siddhanta Rule';
+                list[existingIdx].body = body;
+                list[existingIdx].reference = ref || 'Siddhanta Tradition';
+                list[existingIdx].updatedAt = new Date().toISOString();
+                saveStoredRules(list);
+                showSecurityToast('✅ Rule updated successfully! (సవరణ పూర్తయింది)');
+            }
+            editingRuleId = null;
+        } else {
+            const newRule = {
+                id: 'rule-' + Date.now(),
+                timestamp: new Date().toISOString(),
+                category: cat,
+                title: title || 'Custom Siddhanta Rule',
+                body: body,
+                reference: ref || 'Siddhanta Tradition',
+                status: 'pending'
+            };
+            list.unshift(newRule);
+            saveStoredRules(list);
+            showSecurityToast('✅ Rule saved to AI Brain! Ready to sync.');
+        }
 
         resetRuleForm();
         renderRulesList();
-        showSecurityToast('✅ Rule saved to AI Brain! Ready to sync.');
+    }
+
+    function editRule(id) {
+        const list = getStoredRules();
+        const item = list.find(r => r.id === id);
+        if (!item) return;
+
+        editingRuleId = id;
+        const catEl = document.getElementById('vs-rule-cat');
+        const titleEl = document.getElementById('vs-rule-title');
+        const bodyEl = document.getElementById('vs-rule-body');
+        const refEl = document.getElementById('vs-rule-ref');
+        const submitBtn = document.getElementById('vs-rule-submit-btn');
+
+        if (catEl) catEl.value = item.category || 'general';
+        if (titleEl) titleEl.value = item.title || '';
+        if (bodyEl) bodyEl.value = item.body || '';
+        if (refEl) refEl.value = item.reference || '';
+
+        if (submitBtn) {
+            submitBtn.innerHTML = '💾 Update Rule (సవరించండి)';
+            submitBtn.style.background = '#1b5e20';
+        }
+
+        if (titleEl) {
+            titleEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            titleEl.focus();
+        }
+        showSecurityToast('✏️ Editing: ' + (item.title || 'Rule'));
     }
 
     function resetRuleForm() {
-        document.getElementById('vs-rule-title').value = '';
-        document.getElementById('vs-rule-body').value = '';
-        document.getElementById('vs-rule-ref').value = '';
+        editingRuleId = null;
+        const titleEl = document.getElementById('vs-rule-title');
+        const bodyEl = document.getElementById('vs-rule-body');
+        const refEl = document.getElementById('vs-rule-ref');
+        const submitBtn = document.getElementById('vs-rule-submit-btn');
+
+        if (titleEl) titleEl.value = '';
+        if (bodyEl) bodyEl.value = '';
+        if (refEl) refEl.value = '';
+        if (submitBtn) {
+            submitBtn.innerHTML = '💾 Save Rule to AI Brain (సేవ్ చేయండి)';
+            submitBtn.style.background = '#4a0e0e';
+        }
     }
 
 
@@ -916,6 +971,9 @@
                         </div>
                         <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
                             <div style="display:flex; align-items:center; gap:5px;">
+                                <button onclick="window.VedicSecurity.editRule('${r.id}')" style="background:#e3f2fd; border:1px solid #90caf9; color:#0d47a1; border-radius:12px; padding:2px 7px; font-size:10.5px; cursor:pointer; font-weight:bold; display:inline-flex; align-items:center; gap:2px;" title="Edit this rule">
+                                    ✏️ Edit
+                                </button>
                                 <button onclick="window.VedicSecurity.toggleRuleStatus('${r.id}')" style="background:${statusColor}; color:#fff; border:none; border-radius:12px; padding:3px 9px; font-size:10.5px; cursor:pointer; font-weight:bold;" title="Click to toggle status">
                                     ${statusLabel}
                                 </button>
@@ -1091,7 +1149,9 @@
         openAdminModal: openAdminLoginModal,
         openRulesModal: openRulesModal,
         toggleRuleStatus: toggleRuleStatus,
+        editRule: editRule,
         deleteRule: deleteRule,
+        sendToGitHub: sendRuleToGitHubIssue,
         applyRoleVisibility,
         generateDeepLink,
         decodeDeepLink,

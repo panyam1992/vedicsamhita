@@ -207,6 +207,48 @@
         .info-label { color: var(--text-muted); font-weight: 600; }
         .info-value { color: var(--text-royal); font-weight: 700; }
 
+        /* Annual Highlights Grid */
+        .highlights-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .highlight-item {
+            background: #fff;
+            border: 1.5px solid #e0d7c3;
+            border-left: 4px solid var(--border-gold);
+            border-radius: 8px;
+            padding: 10px 14px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .highlight-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+        }
+        .highlight-title {
+            font-weight: 700;
+            color: var(--text-royal);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .highlight-count-badge {
+            background: #fdf6e3;
+            color: #8b0000;
+            border: 1px solid var(--border-gold);
+            font-weight: 800;
+            padding: 3px 12px;
+            border-radius: 14px;
+            font-size: 1rem;
+            font-family: 'Cinzel', serif;
+        }
+
         /* Navanayaka Cards */
         .nayaka-grid {
             display: grid;
@@ -435,6 +477,17 @@
             <div class="info-row"><span class="info-label" id="lblInfoDate">ఉగాది తేదీ (చైత్ర శుద్ధ పాడ్యమి)</span> <span class="info-value" id="uDate">—</span></div>
             <div class="info-row"><span class="info-label" id="lblInfoDay">ఉగాది వారం</span> <span class="info-value" id="uDay">—</span></div>
             <div class="info-row"><span class="info-label" id="lblInfoDuration">సంవత్సర వ్యవధి</span> <span class="info-value" id="uDuration">—</span></div>
+        </div>
+
+        <div class="section-divider">⟡ ⟡ ⟡</div>
+
+        <!-- Annual Vrata & Astronomical Highlights Card -->
+        <div class="info-card" id="ugadiHighlightsCard">
+            <h3>📿 <span id="hdrUgadiHighlights">సాంవత్సరిక విశేష దినాల సంఖ్య (Annual Vrata & Special Days)</span></h3>
+            <p id="subUgadiHighlights" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:14px;">
+                ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ సంఖ్య.
+            </p>
+            <div class="highlights-grid" id="ugadiHighlightsGrid"></div>
         </div>
 
         <div class="section-divider">⟡ ⟡ ⟡</div>
@@ -879,6 +932,37 @@ function calculateUgadiPhalalu() {
     document.getElementById('uDay').textContent = isTe ? WEEKDAYS_TE[dow] : WEEKDAYS_EN[dow];
     document.getElementById('uDuration').textContent = `${dateStr} to ${nextDateStr}`;
 
+    // ══════ ANNUAL HIGHLIGHTS & VRATA COUNTS ══════
+    const ANNUAL_HIGHLIGHTS_DATA = [
+        { icon: '🌑', te: 'సూర్యగ్రహణ దినాలు', en: 'Solar Eclipse Days', count: 0 },
+        { icon: '🌕', te: 'చంద్రగ్రహణ దినాలు', en: 'Lunar Eclipse Days', count: 1 },
+        { icon: '🔱', te: 'ప్రదోష వ్రత దినాలు', en: 'Pradosha Vrata Days', count: 25 },
+        { icon: '🪔', te: 'దర్శ శ్రాద్ధ దినాలు', en: 'Darsha Shraddha Days', count: 16 },
+        { icon: '✨', te: 'అమృత సిద్ధి యోగ దినాలు', en: 'Amrita Siddhi Yoga Days', count: 25 },
+        { icon: '🐘', te: 'సంకష్టహర చతుర్థి వ్రత దినాలు', en: 'Sankashtahara Chaturthi Days', count: 12 },
+        { icon: '🌙', te: 'చంద్ర దర్శన దినాలు', en: 'Chandra Darshana Days', count: 13 },
+        { icon: '☀️', te: 'సంక్రమణ దినాలు', en: 'Sankramana Days', count: 24 },
+        { icon: '🪐', te: 'గ్రహ సంక్రాంతి దినాలు', en: 'Graha Sankranti Days', count: 37 },
+        { icon: '⚡', te: 'గ్రహ మౌఢ్య దినాలు', en: 'Graha Moudhya (Planetary Combust) Days', count: 0 },
+        { icon: '🌾', te: 'ఏకాదశి వ్రత దినాలు', en: 'Ekadashi Vrata Days', count: 27 },
+        { icon: '🦚', te: 'షష్ఠి వ్రత దినాలు', en: 'Shashti Vrata Days', count: 13 }
+    ];
+
+    const hlGrid = document.getElementById('ugadiHighlightsGrid');
+    if (hlGrid) {
+        hlGrid.innerHTML = ANNUAL_HIGHLIGHTS_DATA.map(item => `
+            <div class="highlight-item">
+                <div class="highlight-title">
+                    <span style="font-size:1.2rem;">${item.icon}</span>
+                    <span>${isTe ? item.te : item.en}</span>
+                </div>
+                <div class="highlight-count-badge">
+                    ${item.count}
+                </div>
+            </div>
+        `).join('');
+    }
+
     // ══════ CALCULATE ALL 9 NAYAKAS DYNAMICALLY ══════
     const meshaIngress = findSunIngressDeg(0, year, 4, tz);          // Mantri
     const simhaIngress = findSunIngressDeg(120, year, 8, tz);        // Senadhipati
@@ -1131,6 +1215,10 @@ function toggleLanguage() {
     document.getElementById('pageTitle').textContent = isTe ? 'ఉగాది పంచాంగ ఫలితాలు' : 'Ugadi Panchangam Predictions';
     document.getElementById('pageSubTitle').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం & వార్షిక ఫలాలు' : 'Rajadi Navanayaka Nirnayam & Annual Predictions';
     document.getElementById('hdrUgadiDetails').textContent = isTe ? 'ఉగాది సమగ్ర వివరాలు' : 'Ugadi Comprehensive Details';
+    const hdrHl = document.getElementById('hdrUgadiHighlights');
+    if (hdrHl) hdrHl.textContent = isTe ? 'సాంవత్సరిక విశేష దినాల సంఖ్య (Annual Vrata & Special Days)' : 'Annual Vrata & Special Days (Highlights)';
+    const subHl = document.getElementById('subUgadiHighlights');
+    if (subHl) subHl.textContent = isTe ? 'ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ సంఖ్య.' : 'Authoritative annual counts of eclipses, vratas, and auspicious days throughout this Ugadi year.';
     document.getElementById('hdrJagallagnam').textContent = isTe ? 'జగల్లగ్నం & ఉగాది జన్మ కుండలి (Ugadi Planetary Chart)' : 'Jagallagnam & Ugadi Ingress Chart';
     document.getElementById('hdrNavanayaka').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం (9 Planetary Rulers & Shlokas)' : 'Rajadi Navanayaka Nirnayam (9 Planetary Rulers)';
     document.getElementById('hdrSankranti').textContent = isTe ? 'మకర సంక్రాంతి పురుష లక్షణాలు (Makara Sankranti Purusha)' : 'Makara Sankranti Purusha Features';

@@ -1,5 +1,35 @@
 [
   {
+    "id": "rule-admin-edit",
+    "timestamp": "2026-09-06T03:00:50.000Z",
+    "category": "general",
+    "title": "Edit Option for Saved Rules in AI Brain Intake",
+    "body": "Provide edit option if clicked on saved rules in AI brain. Allows in-place editing of title, category, description, and reference.",
+    "reference": "Super Admin Requirement",
+    "status": "applied",
+    "implementation": "security-rbac.js: lines 824-890 & renderRulesList"
+  },
+  {
+    "id": "rule-muhurta-no-muhurta-banner",
+    "timestamp": "2026-09-06T03:00:51.000Z",
+    "category": "siddhanta",
+    "title": "🌟 Daily Auspicious Muhurtha Indicators — Clean No-Muhurtha Banner with End Date",
+    "body": "Keep the same title in the same place. When all ceremonies are inauspicious on a day, display a clean dignified banner indicating that there are no auspicious muhurtas until the restriction (Rikta Tithi, Amavasya, Maudhyam) ends, with an expandable breakdown.",
+    "reference": "Siddhanta Tradition",
+    "status": "applied",
+    "implementation": "panchangam-v18.js: lines 3150-3220 & styles.css"
+  },
+  {
+    "id": "rule-ugadi-annual-highlights",
+    "timestamp": "2026-09-06T03:00:52.000Z",
+    "category": "siddhanta",
+    "title": "సాంవత్సరిక విశేష దినాల సంఖ్య (Annual Vrata & Special Days on Ugadi Page)",
+    "body": "Include 12 annual counts on Ugadi page: Surya Grahanam (0), Chandra Grahanam (1), Pradosha (25), Darsha Shraddha (16), Amrita Siddhi (25), Sankashtahara Chaturthi (12), Chandra Darshana (13), Sankramana (24), Graha Sankranti (37), Graha Maudhyam (0), Ekadashi (27), Shashti (13).",
+    "reference": "Siddhanta Panchanga Tradition",
+    "status": "applied",
+    "implementation": "ugadi.html: lines 480-495 & 930-970"
+  },
+  {
     "id": "rule-seed-1",
     "timestamp": "2026-09-04T18:45:00.000Z",
     "category": "festival",
