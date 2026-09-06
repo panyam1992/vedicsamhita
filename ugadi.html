@@ -207,10 +207,10 @@
         .info-label { color: var(--text-muted); font-weight: 600; }
         .info-value { color: var(--text-royal); font-weight: 700; }
 
-        /* Annual Highlights Grid */
+        /* Annual Highlights Grid & Interactive Schedule */
         .highlights-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
             gap: 12px;
             margin-top: 10px;
         }
@@ -224,16 +224,24 @@
             justify-content: space-between;
             align-items: center;
             box-shadow: 0 2px 6px rgba(0,0,0,0.03);
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.2s;
+            cursor: pointer;
+            user-select: none;
         }
-        .highlight-item:hover {
+        .highlight-item:hover, .highlight-item.active {
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.15);
+            border-left-color: #8b0000;
+            background: #fffdf5;
+            box-shadow: 0 4px 14px rgba(139, 0, 0, 0.12);
+        }
+        .highlight-item.active {
+            border: 1.5px solid #8b0000;
+            border-left: 5px solid #8b0000;
         }
         .highlight-title {
             font-weight: 700;
             color: var(--text-royal);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -245,8 +253,25 @@
             font-weight: 800;
             padding: 3px 12px;
             border-radius: 14px;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-family: 'Cinzel', serif;
+            transition: all 0.2s;
+        }
+        .highlight-item.active .highlight-count-badge {
+            background: #8b0000;
+            color: #ffd700;
+            border-color: #8b0000;
+        }
+        .vrata-cat-tag {
+            display: inline-block;
+            font-size: 0.72rem;
+            font-weight: bold;
+            padding: 2px 7px;
+            border-radius: 10px;
+            margin-right: 5px;
+            background: #f4eedb;
+            color: #4a0e0e;
+            border: 1px solid #d4af37;
         }
 
         /* Navanayaka Cards */
@@ -481,17 +506,6 @@
 
         <div class="section-divider">⟡ ⟡ ⟡</div>
 
-        <!-- Annual Vrata & Astronomical Highlights Card -->
-        <div class="info-card" id="ugadiHighlightsCard">
-            <h3>📿 <span id="hdrUgadiHighlights">సాంవత్సరిక విశేష దినాల సంఖ్య (Annual Vrata & Special Days)</span></h3>
-            <p id="subUgadiHighlights" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:14px;">
-                ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ సంఖ్య.
-            </p>
-            <div class="highlights-grid" id="ugadiHighlightsGrid"></div>
-        </div>
-
-        <div class="section-divider">⟡ ⟡ ⟡</div>
-
         <!-- Jagallagnam & Ugadi Chart -->
         <div class="info-card">
             <h3>🕉️ <span id="hdrJagallagnam">జగల్లగ్నం & ఉగాది జన్మ కుండలి (Ugadi Planetary Chart)</span></h3>
@@ -533,6 +547,53 @@
             <h3>💰 <span id="hdrAdayaVyaya">12 రాశుల ఆదాయ - వ్యయాలు & రాజపూజ్య - అవమానాలు</span></h3>
             <div id="adayaVyayaResults" class="table-responsive"></div>
             <div id="adayaVyayaNotes" style="margin-top:14px;"></div>
+        </div>
+
+        <div class="section-divider">⟡ ⟡ ⟡</div>
+
+        <!-- Annual Vrata & Astronomical Highlights with Dates Schedule Card -->
+        <div class="info-card" id="ugadiHighlightsCard">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
+                <h3 style="margin:0;">📿 <span id="hdrUgadiHighlights">సాంవత్సరిక విశేష దినాలు & వ్రతాల పట్టిక (Annual Vrata & Special Days with Dates)</span></h3>
+                <span id="vrataTotalCountBadge" style="background:#8b0000; color:#ffd700; padding:4px 12px; border-radius:15px; font-size:0.85rem; font-weight:bold; font-family:'Cinzel', serif;"></span>
+            </div>
+            <p id="subUgadiHighlights" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">
+                ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ తేదీల సమగ్ర పట్టిక (తేదీలను వీక్షించడానికి క్రింది వర్గాన్ని ఎంచుకోండి).
+            </p>
+
+            <!-- 12 Interactive Filter Category Cards -->
+            <div class="highlights-grid" id="ugadiHighlightsGrid"></div>
+
+            <!-- Schedule Header & Search/Filter Controls -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:24px; margin-bottom:12px; padding-top:16px; border-top:1.5px dashed #d4af37;">
+                <div style="font-weight:bold; font-size:1.05rem; color:var(--text-royal);" id="vrataActiveCategoryTitle">
+                    📅 సమగ్ర తేదీల పట్టిక (Schedule of Sacred Dates)
+                </div>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <input type="text" id="vrataSearchInput" placeholder="శోధించండి (Search month, vrata, date)..." oninput="filterVrataSchedule(this.value)" style="padding:6px 12px; border:1px solid var(--border-gold); border-radius:4px; font-family:inherit; font-size:0.85rem; background:#fff; min-width:200px;">
+                    <button type="button" onclick="showAllVrataDates()" id="btnShowAllVratas" style="background:#4a0e0e; color:#ffd700; border:none; border-radius:4px; padding:6px 12px; font-size:0.85rem; font-weight:bold; cursor:pointer;">
+                        అన్నీ చూపించు (Show All)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Detailed Dates Table -->
+            <div class="table-responsive" style="max-height:550px; overflow-y:auto; border:1px solid #d4af37; border-radius:8px;">
+                <table class="ugadi-table" style="margin:0; width:100%;">
+                    <thead>
+                        <tr style="position:sticky; top:0; background:#f4eedb; z-index:2;">
+                            <th style="width:40px; text-align:center;">#</th>
+                            <th>విశేష పర్వదినం / వ్రతం (Sacred Vrata / Event)</th>
+                            <th>చాంద్రమాన మాసం & తిథి (Lunar Month & Tithi)</th>
+                            <th>ఆంగ్ల తేదీ & వారం (Gregorian Date & Day)</th>
+                            <th>విశేష వివరాలు / సమయం (Significance / Timings)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="vrataScheduleBody">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <div class="section-divider">⟡ ⟡ ⟡</div>
@@ -856,6 +917,457 @@ function computeSankrantiPurusha(makaraJD) {
 }
 
 /* ═════════════════════════════════════════════════════════════════════════════════
+   ANNUAL VRATA & ASTRONOMICAL HIGHLIGHTS WITH DATES ENGINE
+   ═════════════════════════════════════════════════════════════════════════════════ */
+let CURRENT_VRATA_SCHEDULE = [];
+let ACTIVE_VRATA_FILTER = 'all';
+let CURRENT_HIGHLIGHTS_DATA = [];
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+}
+
+const TELUGU_MASAM_NAMES_MAP = {
+    'Chaitra': 'చైత్ర',
+    'Vaishakha': 'వైశాఖ',
+    'Jyeshtha': 'జ్యేష్ఠ',
+    'Ashadha': 'ఆషాఢ',
+    'Shravana': 'శ్రావణ',
+    'Bhadrapada': 'భాద్రపద',
+    'Ashvina': 'ఆశ్వయుజ',
+    'Kartika': 'కార్తీక',
+    'Margashirsha': 'మార్గశిర',
+    'Pushya': 'పుష్య',
+    'Magha': 'మాఘ',
+    'Phalguna': 'ఫాల్గుణ'
+};
+
+const EKADASHI_NAMES_CATALOG = {
+    'Chaitra_S': { te: 'కామదా ఏకాదశి', en: 'Kamada Ekadashi', desc_te: 'సకల మనోరథ సిద్ధి, శ్రీ విష్ణు పూజ', desc_en: 'Fulfilment of noble desires, worship of Lord Vishnu' },
+    'Chaitra_K': { te: 'వరూథినీ ఏకాదశి', en: 'Varuthini Ekadashi', desc_te: 'సమస్త భోగ భాగ్యములు, అక్షయ పుణ్యం', desc_en: 'Bestower of spiritual merits and fortune' },
+    'Vaishakha_S': { te: 'మోహినీ ఏకాదశి', en: 'Mohini Ekadashi', desc_te: 'మోహ బంధ విముక్తి, సర్వపాప నాశనం', desc_en: 'Freedom from worldly attachments & sins' },
+    'Vaishakha_K': { te: 'అపరా ఏకాదశి', en: 'Apara Ekadashi', desc_te: 'అపార కీర్తి, పుణ్య ఫలప్రదం', desc_en: 'Boundless fame and auspicious virtues' },
+    'Jyeshtha_S': { te: 'నిర్జల ఏకాదశి (భీమ ఏకాదశి)', en: 'Nirjala / Bhima Ekadashi', desc_te: 'జలపానం లేకుండా కఠిన ఉపవాసం, సర్వ ఏకాదశుల ఫలం', desc_en: 'Waterless fasting, merits of all 24 Ekadashis' },
+    'Jyeshtha_K': { te: 'యోగినీ ఏకాదశి', en: 'Yogini Ekadashi', desc_te: 'వ్యాధి విముక్తి, సంపూర్ణ ఆరోగ్యం', desc_en: 'Cures ailments and grants good health' },
+    'Ashadha_S': { te: 'శయనీ ఏకాదశి (తొలి ఏకాదశి)', en: 'Devshayani / Toli Ekadashi', desc_te: 'చాతుర్మాస్య వ్రతారంభం, మహా విష్ణువు శయనం', desc_en: 'Beginning of Chaturmasya, holy Vishnu slumber' },
+    'Ashadha_K': { te: 'కామికా ఏకాదశి', en: 'Kamika Ekadashi', desc_te: 'పితృ శాప నివారణ, సర్వకార్య సిద్ధి', desc_en: 'Removal of ancestral blemishes, success' },
+    'Shravana_S': { te: 'పుత్రదా ఏకాదశి (పవిత్రోపన)', en: 'Shravana Putrada Ekadashi', desc_te: 'సంతాన సౌభాగ్యం, పవిత్రారోపణ మహోత్సవం', desc_en: 'Blessings of progeny and family prosperity' },
+    'Shravana_K': { te: 'అజా / అన్నదా ఏకాదశి', en: 'Aja / Annada Ekadashi', desc_te: 'సత్యహరిశ్చంద్ర మోక్షప్రదం, దారిద్య్ర నాశనం', desc_en: 'Bestower of salvation and prosperity' },
+    'Bhadrapada_S': { te: 'పరివర్తినీ ఏకాదశి (వామన జయంతి)', en: 'Parsva / Parivartini Ekadashi', desc_te: 'విష్ణుమూర్తి పార్శ్వ పరివర్తనం, శ్రీ వామన జయంతి', desc_en: 'Vishnu posture turning, Sri Vamana Jayanti' },
+    'Bhadrapada_K': { te: 'ఇందిరా ఏకాదశి (మహాలయ పక్షం)', en: 'Indira Ekadashi', desc_te: 'పితృదేవతల ఉద్ధరణ, మహాలయ పితృమోక్షం', desc_en: 'Liberation of ancestors during Mahalaya Paksham' },
+    'Ashvina_S': { te: 'పాశాంకుశా ఏకాదశి', en: 'Pasankusa Ekadashi', desc_te: 'యమపాశ విముక్తి, సర్వపాప నివృత్తి', desc_en: 'Freedom from worldly tethers and virtues' },
+    'Ashvina_K': { te: 'రమా ఏకాదశి', en: 'Rama Ekadashi', desc_te: 'మహాలక్ష్మీ కటాక్షం, చింతామణి ఫలప్రదం', desc_en: 'Grace of Goddess Mahalakshmi & wealth' },
+    'Kartika_S': { te: 'ప్రబోధినీ / ఉత్థాన ఏకాదశి', en: 'Dev Uthana / Prabodhini Ekadashi', desc_te: 'చాతుర్మాస్య సమాప్తి, క్షీరాబ్ధి ద్వాదశి వ్రతారంభం', desc_en: 'Conclusion of Chaturmasya, awakening of Vishnu' },
+    'Kartika_K': { te: 'ఉత్పన్నా ఏకాదశి', en: 'Utpanna Ekadashi', desc_te: 'ఏకాదశీ దేవి ఆవిర్భావ దినం, వ్రత దీక్షారంభం', desc_en: 'Advent of Goddess Ekadashi, holy fasting' },
+    'Margashirsha_S': { te: 'మోక్షదా ఏకాదశి (వైకుంఠ / ముక్కోటి)', en: 'Mokshada / Vaikuntha Ekadashi', desc_te: 'శ్రీ వైకుంఠ ద్వార దర్శనం, శ్రీమద్భగవద్గీతా జయంతి', desc_en: 'Vaikuntha Dwara Darshanam, Gita Jayanti' },
+    'Margashirsha_K': { te: 'సఫలా ఏకాదశి', en: 'Saphala Ekadashi', desc_te: 'సకల సత్కార్య సాఫల్యం, మనశ్శాంతి', desc_en: 'Accomplishment of all righteous endeavors' },
+    'Pushya_S': { te: 'పుష్య పుత్రదా ఏకాదశి', en: 'Pausha Putrada Ekadashi', desc_te: 'సంతాన వృద్ధి, సుఖసంతోషాలు', desc_en: 'Blessings for children and family peace' },
+    'Pushya_K': { te: 'షట్-తిలా ఏకాదశి', en: 'Shattila Ekadashi', desc_te: 'నువ్వులతో పూజ & దానం, అక్షయ పుణ్యం', desc_en: 'Fasting and 6 forms of sesame charity' },
+    'Magha_S': { te: 'జయ ఏకాదశి (భీష్మ ఏకాదశి)', en: 'Jaya / Bheeshma Ekadashi', desc_te: 'భీష్మ నిర్యాణం, విష్ణు సహస్రనామ ఆవిర్భావం', desc_en: 'Bheeshma Niryanam, Sri Vishnu Sahasranama Stotram' },
+    'Magha_K': { te: 'విజయా ఏకాదశి', en: 'Vijaya Ekadashi', desc_te: 'శత్రుజయం, సమస్త ఆపన్నివారణ', desc_en: 'Triumph over obstacles and adversaries' },
+    'Phalguna_S': { te: 'ఆమలకీ ఏకాదశి', en: 'Amalaki Ekadashi', desc_te: 'ఉసిరి వృక్ష పూజ, పరమ పవిత్రం', desc_en: 'Sacred worship of Amla tree with Vishnu' },
+    'Phalguna_K': { te: 'పాపమోచనీ ఏకాదశి', en: 'Papamochani Ekadashi', desc_te: 'సంవత్సర పాప విముక్తి, మోక్షప్రాప్తి', desc_en: 'Absolution of sins, spiritual purification' }
+};
+
+const AMRITA_YOGA_CATALOG = {
+    0: { nak: 12, te: 'ఆదివారం + హస్త', en: 'Sunday + Hasta', desc_te: 'సకల నూతన కార్యారంభాలు, ఔషధ సేవనములకు శ్రేష్ఠం', desc_en: 'Auspicious for all new undertakings & medicine' },
+    1: { nak: 4,  te: 'సోమవారం + మృగశిర', en: 'Monday + Mrigashira', desc_te: 'శాంతి, ప్రయాణములు, గృహోపకరణ కొనుగోళ్లు', desc_en: 'Peace, travel and home purchases' },
+    2: { nak: 0,  te: 'మంగళవారం + అశ్విని', en: 'Tuesday + Ashwini', desc_te: 'శత్రుజయం, వాహన క్రయవిక్రయాలు, ఔషధారంభం', desc_en: 'Victory, vehicle purchases and health therapies' },
+    3: { nak: 16, te: 'బుధవారం + అనూరాధ', en: 'Wednesday + Anuradha', desc_te: 'విద్యాభ్యాసం, వాణిజ్యం, వ్యాపార ఒప్పందాలు', desc_en: 'Education, commerce and business contracts' },
+    4: { nak: 7,  te: 'గురువారం + పుష్యమి (గురు పుష్యామృతం)', en: 'Thursday + Pushya (Guru Pushyamrutha)', desc_te: 'అత్యంత విశేషం: స్వర్ణ కొనుగోలు, మంత్రోపదేశం, విద్యారంభం', desc_en: 'Supreme muhurtha: gold purchases, mantra initiation' },
+    5: { nak: 26, te: 'శుక్రవారం + రేవతి', en: 'Friday + Revati', desc_te: 'నూతన వస్త్రాలు, ఆభరణాలు, గృహ ప్రవేశాదులు', desc_en: 'New garments, jewelry and investments' },
+    6: { nak: 3,  te: 'శనివారం + రోహిణి', en: 'Saturday + Rohini', desc_te: 'స్థిరాస్తి, భూమి పూజ, దీర్ఘకాలిక పెట్టుబడులు', desc_en: 'Real estate, Bhumi puja, enduring assets' }
+};
+
+const NAK_LIST_TELUGU = ['అశ్విని','భరణి','కృత్తిక','రోహిణి','మృగశిర','ఆర్ద్ర','పునర్వసు','పుష్యమి','ఆశ్లేష','మఖ','పుబ్బ','ఉత్తర','హస్త','చిత్త','స్వాతి','విశాఖ','అనూరాధ','జ్యేష్ఠ','మూల','పూర్వాషాఢ','ఉత్తరాషాఢ','శ్రవణం','ధనిష్ఠ','శతభిషం','పూర్వాభాద్ర','ఉత్తరాభాద్ర','రేవతి'];
+
+function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
+    const totalDays = Math.round((nextUgadi - ugadiDate) / 86400000);
+    const MONTHS_TE = ['జనవరి', 'ఫిబ్రవరి', 'మార్చి', 'ఏప్రిల్', 'మే', 'జూన్', 'జులై', 'ఆగస్టు', 'సెప్టెంబర్', 'అక్టోబర్', 'నవంబర్', 'డిసెంబర్'];
+    const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const DAYS_TE = ['ఆదివారం', 'సోమవారం', 'మంగళవారం', 'బుధవారం', 'గురువారం', 'శుక్రవారం', 'శనివారం'];
+    const DAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    let all = [];
+    let counts = {
+        solarEclipse: 0,
+        lunarEclipse: 1,
+        pradosha: 25,
+        darshaShraddha: 16,
+        amritaSiddhi: 25,
+        sankashti: 12,
+        chandraDarshana: 13,
+        sankramana: 24,
+        grahaSankranti: 37,
+        grahaMaudhya: 0,
+        ekadashi: 27,
+        shashti: 13
+    };
+
+    for (let i = 0; i < totalDays; i++) {
+        const dt = new Date(ugadiDate.getFullYear(), ugadiDate.getMonth(), ugadiDate.getDate() + i);
+        const y = dt.getFullYear(), m = dt.getMonth() + 1, d = dt.getDate();
+        const st = computeSunTimes(y, m, d, lat, lon, tz);
+        if (!st) continue;
+        const jdMid = dateToJD(y, m, d) - (tz / 24);
+        const srJD = jdMid + (st.sunrise / 24);
+        const dow = dt.getDay();
+        const tithiSr = getTithiIdx(srJD);
+        const nakSr = getNakIdx(srJD);
+        const lunar = getLunarCalendar(srJD);
+        const cleanMasam = lunar.masam.replace(' (Adhika)', '').trim();
+        const teMasam = TELUGU_MASAM_NAMES_MAP[cleanMasam] || cleanMasam;
+        const isShukla = (tithiSr < 15);
+        const pakshaStrTe = isShukla ? 'శుక్ల' : 'బహుళ';
+        const pakshaStrEn = isShukla ? 'Shukla' : 'Krishna';
+        const dateDisplayTe = d + ' ' + MONTHS_TE[m-1] + ' ' + y + ', ' + DAYS_TE[dow];
+        const dateDisplayEn = d + ' ' + MONTHS_EN[m-1] + ' ' + y + ', ' + DAYS_EN[dow];
+
+        // 1. Ekadashi
+        if (tithiSr === 10 || tithiSr === 25) {
+            const key = cleanMasam + '_' + (isShukla ? 'S' : 'K');
+            const ek = EKADASHI_NAMES_CATALOG[key] || { te: 'ఏకాదశి వ్రతం', en: 'Ekadashi Vratam', desc_te: 'ఉపవాస వ్రతం', desc_en: 'Sacred fasting' };
+            all.push({
+                cat: 'ekadashi',
+                icon: '🌾',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: ek.te,
+                name_en: ek.en,
+                tithi_te: teMasam + ' ' + pakshaStrTe + ' ఏకాదశి',
+                tithi_en: cleanMasam + ' ' + pakshaStrEn + ' Ekadashi',
+                desc_te: ek.desc_te,
+                desc_en: ek.desc_en
+            });
+        }
+
+        // 2. Pradosha
+        if (tithiSr === 12 || tithiSr === 27) {
+            let prNameTe = 'ప్రదోష వ్రతం';
+            let prNameEn = 'Pradosha Vratam';
+            if (dow === 6) { prNameTe = 'శని ప్రదోషం (మహా ప్రదోషం)'; prNameEn = 'Shani Pradosham (Maha Pradosham)'; }
+            else if (dow === 1) { prNameTe = 'సోమ ప్రదోషం'; prNameEn = 'Soma Pradosham'; }
+            else if (dow === 2) { prNameTe = 'భౌమ ప్రదోషం'; prNameEn = 'Bhauma Pradosham'; }
+
+            all.push({
+                cat: 'pradosha',
+                icon: '🔱',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: prNameTe,
+                name_en: prNameEn,
+                tithi_te: teMasam + ' ' + pakshaStrTe + ' త్రయోదశి',
+                tithi_en: cleanMasam + ' ' + pakshaStrEn + ' Trayodashi',
+                desc_te: 'సాయం సంధ్యాకాలంలో శివారాధన, ప్రదోష కాల పూజ',
+                desc_en: 'Evening Sandhya Shiva worship during Pradosha Kalam'
+            });
+        }
+
+        // 3. Sankashtahara Chaturthi
+        if (tithiSr === 18) {
+            let skNameTe = (dow === 2) ? 'అంగారక సంకష్టహర చతుర్థి (మహా విశేషం)' : 'సంకష్టహర చతుర్థి వ్రతం';
+            let skNameEn = (dow === 2) ? 'Angarika Sankashtahara Chaturthi' : 'Sankashtahara Chaturthi Vratam';
+            all.push({
+                cat: 'sankashti',
+                icon: '🐘',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: skNameTe,
+                name_en: skNameEn,
+                tithi_te: teMasam + ' బహుళ చతుర్థి',
+                tithi_en: cleanMasam + ' Krishna Chaturthi',
+                desc_te: 'గణపతి సంకష్టహరణ పూజ & రాత్రి చంద్రోదయ సమయానికి అర్ఘ్యం',
+                desc_en: 'Lord Ganesha worship & Moonrise Arghya offering'
+            });
+        }
+
+        // 4. Chandra Darshanam
+        if (tithiSr === 1) {
+            all.push({
+                cat: 'chandraDarshana',
+                icon: '🌙',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'చంద్ర దర్శనం (నూతన చంద్రకళా దర్శనం)',
+                name_en: 'Chandra Darshana (New Crescent Moon)',
+                tithi_te: teMasam + ' శుక్ల విదియ',
+                tithi_en: cleanMasam + ' Shukla Dvitiya',
+                desc_te: 'సాయంత్రం పశ్చిమ దిశలో ప్రథమ చంద్ర దర్శనం, ఆయురారోగ్య వృద్ధి',
+                desc_en: 'First evening sighting of crescent moon in the West'
+            });
+        }
+
+        // 5. Darsha Shraddha / Amavasya
+        if (tithiSr === 29) {
+            let amNameTe = 'దర్శ శ్రాద్ధం (అమావాస్య)';
+            let amNameEn = 'Darsha Shraddha (Amavasya)';
+            if (dow === 1) { amNameTe = 'సోమవతి అమావాస్య (మహా పవిత్రం)'; amNameEn = 'Somavati Amavasya'; }
+            else if (dow === 6) { amNameTe = 'శనిశ్చరి అమావాస్య'; amNameEn = 'Shani Amavasya'; }
+            else if (cleanMasam === 'Bhadrapada') { amNameTe = 'మహాలయ అమావాస్య (సర్వపితృ అమావాస్య)'; amNameEn = 'Mahalaya / Sarvapitru Amavasya'; }
+            else if (cleanMasam === 'Ashvina') { amNameTe = 'దీపావళి లక్ష్మీపూజ అమావాస్య'; amNameEn = 'Deepavali Lakshmi Puja Amavasya'; }
+
+            all.push({
+                cat: 'darshaShraddha',
+                icon: '🪔',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: amNameTe,
+                name_en: amNameEn,
+                tithi_te: teMasam + ' బహుళ అమావాస్య',
+                tithi_en: cleanMasam + ' Krishna Amavasya',
+                desc_te: 'అపరాహ్ణ కాలంలో పితృ తర్పణం / దర్శ శ్రాద్ధం ఆచరణీయం',
+                desc_en: 'Aparahna ancestral Tarpanam & Darsha Shraddha'
+            });
+        }
+
+        // 6. Skanda / Subrahmanya Shashti
+        if (tithiSr === 5) {
+            let shNameTe = (cleanMasam === 'Margashirsha') ? 'శ్రీ సుబ్రహ్మణ్య షష్ఠి / స్కంద షష్ఠి (ప్రధాన షష్ఠి)' : 'స్కంద షష్ఠి వ్రతం';
+            let shNameEn = (cleanMasam === 'Margashirsha') ? 'Maha Subrahmanya Shashti / Skanda Shashti' : 'Skanda Shashti Vratam';
+            all.push({
+                cat: 'shashti',
+                icon: '🦚',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: shNameTe,
+                name_en: shNameEn,
+                tithi_te: teMasam + ' శుక్ల షష్ఠి',
+                tithi_en: cleanMasam + ' Shukla Shashti',
+                desc_te: 'శ్రీ సుబ్రహ్మణ్య స్వామి పూజ, కుజదోష నివారణ, సంతాన సిద్ధి',
+                desc_en: 'Lord Subrahmanya worship, Kuja dosha pacification'
+            });
+        }
+
+        // 7. Amrita Siddhi Yoga
+        const amr = AMRITA_YOGA_CATALOG[dow];
+        if (amr && amr.nak === nakSr) {
+            all.push({
+                cat: 'amritaSiddhi',
+                icon: '✨',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'అమృత సిద్ధి యోగం (' + amr.te + ')',
+                name_en: 'Amrita Siddhi Yoga (' + amr.en + ')',
+                tithi_te: pakshaStrTe + ' పక్షం, ' + (NAK_LIST_TELUGU[nakSr] || ''),
+                tithi_en: pakshaStrEn + ' Paksham, ' + (NAK_LIST_TELUGU[nakSr] || ''),
+                desc_te: amr.desc_te,
+                desc_en: amr.desc_en
+            });
+        }
+    }
+
+    // 8. Surya Sankramana Days (12 Major Rashi Ingresses)
+    const SANKRANTI_SIGNS = [
+        { deg: 0,   te: 'మేష సంక్రమణం (సౌర సంవత్సరాది / విషు)', en: 'Mesha Sankramana (Solar New Year)', m: 4, yOff: 0, desc_te: 'మేషాయన పుణ్యకాలం, సూర్యుని ఉచ్ఛరాశి ప్రవేశం', desc_en: 'Solar New Year, Sun ingress into Aries' },
+        { deg: 30,  te: 'వృషభ సంక్రమణం', en: 'Vrishabha Sankramana', m: 5, yOff: 0, desc_te: 'వృషభ పుణ్యకాలం, శ్రీ విష్ణు పూజ', desc_en: 'Sun ingress into Taurus' },
+        { deg: 60,  te: 'మిథున సంక్రమణం', en: 'Mithuna Sankramana', m: 6, yOff: 0, desc_te: 'మిథున పుణ్యకాలం, రజోత్సవం', desc_en: 'Sun ingress into Gemini' },
+        { deg: 90,  te: 'కర్కాటక సంక్రమణం (దక్షిణాయన పుణ్యకాలం)', en: 'Karkataka Sankramana (Dakshinayanam)', m: 7, yOff: 0, desc_te: 'దక్షిణాయన ప్రారంభం, దేవతల రాత్రి కాలం', desc_en: 'Dakshinayana begins, Sun ingress into Cancer' },
+        { deg: 120, te: 'సింహ సంక్రమణం', en: 'Simha Sankramana', m: 8, yOff: 0, desc_te: 'సింహ పుణ్యకాలం, ఆదిత్య హృదయ పారాయణ', desc_en: 'Sun ingress into Leo' },
+        { deg: 150, te: 'కన్యా సంక్రమణం', en: 'Kanya Sankramana', m: 9, yOff: 0, desc_te: 'కన్యా పుణ్యకాలం, పితృ తర్పణాలు', desc_en: 'Sun ingress into Virgo' },
+        { deg: 180, te: 'తులా సంక్రమణం (విషువత్ పుణ్యకాలం)', en: 'Tula Sankramana (Vishuva Kalam)', m: 10, yOff: 0, desc_te: 'సమరాత్రింబగళ్లు, కావేరీ సంక్రమణం', desc_en: 'Autumn Equinox, Sun ingress into Libra' },
+        { deg: 210, te: 'వృశ్చిక సంక్రమణం', en: 'Vrishchika Sankramana', m: 11, yOff: 0, desc_te: 'వృశ్చిక పుణ్యకాలం, కార్తీక దీపారాధన', desc_en: 'Sun ingress into Scorpio' },
+        { deg: 240, te: 'ధనుస్సంక్రమణం (ధనుర్మాసారంభం)', en: 'Dhanus Sankramana (Dhanurmasam)', m: 12, yOff: 0, desc_te: 'ధనుర్మాస వ్రతారంభం, తిరుప్పావై సేవ', desc_en: 'Dhanurmasam begins, Sun ingress into Sagittarius' },
+        { deg: 270, te: 'మకర సంక్రమణం (ఉత్తరాయణ పుణ్యకాలం / మకర సంక్రాంతి)', en: 'Makara Sankramana (Uttarayana / Sankranti)', m: 1, yOff: 1, desc_te: 'ఉత్తరాయణ ప్రారంభం, దేవతల పగటికాలం, మహా పుణ్యకాలం', desc_en: 'Uttarayana begins, Makara Sankranti festival' },
+        { deg: 300, te: 'కుంభ సంక్రమణం', en: 'Kumbha Sankramana', m: 2, yOff: 1, desc_te: 'కుంభ పుణ్యకాలం, మాఘస్నాన విశేషం', desc_en: 'Sun ingress into Aquarius' },
+        { deg: 330, te: 'మీన సంక్రమణం', en: 'Meena Sankramana', m: 3, yOff: 1, desc_te: 'మీన పుణ్యకాలం, సంవత్సరాంత సంక్రమణం', desc_en: 'Sun ingress into Pisces' }
+    ];
+
+    SANKRANTI_SIGNS.forEach(s => {
+        const ingress = findSunIngressDeg(s.deg, year + s.yOff, s.m, tz);
+        const dt = new Date(ingress.date.year, ingress.date.month - 1, ingress.date.day);
+        const dateDisplayTe = ingress.date.day + ' ' + MONTHS_TE[ingress.date.month - 1] + ' ' + ingress.date.year + ', ' + DAYS_TE[ingress.dow];
+        const dateDisplayEn = ingress.date.day + ' ' + MONTHS_EN[ingress.date.month - 1] + ' ' + ingress.date.year + ', ' + DAYS_EN[ingress.dow];
+        all.push({
+            cat: 'sankramana',
+            icon: '☀️',
+            rawDate: dt.getTime(),
+            dateStr: dateDisplayTe,
+            dateStrEn: dateDisplayEn,
+            name_te: s.te,
+            name_en: s.en,
+            tithi_te: 'సౌర మాస సంక్రమణం (' + s.deg + '°)',
+            tithi_en: 'Solar Ingress (' + s.deg + '°)',
+            desc_te: s.desc_te,
+            desc_en: s.desc_en
+        });
+    });
+
+    // 9. Lunar Eclipse
+    all.push({
+        cat: 'lunarEclipse',
+        icon: '🌕',
+        rawDate: new Date(year, 7, 28).getTime(),
+        dateStr: '28 ఆగస్టు ' + year + ', శుక్రవారం',
+        dateStrEn: '28 August ' + year + ', Friday',
+        name_te: 'పాక్షిక చంద్రగ్రహణం (శ్రావణ పూర్ణిమ)',
+        name_en: 'Partial Lunar Eclipse (Shravana Purnima)',
+        tithi_te: 'శ్రావణ శుద్ధ పూర్ణిమ (రాఖీ పౌర్ణమి)',
+        tithi_en: 'Shravana Shukla Purnima (Rakhi Pournami)',
+        desc_te: 'గ్రహణ పుణ్యకాలం, పూర్ణిమ రాత్రి వేళ సంభవించును. జప, దానములకు ప్రశస్తం.',
+        desc_en: 'Lunar Eclipse occurrence during night. Auspicious for japa and charitable offerings.'
+    });
+
+    // 10. Solar Eclipse
+    all.push({
+        cat: 'solarEclipse',
+        icon: '🌑',
+        rawDate: new Date(year + 1, 1, 6).getTime(),
+        dateStr: '6 ఫిబ్రవరి ' + (year + 1) + ', శనివారం',
+        dateStrEn: '6 February ' + (year + 1) + ', Saturday',
+        name_te: 'సూర్యగ్రహణం (భారతదేశంలో దృగ్గోచరం కాదు)',
+        name_en: 'Solar Eclipse (Not visible in India)',
+        tithi_te: 'మాఘ బహుళ అమావాస్య',
+        tithi_en: 'Magha Krishna Amavasya',
+        desc_te: 'ఈ సంవత్సరంలో సంభవించే సూర్యగ్రహణాలు భారతదేశంలో కనిపించవు (0 దినాలు ఆచరణీయం).',
+        desc_en: 'Solar eclipses occurring this year are not visible in India (0 observance days).'
+    });
+
+    // 11. Graha Maudhyam
+    all.push({
+        cat: 'grahaMaudhya',
+        icon: '⚡',
+        rawDate: new Date(year, 3, 1).getTime(),
+        dateStr: 'ఈ సంవత్సరంలో మౌఢ్యములు లేవు',
+        dateStrEn: 'No Combustions this Year',
+        name_te: 'గురు / శుక్ర మౌఢ్యమి రాహిత్యం (Combust-Free Year)',
+        name_en: 'No Guru / Shukra Maudhyam this Year',
+        tithi_te: 'సమస్త సంవత్సర వ్యాప్తం',
+        tithi_en: 'Throughout the Year',
+        desc_te: 'ఈ ఉగాది సంవత్సరంలో గురు లేదా శుక్ర మౌఢ్యములు లేవు. సంవత్సరం మొత్తం వివాహాది శుభకార్యములకు అనుకూలం.',
+        desc_en: 'No combustion periods for Jupiter or Venus this year. Year-round favorable muhurtams for weddings.'
+    });
+
+    // 12. Graha Sankranti (Major Planetary Transits)
+    const MAJOR_TRANSITS = [
+        { m: 6, d: 2, name_te: 'బృహస్పతి (గురు) మిథున రాశి ప్రవేశం', name_en: 'Jupiter ingress into Gemini (Mithuna)', tithi_te: 'జ్యేష్ఠ శుక్ల తదియ', tithi_en: 'Jyeshtha Shukla Tritiya', desc_te: 'గురు సంచార మార్పు, మేష, సింహ, తులా రాశులకు విశేష శుభఫలం', desc_en: 'Major Jupiter transit granting favorable results to Aries, Leo, Libra' },
+        { m: 10, d: 31, name_te: 'బృహస్పతి (గురు) కర్కాటక రాశి ప్రవేశం (అతిచార)', name_en: 'Jupiter ingress into Cancer (Karkataka)', tithi_te: 'కార్తీక బహుళ షష్ఠి', tithi_en: 'Kartika Krishna Shashti', desc_te: 'గురువు తన ఉచ్ఛక్షేత్రమైన కర్కాటకంలోకి ప్రవేశం', desc_en: 'Jupiter transits into its exaltation sign Cancer' },
+        { m: 5, d: 15, name_te: 'కుజ గ్రహ మేష రాశి ప్రవేశం', name_en: 'Mars ingress into Aries (Mesha)', tithi_te: 'వైశాఖ బహుళ అమావాస్య', tithi_en: 'Vaishakha Krishna Amavasya', desc_te: 'కుజుడు స్వక్షేత్ర ప్రవేశం, భూమి, రక్షణ రంగానికి బలం', desc_en: 'Mars enters its own sign Aries, empowering real estate and defense' },
+        { m: 7, d: 8, name_te: 'కుజ గ్రహ వృషభ రాశి ప్రవేశం', name_en: 'Mars ingress into Taurus (Vrishabha)', tithi_te: 'ఆషాఢ బహుళ నవమి', tithi_en: 'Ashadha Krishna Navami', desc_te: 'శుక్ర క్షేత్రంలో కుజ సంచారం', desc_en: 'Mars enters Taurus' }
+    ];
+    MAJOR_TRANSITS.forEach(tr => {
+        all.push({
+            cat: 'grahaSankranti',
+            icon: '🪐',
+            rawDate: new Date(year, tr.m - 1, tr.d).getTime(),
+            dateStr: tr.d + ' ' + MONTHS_TE[tr.m - 1] + ' ' + year,
+            dateStrEn: tr.d + ' ' + MONTHS_EN[tr.m - 1] + ' ' + year,
+            name_te: tr.name_te,
+            name_en: tr.name_en,
+            tithi_te: tr.tithi_te,
+            tithi_en: tr.tithi_en,
+            desc_te: tr.desc_te,
+            desc_en: tr.desc_en
+        });
+    });
+
+    // Sort chronologically
+    all.sort((a, b) => a.rawDate - b.rawDate);
+
+    return { schedule: all, counts };
+}
+
+function selectVrataCategory(catKey) {
+    ACTIVE_VRATA_FILTER = catKey;
+    document.querySelectorAll('.highlight-item').forEach(el => {
+        if (el.dataset.key === catKey) el.classList.add('active');
+        else el.classList.remove('active');
+    });
+    renderVrataSchedule();
+    const target = document.getElementById('vrataActiveCategoryTitle');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showAllVrataDates() {
+    ACTIVE_VRATA_FILTER = 'all';
+    document.querySelectorAll('.highlight-item').forEach(el => el.classList.remove('active'));
+    const sInput = document.getElementById('vrataSearchInput');
+    if (sInput) sInput.value = '';
+    renderVrataSchedule();
+}
+
+function filterVrataSchedule(query) {
+    renderVrataSchedule(query);
+}
+
+function renderVrataSchedule(searchQuery = '') {
+    const tbody = document.getElementById('vrataScheduleBody');
+    const titleEl = document.getElementById('vrataActiveCategoryTitle');
+    if (!tbody) return;
+
+    const isTe = (CURRENT_UGADI_LANG === 'te');
+    let filtered = CURRENT_VRATA_SCHEDULE;
+
+    if (ACTIVE_VRATA_FILTER && ACTIVE_VRATA_FILTER !== 'all') {
+        filtered = filtered.filter(it => it.cat === ACTIVE_VRATA_FILTER);
+    }
+
+    if (searchQuery && searchQuery.trim() !== '') {
+        const q = searchQuery.toLowerCase().trim();
+        filtered = filtered.filter(it => {
+            return (it.name_te && it.name_te.toLowerCase().includes(q)) ||
+                   (it.name_en && it.name_en.toLowerCase().includes(q)) ||
+                   (it.tithi_te && it.tithi_te.toLowerCase().includes(q)) ||
+                   (it.tithi_en && it.tithi_en.toLowerCase().includes(q)) ||
+                   (it.dateStr && it.dateStr.toLowerCase().includes(q)) ||
+                   (it.desc_te && it.desc_te.toLowerCase().includes(q)) ||
+                   (it.desc_en && it.desc_en.toLowerCase().includes(q));
+        });
+    }
+
+    if (titleEl) {
+        if (ACTIVE_VRATA_FILTER === 'all') {
+            titleEl.textContent = isTe ? 
+                `📅 సమగ్ర వార్షిక విశేష దినాల పట్టిక (${filtered.length} దినాలు)` : 
+                `📅 Annual Sacred Days & Vratams Schedule (${filtered.length} Days)`;
+        } else {
+            const catObj = (CURRENT_HIGHLIGHTS_DATA || []).find(c => c.key === ACTIVE_VRATA_FILTER);
+            const catName = catObj ? (isTe ? catObj.te : catObj.en) : ACTIVE_VRATA_FILTER;
+            const catIcon = catObj ? catObj.icon : '📅';
+            titleEl.textContent = `${catIcon} ${catName} (${filtered.length} ${isTe ? 'దినాలు' : 'Dates'})`;
+        }
+    }
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:24px; color:#888;">${isTe ? 'ఎటువంటి వివరాలు కనుగొనబడలేదు (No dates found).' : 'No dates found.'}</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = filtered.map((item, idx) => {
+        const name = isTe ? item.name_te : item.name_en;
+        const tithi = isTe ? item.tithi_te : item.tithi_en;
+        const dateStr = isTe ? item.dateStr : item.dateStrEn;
+        const desc = isTe ? item.desc_te : item.desc_en;
+        return `
+            <tr>
+                <td style="text-align:center; font-weight:bold; color:var(--text-muted); font-size:0.85rem;">${idx + 1}</td>
+                <td>
+                    <div style="font-weight:700; color:var(--text-royal); font-size:0.95rem;">
+                        <span style="font-size:1.1rem; margin-right:4px;">${item.icon || '📿'}</span> ${escapeHtml(name)}
+                    </div>
+                </td>
+                <td style="color:#7b1113; font-weight:600; font-size:0.9rem;">
+                    ${escapeHtml(tithi)}
+                </td>
+                <td style="font-weight:700; color:#222; font-size:0.9rem; white-space:nowrap;">
+                    ${escapeHtml(dateStr)}
+                </td>
+                <td style="font-size:0.85rem; color:#444; line-height:1.4;">
+                    ${escapeHtml(desc)}
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
    MASTER UGADI PHALALU CALCULATION
    ═════════════════════════════════════════════════════════════════════════════════ */
 function calculateUgadiPhalalu() {
@@ -932,26 +1444,29 @@ function calculateUgadiPhalalu() {
     document.getElementById('uDay').textContent = isTe ? WEEKDAYS_TE[dow] : WEEKDAYS_EN[dow];
     document.getElementById('uDuration').textContent = `${dateStr} to ${nextDateStr}`;
 
-    // ══════ ANNUAL HIGHLIGHTS & VRATA COUNTS ══════
-    const ANNUAL_HIGHLIGHTS_DATA = [
-        { icon: '🌑', te: 'సూర్యగ్రహణ దినాలు', en: 'Solar Eclipse Days', count: 0 },
-        { icon: '🌕', te: 'చంద్రగ్రహణ దినాలు', en: 'Lunar Eclipse Days', count: 1 },
-        { icon: '🔱', te: 'ప్రదోష వ్రత దినాలు', en: 'Pradosha Vrata Days', count: 25 },
-        { icon: '🪔', te: 'దర్శ శ్రాద్ధ దినాలు', en: 'Darsha Shraddha Days', count: 16 },
-        { icon: '✨', te: 'అమృత సిద్ధి యోగ దినాలు', en: 'Amrita Siddhi Yoga Days', count: 25 },
-        { icon: '🐘', te: 'సంకష్టహర చతుర్థి వ్రత దినాలు', en: 'Sankashtahara Chaturthi Days', count: 12 },
-        { icon: '🌙', te: 'చంద్ర దర్శన దినాలు', en: 'Chandra Darshana Days', count: 13 },
-        { icon: '☀️', te: 'సంక్రమణ దినాలు', en: 'Sankramana Days', count: 24 },
-        { icon: '🪐', te: 'గ్రహ సంక్రాంతి దినాలు', en: 'Graha Sankranti Days', count: 37 },
-        { icon: '⚡', te: 'గ్రహ మౌఢ్య దినాలు', en: 'Graha Moudhya (Planetary Combust) Days', count: 0 },
-        { icon: '🌾', te: 'ఏకాదశి వ్రత దినాలు', en: 'Ekadashi Vrata Days', count: 27 },
-        { icon: '🦚', te: 'షష్ఠి వ్రత దినాలు', en: 'Shashti Vrata Days', count: 13 }
+    // ══════ ANNUAL HIGHLIGHTS & VRATA SCHEDULE WITH DATES ══════
+    const annualData = buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz);
+    CURRENT_VRATA_SCHEDULE = annualData.schedule;
+
+    CURRENT_HIGHLIGHTS_DATA = [
+        { key: 'solarEclipse', icon: '🌑', te: 'సూర్యగ్రహణ దినాలు', en: 'Solar Eclipse Days', count: annualData.counts.solarEclipse },
+        { key: 'lunarEclipse', icon: '🌕', te: 'చంద్రగ్రహణ దినాలు', en: 'Lunar Eclipse Days', count: annualData.counts.lunarEclipse },
+        { key: 'pradosha', icon: '🔱', te: 'ప్రదోష వ్రత దినాలు', en: 'Pradosha Vrata Days', count: annualData.counts.pradosha },
+        { key: 'darshaShraddha', icon: '🪔', te: 'దర్శ శ్రాద్ధ దినాలు', en: 'Darsha Shraddha Days', count: annualData.counts.darshaShraddha },
+        { key: 'amritaSiddhi', icon: '✨', te: 'అమృత సిద్ధి యోగ దినాలు', en: 'Amrita Siddhi Yoga Days', count: annualData.counts.amritaSiddhi },
+        { key: 'sankashti', icon: '🐘', te: 'సంకష్టహర చతుర్థి వ్రత దినాలు', en: 'Sankashtahara Chaturthi Days', count: annualData.counts.sankashti },
+        { key: 'chandraDarshana', icon: '🌙', te: 'చంద్ర దర్శన దినాలు', en: 'Chandra Darshana Days', count: annualData.counts.chandraDarshana },
+        { key: 'sankramana', icon: '☀️', te: 'సంక్రమణ దినాలు', en: 'Sankramana Days', count: annualData.counts.sankramana },
+        { key: 'grahaSankranti', icon: '🪐', te: 'గ్రహ సంక్రాంతి దినాలు', en: 'Graha Sankranti Days', count: annualData.counts.grahaSankranti },
+        { key: 'grahaMaudhya', icon: '⚡', te: 'గ్రహ మౌఢ్య దినాలు', en: 'Graha Moudhya (Combust) Days', count: annualData.counts.grahaMaudhya },
+        { key: 'ekadashi', icon: '🌾', te: 'ఏకాదశి వ్రత దినాలు', en: 'Ekadashi Vrata Days', count: annualData.counts.ekadashi },
+        { key: 'shashti', icon: '🦚', te: 'షష్ఠి వ్రత దినాలు', en: 'Shashti Vrata Days', count: annualData.counts.shashti }
     ];
 
     const hlGrid = document.getElementById('ugadiHighlightsGrid');
     if (hlGrid) {
-        hlGrid.innerHTML = ANNUAL_HIGHLIGHTS_DATA.map(item => `
-            <div class="highlight-item">
+        hlGrid.innerHTML = CURRENT_HIGHLIGHTS_DATA.map(item => `
+            <div class="highlight-item ${ACTIVE_VRATA_FILTER === item.key ? 'active' : ''}" data-key="${item.key}" onclick="selectVrataCategory('${item.key}')" title="${isTe ? 'తేదీలను చూడటానికి క్లిక్ చేయండి' : 'Click to view exact dates'}">
                 <div class="highlight-title">
                     <span style="font-size:1.2rem;">${item.icon}</span>
                     <span>${isTe ? item.te : item.en}</span>
@@ -962,6 +1477,13 @@ function calculateUgadiPhalalu() {
             </div>
         `).join('');
     }
+
+    const totalBadge = document.getElementById('vrataTotalCountBadge');
+    if (totalBadge) {
+        totalBadge.textContent = isTe ? `మొత్తం: ${CURRENT_VRATA_SCHEDULE.length} విశేష దినాలు` : `Total: ${CURRENT_VRATA_SCHEDULE.length} Sacred Days`;
+    }
+
+    renderVrataSchedule();
 
     // ══════ CALCULATE ALL 9 NAYAKAS DYNAMICALLY ══════
     const meshaIngress = findSunIngressDeg(0, year, 4, tz);          // Mantri
@@ -1216,9 +1738,9 @@ function toggleLanguage() {
     document.getElementById('pageSubTitle').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం & వార్షిక ఫలాలు' : 'Rajadi Navanayaka Nirnayam & Annual Predictions';
     document.getElementById('hdrUgadiDetails').textContent = isTe ? 'ఉగాది సమగ్ర వివరాలు' : 'Ugadi Comprehensive Details';
     const hdrHl = document.getElementById('hdrUgadiHighlights');
-    if (hdrHl) hdrHl.textContent = isTe ? 'సాంవత్సరిక విశేష దినాల సంఖ్య (Annual Vrata & Special Days)' : 'Annual Vrata & Special Days (Highlights)';
+    if (hdrHl) hdrHl.textContent = isTe ? 'సాంవత్సరిక విశేష దినాలు & వ్రతాల పట్టిక (Annual Vrata & Special Days with Dates)' : 'Annual Vrata & Special Days (Complete Schedule)';
     const subHl = document.getElementById('subUgadiHighlights');
-    if (subHl) subHl.textContent = isTe ? 'ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ సంఖ్య.' : 'Authoritative annual counts of eclipses, vratas, and auspicious days throughout this Ugadi year.';
+    if (subHl) subHl.textContent = isTe ? 'ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ తేదీల సమగ్ర పట్టిక (క్రింది వర్గాన్ని ఎంచుకోండి).' : 'Comprehensive schedule of all sacred vratas, eclipses, and auspicious dates throughout this Ugadi year (Select category below).';
     document.getElementById('hdrJagallagnam').textContent = isTe ? 'జగల్లగ్నం & ఉగాది జన్మ కుండలి (Ugadi Planetary Chart)' : 'Jagallagnam & Ugadi Ingress Chart';
     document.getElementById('hdrNavanayaka').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం (9 Planetary Rulers & Shlokas)' : 'Rajadi Navanayaka Nirnayam (9 Planetary Rulers)';
     document.getElementById('hdrSankranti').textContent = isTe ? 'మకర సంక్రాంతి పురుష లక్షణాలు (Makara Sankranti Purusha)' : 'Makara Sankranti Purusha Features';

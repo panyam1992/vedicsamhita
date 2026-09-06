@@ -469,6 +469,17 @@
 
     const INITIAL_SEED_RULES = [
         {
+            id: 'rule-tg-1788664804602',
+            timestamp: '2026-09-06T03:20:04.602Z',
+            category: 'festival',
+            title: 'సాంవత్సరిక విశేష దినాల సమగ్ర పట్టిక (Annual Vrata & Special Days Schedule with Dates)',
+            body: 'సాంవత్సరిక విశేష దినాల సంఖ్య (Annual Vrata & Special Days) relocated after 12 Rashis Adaya-Vyaya & Rajapujya-Avamana. Interactive schedule table with dates, Telugu month/paksha/tithi, weekday, and notes for all 12 sacred vrata and astronomical categories across the entire Ugadi year.',
+            reference: 'Telegram Note',
+            status: 'applied',
+            implementation: 'ugadi.html: lines 550-605, 920-1375, 1445-1485',
+            source: 'telegram_chat'
+        },
+        {
             id: 'rule-admin-edit',
             timestamp: '2026-09-06T03:00:50.000Z',
             category: 'general',
