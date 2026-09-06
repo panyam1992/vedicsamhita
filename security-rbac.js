@@ -467,9 +467,37 @@
     // ═══════════════════════════════════════════════════════════════════════
     const RULES_STORAGE_KEY = 'VS_ADMIN_RULES_NOTES';
 
-    const CLOUD_VAULT_URL = 'https://raw.githubusercontent.com/panyam1992/vedicsamhita/main/ADMIN_RULES_VAULT.json';
-
     const INITIAL_SEED_RULES = [
+        {
+            id: 'rule-admin-edit',
+            timestamp: '2026-09-06T03:00:50.000Z',
+            category: 'general',
+            title: 'Edit Option for Saved Rules in AI Brain Intake',
+            body: 'Provide edit option if clicked on saved rules in AI brain. Allows in-place editing of title, category, description, and reference.',
+            reference: 'Super Admin Requirement',
+            status: 'applied',
+            implementation: 'security-rbac.js: lines 824-890 & renderRulesList'
+        },
+        {
+            id: 'rule-muhurta-no-muhurta-banner',
+            timestamp: '2026-09-06T03:00:51.000Z',
+            category: 'siddhanta',
+            title: '🌟 Daily Auspicious Muhurtha Indicators — Clean No-Muhurtha Banner with End Date',
+            body: 'Keep the same title in the same place. When all ceremonies are inauspicious on a day, display a clean dignified banner indicating that there are no auspicious muhurtas until the restriction (Rikta Tithi, Amavasya, Maudhyam) ends, with an expandable breakdown.',
+            reference: 'Siddhanta Tradition',
+            status: 'applied',
+            implementation: 'panchangam-v18.js: lines 3150-3220 & styles.css'
+        },
+        {
+            id: 'rule-ugadi-annual-highlights',
+            timestamp: '2026-09-06T03:00:52.000Z',
+            category: 'siddhanta',
+            title: 'సాంవత్సరిక విశేష దినాల సంఖ్య (Annual Vrata & Special Days on Ugadi Page)',
+            body: 'Include 12 annual counts on Ugadi page: Surya Grahanam (0), Chandra Grahanam (1), Pradosha (25), Darsha Shraddha (16), Amrita Siddhi (25), Sankashtahara Chaturthi (12), Chandra Darshana (13), Sankramana (24), Graha Sankranti (37), Graha Maudhyam (0), Ekadashi (27), Shashti (13).',
+            reference: 'Siddhanta Panchanga Tradition',
+            status: 'applied',
+            implementation: 'ugadi.html: lines 480-495 & 930-970'
+        },
         {
             id: 'rule-seed-1',
             timestamp: '2026-09-04T18:45:00.000Z',
@@ -542,54 +570,6 @@
         }
     ];
 
-
-    function syncWithCloudVault(callback) {
-        const cloudIndicator = document.getElementById('vs-cloud-sync-status');
-        if (cloudIndicator) {
-            cloudIndicator.innerHTML = '🔄 Syncing cloud...';
-            cloudIndicator.style.color = '#b8860b';
-        }
-
-        fetch(CLOUD_VAULT_URL + '?t=' + Date.now())
-            .then(res => {
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                return res.json();
-            })
-            .then(cloudRules => {
-                if (Array.isArray(cloudRules) && cloudRules.length > 0) {
-                    let localRules = getStoredRules();
-                    const localPending = localRules.filter(r => r.status === 'pending');
-                    
-                    // Map cloud rules by id
-                    const ruleMap = new Map();
-                    cloudRules.forEach(r => ruleMap.set(r.id, r));
-                    
-                    // Merge local pending rules so unsynced notes are never lost
-                    localPending.forEach(r => ruleMap.set(r.id, r));
-
-                    const merged = Array.from(ruleMap.values());
-                    merged.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
-                    
-                    saveStoredRules(merged);
-                    renderRulesList();
-
-                    if (cloudIndicator) {
-                        cloudIndicator.innerHTML = '🟢 Cloud Vault Synced';
-                        cloudIndicator.style.color = '#1B5E20';
-                    }
-                }
-                if (callback) callback();
-            })
-            .catch(err => {
-                console.warn('Cloud sync error (offline fallback used):', err);
-                if (cloudIndicator) {
-                    cloudIndicator.innerHTML = '🟡 Local Mode (Saved on device)';
-                    cloudIndicator.style.color = '#888';
-                }
-                if (callback) callback();
-            });
-    }
-
     function getStoredRules() {
         try {
             const raw = localStorage.getItem(RULES_STORAGE_KEY);
@@ -597,7 +577,13 @@
                 localStorage.setItem(RULES_STORAGE_KEY, JSON.stringify(INITIAL_SEED_RULES));
                 return INITIAL_SEED_RULES;
             }
-            return JSON.parse(raw) || [];
+            const stored = JSON.parse(raw) || [];
+            // Merge seed rules with stored rules by id so new seeds appear seamlessly
+            const ruleMap = new Map();
+            INITIAL_SEED_RULES.forEach(r => ruleMap.set(r.id, r));
+            stored.forEach(r => ruleMap.set(r.id, r));
+            const merged = Array.from(ruleMap.values());
+            return merged;
         } catch (e) {
             return INITIAL_SEED_RULES;
         }
@@ -624,7 +610,6 @@
         if (modal) {
             renderRulesList();
             modal.style.display = 'flex';
-            syncWithCloudVault();
         }
     }
 
@@ -712,14 +697,11 @@
                         <h4 style="margin:0; font-family:'Cinzel',serif; color:#4a0e0e; font-size:14px;">
                             📚 Logged Rules & Brain Notes (<span id="vs-rules-count">0</span>)
                         </h4>
-                        <div id="vs-cloud-sync-status" style="font-size:10.5px; color:#1B5E20; font-weight:bold; margin-top:2px;">
-                            🟢 Cloud Vault Synced
+                        <div style="font-size:10.5px; color:#0277bd; font-weight:bold; margin-top:2px;">
+                            🤖 Telegram Bot Active (<a href="https://t.me/VedicSamhita_Notes_bot" target="_blank" style="color:#0277bd; text-decoration:none;">@VedicSamhita_Notes_bot</a>)
                         </div>
                     </div>
                     <div style="display:flex; gap:6px; align-items:center;">
-                        <button id="vs-rules-refresh-btn" style="background:#4a0e0e; color:#ffd700; border:1px solid #d4a853; border-radius:4px; padding:4px 8px; font-size:10.5px; font-weight:bold; cursor:pointer;" title="Refresh rules from GitHub Cloud Vault">
-                            🔄 Cloud Sync
-                        </button>
                         <button id="vs-rules-copy-ai-btn" style="background:#1B5E20; color:#fff; border:none; border-radius:4px; padding:5px 10px; font-size:11px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:4px;" title="Copy all notes formatted for AI assistant chat">
                             📋 Copy for AI
                         </button>
@@ -751,8 +733,6 @@
         document.getElementById('vs-rule-reset-btn').onclick = resetRuleForm;
         document.getElementById('vs-rules-copy-ai-btn').onclick = copyRulesForAIChat;
         document.getElementById('vs-rules-export-btn').onclick = exportRulesAsJson;
-        const refreshBtn = document.getElementById('vs-rules-refresh-btn');
-        if (refreshBtn) refreshBtn.onclick = () => syncWithCloudVault(() => showSecurityToast('☁️ Synced with Cloud Vault!'));
     }
 
     function toggleSpeechRecognition() {
@@ -914,16 +894,6 @@
     }
 
 
-    function sendRuleToGitHubIssue(id) {
-        const list = getStoredRules();
-        const r = list.find(x => x.id === id);
-        if (!r) return;
-        const title = encodeURIComponent(`[${r.category.toUpperCase()}] ${r.title}`);
-        const body = encodeURIComponent(`### 📝 Super Admin Rule Submission\n\n**Title**: ${r.title}\n**Category**: ${r.category}\n**Classical Reference**: ${r.reference || 'None'}\n**Date**: ${r.timestamp}\n\n### Rule Details:\n${r.body}\n\n---\n*Submitted via Vedic Samhita Mobile App*`);
-        const url = `https://github.com/panyam1992/vedicsamhita/issues/new?title=${title}&body=${body}`;
-        window.open(url, '_blank');
-    }
-
     function renderRulesList() {
         const listEl = document.getElementById('vs-rules-list');
         const countEl = document.getElementById('vs-rules-count');
@@ -952,10 +922,6 @@
             const dt = new Date(r.timestamp);
             const dateStr = dt.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', hour: '2-digit', minute: '2-digit' });
 
-            const gitHubBtn = (!isApplied) ? `
-                <button onclick="window.VedicSecurity.sendToGitHub('${r.id}')" style="background:#24292e; color:#fff; border:none; border-radius:12px; padding:2px 8px; font-size:10px; cursor:pointer; display:inline-flex; align-items:center; gap:3px; margin-top:4px;" title="1-Tap Send to GitHub Issue">
-                    <span>🚀 1-Tap Send to GitHub</span>
-                </button>` : '';
             const implNote = (isApplied && r.implementation) ? `
                 <div style="font-size:10.5px; color:#1b5e20; background:#e8f5e9; border-radius:4px; padding:2px 6px; margin-top:4px; display:inline-block;">
                     💻 <strong>Live in Code:</strong> ${escapeHtml(r.implementation)}
@@ -969,19 +935,16 @@
                             <div style="font-size:11px; color:#777; margin:2px 0;">${dateStr} | <em>${escapeHtml(r.reference || 'Custom')}</em></div>
                             ${implNote}
                         </div>
-                        <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
-                            <div style="display:flex; align-items:center; gap:5px;">
-                                <button onclick="window.VedicSecurity.editRule('${r.id}')" style="background:#e3f2fd; border:1px solid #90caf9; color:#0d47a1; border-radius:12px; padding:2px 7px; font-size:10.5px; cursor:pointer; font-weight:bold; display:inline-flex; align-items:center; gap:2px;" title="Edit this rule">
-                                    ✏️ Edit
-                                </button>
-                                <button onclick="window.VedicSecurity.toggleRuleStatus('${r.id}')" style="background:${statusColor}; color:#fff; border:none; border-radius:12px; padding:3px 9px; font-size:10.5px; cursor:pointer; font-weight:bold;" title="Click to toggle status">
-                                    ${statusLabel}
-                                </button>
-                                <button onclick="window.VedicSecurity.deleteRule('${r.id}')" style="background:none; border:none; color:#c00; font-size:14px; cursor:pointer; padding:0 3px;" title="Delete rule">
-                                    🗑️
-                                </button>
-                            </div>
-                            ${gitHubBtn}
+                        <div style="display:flex; align-items:center; gap:5px;">
+                            <button onclick="window.VedicSecurity.editRule('${r.id}')" style="background:#e3f2fd; border:1px solid #90caf9; color:#0d47a1; border-radius:12px; padding:2px 7px; font-size:10.5px; cursor:pointer; font-weight:bold; display:inline-flex; align-items:center; gap:2px;" title="Edit this rule">
+                                ✏️ Edit
+                            </button>
+                            <button onclick="window.VedicSecurity.toggleRuleStatus('${r.id}')" style="background:${statusColor}; color:#fff; border:none; border-radius:12px; padding:3px 9px; font-size:10.5px; cursor:pointer; font-weight:bold;" title="Click to toggle status">
+                                ${statusLabel}
+                            </button>
+                            <button onclick="window.VedicSecurity.deleteRule('${r.id}')" style="background:none; border:none; color:#c00; font-size:14px; cursor:pointer; padding:0 3px;" title="Delete rule">
+                                🗑️
+                            </button>
                         </div>
                     </div>
                     <div style="margin-top:6px; color:#2d1810; line-height:1.4; white-space:pre-wrap; border-top:1px dashed #eee; padding-top:6px;">${escapeHtml(r.body)}</div>
@@ -1151,7 +1114,6 @@
         toggleRuleStatus: toggleRuleStatus,
         editRule: editRule,
         deleteRule: deleteRule,
-        sendToGitHub: sendRuleToGitHubIssue,
         applyRoleVisibility,
         generateDeepLink,
         decodeDeepLink,
