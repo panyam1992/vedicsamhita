@@ -14,3 +14,8 @@ Panchangam notes.txt
 Appearance For Panchangam .txt
 Panyam_Panchangam_Work_Summary.md
 jathakam_lab.html
+
+# Telegram Bot Secrets & Audio
+telegram_config.json
+telegram_audio/
+temp_import.json
