@@ -19,3 +19,11 @@ jathakam_lab.html
 telegram_config.json
 telegram_audio/
 temp_import.json
+
+# WhatsApp Session & Secrets
+.wwebjs_auth/
+whatsapp_config.json
+*.png
+*_run.js
+node_modules/
+*.log
