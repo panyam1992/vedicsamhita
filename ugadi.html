@@ -951,6 +951,7 @@ const TELUGU_MASAM_NAMES_MAP = {
     'Shravana': 'శ్రావణ',
     'Bhadrapada': 'భాద్రపద',
     'Ashvina': 'ఆశ్వయుజ',
+    'Ashwayuja': 'ఆశ్వయుజ',
     'Kartika': 'కార్తీక',
     'Margashirsha': 'మార్గశిర',
     'Pushya': 'పుష్య',
@@ -973,6 +974,8 @@ const EKADASHI_NAMES_CATALOG = {
     'Bhadrapada_K': { te: 'ఇందిరా ఏకాదశి (మహాలయ పక్షం)', en: 'Indira Ekadashi', desc_te: 'పితృదేవతల ఉద్ధరణ, మహాలయ పితృమోక్షం', desc_en: 'Liberation of ancestors during Mahalaya Paksham' },
     'Ashvina_S': { te: 'పాశాంకుశా ఏకాదశి', en: 'Pasankusa Ekadashi', desc_te: 'యమపాశ విముక్తి, సర్వపాప నివృత్తి', desc_en: 'Freedom from worldly tethers and virtues' },
     'Ashvina_K': { te: 'రమా ఏకాదశి', en: 'Rama Ekadashi', desc_te: 'మహాలక్ష్మీ కటాక్షం, చింతామణి ఫలప్రదం', desc_en: 'Grace of Goddess Mahalakshmi & wealth' },
+    'Ashwayuja_S': { te: 'పాశాంకుశా ఏకాదశి', en: 'Pasankusa Ekadashi', desc_te: 'యమపాశ విముక్తి, సర్వపాప నివృత్తి', desc_en: 'Freedom from worldly tethers and virtues' },
+    'Ashwayuja_K': { te: 'రమా ఏకాదశి', en: 'Rama Ekadashi', desc_te: 'మహాలక్ష్మీ కటాక్షం, చింతామణి ఫలప్రదం', desc_en: 'Grace of Goddess Mahalakshmi & wealth' },
     'Kartika_S': { te: 'ప్రబోధినీ / ఉత్థాన ఏకాదశి', en: 'Dev Uthana / Prabodhini Ekadashi', desc_te: 'చాతుర్మాస్య సమాప్తి, క్షీరాబ్ధి ద్వాదశి వ్రతారంభం', desc_en: 'Conclusion of Chaturmasya, awakening of Vishnu' },
     'Kartika_K': { te: 'ఉత్పన్నా ఏకాదశి', en: 'Utpanna Ekadashi', desc_te: 'ఏకాదశీ దేవి ఆవిర్భావ దినం, వ్రత దీక్షారంభం', desc_en: 'Advent of Goddess Ekadashi, holy fasting' },
     'Margashirsha_S': { te: 'మోక్షదా ఏకాదశి (వైకుంఠ / ముక్కోటి)', en: 'Mokshada / Vaikuntha Ekadashi', desc_te: 'శ్రీ వైకుంఠ ద్వార దర్శనం, శ్రీమద్భగవద్గీతా జయంతి', desc_en: 'Vaikuntha Dwara Darshanam, Gita Jayanti' },
@@ -982,7 +985,9 @@ const EKADASHI_NAMES_CATALOG = {
     'Magha_S': { te: 'జయ ఏకాదశి (భీష్మ ఏకాదశి)', en: 'Jaya / Bheeshma Ekadashi', desc_te: 'భీష్మ నిర్యాణం, విష్ణు సహస్రనామ ఆవిర్భావం', desc_en: 'Bheeshma Niryanam, Sri Vishnu Sahasranama Stotram' },
     'Magha_K': { te: 'విజయా ఏకాదశి', en: 'Vijaya Ekadashi', desc_te: 'శత్రుజయం, సమస్త ఆపన్నివారణ', desc_en: 'Triumph over obstacles and adversaries' },
     'Phalguna_S': { te: 'ఆమలకీ ఏకాదశి', en: 'Amalaki Ekadashi', desc_te: 'ఉసిరి వృక్ష పూజ, పరమ పవిత్రం', desc_en: 'Sacred worship of Amla tree with Vishnu' },
-    'Phalguna_K': { te: 'పాపమోచనీ ఏకాదశి', en: 'Papamochani Ekadashi', desc_te: 'సంవత్సర పాప విముక్తి, మోక్షప్రాప్తి', desc_en: 'Absolution of sins, spiritual purification' }
+    'Phalguna_K': { te: 'పాపమోచనీ ఏకాదశి', en: 'Papamochani Ekadashi', desc_te: 'సంవత్సర పాప విముక్తి, మోక్షప్రాప్తి', desc_en: 'Absolution of sins, spiritual purification' },
+    'Adhika_S': { te: 'కమలా / పద్మిని ఏకాదశి (అధిక మాసం)', en: 'Kamala / Padmini Ekadashi (Adhika Masam)', desc_te: 'అధిక మాస విశేష పుణ్యఫలం, శ్రీ విష్ణు కటాక్షం', desc_en: 'Supreme spiritual merit of Adhika Masam, divine grace of Lord Vishnu' },
+    'Adhika_K': { te: 'పరమ ఏకాదశి (అధిక మాసం)', en: 'Parama Ekadashi (Adhika Masam)', desc_te: 'సర్వ దారిద్య్ర నాశనం, కుబేర సంపద ప్రాప్తి', desc_en: 'Eradication of poverty, spiritual enlightenment' }
 };
 
 const AMRITA_YOGA_CATALOG = {
@@ -996,6 +1001,59 @@ const AMRITA_YOGA_CATALOG = {
 };
 
 const NAK_LIST_TELUGU = ['అశ్విని','భరణి','కృత్తిక','రోహిణి','మృగశిర','ఆర్ద్ర','పునర్వసు','పుష్యమి','ఆశ్లేష','మఖ','పుబ్బ','ఉత్తర','హస్త','చిత్త','స్వాతి','విశాఖ','అనూరాధ','జ్యేష్ఠ','మూల','పూర్వాషాఢ','ఉత్తరాషాఢ','శ్రవణం','ధనిష్ఠ','శతభిషం','పూర్వాభాద్ర','ఉత్తరాభాద్ర','రేవతి'];
+const NAK_LIST_EN = ['Ashwini','Bharani','Krittika','Rohini','Mrigashira','Ardra','Punarvasu','Pushya','Ashlesha','Magha','Purva Phalguni','Uttara Phalguni','Hasta','Chitra','Swati','Vishakha','Anuradha','Jyeshtha','Mula','Purva Ashadha','Uttara Ashadha','Shravana','Dhanishta','Shatabhisha','Purva Bhadrapada','Uttara Bhadrapada','Revati'];
+const RASHI_NAMES_EN = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+const RASHI_NAMES_TE = ['మేషం', 'వృషభం', 'మిథునం', 'కర్కాటకం', 'సింహం', 'కన్య', 'తుల', 'వృశ్చికం', 'ధనుస్సు', 'మకరం', 'కుంభం', 'మీనం'];
+
+const RAD_DEG = 180 / Math.PI;
+const DEG_RAD = Math.PI / 180;
+
+function getAyanamsaValue(jd) {
+    if (typeof getAyanamsa === 'function') return getAyanamsa(jd, 'lahiri');
+    const d = jd - 2451545.0;
+    return 23.85 + (d / 365.25) * (50.29 / 3600);
+}
+
+function computeAnalyticalPlanet(L, a, e, i, N, w, M_p, sunSayana, ayanVal) {
+    let E = M_p + e * Math.sin(M_p * DEG_RAD) * (1 + e * Math.cos(M_p * DEG_RAD)) * RAD_DEG;
+    let xv = a * (Math.cos(E * DEG_RAD) - e);
+    let yv = a * Math.sqrt(1 - e * e) * Math.sin(E * DEG_RAD);
+    let v = normDeg(Math.atan2(yv, xv) * RAD_DEG);
+    let r = Math.sqrt(xv * xv + yv * yv);
+    let xh = r * (Math.cos(N * DEG_RAD) * Math.cos((v + w) * DEG_RAD) - Math.sin(N * DEG_RAD) * Math.sin((v + w) * DEG_RAD) * Math.cos(i * DEG_RAD));
+    let yh = r * (Math.sin(N * DEG_RAD) * Math.cos((v + w) * DEG_RAD) + Math.cos(N * DEG_RAD) * Math.sin((v + w) * DEG_RAD) * Math.cos(i * DEG_RAD));
+    let zh = r * (Math.sin((v + w) * DEG_RAD) * Math.sin(i * DEG_RAD));
+    let xs = Math.cos(sunSayana * DEG_RAD);
+    let ys = Math.sin(sunSayana * DEG_RAD);
+    let xg = xh + xs;
+    let yg = yh + ys;
+    let geoLong = normDeg(Math.atan2(yg, xg) * RAD_DEG);
+    return normDeg(geoLong - ayanVal);
+}
+
+function getPlanetaryPositionsAnalytical(jd) {
+    const ayanVal = getAyanamsaValue(jd);
+    const T = (jd - 2451545.0) / 36525.0;
+    const sunSayana = (typeof getSunTropical === 'function') ? getSunTropical(jd) : normDeg(280.460 + 36000.771 * T);
+    const sunNir = normDeg(sunSayana - ayanVal);
+    const moonNir = (typeof getMoonNirayana === 'function') ? getMoonNirayana(jd) : normDeg(218.316 + 481267.881 * T - ayanVal);
+    const rahuSayana = normDeg(125.04452 - 1934.136261 * T + 0.0020708 * T * T);
+    const rahuNir = normDeg(rahuSayana - ayanVal);
+    const ketuNir = normDeg(rahuNir + 180);
+
+    const marsNir = computeAnalyticalPlanet(355.45, 1.5236, 0.0934, 1.85, 49.55, 286.50, normDeg(19.37 + 19140.30 * T), sunSayana, ayanVal);
+    const mercuryNir = computeAnalyticalPlanet(252.25, 0.3871, 0.2056, 7.00, 48.33, 29.12, normDeg(174.79 + 149472.67 * T), sunSayana, ayanVal);
+    const jupiterNir = computeAnalyticalPlanet(34.40, 5.2026, 0.0485, 1.30, 100.46, 273.87, normDeg(20.02 + 3034.90 * T), sunSayana, ayanVal);
+    const venusNir = computeAnalyticalPlanet(181.98, 0.7233, 0.0068, 3.39, 76.68, 54.88, normDeg(50.42 + 58517.81 * T), sunSayana, ayanVal);
+    const saturnNir = computeAnalyticalPlanet(49.94, 9.5549, 0.0555, 2.49, 113.66, 339.39, normDeg(317.02 + 1222.11 * T), sunSayana, ayanVal);
+
+    return { Sun: sunNir, Moon: moonNir, Mars: marsNir, Mercury: mercuryNir, Jupiter: jupiterNir, Venus: venusNir, Saturn: saturnNir, Rahu: rahuNir, Ketu: ketuNir };
+}
+
+function angDiff(a, b) {
+    let d = Math.abs(a - b) % 360;
+    return d > 180 ? 360 - d : d;
+}
 
 function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
     const totalDays = Math.round((nextUgadi - ugadiDate) / 86400000);
@@ -1005,20 +1063,17 @@ function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
     const DAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
     let all = [];
-    let counts = {
-        solarEclipse: 0,
-        lunarEclipse: 1,
-        pradosha: 25,
-        darshaShraddha: 16,
-        amritaSiddhi: 25,
-        sankashti: 12,
-        chandraDarshana: 13,
-        sankramana: 24,
-        grahaSankranti: 37,
-        grahaMaudhya: 0,
-        ekadashi: 27,
-        shashti: 13
-    };
+    let seenEkadashi = {};
+    let seenPradosha = {};
+    let seenSankashti = {};
+    let seenChandraDarshana = {};
+    let seenDarshaShraddha = {};
+    let seenShashti = {};
+
+    let prevElong = 0;
+    let prevP = null;
+    let inGuru = false, guruStartObj = null;
+    let inShukra = false, shukraStartObj = null;
 
     for (let i = 0; i < totalDays; i++) {
         const dt = new Date(ugadiDate.getFullYear(), ugadiDate.getMonth(), ugadiDate.getDate() + i);
@@ -1031,136 +1086,184 @@ function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
         const tithiSr = getTithiIdx(srJD);
         const nakSr = getNakIdx(srJD);
         const lunar = getLunarCalendar(srJD);
+        const isAdhika = lunar.isAdhika || lunar.masam.includes('Adhika');
         const cleanMasam = lunar.masam.replace(' (Adhika)', '').trim();
-        const teMasam = TELUGU_MASAM_NAMES_MAP[cleanMasam] || cleanMasam;
+        let teMasam = TELUGU_MASAM_NAMES_MAP[cleanMasam] || cleanMasam;
+        if (isAdhika) teMasam = 'అధిక ' + teMasam;
+        const masamDisplayEn = isAdhika ? 'Adhika ' + cleanMasam : cleanMasam;
+
         const isShukla = (tithiSr < 15);
         const pakshaStrTe = isShukla ? 'శుక్ల' : 'బహుళ';
         const pakshaStrEn = isShukla ? 'Shukla' : 'Krishna';
         const dateDisplayTe = d + ' ' + MONTHS_TE[m-1] + ' ' + y + ', ' + DAYS_TE[dow];
         const dateDisplayEn = d + ' ' + MONTHS_EN[m-1] + ' ' + y + ', ' + DAYS_EN[dow];
 
-        // 1. Ekadashi
-        if (tithiSr === 10 || tithiSr === 25) {
-            const key = cleanMasam + '_' + (isShukla ? 'S' : 'K');
-            const ek = EKADASHI_NAMES_CATALOG[key] || { te: 'ఏకాదశి వ్రతం', en: 'Ekadashi Vratam', desc_te: 'ఉపవాస వ్రతం', desc_en: 'Sacred fasting' };
-            all.push({
-                cat: 'ekadashi',
-                icon: '🌾',
-                rawDate: dt.getTime(),
-                dateStr: dateDisplayTe,
-                dateStrEn: dateDisplayEn,
-                name_te: ek.te,
-                name_en: ek.en,
-                tithi_te: teMasam + ' ' + pakshaStrTe + ' ఏకాదశి',
-                tithi_en: cleanMasam + ' ' + pakshaStrEn + ' Ekadashi',
-                desc_te: ek.desc_te,
-                desc_en: ek.desc_en
-            });
+        // Next sunrise tithi to detect Kshaya and avoid Vriddhi duplicates
+        const nextDate = new Date(dt);
+        nextDate.setDate(nextDate.getDate() + 1);
+        const stNext = computeSunTimes(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate(), lat, lon, tz);
+        const nextSrJD = stNext ? (dateToJD(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate()) - (tz / 24) + (stNext.sunrise / 24)) : (srJD + 1);
+        const nextTithiSr = getTithiIdx(nextSrJD);
+
+        // 1. Ekadashi (Tithi 10 for Shukla, 25 for Krishna)
+        const hasEkadashiToday = (tithiSr === 10 || tithiSr === 25 || (tithiSr === 9 && nextTithiSr > 10) || (tithiSr === 24 && nextTithiSr > 25));
+        if (hasEkadashiToday) {
+            const isEkShukla = (tithiSr === 10 || (tithiSr === 9 && nextTithiSr > 10));
+            const ekPaksha = isEkShukla ? 'S' : 'K';
+            const ekKey = cleanMasam + '_' + ekPaksha;
+            const cycleKey = masamDisplayEn + '_' + ekPaksha;
+
+            if (!seenEkadashi[cycleKey]) {
+                const catalogKey = isAdhika ? ('Adhika_' + ekPaksha) : ekKey;
+                const ek = EKADASHI_NAMES_CATALOG[catalogKey] || { te: 'ఏకాదశి వ్రతం', en: 'Ekadashi Vratam', desc_te: 'ఉపవాస వ్రతం, శ్రీ మహావిష్ణు పూజ', desc_en: 'Sacred fasting and worship of Lord Vishnu' };
+                all.push({
+                    cat: 'ekadashi',
+                    icon: '🌾',
+                    rawDate: dt.getTime(),
+                    dateStr: dateDisplayTe,
+                    dateStrEn: dateDisplayEn,
+                    name_te: ek.te,
+                    name_en: ek.en,
+                    tithi_te: teMasam + ' ' + (isEkShukla ? 'శుక్ల' : 'బహుళ') + ' ఏకాదశి',
+                    tithi_en: masamDisplayEn + ' ' + (isEkShukla ? 'Shukla' : 'Krishna') + ' Ekadashi',
+                    desc_te: ek.desc_te,
+                    desc_en: ek.desc_en
+                });
+                seenEkadashi[cycleKey] = true;
+            }
         }
 
-        // 2. Pradosha
-        if (tithiSr === 12 || tithiSr === 27) {
-            let prNameTe = 'ప్రదోష వ్రతం';
-            let prNameEn = 'Pradosha Vratam';
-            if (dow === 6) { prNameTe = 'శని ప్రదోషం (మహా ప్రదోషం)'; prNameEn = 'Shani Pradosham (Maha Pradosham)'; }
-            else if (dow === 1) { prNameTe = 'సోమ ప్రదోషం'; prNameEn = 'Soma Pradosham'; }
-            else if (dow === 2) { prNameTe = 'భౌమ ప్రదోషం'; prNameEn = 'Bhauma Pradosham'; }
+        // 2. Pradosha (Tithi 12 for Shukla, 27 for Krishna)
+        const hasPradoshaToday = (tithiSr === 12 || tithiSr === 27 || (tithiSr === 11 && nextTithiSr > 12) || (tithiSr === 26 && nextTithiSr > 27));
+        if (hasPradoshaToday) {
+            const isPrShukla = (tithiSr === 12 || (tithiSr === 11 && nextTithiSr > 12));
+            const prPaksha = isPrShukla ? 'S' : 'K';
+            const cycleKey = masamDisplayEn + '_' + prPaksha;
 
-            all.push({
-                cat: 'pradosha',
-                icon: '🔱',
-                rawDate: dt.getTime(),
-                dateStr: dateDisplayTe,
-                dateStrEn: dateDisplayEn,
-                name_te: prNameTe,
-                name_en: prNameEn,
-                tithi_te: teMasam + ' ' + pakshaStrTe + ' త్రయోదశి',
-                tithi_en: cleanMasam + ' ' + pakshaStrEn + ' Trayodashi',
-                desc_te: 'సాయం సంధ్యాకాలంలో శివారాధన, ప్రదోష కాల పూజ',
-                desc_en: 'Evening Sandhya Shiva worship during Pradosha Kalam'
-            });
+            if (!seenPradosha[cycleKey]) {
+                let prNameTe = 'ప్రదోష వ్రతం';
+                let prNameEn = 'Pradosha Vratam';
+                if (dow === 6) { prNameTe = 'శని ప్రదోషం (మహా ప్రదోషం)'; prNameEn = 'Shani Pradosham (Maha Pradosham)'; }
+                else if (dow === 1) { prNameTe = 'సోమ ప్రదోషం'; prNameEn = 'Soma Pradosham'; }
+                else if (dow === 2) { prNameTe = 'భౌమ ప్రదోషం'; prNameEn = 'Bhauma Pradosham'; }
+
+                all.push({
+                    cat: 'pradosha',
+                    icon: '🔱',
+                    rawDate: dt.getTime(),
+                    dateStr: dateDisplayTe,
+                    dateStrEn: dateDisplayEn,
+                    name_te: prNameTe,
+                    name_en: prNameEn,
+                    tithi_te: teMasam + ' ' + (isPrShukla ? 'శుక్ల' : 'బహుళ') + ' త్రయోదశి',
+                    tithi_en: masamDisplayEn + ' ' + (isPrShukla ? 'Shukla' : 'Krishna') + ' Trayodashi',
+                    desc_te: 'సాయం సంధ్యాకాలంలో శివారాధన, ప్రదోష కాల పూజ',
+                    desc_en: 'Evening Sandhya Shiva worship during Pradosha Kalam'
+                });
+                seenPradosha[cycleKey] = true;
+            }
         }
 
-        // 3. Sankashtahara Chaturthi
-        if (tithiSr === 18) {
-            let skNameTe = (dow === 2) ? 'అంగారక సంకష్టహర చతుర్థి (మహా విశేషం)' : 'సంకష్టహర చతుర్థి వ్రతం';
-            let skNameEn = (dow === 2) ? 'Angarika Sankashtahara Chaturthi' : 'Sankashtahara Chaturthi Vratam';
-            all.push({
-                cat: 'sankashti',
-                icon: '🐘',
-                rawDate: dt.getTime(),
-                dateStr: dateDisplayTe,
-                dateStrEn: dateDisplayEn,
-                name_te: skNameTe,
-                name_en: skNameEn,
-                tithi_te: teMasam + ' బహుళ చతుర్థి',
-                tithi_en: cleanMasam + ' Krishna Chaturthi',
-                desc_te: 'గణపతి సంకష్టహరణ పూజ & రాత్రి చంద్రోదయ సమయానికి అర్ఘ్యం',
-                desc_en: 'Lord Ganesha worship & Moonrise Arghya offering'
-            });
+        // 3. Sankashtahara Chaturthi (Tithi 18 - Krishna Chaturthi)
+        const hasSankashtiToday = (tithiSr === 18 || (tithiSr === 17 && nextTithiSr > 18));
+        if (hasSankashtiToday) {
+            const cycleKey = masamDisplayEn;
+            if (!seenSankashti[cycleKey]) {
+                let skNameTe = (dow === 2) ? 'అంగారక సంకష్టహర చతుర్థి (మహా విశేషం)' : 'సంకష్టహర చతుర్థి వ్రతం';
+                let skNameEn = (dow === 2) ? 'Angarika Sankashtahara Chaturthi' : 'Sankashtahara Chaturthi Vratam';
+                all.push({
+                    cat: 'sankashti',
+                    icon: '🐘',
+                    rawDate: dt.getTime(),
+                    dateStr: dateDisplayTe,
+                    dateStrEn: dateDisplayEn,
+                    name_te: skNameTe,
+                    name_en: skNameEn,
+                    tithi_te: teMasam + ' బహుళ చతుర్థి',
+                    tithi_en: masamDisplayEn + ' Krishna Chaturthi',
+                    desc_te: 'గణపతి సంకష్టహరణ పూజ & రాత్రి చంద్రోదయ సమయానికి అర్ఘ్యం',
+                    desc_en: 'Lord Ganesha worship & Moonrise Arghya offering'
+                });
+                seenSankashti[cycleKey] = true;
+            }
         }
 
-        // 4. Chandra Darshanam
-        if (tithiSr === 1) {
-            all.push({
-                cat: 'chandraDarshana',
-                icon: '🌙',
-                rawDate: dt.getTime(),
-                dateStr: dateDisplayTe,
-                dateStrEn: dateDisplayEn,
-                name_te: 'చంద్ర దర్శనం (నూతన చంద్రకళా దర్శనం)',
-                name_en: 'Chandra Darshana (New Crescent Moon)',
-                tithi_te: teMasam + ' శుక్ల విదియ',
-                tithi_en: cleanMasam + ' Shukla Dvitiya',
-                desc_te: 'సాయంత్రం పశ్చిమ దిశలో ప్రథమ చంద్ర దర్శనం, ఆయురారోగ్య వృద్ధి',
-                desc_en: 'First evening sighting of crescent moon in the West'
-            });
+        // 4. Chandra Darshanam (Tithi 1 - Shukla Dvitiya)
+        const hasChandraDarshanaToday = (tithiSr === 1 || (tithiSr === 0 && nextTithiSr > 1));
+        if (hasChandraDarshanaToday) {
+            const cycleKey = masamDisplayEn;
+            if (!seenChandraDarshana[cycleKey]) {
+                all.push({
+                    cat: 'chandraDarshana',
+                    icon: '🌙',
+                    rawDate: dt.getTime(),
+                    dateStr: dateDisplayTe,
+                    dateStrEn: dateDisplayEn,
+                    name_te: 'చంద్ర దర్శనం (నూతన చంద్రకళా దర్శనం)',
+                    name_en: 'Chandra Darshana (New Crescent Moon)',
+                    tithi_te: teMasam + ' శుక్ల విదియ',
+                    tithi_en: masamDisplayEn + ' Shukla Dvitiya',
+                    desc_te: 'సాయంత్రం పశ్చిమ దిశలో ప్రథమ చంద్ర దర్శనం, ఆయురారోగ్య వృద్ధి',
+                    desc_en: 'First evening sighting of crescent moon in the West'
+                });
+                seenChandraDarshana[cycleKey] = true;
+            }
         }
 
-        // 5. Darsha Shraddha / Amavasya
-        if (tithiSr === 29) {
-            let amNameTe = 'దర్శ శ్రాద్ధం (అమావాస్య)';
-            let amNameEn = 'Darsha Shraddha (Amavasya)';
-            if (dow === 1) { amNameTe = 'సోమవతి అమావాస్య (మహా పవిత్రం)'; amNameEn = 'Somavati Amavasya'; }
-            else if (dow === 6) { amNameTe = 'శనిశ్చరి అమావాస్య'; amNameEn = 'Shani Amavasya'; }
-            else if (cleanMasam === 'Bhadrapada') { amNameTe = 'మహాలయ అమావాస్య (సర్వపితృ అమావాస్య)'; amNameEn = 'Mahalaya / Sarvapitru Amavasya'; }
-            else if (cleanMasam === 'Ashvina') { amNameTe = 'దీపావళి లక్ష్మీపూజ అమావాస్య'; amNameEn = 'Deepavali Lakshmi Puja Amavasya'; }
+        // 5. Darsha Shraddha / Amavasya (Tithi 29)
+        const hasAmavasyaToday = (tithiSr === 29 || (tithiSr === 28 && nextTithiSr === 0));
+        if (hasAmavasyaToday) {
+            const cycleKey = masamDisplayEn;
+            if (!seenDarshaShraddha[cycleKey]) {
+                let amNameTe = 'దర్శ శ్రాద్ధం (అమావాస్య)';
+                let amNameEn = 'Darsha Shraddha (Amavasya)';
+                if (dow === 1) { amNameTe = 'సోమవతి అమావాస్య (మహా పవిత్రం)'; amNameEn = 'Somavati Amavasya'; }
+                else if (dow === 6) { amNameTe = 'శనిశ్చరి అమావాస్య'; amNameEn = 'Shani Amavasya'; }
+                else if (cleanMasam === 'Bhadrapada') { amNameTe = 'మహాలయ అమావాస్య (సర్వపితృ అమావాస్య)'; amNameEn = 'Mahalaya / Sarvapitru Amavasya'; }
+                else if (cleanMasam === 'Ashvina' || cleanMasam === 'Ashwayuja') { amNameTe = 'దీపావళి లక్ష్మీపూజ అమావాస్య'; amNameEn = 'Deepavali Lakshmi Puja Amavasya'; }
 
-            all.push({
-                cat: 'darshaShraddha',
-                icon: '🪔',
-                rawDate: dt.getTime(),
-                dateStr: dateDisplayTe,
-                dateStrEn: dateDisplayEn,
-                name_te: amNameTe,
-                name_en: amNameEn,
-                tithi_te: teMasam + ' బహుళ అమావాస్య',
-                tithi_en: cleanMasam + ' Krishna Amavasya',
-                desc_te: 'అపరాహ్ణ కాలంలో పితృ తర్పణం / దర్శ శ్రాద్ధం ఆచరణీయం',
-                desc_en: 'Aparahna ancestral Tarpanam & Darsha Shraddha'
-            });
+                all.push({
+                    cat: 'darshaShraddha',
+                    icon: '🪔',
+                    rawDate: dt.getTime(),
+                    dateStr: dateDisplayTe,
+                    dateStrEn: dateDisplayEn,
+                    name_te: amNameTe,
+                    name_en: amNameEn,
+                    tithi_te: teMasam + ' బహుళ అమావాస్య',
+                    tithi_en: masamDisplayEn + ' Krishna Amavasya',
+                    desc_te: 'అపరాహ్ణ కాలంలో పితృ తర్పణం / దర్శ శ్రాద్ధం ఆచరణీయం',
+                    desc_en: 'Aparahna ancestral Tarpanam & Darsha Shraddha'
+                });
+                seenDarshaShraddha[cycleKey] = true;
+            }
         }
 
-        // 6. Skanda / Subrahmanya Shashti
-        if (tithiSr === 5) {
-            let shNameTe = (cleanMasam === 'Margashirsha') ? 'శ్రీ సుబ్రహ్మణ్య షష్ఠి / స్కంద షష్ఠి (ప్రధాన షష్ఠి)' : 'స్కంద షష్ఠి వ్రతం';
-            let shNameEn = (cleanMasam === 'Margashirsha') ? 'Maha Subrahmanya Shashti / Skanda Shashti' : 'Skanda Shashti Vratam';
-            all.push({
-                cat: 'shashti',
-                icon: '🦚',
-                rawDate: dt.getTime(),
-                dateStr: dateDisplayTe,
-                dateStrEn: dateDisplayEn,
-                name_te: shNameTe,
-                name_en: shNameEn,
-                tithi_te: teMasam + ' శుక్ల షష్ఠి',
-                tithi_en: cleanMasam + ' Shukla Shashti',
-                desc_te: 'శ్రీ సుబ్రహ్మణ్య స్వామి పూజ, కుజదోష నివారణ, సంతాన సిద్ధి',
-                desc_en: 'Lord Subrahmanya worship, Kuja dosha pacification'
-            });
+        // 6. Skanda / Subrahmanya Shashti (Tithi 5)
+        const hasShashtiToday = (tithiSr === 5 || (tithiSr === 4 && nextTithiSr > 5));
+        if (hasShashtiToday) {
+            const cycleKey = masamDisplayEn;
+            if (!seenShashti[cycleKey]) {
+                let shNameTe = (cleanMasam === 'Margashirsha') ? 'శ్రీ సుబ్రహ్మణ్య షష్ఠి / స్కంద షష్ఠి (ప్రధాన షష్ఠి)' : 'స్కంద షష్ఠి వ్రతం';
+                let shNameEn = (cleanMasam === 'Margashirsha') ? 'Maha Subrahmanya Shashti / Skanda Shashti' : 'Skanda Shashti Vratam';
+                all.push({
+                    cat: 'shashti',
+                    icon: '🦚',
+                    rawDate: dt.getTime(),
+                    dateStr: dateDisplayTe,
+                    dateStrEn: dateDisplayEn,
+                    name_te: shNameTe,
+                    name_en: shNameEn,
+                    tithi_te: teMasam + ' శుక్ల షష్ఠి',
+                    tithi_en: masamDisplayEn + ' Shukla Shashti',
+                    desc_te: 'శ్రీ సుబ్రహ్మణ్య స్వామి పూజ, కుజదోష నివారణ, సంతాన సిద్ధి',
+                    desc_en: 'Lord Subrahmanya worship, Kuja dosha pacification'
+                });
+                seenShashti[cycleKey] = true;
+            }
         }
 
-        // 7. Amrita Siddhi Yoga
+        // 7. Amrita Siddhi Yoga (ZERO Telugu bleed in English mode)
         const amr = AMRITA_YOGA_CATALOG[dow];
         if (amr && amr.nak === nakSr) {
             all.push({
@@ -1172,11 +1275,139 @@ function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
                 name_te: 'అమృత సిద్ధి యోగం (' + amr.te + ')',
                 name_en: 'Amrita Siddhi Yoga (' + amr.en + ')',
                 tithi_te: pakshaStrTe + ' పక్షం, ' + (NAK_LIST_TELUGU[nakSr] || ''),
-                tithi_en: pakshaStrEn + ' Paksham, ' + (NAK_LIST_TELUGU[nakSr] || ''),
+                tithi_en: pakshaStrEn + ' Paksham, ' + (NAK_LIST_EN[nakSr] || ''),
                 desc_te: amr.desc_te,
                 desc_en: amr.desc_en
             });
         }
+
+        // Planetary Tracking for Combustions, Eclipses, and Transits
+        const p = getPlanetaryPositionsAnalytical(srJD);
+        const elong = ((p.Moon - p.Sun) % 360 + 360) % 360;
+
+        // Dynamic Eclipses
+        if (i > 0) {
+            // Solar Eclipse: New Moon near Node (dist < 18.5 deg)
+            if (prevElong > 340 && elong < 20) {
+                const dR = Math.min(Math.abs(p.Sun - p.Rahu), 360 - Math.abs(p.Sun - p.Rahu));
+                const dK = Math.min(Math.abs(p.Sun - p.Ketu), 360 - Math.abs(p.Sun - p.Ketu));
+                const dNode = Math.min(dR, dK);
+                if (dNode < 18.5) {
+                    all.push({
+                        cat: 'solarEclipse',
+                        icon: '🌑',
+                        rawDate: dt.getTime(),
+                        dateStr: dateDisplayTe,
+                        dateStrEn: dateDisplayEn,
+                        name_te: `సూర్యగ్రహణం (${teMasam} అమావాస్య)`,
+                        name_en: `Solar Eclipse (${masamDisplayEn} Amavasya)`,
+                        tithi_te: `${teMasam} బహుళ అమావాస్య`,
+                        tithi_en: `${masamDisplayEn} Krishna Amavasya`,
+                        desc_te: 'సూర్యగ్రహణ పుణ్యకాలం. జప, దాన, పితృ తర్పణములకు అత్యంత ప్రశస్తమైన సమయం.',
+                        desc_en: 'Solar Eclipse occurrence during Amavasya. Auspicious period for japa, charitable donations, and ancestral rites.'
+                    });
+                }
+            }
+            // Lunar Eclipse: Full Moon near Node (dist < 12.5 deg)
+            if (prevElong < 180 && elong >= 180) {
+                const dR = Math.min(Math.abs(p.Moon - p.Rahu), 360 - Math.abs(p.Moon - p.Rahu));
+                const dK = Math.min(Math.abs(p.Moon - p.Ketu), 360 - Math.abs(p.Moon - p.Ketu));
+                const dNode = Math.min(dR, dK);
+                if (dNode < 12.5) {
+                    all.push({
+                        cat: 'lunarEclipse',
+                        icon: '🌕',
+                        rawDate: dt.getTime(),
+                        dateStr: dateDisplayTe,
+                        dateStrEn: dateDisplayEn,
+                        name_te: `చంద్రగ్రహణం (${teMasam} పూర్ణిమ)`,
+                        name_en: `Lunar Eclipse (${masamDisplayEn} Purnima)`,
+                        tithi_te: `${teMasam} శుద్ధ పూర్ణిమ`,
+                        tithi_en: `${masamDisplayEn} Shukla Purnima`,
+                        desc_te: 'చంద్రగ్రహణ పుణ్యకాలం. రాత్రి వేళ జప, ధ్యానములకు పరమ పవిత్రం.',
+                        desc_en: 'Lunar Eclipse occurrence during Purnima night. Sacred period for mantra japa and meditation.'
+                    });
+                }
+            }
+        }
+
+        // Combustions (Guru & Shukra Maudhyam)
+        const dG = angDiff(p.Sun, p.Jupiter);
+        const dV = angDiff(p.Sun, p.Venus);
+        if (dG < 11 && !inGuru) {
+            inGuru = true;
+            guruStartObj = { date: dt, dateStrTe: dateDisplayTe, dateStrEn: dateDisplayEn, tithiTe: teMasam + ' ' + pakshaStrTe, tithiEn: masamDisplayEn + ' ' + pakshaStrEn };
+        }
+        if ((dG >= 11 || i === totalDays - 1) && inGuru) {
+            inGuru = false;
+            all.push({
+                cat: 'grahaMaudhya',
+                icon: '⚡',
+                rawDate: guruStartObj.date.getTime(),
+                dateStr: guruStartObj.dateStrTe + ' నుండి ' + dateDisplayTe + ' వరకు',
+                dateStrEn: guruStartObj.dateStrEn + ' to ' + dateDisplayEn,
+                name_te: 'బృహస్పతి (గురు) మౌఢ్యమి కాలం',
+                name_en: 'Guru Maudhyam (Jupiter Combustion)',
+                tithi_te: guruStartObj.tithiTe + ' నుండి ' + teMasam + ' ' + pakshaStrTe,
+                tithi_en: guruStartObj.tithiEn + ' to ' + masamDisplayEn + ' ' + pakshaStrEn,
+                desc_te: 'సూర్యునితో గురు సంయోగం. ఈ కాలంలో వివాహాలు, ఉపనయనాలు, గృహ ప్రవేశాది శుభకార్యాలు నిషిద్ధం.',
+                desc_en: 'Jupiter is combust with Sun. Inauspicious for weddings, upanayanam, housewarming, and auspicious ceremonies.'
+            });
+        }
+
+        if (dV < 9 && !inShukra) {
+            inShukra = true;
+            shukraStartObj = { date: dt, dateStrTe: dateDisplayTe, dateStrEn: dateDisplayEn, tithiTe: teMasam + ' ' + pakshaStrTe, tithiEn: masamDisplayEn + ' ' + pakshaStrEn };
+        }
+        if ((dV >= 9 || i === totalDays - 1) && inShukra) {
+            inShukra = false;
+            all.push({
+                cat: 'grahaMaudhya',
+                icon: '⚡',
+                rawDate: shukraStartObj.date.getTime(),
+                dateStr: shukraStartObj.dateStrTe + ' నుండి ' + dateDisplayTe + ' వరకు',
+                dateStrEn: shukraStartObj.dateStrEn + ' to ' + dateDisplayEn,
+                name_te: 'శుక్ర మౌఢ్యమి కాలం',
+                name_en: 'Shukra Maudhyam (Venus Combustion)',
+                tithi_te: shukraStartObj.tithiTe + ' నుండి ' + teMasam + ' ' + pakshaStrTe,
+                tithi_en: shukraStartObj.tithiEn + ' to ' + masamDisplayEn + ' ' + pakshaStrEn,
+                desc_te: 'సూర్యునితో శుక్ర సంయోగం. ఈ కాలంలో నూతన గృహ ప్రవేశాలు, వివాహాది శుభకార్యాలు నిషిద్ధం.',
+                desc_en: 'Venus is combust with Sun. Auspicious muhurthams for weddings and new ventures strictly avoided.'
+            });
+        }
+
+        // Dynamic Planetary Transits (Graha Sankranti)
+        if (prevP) {
+            const transList = [
+                { key: 'Jupiter', nameTe: 'బృహస్పతి (గురు)', nameEn: 'Jupiter', descTe: 'గురు సంచార మార్పు, విశేష శుభఫలం', descEn: 'Major Jupiter transit influencing wisdom, finances, and fortune' },
+                { key: 'Saturn', nameTe: 'శని భగవాన్', nameEn: 'Saturn', descTe: 'శని సంచార మార్పు, కర్మఫల ప్రదాత', descEn: 'Major Saturn transit influencing societal discipline and labor' },
+                { key: 'Mars', nameTe: 'కుజ గ్రహ', nameEn: 'Mars', descTe: 'కుజ సంచార మార్పు, ధైర్యసాహసాలు, భూలాభం', descEn: 'Mars transit influencing real estate, energy, and defense' },
+                { key: 'Rahu', nameTe: 'రాహు గ్రహ', nameEn: 'Rahu', descTe: 'రాహు సంచార మార్పు, విదేశీ యోగం', descEn: 'Rahu nodal transit influencing global trade and technology' }
+            ];
+
+            transList.forEach(tr => {
+                const r0 = Math.floor(prevP[tr.key] / 30);
+                const r1 = Math.floor(p[tr.key] / 30);
+                if (r0 !== r1) {
+                    all.push({
+                        cat: 'grahaSankranti',
+                        icon: '🪐',
+                        rawDate: dt.getTime(),
+                        dateStr: dateDisplayTe,
+                        dateStrEn: dateDisplayEn,
+                        name_te: `${tr.nameTe} ${RASHI_NAMES_TE[r1]} రాశి ప్రవేశం`,
+                        name_en: `${tr.nameEn} ingress into ${RASHI_NAMES_EN[r1]}`,
+                        tithi_te: `${teMasam} ${pakshaStrTe} పక్షం`,
+                        tithi_en: `${masamDisplayEn} ${pakshaStrEn} Paksham`,
+                        desc_te: tr.descTe,
+                        desc_en: tr.descEn
+                    });
+                }
+            });
+        }
+
+        prevElong = elong;
+        prevP = p;
     }
 
     // 8. Surya Sankramana Days (12 Major Rashi Ingresses)
@@ -1198,93 +1429,61 @@ function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
     SANKRANTI_SIGNS.forEach(s => {
         const ingress = findSunIngressDeg(s.deg, year + s.yOff, s.m, tz);
         const dt = new Date(ingress.date.year, ingress.date.month - 1, ingress.date.day);
-        const dateDisplayTe = ingress.date.day + ' ' + MONTHS_TE[ingress.date.month - 1] + ' ' + ingress.date.year + ', ' + DAYS_TE[ingress.dow];
-        const dateDisplayEn = ingress.date.day + ' ' + MONTHS_EN[ingress.date.month - 1] + ' ' + ingress.date.year + ', ' + DAYS_EN[ingress.dow];
+        if (dt >= ugadiDate && dt <= nextUgadi) {
+            const dateDisplayTe = ingress.date.day + ' ' + MONTHS_TE[ingress.date.month - 1] + ' ' + ingress.date.year + ', ' + DAYS_TE[ingress.dow];
+            const dateDisplayEn = ingress.date.day + ' ' + MONTHS_EN[ingress.date.month - 1] + ' ' + ingress.date.year + ', ' + DAYS_EN[ingress.dow];
+            all.push({
+                cat: 'sankramana',
+                icon: '☀️',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: s.te,
+                name_en: s.en,
+                tithi_te: 'సౌర మాస సంక్రమణం (' + s.deg + '°)',
+                tithi_en: 'Solar Ingress (' + s.deg + '°)',
+                desc_te: s.desc_te,
+                desc_en: s.desc_en
+            });
+        }
+    });
+
+    // If no combustions detected this year, add clean informational note
+    const combustions = all.filter(x => x.cat === 'grahaMaudhya');
+    if (combustions.length === 0) {
         all.push({
-            cat: 'sankramana',
-            icon: '☀️',
-            rawDate: dt.getTime(),
-            dateStr: dateDisplayTe,
-            dateStrEn: dateDisplayEn,
-            name_te: s.te,
-            name_en: s.en,
-            tithi_te: 'సౌర మాస సంక్రమణం (' + s.deg + '°)',
-            tithi_en: 'Solar Ingress (' + s.deg + '°)',
-            desc_te: s.desc_te,
-            desc_en: s.desc_en
+            cat: 'grahaMaudhya',
+            icon: '⚡',
+            rawDate: ugadiDate.getTime() + 86400000,
+            dateStr: 'ఈ సంవత్సరంలో మౌఢ్యములు లేవు',
+            dateStrEn: 'Combust-Free Year',
+            name_te: 'గురు / శుక్ర మౌఢ్యమి రాహిత్యం (Combust-Free Year)',
+            name_en: 'No Guru / Shukra Maudhyam this Year',
+            tithi_te: 'సంవత్సర వ్యాప్తం',
+            tithi_en: 'Throughout the Year',
+            desc_te: 'ఈ ఉగాది సంవత్సరంలో గురు లేదా శుక్ర మౌఢ్యములు లేవు. సంవత్సరం మొత్తం వివాహాది శుభకార్యములకు అనుకూలం.',
+            desc_en: 'No combustion periods for Jupiter or Venus this year. Favorable muhurtams for weddings throughout the year.'
         });
-    });
-
-    // 9. Lunar Eclipse
-    all.push({
-        cat: 'lunarEclipse',
-        icon: '🌕',
-        rawDate: new Date(year, 7, 28).getTime(),
-        dateStr: '28 ఆగస్టు ' + year + ', శుక్రవారం',
-        dateStrEn: '28 August ' + year + ', Friday',
-        name_te: 'పాక్షిక చంద్రగ్రహణం (శ్రావణ పూర్ణిమ)',
-        name_en: 'Partial Lunar Eclipse (Shravana Purnima)',
-        tithi_te: 'శ్రావణ శుద్ధ పూర్ణిమ (రాఖీ పౌర్ణమి)',
-        tithi_en: 'Shravana Shukla Purnima (Rakhi Pournami)',
-        desc_te: 'గ్రహణ పుణ్యకాలం, పూర్ణిమ రాత్రి వేళ సంభవించును. జప, దానములకు ప్రశస్తం.',
-        desc_en: 'Lunar Eclipse occurrence during night. Auspicious for japa and charitable offerings.'
-    });
-
-    // 10. Solar Eclipse
-    all.push({
-        cat: 'solarEclipse',
-        icon: '🌑',
-        rawDate: new Date(year + 1, 1, 6).getTime(),
-        dateStr: '6 ఫిబ్రవరి ' + (year + 1) + ', శనివారం',
-        dateStrEn: '6 February ' + (year + 1) + ', Saturday',
-        name_te: 'సూర్యగ్రహణం (భారతదేశంలో దృగ్గోచరం కాదు)',
-        name_en: 'Solar Eclipse (Not visible in India)',
-        tithi_te: 'మాఘ బహుళ అమావాస్య',
-        tithi_en: 'Magha Krishna Amavasya',
-        desc_te: 'ఈ సంవత్సరంలో సంభవించే సూర్యగ్రహణాలు భారతదేశంలో కనిపించవు (0 దినాలు ఆచరణీయం).',
-        desc_en: 'Solar eclipses occurring this year are not visible in India (0 observance days).'
-    });
-
-    // 11. Graha Maudhyam
-    all.push({
-        cat: 'grahaMaudhya',
-        icon: '⚡',
-        rawDate: new Date(year, 3, 1).getTime(),
-        dateStr: 'ఈ సంవత్సరంలో మౌఢ్యములు లేవు',
-        dateStrEn: 'No Combustions this Year',
-        name_te: 'గురు / శుక్ర మౌఢ్యమి రాహిత్యం (Combust-Free Year)',
-        name_en: 'No Guru / Shukra Maudhyam this Year',
-        tithi_te: 'సమస్త సంవత్సర వ్యాప్తం',
-        tithi_en: 'Throughout the Year',
-        desc_te: 'ఈ ఉగాది సంవత్సరంలో గురు లేదా శుక్ర మౌఢ్యములు లేవు. సంవత్సరం మొత్తం వివాహాది శుభకార్యములకు అనుకూలం.',
-        desc_en: 'No combustion periods for Jupiter or Venus this year. Year-round favorable muhurtams for weddings.'
-    });
-
-    // 12. Graha Sankranti (Major Planetary Transits)
-    const MAJOR_TRANSITS = [
-        { m: 6, d: 2, name_te: 'బృహస్పతి (గురు) మిథున రాశి ప్రవేశం', name_en: 'Jupiter ingress into Gemini (Mithuna)', tithi_te: 'జ్యేష్ఠ శుక్ల తదియ', tithi_en: 'Jyeshtha Shukla Tritiya', desc_te: 'గురు సంచార మార్పు, మేష, సింహ, తులా రాశులకు విశేష శుభఫలం', desc_en: 'Major Jupiter transit granting favorable results to Aries, Leo, Libra' },
-        { m: 10, d: 31, name_te: 'బృహస్పతి (గురు) కర్కాటక రాశి ప్రవేశం (అతిచార)', name_en: 'Jupiter ingress into Cancer (Karkataka)', tithi_te: 'కార్తీక బహుళ షష్ఠి', tithi_en: 'Kartika Krishna Shashti', desc_te: 'గురువు తన ఉచ్ఛక్షేత్రమైన కర్కాటకంలోకి ప్రవేశం', desc_en: 'Jupiter transits into its exaltation sign Cancer' },
-        { m: 5, d: 15, name_te: 'కుజ గ్రహ మేష రాశి ప్రవేశం', name_en: 'Mars ingress into Aries (Mesha)', tithi_te: 'వైశాఖ బహుళ అమావాస్య', tithi_en: 'Vaishakha Krishna Amavasya', desc_te: 'కుజుడు స్వక్షేత్ర ప్రవేశం, భూమి, రక్షణ రంగానికి బలం', desc_en: 'Mars enters its own sign Aries, empowering real estate and defense' },
-        { m: 7, d: 8, name_te: 'కుజ గ్రహ వృషభ రాశి ప్రవేశం', name_en: 'Mars ingress into Taurus (Vrishabha)', tithi_te: 'ఆషాఢ బహుళ నవమి', tithi_en: 'Ashadha Krishna Navami', desc_te: 'శుక్ర క్షేత్రంలో కుజ సంచారం', desc_en: 'Mars enters Taurus' }
-    ];
-    MAJOR_TRANSITS.forEach(tr => {
-        all.push({
-            cat: 'grahaSankranti',
-            icon: '🪐',
-            rawDate: new Date(year, tr.m - 1, tr.d).getTime(),
-            dateStr: tr.d + ' ' + MONTHS_TE[tr.m - 1] + ' ' + year,
-            dateStrEn: tr.d + ' ' + MONTHS_EN[tr.m - 1] + ' ' + year,
-            name_te: tr.name_te,
-            name_en: tr.name_en,
-            tithi_te: tr.tithi_te,
-            tithi_en: tr.tithi_en,
-            desc_te: tr.desc_te,
-            desc_en: tr.desc_en
-        });
-    });
+    }
 
     // Sort chronologically
     all.sort((a, b) => a.rawDate - b.rawDate);
+
+    // Compute counts dynamically
+    const counts = {
+        solarEclipse: all.filter(it => it.cat === 'solarEclipse').length,
+        lunarEclipse: all.filter(it => it.cat === 'lunarEclipse').length,
+        pradosha: all.filter(it => it.cat === 'pradosha').length,
+        darshaShraddha: all.filter(it => it.cat === 'darshaShraddha').length,
+        amritaSiddhi: all.filter(it => it.cat === 'amritaSiddhi').length,
+        sankashti: all.filter(it => it.cat === 'sankashti').length,
+        chandraDarshana: all.filter(it => it.cat === 'chandraDarshana').length,
+        sankramana: all.filter(it => it.cat === 'sankramana').length,
+        grahaSankranti: all.filter(it => it.cat === 'grahaSankranti').length,
+        grahaMaudhya: all.filter(it => it.cat === 'grahaMaudhya').length,
+        ekadashi: all.filter(it => it.cat === 'ekadashi').length,
+        shashti: all.filter(it => it.cat === 'shashti').length
+    };
 
     return { schedule: all, counts };
 }
@@ -1382,6 +1581,71 @@ function renderVrataSchedule(searchQuery = '') {
     }).join('');
 }
 
+function getTzOffsetFromTimezoneString(tzString, dateStr) {
+    if (!tzString) return 5.5;
+    try {
+        const d = dateStr ? new Date(dateStr) : new Date();
+        const str = d.toLocaleString('en-US', { timeZone: tzString, timeZoneName: 'shortOffset' });
+        const match = str.match(/GMT([+-]\d{1,2})(:(\d{2}))?/);
+        if (match) {
+            const h = parseFloat(match[1]);
+            const m = match[3] ? parseFloat(match[3]) / 60 : 0;
+            return h >= 0 ? h + m : h - m;
+        }
+    } catch(e) {}
+    return 5.5;
+}
+
+/* ═════════════════════════════════════════════════════════════════════════════════
+   UGADI ASTRONOMICAL DATE FINDER
+   ═════════════════════════════════════════════════════════════════════════════════ */
+function getUgadiSrJD(y, m, d, lat = 14.6778, lon = 77.6081, tz = 5.5) {
+    const dateStr = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+    let localTz = tz;
+    if (window._selectedCity && window._selectedCity.tzName) {
+        localTz = getTzOffsetFromTimezoneString(window._selectedCity.tzName, dateStr);
+    }
+    const st = computeSunTimes(y, m, d, lat, lon, localTz);
+    if (!st) return null;
+    const jdMid = dateToJD(y, m, d) - (localTz / 24);
+    return { srJD: jdMid + (st.sunrise / 24), localTz };
+}
+
+function findUgadiForYear(yTarget, lat = 14.6778, lon = 77.6081, tz = 5.5) {
+    for (let d = 0; d < 70; d++) {
+        let testDate = new Date(yTarget, 1, 20); // Feb 20
+        testDate.setDate(testDate.getDate() + d);
+        let y = testDate.getFullYear(), m = testDate.getMonth() + 1, day = testDate.getDate();
+        let res = getUgadiSrJD(y, m, day, lat, lon, tz);
+        if (!res) continue;
+        let tithiAtSr = getTithiIdx(res.srJD);
+        let lunar = getLunarCalendar(res.srJD);
+        let sunNir = getSunNirayana(res.srJD);
+        let sunRi = Math.floor(sunNir / 30); // 11 is Meena
+
+        // Standard case: Chaitra month and Pratipada (0) at sunrise
+        if (lunar.masam.indexOf('Chaitra') !== -1 && tithiAtSr === 0) {
+            return { date: testDate, srJD: res.srJD };
+        }
+
+        // Kshaya Pratipada case: Sun in Meena, today is Amavasya (29), tomorrow is Dvitiya (1)
+        if (tithiAtSr === 29 && (sunRi === 11 || sunRi === 0)) {
+            let nextDate = new Date(testDate);
+            nextDate.setDate(nextDate.getDate() + 1);
+            let nextRes = getUgadiSrJD(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate(), lat, lon, tz);
+            if (nextRes) {
+                let nextTithi = getTithiIdx(nextRes.srJD);
+                if (nextTithi === 1) {
+                    return { date: testDate, srJD: res.srJD };
+                }
+            }
+        }
+    }
+    let fallback = new Date(yTarget, 2, 20);
+    let resFb = getUgadiSrJD(fallback.getFullYear(), fallback.getMonth() + 1, fallback.getDate(), lat, lon, tz);
+    return { date: fallback, srJD: resFb ? resFb.srJD : dateToJD(yTarget, 3, 20) };
+}
+
 /* ═════════════════════════════════════════════════════════════════════════════════
    MASTER UGADI PHALALU CALCULATION
    ═════════════════════════════════════════════════════════════════════════════════ */
@@ -1406,37 +1670,7 @@ function calculateUgadiPhalalu() {
         tz  = parseFloat(document.getElementById('tzInput').value);
     }
 
-    function getUgadiSrJD(y, m, d) {
-        const dateStr = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
-        let localTz = tz;
-        if (window._selectedCity && window._selectedCity.tzName && (!customDiv || customDiv.style.display === 'none')) {
-            localTz = getTzOffsetFromTimezoneString(window._selectedCity.tzName, dateStr);
-        }
-        const st = computeSunTimes(y, m, d, lat, lon, localTz);
-        if (!st) return null;
-        const jdMid = dateToJD(y, m, d) - (localTz / 24);
-        return { srJD: jdMid + (st.sunrise / 24), localTz };
-    }
-
-    function findUgadiForYear(yTarget) {
-        for (let d = 0; d < 70; d++) {
-            let testDate = new Date(yTarget, 2, 1);
-            testDate.setDate(testDate.getDate() + d);
-            let y = testDate.getFullYear(), m = testDate.getMonth() + 1, day = testDate.getDate();
-            let res = getUgadiSrJD(y, m, day);
-            if (!res) continue;
-            let tithiAtSr = getTithiIdx(res.srJD);
-            let lunar = getLunarCalendar(res.srJD);
-            if (lunar.masam.indexOf('Chaitra') !== -1 && tithiAtSr === 0) {
-                return { date: testDate, srJD: res.srJD };
-            }
-        }
-        let fallback = new Date(yTarget, 2, 22);
-        let resFb = getUgadiSrJD(fallback.getFullYear(), fallback.getMonth() + 1, fallback.getDate());
-        return { date: fallback, srJD: resFb ? resFb.srJD : dateToJD(yTarget, 3, 22) };
-    }
-
-    const ugadiInfo = findUgadiForYear(year);
+    const ugadiInfo = findUgadiForYear(year, lat, lon, tz);
     const ugadiDate = ugadiInfo.date;
     const ugadiSrJD = ugadiInfo.srJD;
 
@@ -1449,7 +1683,7 @@ function calculateUgadiPhalalu() {
     const samvatsaraIdx = (kaliYear + 12) % 60;
     const samvatsaram = isTe ? SAMVATSARA_NAMES_TE[samvatsaraIdx] : SAMVATSARA_NAMES_EN[samvatsaraIdx];
 
-    const nextUgadiInfo = findUgadiForYear(year + 1);
+    const nextUgadiInfo = findUgadiForYear(year + 1, lat, lon, tz);
     const nextUgadi = nextUgadiInfo.date;
     const nextDateStr = nextUgadi ? `${MONTH_NAMES[nextUgadi.getMonth()]} ${nextUgadi.getDate()}, ${nextUgadi.getFullYear()}` : "—";
 
@@ -1687,17 +1921,18 @@ function renderUgadiChart(jd) {
     if (!container) return;
     container.innerHTML = '';
 
+    const pPos = getPlanetaryPositionsAnalytical(jd);
     const planets = {
-        Sun: { deg: getSunNirayana(jd) },
-        Moon: { deg: getMoonNirayana(jd) },
-        Mars: { deg: normDeg(getSunNirayana(jd) + 45) },
-        Mercury: { deg: normDeg(getSunNirayana(jd) - 15) },
-        Jupiter: { deg: normDeg(getSunNirayana(jd) + 60) },
-        Venus: { deg: normDeg(getSunNirayana(jd) + 25) },
-        Saturn: { deg: normDeg(getSunNirayana(jd) - 90) },
-        Rahu: { deg: normDeg(340 - (jd - 2451545.0)*0.05295) },
-        Ketu: { deg: normDeg(160 - (jd - 2451545.0)*0.05295) },
-        Lagna: { deg: getSunNirayana(jd) } // Sunrise Lagna
+        Sun: { deg: pPos.Sun },
+        Moon: { deg: pPos.Moon },
+        Mars: { deg: pPos.Mars },
+        Mercury: { deg: pPos.Mercury },
+        Jupiter: { deg: pPos.Jupiter },
+        Venus: { deg: pPos.Venus },
+        Saturn: { deg: pPos.Saturn },
+        Rahu: { deg: pPos.Rahu },
+        Ketu: { deg: pPos.Ketu },
+        Lagna: { deg: pPos.Sun } // Sunrise Lagna
     };
 
     const signGrid = [11, 0, 1, 2, 10, -1, -1, 3, 9, -1, -1, 4, 8, 7, 6, 5];
