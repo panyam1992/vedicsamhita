@@ -3631,7 +3631,9 @@ function isGrahanamVisibleLocally(exactJD, type, lat, lon) {
     
     let targetRA, targetDec;
     
-    if (type === "SURYA") {
+    const isSurya = (typeof type === 'string') && (type.toUpperCase().includes('SURYA') || type.toUpperCase().includes('SOLAR'));
+    
+    if (isSurya) {
         targetDec = Math.asin(Math.sin(obliq) * Math.sin(sunLong));
         targetRA = Math.atan2(Math.cos(obliq)*Math.sin(sunLong), Math.cos(sunLong)) * 180/Math.PI / 15;
     } else {
@@ -3647,12 +3649,12 @@ function isGrahanamVisibleLocally(exactJD, type, lat, lon) {
     const haRad = HA * 15 * Math.PI / 180;
     
     const cosZD = Math.sin(latRad)*Math.sin(targetDec) + Math.cos(latRad)*Math.cos(targetDec)*Math.cos(haRad);
-    const ZD = Math.acos(cosZD) * 180 / Math.PI; 
+    const ZD = Math.acos(Math.max(-1, Math.min(1, cosZD))) * 180 / Math.PI; 
     
-    if (type === "CHANDRA") {
+    if (!isSurya) {
         return ZD < 110; // Approx visible if ZD < 110 at mid-eclipse (so it's up during some part of the night)
     } else {
-        if (ZD > 90) return false; // Sun is below horizon
+        if (ZD > 89.0) return false; // Sun is below horizon
         
         const beta = Math.abs(getMoonLatitude(exactJD)) * 60; 
         const P_parallax = 54.0;

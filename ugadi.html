@@ -1072,6 +1072,7 @@ function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
 
     let prevElong = 0;
     let prevP = null;
+    let prevSrJD = null;
     let inGuru = false, guruStartObj = null;
     let inShukra = false, shukraStartObj = null;
 
@@ -1285,48 +1286,97 @@ function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
         const p = getPlanetaryPositionsAnalytical(srJD);
         const elong = ((p.Moon - p.Sun) % 360 + 360) % 360;
 
-        // Dynamic Eclipses
-        if (i > 0) {
-            // Solar Eclipse: New Moon near Node (dist < 18.5 deg)
-            if (prevElong > 340 && elong < 20) {
-                const dR = Math.min(Math.abs(p.Sun - p.Rahu), 360 - Math.abs(p.Sun - p.Rahu));
-                const dK = Math.min(Math.abs(p.Sun - p.Ketu), 360 - Math.abs(p.Sun - p.Ketu));
+        // Dynamic Eclipses (Exact Conjunction/Opposition & Local Visibility Check)
+        if (i > 0 && prevSrJD !== null) {
+            // Solar Eclipse: Conjunction (New Moon) near Node (dist < 18.5 deg)
+            if (prevElong > 330 && elong < 30) {
+                const d1 = 360 - prevElong;
+                const d2 = elong;
+                const frac = d1 / (d1 + d2);
+                const exactJD = prevSrJD + frac * (srJD - prevSrJD);
+
+                const pExact = getPlanetaryPositionsAnalytical(exactJD);
+                const dR = Math.min(Math.abs(pExact.Sun - pExact.Rahu), 360 - Math.abs(pExact.Sun - pExact.Rahu));
+                const dK = Math.min(Math.abs(pExact.Sun - pExact.Ketu), 360 - Math.abs(pExact.Sun - pExact.Ketu));
                 const dNode = Math.min(dR, dK);
+
                 if (dNode < 18.5) {
-                    all.push({
-                        cat: 'solarEclipse',
-                        icon: '🌑',
-                        rawDate: dt.getTime(),
-                        dateStr: dateDisplayTe,
-                        dateStrEn: dateDisplayEn,
-                        name_te: `సూర్యగ్రహణం (${teMasam} అమావాస్య)`,
-                        name_en: `Solar Eclipse (${masamDisplayEn} Amavasya)`,
-                        tithi_te: `${teMasam} బహుళ అమావాస్య`,
-                        tithi_en: `${masamDisplayEn} Krishna Amavasya`,
-                        desc_te: 'సూర్యగ్రహణ పుణ్యకాలం. జప, దాన, పితృ తర్పణములకు అత్యంత ప్రశస్తమైన సమయం.',
-                        desc_en: 'Solar Eclipse occurrence during Amavasya. Auspicious period for japa, charitable donations, and ancestral rites.'
-                    });
+                    const isVis = (typeof isGrahanamVisibleLocally === 'function') ?
+                        isGrahanamVisibleLocally(exactJD, 'SURYA', lat, lon) : true;
+                    if (isVis) {
+                        const localDt = jdToLocal(exactJD, tz);
+                        const ecDate = new Date(localDt.year, localDt.month - 1, localDt.day);
+                        const ecDow = ecDate.getDay();
+                        const ecDateDisplayTe = localDt.day + ' ' + MONTHS_TE[localDt.month - 1] + ' ' + localDt.year + ', ' + DAYS_TE[ecDow];
+                        const ecDateDisplayEn = localDt.day + ' ' + MONTHS_EN[localDt.month - 1] + ' ' + localDt.year + ', ' + DAYS_EN[ecDow];
+
+                        const ecLunar = getLunarCalendar(exactJD);
+                        const ecIsAdhika = ecLunar.isAdhika || ecLunar.masam.includes('Adhika');
+                        const ecCleanMasam = ecLunar.masam.replace(' (Adhika)', '').trim();
+                        let ecTeMasam = TELUGU_MASAM_NAMES_MAP[ecCleanMasam] || ecCleanMasam;
+                        if (ecIsAdhika) ecTeMasam = 'అధిక ' + ecTeMasam;
+                        const ecMasamDisplayEn = ecIsAdhika ? 'Adhika ' + ecCleanMasam : ecCleanMasam;
+
+                        all.push({
+                            cat: 'solarEclipse',
+                            icon: '🌑',
+                            rawDate: ecDate.getTime(),
+                            dateStr: ecDateDisplayTe,
+                            dateStrEn: ecDateDisplayEn,
+                            name_te: `సూర్యగ్రహణం (${ecTeMasam} అమావాస్య)`,
+                            name_en: `Solar Eclipse (${ecMasamDisplayEn} Amavasya)`,
+                            tithi_te: `${ecTeMasam} బహుళ అమావాస్య`,
+                            tithi_en: `${ecMasamDisplayEn} Krishna Amavasya`,
+                            desc_te: 'సూర్యగ్రహణ పుణ్యకాలం (ఈ ప్రదేశంలో దృశ్యమగును). జప, దాన, పితృ తర్పణములకు అత్యంత ప్రశస్తమైన సమయం.',
+                            desc_en: 'Locally visible Solar Eclipse during Amavasya. Auspicious period for mantra japa, charitable donations, and ancestral rites.'
+                        });
+                    }
                 }
             }
-            // Lunar Eclipse: Full Moon near Node (dist < 12.5 deg)
-            if (prevElong < 180 && elong >= 180) {
-                const dR = Math.min(Math.abs(p.Moon - p.Rahu), 360 - Math.abs(p.Moon - p.Rahu));
-                const dK = Math.min(Math.abs(p.Moon - p.Ketu), 360 - Math.abs(p.Moon - p.Ketu));
+
+            // Lunar Eclipse: Opposition (Full Moon) near Node (dist < 12.5 deg)
+            if (prevElong < 180 && elong >= 180 && (elong - prevElong) < 25) {
+                const d1 = 180 - prevElong;
+                const d2 = elong - 180;
+                const frac = d1 / (d1 + d2);
+                const exactJD = prevSrJD + frac * (srJD - prevSrJD);
+
+                const pExact = getPlanetaryPositionsAnalytical(exactJD);
+                const dR = Math.min(Math.abs(pExact.Moon - pExact.Rahu), 360 - Math.abs(pExact.Moon - pExact.Rahu));
+                const dK = Math.min(Math.abs(pExact.Moon - pExact.Ketu), 360 - Math.abs(pExact.Moon - pExact.Ketu));
                 const dNode = Math.min(dR, dK);
+
                 if (dNode < 12.5) {
-                    all.push({
-                        cat: 'lunarEclipse',
-                        icon: '🌕',
-                        rawDate: dt.getTime(),
-                        dateStr: dateDisplayTe,
-                        dateStrEn: dateDisplayEn,
-                        name_te: `చంద్రగ్రహణం (${teMasam} పూర్ణిమ)`,
-                        name_en: `Lunar Eclipse (${masamDisplayEn} Purnima)`,
-                        tithi_te: `${teMasam} శుద్ధ పూర్ణిమ`,
-                        tithi_en: `${masamDisplayEn} Shukla Purnima`,
-                        desc_te: 'చంద్రగ్రహణ పుణ్యకాలం. రాత్రి వేళ జప, ధ్యానములకు పరమ పవిత్రం.',
-                        desc_en: 'Lunar Eclipse occurrence during Purnima night. Sacred period for mantra japa and meditation.'
-                    });
+                    const isVis = (typeof isGrahanamVisibleLocally === 'function') ?
+                        isGrahanamVisibleLocally(exactJD, 'CHANDRA', lat, lon) : true;
+                    if (isVis) {
+                        const localDt = jdToLocal(exactJD, tz);
+                        const ecDate = new Date(localDt.year, localDt.month - 1, localDt.day);
+                        const ecDow = ecDate.getDay();
+                        const ecDateDisplayTe = localDt.day + ' ' + MONTHS_TE[localDt.month - 1] + ' ' + localDt.year + ', ' + DAYS_TE[ecDow];
+                        const ecDateDisplayEn = localDt.day + ' ' + MONTHS_EN[localDt.month - 1] + ' ' + localDt.year + ', ' + DAYS_EN[ecDow];
+
+                        const ecLunar = getLunarCalendar(exactJD);
+                        const ecIsAdhika = ecLunar.isAdhika || ecLunar.masam.includes('Adhika');
+                        const ecCleanMasam = ecLunar.masam.replace(' (Adhika)', '').trim();
+                        let ecTeMasam = TELUGU_MASAM_NAMES_MAP[ecCleanMasam] || ecCleanMasam;
+                        if (ecIsAdhika) ecTeMasam = 'అధిక ' + ecTeMasam;
+                        const ecMasamDisplayEn = ecIsAdhika ? 'Adhika ' + ecCleanMasam : ecCleanMasam;
+
+                        all.push({
+                            cat: 'lunarEclipse',
+                            icon: '🌕',
+                            rawDate: ecDate.getTime(),
+                            dateStr: ecDateDisplayTe,
+                            dateStrEn: ecDateDisplayEn,
+                            name_te: `చంద్రగ్రహణం (${ecTeMasam} పూర్ణిమ)`,
+                            name_en: `Lunar Eclipse (${ecMasamDisplayEn} Purnima)`,
+                            tithi_te: `${ecTeMasam} శుద్ధ పూర్ణిమ`,
+                            tithi_en: `${ecMasamDisplayEn} Shukla Purnima`,
+                            desc_te: 'చంద్రగ్రహణ పుణ్యకాలం (ఈ ప్రదేశంలో దృశ్యమగును). రాత్రి వేళ జప, ధ్యానములకు పరమ పవిత్రం.',
+                            desc_en: 'Locally visible Lunar Eclipse during Purnima night. Sacred period for mantra japa and meditation.'
+                        });
+                    }
                 }
             }
         }
@@ -1408,6 +1458,7 @@ function buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
 
         prevElong = elong;
         prevP = p;
+        prevSrJD = srJD;
     }
 
     // 8. Surya Sankramana Days (12 Major Rashi Ingresses)
@@ -2042,17 +2093,28 @@ window.onload = function() {
         const savedLoc = localStorage.getItem('vedicsamhita_user_location');
         if (savedLoc) {
             window._selectedCity = JSON.parse(savedLoc);
-            const cityInput = document.getElementById('citySearch');
-            if (cityInput) cityInput.value = window._selectedCity.name;
-            const latInput = document.getElementById('latInput');
-            const lonInput = document.getElementById('lonInput');
-            if (latInput) latInput.value = window._selectedCity.lat;
-            if (lonInput) lonInput.value = window._selectedCity.lon;
         } else {
-            window._selectedCity = { name: "Anantapur, Andhra Pradesh, India", lat: 14.6778, lon: 77.6081, tzName: "Asia/Kolkata" };
-            const cityInput = document.getElementById('citySearch');
-            if (cityInput) cityInput.value = window._selectedCity.name;
+            let defaultLoc = { name: "Anantapur, Andhra Pradesh, India", lat: 14.6778, lon: 77.6081, tzName: "Asia/Kolkata" };
+            try {
+                const clientTz = (typeof Intl !== 'undefined' && Intl.DateTimeFormat) ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'Asia/Kolkata';
+                if (clientTz && (clientTz.includes('Chicago') || clientTz.includes('Central'))) {
+                    defaultLoc = { name: "Frisco, Texas, United States", lat: 33.1507, lon: -96.8236, tzName: "America/Chicago" };
+                } else if (clientTz && (clientTz.includes('New_York') || clientTz.includes('Eastern'))) {
+                    defaultLoc = { name: "New York, NY, United States", lat: 40.7128, lon: -74.0060, tzName: "America/New_York" };
+                } else if (clientTz && (clientTz.includes('Los_Angeles') || clientTz.includes('Pacific'))) {
+                    defaultLoc = { name: "Los Angeles, CA, United States", lat: 34.0522, lon: -118.2437, tzName: "America/Los_Angeles" };
+                } else if (clientTz && clientTz.includes('London')) {
+                    defaultLoc = { name: "London, United Kingdom", lat: 51.5074, lon: -0.1278, tzName: "Europe/London" };
+                }
+            } catch(err) {}
+            window._selectedCity = defaultLoc;
         }
+        const cityInput = document.getElementById('citySearch');
+        if (cityInput) cityInput.value = window._selectedCity.name;
+        const latInput = document.getElementById('latInput');
+        const lonInput = document.getElementById('lonInput');
+        if (latInput) latInput.value = window._selectedCity.lat;
+        if (lonInput) lonInput.value = window._selectedCity.lon;
     } catch(e) {
         window._selectedCity = { name: "Anantapur, Andhra Pradesh, India", lat: 14.6778, lon: 77.6081, tzName: "Asia/Kolkata" };
         const cityInput = document.getElementById('citySearch');
