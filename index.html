@@ -119,30 +119,6 @@
         <div class="time-row"><span class="time-label" id="lblMoonRashi">Moon Rashi</span> <span class="time-val" id="valMoonRashi"></span></div>
     </div>
 
-    <!-- Auspicious & Classical Muhurtams -->
-    <div class="divider-ornament">⟡ ⟡ ⟡</div>
-    <h2 class="section-title" id="hdrAuspiciousTimes">Auspicious & Classical Muhurtams</h2>
-    <div class="times-grid">
-        <div class="time-row"><span class="time-label" id="lblAbhijit">Abhijit Muhurat</span> <span class="time-val auspicious" id="valAbhijit"></span></div>
-        <div class="time-row"><span class="time-label" id="lblAmritKalam">Amrit Kalam</span> <span class="time-val auspicious" id="valAmrit"></span></div>
-        <div class="time-row"><span class="time-label" id="lblBrahma">Brahma Muhurat</span> <span class="time-val auspicious" id="valBrahma"></span></div>
-        <div class="time-row"><span class="time-label" id="lblVijaya">Vijaya Muhurtam</span> <span class="time-val auspicious" id="valVijaya"></span></div>
-        <div class="time-row"><span class="time-label" id="lblGodhuli">Godhuli Muhurtam</span> <span class="time-val auspicious" id="valGodhuli"></span></div>
-        <div class="time-row"><span class="time-label" id="lblAparahna">Aparahna Kalam</span> <span class="time-val auspicious" id="valAparahna"></span></div>
-        <div class="time-row"><span class="time-label" id="lblPratah">Pratah Sandhya</span> <span class="time-val auspicious" id="valPratah"></span></div>
-        <div class="time-row"><span class="time-label" id="lblSayam">Sayam Sandhya</span> <span class="time-val auspicious" id="valSayam"></span></div>
-    </div>
-
-    <!-- Inauspicious Times -->
-    <h2 class="section-title" id="hdrInauspiciousTimes" style="color:#8b0000; margin-top:16px;">Inauspicious Times (Avoid)</h2>
-    <div class="times-grid">
-        <div class="time-row"><span class="time-label" id="lblRahu">Rahu Kalam</span> <span class="time-val inauspicious" id="valRahu"></span></div>
-        <div class="time-row"><span class="time-label" id="lblYamaganda">Yamaganda</span> <span class="time-val inauspicious" id="valYama"></span></div>
-        <div class="time-row"><span class="time-label" id="lblGulika">Gulika Kalam</span> <span class="time-val inauspicious" id="valGulika"></span></div>
-        <div class="time-row"><span class="time-label" id="lblDurmuhuratam">Durmuhuratam</span> <span class="time-val inauspicious" id="valDurmuhuratam"></span></div>
-        <div class="time-row"><span class="time-label" id="lblVarjyam">Varjyam</span> <span class="time-val inauspicious" id="valVarjyam"></span></div>
-    </div>
-
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
     <!-- Panchangam Elements -->
@@ -186,6 +162,37 @@
     <div id="dailyMuhurtaSection" class="daily-muhurta-card">
         <div id="valDailyMuhurtas" class="muhurta-grid"></div>
         <div class="muhurta-disclaimer" id="valMuhurtaDisclaimer"></div>
+
+        <!-- Auspicious & Classical Muhurtams -->
+        <div class="muhurta-timing-block" style="margin-top: 18px; padding-top: 14px; border-top: 1.5px dashed rgba(212, 175, 55, 0.4);">
+            <h3 id="hdrAuspiciousTimes" style="color: #1b5e20; font-family: 'Cinzel', serif; font-size: 1.05rem; margin: 0 0 10px; display: flex; align-items: center; gap: 8px;">
+                <span>✨</span> <span>Auspicious & Classical Muhurtams</span>
+            </h3>
+            <div class="times-grid" style="margin-top: 6px;">
+                <div class="time-row"><span class="time-label" id="lblAbhijit">Abhijit Muhurat</span> <span class="time-val auspicious" id="valAbhijit"></span></div>
+                <div class="time-row"><span class="time-label" id="lblAmritKalam">Amrit Kalam</span> <span class="time-val auspicious" id="valAmrit"></span></div>
+                <div class="time-row"><span class="time-label" id="lblBrahma">Brahma Muhurat</span> <span class="time-val auspicious" id="valBrahma"></span></div>
+                <div class="time-row"><span class="time-label" id="lblVijaya">Vijaya Muhurtam</span> <span class="time-val auspicious" id="valVijaya"></span></div>
+                <div class="time-row"><span class="time-label" id="lblGodhuli">Godhuli Muhurtam</span> <span class="time-val auspicious" id="valGodhuli"></span></div>
+                <div class="time-row"><span class="time-label" id="lblAparahna">Aparahna Kalam</span> <span class="time-val auspicious" id="valAparahna"></span></div>
+                <div class="time-row"><span class="time-label" id="lblPratah">Pratah Sandhya</span> <span class="time-val auspicious" id="valPratah"></span></div>
+                <div class="time-row"><span class="time-label" id="lblSayam">Sayam Sandhya</span> <span class="time-val auspicious" id="valSayam"></span></div>
+            </div>
+        </div>
+
+        <!-- Inauspicious Times -->
+        <div class="muhurta-timing-block" style="margin-top: 18px; padding-top: 14px; border-top: 1.5px dashed rgba(212, 175, 55, 0.4);">
+            <h3 id="hdrInauspiciousTimes" style="color: #8b0000; font-family: 'Cinzel', serif; font-size: 1.05rem; margin: 0 0 10px; display: flex; align-items: center; gap: 8px;">
+                <span>⚠️</span> <span>Inauspicious Times (Avoid)</span>
+            </h3>
+            <div class="times-grid" style="margin-top: 6px;">
+                <div class="time-row"><span class="time-label" id="lblRahu">Rahu Kalam</span> <span class="time-val inauspicious" id="valRahu"></span></div>
+                <div class="time-row"><span class="time-label" id="lblYamaganda">Yamaganda</span> <span class="time-val inauspicious" id="valYama"></span></div>
+                <div class="time-row"><span class="time-label" id="lblGulika">Gulika Kalam</span> <span class="time-val inauspicious" id="valGulika"></span></div>
+                <div class="time-row"><span class="time-label" id="lblDurmuhuratam">Durmuhuratam</span> <span class="time-val inauspicious" id="valDurmuhuratam"></span></div>
+                <div class="time-row"><span class="time-label" id="lblVarjyam">Varjyam</span> <span class="time-val inauspicious" id="valVarjyam"></span></div>
+            </div>
+        </div>
     </div>
 
     <!-- Day & Night Choghadiya Timings -->
