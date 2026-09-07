@@ -715,6 +715,75 @@
             font-family: inherit;
         }
         .chat-input:focus { outline: none; border-color: var(--accent-gold); }
+
+        /* Community Join Banner */
+        .community-banner {
+            background: linear-gradient(135deg, #4a0e0e 0%, #2e0808 100%);
+            border: 1.5px solid #d4af37;
+            border-radius: 8px;
+            padding: 12px 18px;
+            margin: 12px auto;
+            max-width: 1200px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            box-shadow: 0 4px 15px rgba(74, 14, 14, 0.2);
+        }
+        .community-banner-text {
+            color: #fff8e7;
+            font-family: 'Cinzel', serif;
+            font-size: 0.92rem;
+            font-weight: 600;
+        }
+        .community-banner-btns {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-community {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 14px;
+            border-radius: 5px;
+            font-family: 'Cinzel', sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .btn-wa {
+            background: #25d366;
+            color: #ffffff;
+            border: 1px solid #1ebe5d;
+        }
+        .btn-wa:hover {
+            background: #1ebe5d;
+            box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+            color: #ffffff;
+        }
+        .btn-tg {
+            background: #0088cc;
+            color: #ffffff;
+            border: 1px solid #0077b5;
+        }
+        .btn-tg:hover {
+            background: #0077b5;
+            box-shadow: 0 0 10px rgba(0, 136, 204, 0.5);
+            color: #ffffff;
+        }
+        @media (max-width: 600px) {
+            .community-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            .community-banner-btns {
+                width: 100%;
+                justify-content: center;
+            }
+        }
     </style>
 <body>
 
@@ -727,6 +796,15 @@
     <a href="family_jathakam.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Horoscope</a>
         <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Mandali',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
 </nav>
+
+<!-- Community Join Banner -->
+<div class="community-banner" style="margin: 12px auto; max-width: 1200px; width: 95%;">
+    <span class="community-banner-text">📲 Get Daily Dallas Panchangam & Sacred Artwork on Your Phone:</span>
+    <div class="community-banner-btns">
+        <a href="https://chat.whatsapp.com/CX4p4FQ6POd1nm5Rh0Jgtt" target="_blank" rel="noopener noreferrer" class="btn-community btn-wa">💬 Join Dallas WhatsApp</a>
+        <a href="https://t.me/Vedicmobilecalendar" target="_blank" rel="noopener noreferrer" class="btn-community btn-tg">✈️ Join Telegram</a>
+    </div>
+</div>
 
 <div class="container">
     <!-- Header -->
