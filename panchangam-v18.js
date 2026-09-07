@@ -2894,7 +2894,9 @@ function _calculatePanchangamInner() {
     let locName = window._selectedCity.name;
     
     // Check if user filled custom inputs instead
-    if (document.getElementById('customCoords').style.display !== 'none' && document.getElementById('latInput').value !== "") {
+    const customCoordsEl = document.getElementById('customCoords');
+    const isCustomVisible = customCoordsEl && customCoordsEl.style.display !== 'none' && customCoordsEl.style.display !== '';
+    if (isCustomVisible && document.getElementById('latInput') && document.getElementById('latInput').value !== "") {
         lat = parseFloat(document.getElementById('latInput').value);
         lon = parseFloat(document.getElementById('lonInput').value);
         tz  = parseFloat(document.getElementById('tzInput').value);
@@ -3741,7 +3743,9 @@ function computeDayData(y, m, d) {
     const dateStr = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
     let tz = getTzOffsetFromTimezoneString(window._selectedCity.tzName, dateStr);
     let locName = window._selectedCity.name;
-    if (document.getElementById('customCoords').style.display !== 'none' && document.getElementById('latInput').value !== "") {
+    const customCoordsEl = document.getElementById('customCoords');
+    const isCustomVisible = customCoordsEl && customCoordsEl.style.display !== 'none' && customCoordsEl.style.display !== '';
+    if (isCustomVisible && document.getElementById('latInput') && document.getElementById('latInput').value !== "") {
         lat = parseFloat(document.getElementById('latInput').value);
         lon = parseFloat(document.getElementById('lonInput').value);
         tz  = parseFloat(document.getElementById('tzInput').value);
