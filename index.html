@@ -53,7 +53,16 @@
     <a href="muhurtavali.html" id="navMuhurta" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
     <a href="family_jathakam.html" id="navFamily" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
     <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Mandali',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
-    <button class="lang-toggle-btn" onclick="toggleLanguage()">🌐 <span id="langBtnText">తెలుగు</span></button>
+    <button class="lang-toggle-btn" style="display:none;" onclick="toggleLanguage()">🌐 <span id="langBtnText">English</span></button>
+</div>
+
+<!-- Community Join Banner -->
+<div class="community-banner">
+    <span class="community-banner-text">📲 Get Daily Dallas Panchangam & Sacred Artwork on Your Phone:</span>
+    <div class="community-banner-btns">
+        <a href="https://chat.whatsapp.com/CX4p4FQ6POd1nm5Rh0Jgtt" target="_blank" rel="noopener noreferrer" class="btn-community btn-wa">💬 Join Dallas WhatsApp</a>
+        <a href="https://t.me/VedicSamhita_Notes_bot" target="_blank" rel="noopener noreferrer" class="btn-community btn-tg">✈️ Join Telegram</a>
+    </div>
 </div>
 
 <div class="input-section">
@@ -110,6 +119,30 @@
         <div class="time-row"><span class="time-label" id="lblMoonRashi">Moon Rashi</span> <span class="time-val" id="valMoonRashi"></span></div>
     </div>
 
+    <!-- Auspicious & Classical Muhurtams -->
+    <div class="divider-ornament">⟡ ⟡ ⟡</div>
+    <h2 class="section-title" id="hdrAuspiciousTimes">Auspicious & Classical Muhurtams</h2>
+    <div class="times-grid">
+        <div class="time-row"><span class="time-label" id="lblAbhijit">Abhijit Muhurat</span> <span class="time-val auspicious" id="valAbhijit"></span></div>
+        <div class="time-row"><span class="time-label" id="lblAmritKalam">Amrit Kalam</span> <span class="time-val auspicious" id="valAmrit"></span></div>
+        <div class="time-row"><span class="time-label" id="lblBrahma">Brahma Muhurat</span> <span class="time-val auspicious" id="valBrahma"></span></div>
+        <div class="time-row"><span class="time-label" id="lblVijaya">Vijaya Muhurtam</span> <span class="time-val auspicious" id="valVijaya"></span></div>
+        <div class="time-row"><span class="time-label" id="lblGodhuli">Godhuli Muhurtam</span> <span class="time-val auspicious" id="valGodhuli"></span></div>
+        <div class="time-row"><span class="time-label" id="lblAparahna">Aparahna Kalam</span> <span class="time-val auspicious" id="valAparahna"></span></div>
+        <div class="time-row"><span class="time-label" id="lblPratah">Pratah Sandhya</span> <span class="time-val auspicious" id="valPratah"></span></div>
+        <div class="time-row"><span class="time-label" id="lblSayam">Sayam Sandhya</span> <span class="time-val auspicious" id="valSayam"></span></div>
+    </div>
+
+    <!-- Inauspicious Times -->
+    <h2 class="section-title" id="hdrInauspiciousTimes" style="color:#8b0000; margin-top:16px;">Inauspicious Times (Avoid)</h2>
+    <div class="times-grid">
+        <div class="time-row"><span class="time-label" id="lblRahu">Rahu Kalam</span> <span class="time-val inauspicious" id="valRahu"></span></div>
+        <div class="time-row"><span class="time-label" id="lblYamaganda">Yamaganda</span> <span class="time-val inauspicious" id="valYama"></span></div>
+        <div class="time-row"><span class="time-label" id="lblGulika">Gulika Kalam</span> <span class="time-val inauspicious" id="valGulika"></span></div>
+        <div class="time-row"><span class="time-label" id="lblDurmuhuratam">Durmuhuratam</span> <span class="time-val inauspicious" id="valDurmuhuratam"></span></div>
+        <div class="time-row"><span class="time-label" id="lblVarjyam">Varjyam</span> <span class="time-val inauspicious" id="valVarjyam"></span></div>
+    </div>
+
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
     <!-- Panchangam Elements -->
@@ -125,12 +158,14 @@
     <div class="pitem"><span class="plabel" id="lblVasara">Vasara</span> <span class="pval" id="valVasara"></span></div>
     <div class="plist-label" id="lblNakshatram">Nakshatram</div>
     <ol class="plist" id="valNakshatra"></ol>
+    <div class="plist-label" id="lblPadam">Nakshatra Padam</div>
+    <ol class="plist" id="valPadam"></ol>
+    <div class="plist-label" id="lblAnandadiYoga">Anandadi Yoga</div>
+    <ol class="plist" id="valAnandadiYoga"></ol>
     <div class="plist-label" id="lblYogam">Yogam</div>
     <ol class="plist" id="valYoga"></ol>
     <div class="plist-label" id="lblKaranam">Karanam</div>
     <ol class="plist" id="valKarana"></ol>
-    <div class="plist-label" id="lblPadam">Nakshatra Padam</div>
-    <ol class="plist" id="valPadam"></ol>
     <div id="moudhyamSection" style="display:none;">
         <div class="plist-label" id="lblMaudhyam">Maudhyam</div>
         <ol class="plist" id="valMaudhyam"></ol>
@@ -233,6 +268,15 @@
     </div>
 
     <hr class="divider">
+
+    <!-- Community Join Banner (Bottom) -->
+    <div class="community-banner" style="margin-top: 20px; margin-bottom: 25px;">
+        <span class="community-banner-text">📲 Get Daily Dallas Panchangam & Sacred Artwork on Your Phone:</span>
+        <div class="community-banner-btns">
+            <a href="https://chat.whatsapp.com/CX4p4FQ6POd1nm5Rh0Jgtt" target="_blank" rel="noopener noreferrer" class="btn-community btn-wa">💬 Join Dallas WhatsApp</a>
+            <a href="https://t.me/VedicSamhita_Notes_bot" target="_blank" rel="noopener noreferrer" class="btn-community btn-tg">✈️ Join Telegram</a>
+        </div>
+    </div>
 
     <!-- Note -->
     <div class="note-section">

@@ -600,3 +600,76 @@
     color: #ffd700;
 }
 
+/* ─── Community Join Banner ─── */
+.community-banner {
+    background: linear-gradient(135deg, #4a0e0e 0%, #2e0808 100%);
+    border: 1.5px solid #d4af37;
+    border-radius: 8px;
+    padding: 12px 18px;
+    margin: 12px auto;
+    max-width: 900px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    box-shadow: 0 4px 15px rgba(74, 14, 14, 0.2);
+}
+.community-banner-text {
+    color: #fff8e7;
+    font-family: 'Cinzel', serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+}
+.community-banner-btns {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.btn-community {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 5px;
+    font-family: 'Cinzel', sans-serif;
+    font-size: 0.85rem;
+    font-weight: bold;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+.btn-wa {
+    background: #25d366;
+    color: #ffffff;
+    border: 1px solid #1ebe5d;
+}
+.btn-wa:hover {
+    background: #1ebe5d;
+    box-shadow: 0 0 10px rgba(37, 211, 102, 0.5);
+    color: #ffffff;
+}
+.btn-tg {
+    background: #0088cc;
+    color: #ffffff;
+    border: 1px solid #0077b5;
+}
+.btn-tg:hover {
+    background: #0077b5;
+    box-shadow: 0 0 10px rgba(0, 136, 204, 0.5);
+    color: #ffffff;
+}
+@media (max-width: 600px) {
+    .community-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .community-banner-btns {
+        width: 100%;
+        justify-content: center;
+    }
+    .btn-community {
+        width: 100%;
+        justify-content: center;
+    }
+}
+

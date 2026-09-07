@@ -10,8 +10,8 @@
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="manifest" href="manifest.json">
-    <title>ఉగాది పంచాంగ ఫలాలు - రాజాది నవనాయక నిర్ణయం | Vedic Samhita</title>
-    <meta name="description" content="ఉగాది పంచాంగ ఫలాలు - రాజాది నవనాయక నిర్ణయం, సంక్రాంతి పురుష లక్షణాలు, కందాయ ఫలాలు, ఆదాయ-వ్యయాలు మరియు 12 రాశుల వార్షిక ఫలితాలు.">
+    <title>Ugadi Panchangam Predictions - Rajadi Navanayaka Nirnayam | Vedic Samhita</title>
+    <meta name="description" content="Ugadi Panchangam Predictions - Rajadi Navanayaka Nirnayam, Makara Sankranti Purusha, Kandaya Phalam, Adaya-Vyaya, and Annual Sacred Vratas.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Mandali&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -449,20 +449,20 @@
     <!-- Site Navigation -->
     <nav class="site-nav">
         <a href="index.html">🙏 Daily Panchangam</a>
-        <a href="ugadi.html" class="active">📜 Ugadi Phalalu</a>
-        <a href="jathakam.html">🔮 Single Jathakam</a>
+        <a href="ugadi.html" class="active">📜 Ugadi Predictions</a>
+        <a href="jathakam.html">🔮 Single Horoscope</a>
         <a href="muhurtavali.html" class="admin-only">✨ Muhurtavali</a>
-        <a href="family_jathakam.html" class="admin-only">👨‍👩‍👧‍👦 Family Jathakam</a>
+        <a href="family_jathakam.html" class="admin-only">👨‍👩‍👧‍👦 Family Horoscope</a>
         <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Mandali',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
-        <button class="lang-toggle-btn" onclick="toggleLanguage()">🌐 <span id="langBtnText">English</span></button>
+        <button class="lang-toggle-btn" style="display:none;" onclick="toggleLanguage()">🌐 <span id="langBtnText">English</span></button>
     </nav>
 
     <div class="ugadi-container">
         <!-- Header -->
         <div class="ugadi-header">
             <img src="logo.jpg" alt="Vedic Samhita Logo">
-            <div class="ugadi-title" id="pageTitle">ఉగాది పంచాంగ ఫలితాలు</div>
-            <div class="ugadi-subtitle" id="pageSubTitle">రాజాది నవనాయక నిర్ణయం & వార్షిక ఫలాలు</div>
+            <div class="ugadi-title" id="pageTitle">Ugadi Panchangam Predictions</div>
+            <div class="ugadi-subtitle" id="pageSubTitle">Rajadi Navanayaka Nirnayam & Annual Predictions</div>
         </div>
 
         <!-- Selector Card (Location & Year) -->
@@ -470,16 +470,16 @@
             <div class="form-grid-2">
                 <div style="position: relative;">
                     <div class="input-label">
-                        <span id="lblLocation">స్థలము / నగరం (Location)</span>
+                        <span id="lblLocation">Location / City</span>
                         <span onclick="toggleCustomLocation()" style="font-size:0.8rem; color:var(--text-crimson); cursor:pointer; text-decoration:underline;">Custom Coords</span>
                     </div>
-                    <input type="text" id="citySearch" class="custom-input" placeholder="నగరం పేరు టైప్ చేయండి..." autocomplete="off" oninput="onCitySearchInput(this.value)">
+                    <input type="text" id="citySearch" class="custom-input" placeholder="Type city name..." autocomplete="off" oninput="onCitySearchInput(this.value)">
                     <div id="citySearchResults" style="display:none; position:absolute; top:100%; left:0; width:100%; background:#fff; border:1px solid #d4af37; border-radius:4px; max-height:200px; overflow-y:auto; z-index:1000; box-shadow:0 4px 10px rgba(0,0,0,0.1);"></div>
                 </div>
 
                 <div>
                     <div class="input-label">
-                        <span id="lblYear">సంవత్సరం ఎంచుకోండి (Select Year)</span>
+                        <span id="lblYear">Select Year</span>
                     </div>
                     <select id="ugadiYear" class="custom-input"></select>
                 </div>
@@ -491,25 +491,25 @@
                 <div><label style="font-size:0.8rem; color:#666; display:block;">UTC Offset</label><input type="number" id="tzInput" step="0.5" value="5.5" class="custom-input"></div>
             </div>
 
-            <button class="btn-calc" onclick="calculateUgadiPhalalu()">🙏 ఉగాది పంచాంగ ఫలితాలు గణించండి (Calculate)</button>
+            <button class="btn-calc" onclick="calculateUgadiPhalalu()">🙏 Calculate Ugadi Panchangam Predictions</button>
         </div>
 
         <!-- Ugadi Info Card -->
         <div class="info-card" id="ugadiInfoCard">
-            <h3>📅 <span id="hdrUgadiDetails">ఉగాది సమగ్ర వివరాలు</span></h3>
-            <div class="info-row"><span class="info-label" id="lblInfoLoc">స్థలము</span> <span class="info-value" id="uLocation">—</span></div>
-            <div class="info-row"><span class="info-label" id="lblInfoSamvat">ప్రభవాది సంవత్సరం</span> <span class="info-value" id="uSamvatsaram" style="color:var(--text-crimson); font-size:1.1rem;">—</span></div>
-            <div class="info-row"><span class="info-label" id="lblInfoDate">ఉగాది తేదీ (చైత్ర శుద్ధ పాడ్యమి)</span> <span class="info-value" id="uDate">—</span></div>
-            <div class="info-row"><span class="info-label" id="lblInfoDay">ఉగాది వారం</span> <span class="info-value" id="uDay">—</span></div>
-            <div class="info-row"><span class="info-label" id="lblInfoDuration">సంవత్సర వ్యవధి</span> <span class="info-value" id="uDuration">—</span></div>
+            <h3>📅 <span id="hdrUgadiDetails">Ugadi Comprehensive Details</span></h3>
+            <div class="info-row"><span class="info-label" id="lblInfoLoc">Location</span> <span class="info-value" id="uLocation">—</span></div>
+            <div class="info-row"><span class="info-label" id="lblInfoSamvat">Samvatsaram Name</span> <span class="info-value" id="uSamvatsaram" style="color:var(--text-crimson); font-size:1.1rem;">—</span></div>
+            <div class="info-row"><span class="info-label" id="lblInfoDate">Ugadi Date (Chaitra Shukla Padyami)</span> <span class="info-value" id="uDate">—</span></div>
+            <div class="info-row"><span class="info-label" id="lblInfoDay">Ugadi Weekday</span> <span class="info-value" id="uDay">—</span></div>
+            <div class="info-row"><span class="info-label" id="lblInfoDuration">Year Duration</span> <span class="info-value" id="uDuration">—</span></div>
         </div>
 
         <div class="section-divider">⟡ ⟡ ⟡</div>
 
         <!-- Jagallagnam & Ugadi Chart -->
         <div class="info-card">
-            <h3>🕉️ <span id="hdrJagallagnam">జగల్లగ్నం & ఉగాది జన్మ కుండలి (Ugadi Planetary Chart)</span></h3>
-            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px;">చైత్ర శుద్ధ పాడ్యమి సూర్యోదయ సమయానికి ఆకాశంలో గ్రహ స్థితులు & జగల్లగ్నం.</p>
+            <h3>🕉️ <span id="hdrJagallagnam">Jagallagnam & Ugadi Ingress Chart (Planetary Positions)</span></h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:8px;">Planetary positions and Jagat Lagna at Sunrise on Chaitra Shukla Padyami.</p>
             <div class="chart-box" id="ugadiSouthChart"></div>
         </div>
 
@@ -517,8 +517,8 @@
 
         <!-- Navanayaka Section -->
         <div class="info-card">
-            <h3>👑 <span id="hdrNavanayaka">రాజాది నవనాయక నిర్ణయం (9 Planetary Rulers & Shlokas)</span></h3>
-            <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0;">సంవత్సర పాలకులు: ఉగాది వారం మరియు సూర్య సంక్రమణాల ఆధారంగా నిర్ణయించబడిన 9 మంది నవనాయకులు.</p>
+            <h3>👑 <span id="hdrNavanayaka">Rajadi Navanayaka Nirnayam (9 Planetary Rulers & Shlokas)</span></h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0;">Annual Rulers: 9 Planetary Ministers determined by Ugadi weekday and Solar Ingresses.</p>
             <div class="nayaka-grid" id="nayakaContainer"></div>
         </div>
 
@@ -526,8 +526,8 @@
 
         <!-- Makara Sankranti Purusha Lakshanam Section -->
         <div class="info-card">
-            <h3>☀️ <span id="hdrSankranti">మకర సంక్రాంతి పురుష లక్షణాలు (Makara Sankranti Purusha)</span></h3>
-            <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0;">సంక్రాంతి పురుషుని గమనం, వస్త్రాలు, వాహనం మరియు వార్షిక దేశ/ప్రజా ఫలితాలు.</p>
+            <h3>☀️ <span id="hdrSankranti">Makara Sankranti Purusha Features</span></h3>
+            <p style="font-size:0.9rem; color:var(--text-muted); margin-top:0;">Ingress deity movements, attire, vehicle, and annual societal/economic results.</p>
             <div class="sankranti-card" id="sankrantiContainer"></div>
         </div>
 
@@ -535,8 +535,8 @@
 
         <!-- Kandaya Phalam -->
         <div class="info-card">
-            <h3>📊 <span id="hdrKandaya">27 నక్షత్రాల కందాయ ఫలాలు (Kandaya Phalam)</span></h3>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">ఉగాది తిథి, వారం, నక్షత్రం, యోగం, కరణాల సమన్వయ గణితం.</p>
+            <h3>📊 <span id="hdrKandaya">27 Nakshatras Kandaya Phalam</span></h3>
+            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">Harmonized classical calculation of Ugadi Tithi, Vara, Nakshatra, Yoga, and Karana.</p>
             <div id="kandayaResults" class="table-responsive"></div>
         </div>
 
@@ -544,7 +544,7 @@
 
         <!-- Adaya-Vyaya & Rajapujya-Avamana Section -->
         <div class="info-card">
-            <h3>💰 <span id="hdrAdayaVyaya">12 రాశుల ఆదాయ - వ్యయాలు & రాజపూజ్య - అవమానాలు</span></h3>
+            <h3>💰 <span id="hdrAdayaVyaya">12 Rashis Adaya - Vyaya & Rajapujya - Avamana</span></h3>
             <div id="adayaVyayaResults" class="table-responsive"></div>
             <div id="adayaVyayaNotes" style="margin-top:14px;"></div>
         </div>
@@ -554,11 +554,11 @@
         <!-- Annual Vrata & Astronomical Highlights with Dates Schedule Card -->
         <div class="info-card" id="ugadiHighlightsCard">
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
-                <h3 style="margin:0;">📿 <span id="hdrUgadiHighlights">సాంవత్సరిక విశేష దినాలు & వ్రతాల పట్టిక (Annual Vrata & Special Days with Dates)</span></h3>
+                <h3 style="margin:0;">📿 <span id="hdrUgadiHighlights">Annual Vrata & Special Days Schedule (Complete Sacred Dates)</span></h3>
                 <span id="vrataTotalCountBadge" style="background:#8b0000; color:#ffd700; padding:4px 12px; border-radius:15px; font-size:0.85rem; font-weight:bold; font-family:'Cinzel', serif;"></span>
             </div>
             <p id="subUgadiHighlights" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">
-                ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ తేదీల సమగ్ర పట్టిక (తేదీలను వీక్షించడానికి క్రింది వర్గాన్ని ఎంచుకోండి).
+                Comprehensive schedule of sacred Vratas, Eclipses, and Auspicious Days throughout this Ugadi year (Click any category card below to filter).
             </p>
 
             <!-- 12 Interactive Filter Category Cards -->
@@ -567,12 +567,12 @@
             <!-- Schedule Header & Search/Filter Controls -->
             <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:24px; margin-bottom:12px; padding-top:16px; border-top:1.5px dashed #d4af37;">
                 <div style="font-weight:bold; font-size:1.05rem; color:var(--text-royal);" id="vrataActiveCategoryTitle">
-                    📅 సమగ్ర తేదీల పట్టిక (Schedule of Sacred Dates)
+                    📅 Schedule of Sacred Dates
                 </div>
                 <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-                    <input type="text" id="vrataSearchInput" placeholder="శోధించండి (Search month, vrata, date)..." oninput="filterVrataSchedule(this.value)" style="padding:6px 12px; border:1px solid var(--border-gold); border-radius:4px; font-family:inherit; font-size:0.85rem; background:#fff; min-width:200px;">
+                    <input type="text" id="vrataSearchInput" placeholder="Search month, vrata, date..." oninput="filterVrataSchedule(this.value)" style="padding:6px 12px; border:1px solid var(--border-gold); border-radius:4px; font-family:inherit; font-size:0.85rem; background:#fff; min-width:200px;">
                     <button type="button" onclick="showAllVrataDates()" id="btnShowAllVratas" style="background:#4a0e0e; color:#ffd700; border:none; border-radius:4px; padding:6px 12px; font-size:0.85rem; font-weight:bold; cursor:pointer;">
-                        అన్నీ చూపించు (Show All)
+                        Show All
                     </button>
                 </div>
             </div>
@@ -583,10 +583,10 @@
                     <thead>
                         <tr style="position:sticky; top:0; background:#f4eedb; z-index:2;">
                             <th style="width:40px; text-align:center;">#</th>
-                            <th>విశేష పర్వదినం / వ్రతం (Sacred Vrata / Event)</th>
-                            <th>చాంద్రమాన మాసం & తిథి (Lunar Month & Tithi)</th>
-                            <th>ఆంగ్ల తేదీ & వారం (Gregorian Date & Day)</th>
-                            <th>విశేష వివరాలు / సమయం (Significance / Timings)</th>
+                            <th>Sacred Vrata / Festival Event</th>
+                            <th>Lunar Month & Tithi</th>
+                            <th>Gregorian Date & Day</th>
+                            <th>Significance & Auspicious Timings</th>
                         </tr>
                     </thead>
                     <tbody id="vrataScheduleBody">
@@ -600,18 +600,17 @@
 
         <!-- Footer -->
         <div style="text-align:center; padding:16px; background:#fcf9f2; border-radius:8px; font-size:0.85rem; color:#666;">
-            <strong>గమనిక (NOTE):</strong> ఉగాది ఫలితాలు చైత్ర శుద్ధ పాడ్యమి నుండి ఫాల్గుణ బహుళ అమావాస్య వరకు వర్తిస్తాయి.<br>
-            వేదిక్ సంహిత పంచాంగ గణితం ఆధారంగా తయారుచేయబడింది.
+            <strong>NOTE:</strong> Ugadi predictions apply from Chaitra Shukla Padyami to Phalguna Krishna Amavasya.<br>
+            Calculated according to authentic Vedic Samhita astronomical Siddhanta mathematics.
         </div>
     </div>
 
     <!-- Scripts -->
     <script src="panchangam-v18.js?v=8"></script>
     <script>
-let CURRENT_UGADI_LANG = 'te';
+let CURRENT_UGADI_LANG = 'en';
 try {
-    const saved = localStorage.getItem('VS_LANG');
-    if (saved === 'te' || saved === 'en') CURRENT_UGADI_LANG = saved;
+    localStorage.setItem('VS_LANG', 'en');
 } catch(e) {}
 
 function normDeg(deg) {
@@ -1809,16 +1808,17 @@ window.onload = function() {
         if (cityInput) cityInput.value = window._selectedCity.name;
     }
 
-    const isTe = (CURRENT_UGADI_LANG === 'te');
-    document.getElementById('langBtnText').textContent = isTe ? 'English' : 'తెలుగు';
-    document.getElementById('pageTitle').textContent = isTe ? 'ఉగాది పంచాంగ ఫలితాలు' : 'Ugadi Panchangam Predictions';
-    document.getElementById('pageSubTitle').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం & వార్షిక ఫలాలు' : 'Rajadi Navanayaka Nirnayam & Annual Predictions';
-    document.getElementById('hdrUgadiDetails').textContent = isTe ? 'ఉగాది సమగ్ర వివరాలు' : 'Ugadi Comprehensive Details';
-    document.getElementById('hdrJagallagnam').textContent = isTe ? 'జగల్లగ్నం & ఉగాది జన్మ కుండలి (Ugadi Planetary Chart)' : 'Jagallagnam & Ugadi Ingress Chart';
-    document.getElementById('hdrNavanayaka').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం (9 Planetary Rulers & Shlokas)' : 'Rajadi Navanayaka Nirnayam (9 Planetary Rulers)';
-    document.getElementById('hdrSankranti').textContent = isTe ? 'మకర సంక్రాంతి పురుష లక్షణాలు (Makara Sankranti Purusha)' : 'Makara Sankranti Purusha Features';
-    document.getElementById('hdrKandaya').textContent = isTe ? '27 నక్షత్రాల కందాయ ఫలాలు (Kandaya Phalam)' : '27 Nakshatras Kandaya Phalam';
-    document.getElementById('hdrAdayaVyaya').textContent = isTe ? '12 రాశుల ఆదాయ - వ్యయాలు & రాజపూజ్య - అవమానాలు' : '12 Rashis Adaya-Vyaya & Rajapujya-Avamana';
+    CURRENT_UGADI_LANG = 'en';
+    const isTe = false;
+    document.getElementById('langBtnText').textContent = 'English';
+    document.getElementById('pageTitle').textContent = 'Ugadi Panchangam Predictions';
+    document.getElementById('pageSubTitle').textContent = 'Rajadi Navanayaka Nirnayam & Annual Predictions';
+    document.getElementById('hdrUgadiDetails').textContent = 'Ugadi Comprehensive Details';
+    document.getElementById('hdrJagallagnam').textContent = 'Jagallagnam & Ugadi Ingress Chart';
+    document.getElementById('hdrNavanayaka').textContent = 'Rajadi Navanayaka Nirnayam (9 Planetary Rulers)';
+    document.getElementById('hdrSankranti').textContent = 'Makara Sankranti Purusha Features';
+    document.getElementById('hdrKandaya').textContent = '27 Nakshatras Kandaya Phalam';
+    document.getElementById('hdrAdayaVyaya').textContent = '12 Rashis Adaya-Vyaya & Rajapujya-Avamana';
 
     calculateUgadiPhalalu();
 };

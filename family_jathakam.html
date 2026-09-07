@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="manifest" href="manifest.json">
-    <title>వేదిక్ సంహిత - కుటుంబ సమగ్ర జాతక & సంప్రదింపు సూట్ (Family Astrologer Suite)</title>
+    <title>Vedic Samhita - Family Astrologer Suite (Multi-Chart Synastry)</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Mandali&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -555,13 +555,13 @@
             <div class="brand-title">
                 <span style="font-size: 24px;">🔮</span>
                 <div>
-                    <h1>వేదిక్ సంహిత - కుటుంబ సమగ్ర జాతక దర్శిని (Family Astrology Suite)</h1>
+                    <h1>Vedic Samhita - Family Astrology Suite</h1>
                     <p>Multi-Chart Family Synastry, Santana & Marriage Harmony, Karya Siddhi & Astrological Guidance</p>
                 </div>
             </div>
             <div class="header-actions">
-                <button class="btn btn-gold" onclick="openAddMemberModal()">➕ కొత్త సభ్యుడిని చేర్చండి (Add Member)</button>
-                <button class="btn btn-outline" onclick="saveCurrentCase()">💾 కేస్ సేవ్ (Save)</button>
+                <button class="btn btn-gold" onclick="openAddMemberModal()">➕ Add Member</button>
+                <button class="btn btn-outline" onclick="saveCurrentCase()">💾 Save Case</button>
                 <button class="btn btn-outline" onclick="exportCaseJSON()">📤 Export</button>
                 <input type="file" id="importFileInput" style="display:none" onchange="importCaseJSON(event)">
                 <button class="btn btn-outline" onclick="document.getElementById('importFileInput').click()">📥 Import</button>
@@ -573,15 +573,15 @@
         <!-- CASE HEADER BANNER -->
         <div class="case-banner">
             <div class="case-info">
-                <span style="font-weight: 700; color: var(--text-secondary);">👨‍👩‍👧‍👦 కేస్ / ఫ్యామిలీ పేరు:</span>
-                <input type="text" id="caseName" class="case-name-input" value="శ్రీనివాసరావు & కుటుంబం" placeholder="భక్తుని / కుటుంబం పేరు">
-                <span id="caseMemberCount" style="font-size: 12px; color: var(--accent-gold); font-weight: 600;">(2 సభ్యులు)</span>
+                <span style="font-weight: 700; color: var(--text-secondary);">👨‍👩‍👧‍👦 Case / Family Name:</span>
+                <input type="text" id="caseName" class="case-name-input" value="Srinivasa Rao & Family" placeholder="Family / Devotee Name">
+                <span id="caseMemberCount" style="font-size: 12px; color: var(--accent-gold); font-weight: 600;">(2 Members)</span>
             </div>
             <div style="display: flex; gap: 8px;">
                 <select id="savedCasesSelect" class="form-control" style="width: 200px;" onchange="loadSelectedCase(this.value)">
-                    <option value="">📂 సేవ్ చేసిన కేస్‌లు (Saved Cases)</option>
+                    <option value="">📂 Saved Cases</option>
                 </select>
-                <button class="btn btn-outline" onclick="clearAllMembers()" title="Clear Data">🗑️ క్లియర్</button>
+                <button class="btn btn-outline" onclick="clearAllMembers()" title="Clear Data">🗑️ Clear</button>
             </div>
         </div>
 
@@ -590,41 +590,41 @@
 
         <!-- NAVIGATION TABS -->
         <nav class="tabs-nav">
-            <button class="tab-btn active" onclick="switchTab('multiChartsTab', this)">📊 సంయుక్త చక్రాలు (Multi-Kundali)</button>
-            <button class="tab-btn" onclick="switchTab('santanaTab', this)">👶 సంతాన & గర్భ రక్షా విశ్లేషణ (Progeny / Miscarriages)</button>
-            <button class="tab-btn" onclick="switchTab('vivahaTab', this)">💍 వివాహ పొంతన & ముహూర్త నిర్ణయం (Marriage & Muhurtham)</button>
-            <button class="tab-btn" onclick="switchTab('karyaVighnaTab', this)">🚧 కార్య విఘ్న & స్తంభన నివారణ (Work Obstacles)</button>
-            <button class="tab-btn" onclick="switchTab('dhanamTab', this)">💰 కుటుంబ సంపద & అప్పులు (Wealth & Debts)</button>
-            <button class="tab-btn" onclick="switchTab('chatTab', this)">💬 సమగ్ర కుటుంబ జాతక సహాయకుడు (AI Astrologer)</button>
+            <button class="tab-btn active" onclick="switchTab('multiChartsTab', this)">📊 Synchronized Kundalis (Multi-Chart)</button>
+            <button class="tab-btn" onclick="switchTab('santanaTab', this)">👶 Progeny & Pregnancy Protection (Santana)</button>
+            <button class="tab-btn" onclick="switchTab('vivahaTab', this)">💍 Marriage Compatibility & Muhurtham</button>
+            <button class="tab-btn" onclick="switchTab('karyaVighnaTab', this)">🚧 Obstacles & Work Blockages (Karya Vighna)</button>
+            <button class="tab-btn" onclick="switchTab('dhanamTab', this)">💰 Family Wealth & Debts (Dhanam)</button>
+            <button class="tab-btn" onclick="switchTab('chatTab', this)">💬 Family Astrology AI Assistant</button>
         </nav>
 
         <!-- TAB 1: MULTI CHARTS -->
         <div id="multiChartsTab" class="tab-content active">
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🕉️ కుటుంబ సభ్యుల రాశి & నవాంశ చక్రాలు (Synchronized Kundalis)</div>
-                    <span style="font-size: 12px; color: var(--text-secondary);">అన్ని చక్రాలు ఏకకాలంలో పరిశీలించండి</span>
+                    <div class="section-title">🕉️ Family Members Rasi & Navamsa Charts (Synchronized Kundalis)</div>
+                    <span style="font-size: 12px; color: var(--text-secondary);">View all charts simultaneously</span>
                 </div>
                 <div id="multiChartsGrid" class="grid-2"></div>
             </div>
 
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🪐 కుటుంబ సభ్యుల ప్రస్తుత నడుస్తున్న దశా-భుక్తులు & లగ్న వివరాలు</div>
+                    <div class="section-title">🪐 Family Members Current Dasha-Bhukti & Lagna Details</div>
                 </div>
                 <div class="data-table-container">
                     <table class="data-table">
                         <thead>
                             <tr>
-                                <th>సభ్యుని పేరు</th>
-                                <th>సంబంధం</th>
-                                <th>లగ్నం</th>
-                                <th>జన్మ రాశి</th>
-                                <th>నక్షత్రం</th>
-                                <th>ప్రస్తుత మహాదశ</th>
-                                <th>అంతర్దశ (భుక్తి)</th>
-                                <th>ముగింపు తేదీ</th>
-                                <th>వక్ర గ్రహాలు (Retrograde)</th>
+                                <th>Member Name</th>
+                                <th>Relationship</th>
+                                <th>Lagna</th>
+                                <th>Janma Rasi</th>
+                                <th>Nakshatra</th>
+                                <th>Current Mahadasa</th>
+                                <th>Antardasa (Bhukti)</th>
+                                <th>End Date</th>
+                                <th>Retrograde Planets</th>
                             </tr>
                         </thead>
                         <tbody id="familyDasaTableBody"></tbody>
@@ -638,16 +638,16 @@
             <div class="grid-2">
                 <div class="section-card">
                     <div class="section-header">
-                        <div class="section-title">♂️ పురుష బీజ స్ఫుటం (Male Beeja Sphutam)</div>
-                        <span id="maleBeejaStatus" class="tag-direct">లెక్కిస్తోంది...</span>
+                        <div class="section-title">♂️ Male Beeja Sphutam</div>
+                        <span id="maleBeejaStatus" class="tag-direct">Calculating...</span>
                     </div>
                     <div class="score-box" id="maleBeejaDetails"></div>
                 </div>
 
                 <div class="section-card">
                     <div class="section-header">
-                        <div class="section-title">♀️ స్త్రీ క్షేత్ర స్ఫుటం (Female Kshetra Sphutam)</div>
-                        <span id="femaleKshetraStatus" class="tag-direct">లెక్కిస్తోంది...</span>
+                        <div class="section-title">♀️ Female Kshetra Sphutam</div>
+                        <span id="femaleKshetraStatus" class="tag-direct">Calculating...</span>
                     </div>
                     <div class="score-box" id="femaleKshetraDetails"></div>
                 </div>
@@ -655,14 +655,14 @@
 
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🐍 సర్ప / నాగ / పితృ / బాలారిష్ట దోష విశ్లేషణ (Miscarriages & Infant Mortality Diagnostics)</div>
+                    <div class="section-title">🐍 Sarpa / Naga / Pitru / Balarishta Diagnostics (Miscarriages & Infant Mortality)</div>
                 </div>
                 <div id="santanaDoshaAnalysisBox" style="font-size: 13.5px; line-height: 1.7;"></div>
             </div>
 
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🛡️ సంతాన ప్రాప్తి & గర్భ రక్షణ ప్రత్యక్ష వైదిక పరిహారాలు (Prescriptive Remedies)</div>
+                    <div class="section-title">🛡️ Prescriptive Vedic Remedies for Progeny & Pregnancy Protection</div>
                 </div>
                 <div id="santanaRemediesBox" style="font-size: 13.5px; line-height: 1.7;"></div>
             </div>
@@ -672,19 +672,19 @@
         <div id="vivahaTab" class="tab-content">
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">💍 అష్టకూట 36 గుణ మేళన పొంతన (Ashtakoota 36 Guna Milan)</div>
+                    <div class="section-title">💍 Ashtakoota 36 Guna Milan</div>
                     <div id="gunaTotalScoreBadge" class="score-val" style="font-size: 18px;">-- / 36</div>
                 </div>
                 <div class="data-table-container">
                     <table class="data-table" id="gunaMilanTable">
                         <thead>
                             <tr>
-                                <th>కూటమి (Koota)</th>
-                                <th>గరిష్ట గుణాలు</th>
-                                <th>పొందిన గుణాలు</th>
-                                <th>వరుడు (Groom)</th>
-                                <th>వధువు (Bride)</th>
-                                <th>ఫలితం (Status)</th>
+                                <th>Koota</th>
+                                <th>Max Gunas</th>
+                                <th>Obtained Gunas</th>
+                                <th>Groom</th>
+                                <th>Bride</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody id="gunaMilanTableBody"></tbody>
@@ -695,14 +695,14 @@
             <div class="grid-2">
                 <div class="section-card">
                     <div class="section-header">
-                        <div class="section-title">⚔️ కుజ దోష సామ్యం (Kuja Dosha Comparison)</div>
+                        <div class="section-title">⚔️ Kuja Dosha Comparison</div>
                     </div>
                     <div id="kujaDoshaMatchBox" style="font-size: 13.5px; line-height: 1.6;"></div>
                 </div>
 
                 <div class="section-card">
                     <div class="section-header">
-                        <div class="section-title">🔮 దాంపత్య భవిష్యత్తు & D-9 నవాంశ సమన్వయం</div>
+                        <div class="section-title">🔮 Marital Life Analysis & D-9 Navamsa Synthesis</div>
                     </div>
                     <div id="maritalLifeAnalysisBox" style="font-size: 13.5px; line-height: 1.6;"></div>
                 </div>
@@ -711,19 +711,19 @@
             <!-- VIVAHA MUHURTHAM GENERATOR -->
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">📅 వధూవరుల జాతక ఆధారిత వివాహ శుభ ముహూర్తాల జనరేటర్ (Vivaha Muhurtham Selector)</div>
+                    <div class="section-title">📅 Vivaha Muhurtham Selector</div>
                 </div>
                 <div class="form-grid" style="margin-bottom: 14px;">
                     <div class="form-group">
-                        <label>ప్రారంభ తేదీ (From Date)</label>
+                        <label>From Date</label>
                         <input type="date" id="muhurthamFromDate" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label>ముగింపు తేదీ (To Date - 3 Months)</label>
+                        <label>To Date (3 Months)</label>
                         <input type="date" id="muhurthamToDate" class="form-control">
                     </div>
                     <div class="form-group" style="align-self: flex-end;">
-                        <button class="btn btn-gold" style="width: 100%;" onclick="generateVivahaMuhurthams()">✨ శుభ ముహూర్తాలను శోధించండి (Search)</button>
+                        <button class="btn btn-gold" style="width: 100%;" onclick="generateVivahaMuhurthams()">✨ Search Auspicious Muhurthams</button>
                     </div>
                 </div>
                 <div id="muhurthamResultsContainer"></div>
@@ -734,14 +734,14 @@
         <div id="karyaVighnaTab" class="tab-content">
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🚧 పనులు మధ్యలోనే ఆగిపోవడానికి మూలకారణ విశ్లేషణ (Why Work Stops In Middle)</div>
+                    <div class="section-title">🚧 Root Cause Analysis for Delayed / Halted Work</div>
                 </div>
                 <div id="karyaVighnaAnalysisBox" style="font-size: 13.5px; line-height: 1.7;"></div>
             </div>
 
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🛡️ కార్యసిద్ధి & బంధన దోష నివారణ పరిహారాలు (Work Success Remedies)</div>
+                    <div class="section-title">🛡️ Work Success & Bandhana Dosha Remedies</div>
                 </div>
                 <div id="karyaVighnaRemediesBox" style="font-size: 13.5px; line-height: 1.7;"></div>
             </div>
@@ -751,7 +751,7 @@
         <div id="dhanamTab" class="tab-content">
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">💰 కుటుంబ సంపద & అప్పులు (Wealth & Debts)</div>
+                    <div class="section-title">💰 Family Wealth & Debts Analysis</div>
                 </div>
                 <div id="familyWealthAnalysisBox" style="font-size: 13.5px; line-height: 1.7;"></div>
             </div>
@@ -760,10 +760,10 @@
         <!-- TAB 6: AI ASTROLOGER CHAT -->
         <div id="chatTab" class="tab-content">
             <div class="presets-grid">
-                <button class="preset-btn" id="chatLangBtn" style="background:rgba(227,179,65,0.2); border-color:var(--accent-gold); color:var(--accent-gold); font-weight:bold;" onclick="toggleDevoteeChatLang()">🌐 Language: AUTO (TE/EN)</button>
-                <button class="preset-btn" onclick="setDevoteeQuestion('సంతాన సమస్యలు ఉన్నాయి, 4 గర్భస్రావాలు అయ్యాయి. కారణం మరియు పరిహారం ఏమిటి?')">👶 4 గర్భస్రావాల సమస్య & పరిహారం</button>
+                <button class="preset-btn" id="chatLangBtn" style="background:rgba(227,179,65,0.2); border-color:var(--accent-gold); color:var(--accent-gold); font-weight:bold; display:none;" onclick="toggleDevoteeChatLang()">🌐 Language: EN</button>
+                <button class="preset-btn" onclick="setDevoteeQuestion('Why were there childbearing issues and miscarriages? What are the astrological reasons and remedies?')">👶 Miscarriage Issues & Remedies</button>
                 <button class="preset-btn" onclick="setDevoteeQuestion('Why is work stopping in the middle? When will we get success and remedies?')">🚧 Work Stoppages & Remedies</button>
-                <button class="preset-btn" onclick="setDevoteeQuestion('వివాహం కుదిరింది, పెళ్లి తర్వాత వైవాహిక జీవితం ఎలా ఉంటుంది?')">💍 వివాహానంతర దాంపత్య జీవితం</button>
+                <button class="preset-btn" onclick="setDevoteeQuestion('Marriage is finalized. How will marital harmony and domestic life be?')">💍 Post-Marriage Harmony</button>
                 <button class="preset-btn" onclick="setDevoteeQuestion('Heavy debts and financial crisis in family, when will it clear?')">💰 Debts & Financial Relief</button>
                 <button class="preset-btn" onclick="setDevoteeQuestion('What are the remedies for health longevity and foreign travel?')">🩺 Health & Overseas Travel</button>
             </div>
@@ -771,13 +771,13 @@
             <div class="chat-container">
                 <div class="chat-history" id="chatHistory">
                     <div class="chat-msg bot">
-                        🙏 <strong>నమస్కారం గురువుగారు!</strong><br>
-                        కుటుంబ సభ్యుల జాతక వివరాలు లోడ్ అయ్యాయి. భక్తులు అడిగే ఎలాంటి క్లిష్టమైన ప్రశ్ననైనా (సంతాన దోషాలు, గర్భస్రావాలు, కార్య స్తంభనలు, వివాహ పొంతన, అప్పులు మొదలైనవి) ఇక్కడ అడగవచ్చు. కుటుంబ సభ్యులందరి గ్రహ స్థితులను సమన్వయం చేసి పూర్తి వేద జ్యోతిష్య సమాధానం అందించబడుతుంది.
+                        🙏 <strong>Welcome Guruji!</strong><br>
+                        Family members astrological profiles loaded. Ask any complex question regarding childbearing issues, miscarriages, work obstacles, marriage compatibility, debts, health, or foreign travel. Comprehensive Vedic astrological analysis and planetary remedies are synthesized across all charts.
                     </div>
                 </div>
                 <div class="chat-input-bar">
-                    <input type="text" id="devoteeQueryInput" class="chat-input" placeholder="భక్తుడు అడిగిన ప్రశ్నను ఇక్కడ టైప్ చేయండి (ఉదా: 4 miscarriages why, work stopping...)" onkeydown="if(event.key==='Enter') sendDevoteeQuery()">
-                    <button class="btn btn-gold" onclick="sendDevoteeQuery()">🔮 సమాధానం</button>
+                    <input type="text" id="devoteeQueryInput" class="chat-input" placeholder="Type devotee question here (e.g. miscarriage issues, work stopping, financial relief...)" onkeydown="if(event.key==='Enter') sendDevoteeQuery()">
+                    <button class="btn btn-gold" onclick="sendDevoteeQuery()">🔮 Analyze</button>
                 </div>
             </div>
         </div>
@@ -787,64 +787,64 @@
     <div class="modal-backdrop" id="addMemberModal">
         <div class="modal-card">
             <div class="section-header">
-                <div class="section-title">➕ కుటుంబ సభ్యుని వివరాలు చేర్చండి</div>
+                <div class="section-title">➕ Add Family Member Details</div>
                 <button class="btn btn-outline" style="padding: 4px 8px;" onclick="closeAddMemberModal()">✕</button>
             </div>
             <form onsubmit="saveMemberFromModal(event)">
                 <div class="form-grid">
                     <div class="form-group">
-                        <label>సభ్యుని పేరు (Name)</label>
-                        <input type="text" id="mName" class="form-control" required placeholder="ఉదా: శ్రీనివాస్">
+                        <label>Member Name</label>
+                        <input type="text" id="mName" class="form-control" required placeholder="e.g. Srinivas">
                     </div>
                     <div class="form-group">
-                        <label>సంబంధం (Relationship)</label>
+                        <label>Relationship</label>
                         <select id="mRel" class="form-control">
-                            <option value="భర్త / వరుడు (Husband/Groom)">భర్త / వరుడు (Husband/Groom)</option>
-                            <option value="భార్య / వధువు (Wife/Bride)">భార్య / వధువు (Wife/Bride)</option>
-                            <option value="సంతానం 1 (Child 1)">సంతానం 1 (Child 1)</option>
-                            <option value="సంతానం 2 (Child 2)">సంతానం 2 (Child 2)</option>
-                            <option value="తండ్రి (Father)">తండ్రి (Father)</option>
-                            <option value="తల్లి (Mother)">తల్లి (Mother)</option>
-                            <option value="ఇతరులు / భాగస్వామి (Partner)">ఇతరులు / భాగస్వామి (Partner)</option>
+                            <option value="Husband / Groom">Husband / Groom</option>
+                            <option value="Wife / Bride">Wife / Bride</option>
+                            <option value="Child 1">Child 1</option>
+                            <option value="Child 2">Child 2</option>
+                            <option value="Father">Father</option>
+                            <option value="Mother">Mother</option>
+                            <option value="Partner / Other">Partner / Other</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>లింగము (Gender)</label>
+                        <label>Gender</label>
                         <select id="mGender" class="form-control">
-                            <option value="male">పురుషుడు (Male)</option>
-                            <option value="female">స్త్రీ (Female)</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>జన్మ తేదీ (Date of Birth)</label>
+                        <label>Date of Birth</label>
                         <input type="date" id="mDate" class="form-control" required value="1992-02-29">
                     </div>
                     <div class="form-group">
-                        <label>జన్మ సమయం (Birth Time)</label>
+                        <label>Birth Time</label>
                         <input type="time" id="mTime" class="form-control" step="1" required value="13:45:00">
                     </div>
                     <div class="form-group">
-                        <label>జన్మ స్థలం / నగరం (City Search)</label>
+                        <label>Birth Place / City Search</label>
                         <input type="text" id="mCity" class="form-control" value="Anantapur, Andhra Pradesh, India" oninput="onCitySearchInput(this.value)">
                     </div>
                 </div>
                 <div class="form-grid" style="margin-top: 10px;">
                     <div class="form-group">
-                        <label>అక్షాంశం (Lat °)</label>
+                        <label>Latitude (Lat °)</label>
                         <input type="number" step="any" id="mLat" class="form-control" value="14.6778">
                     </div>
                     <div class="form-group">
-                        <label>రేఖాంశం (Lon °)</label>
+                        <label>Longitude (Lon °)</label>
                         <input type="number" step="any" id="mLon" class="form-control" value="77.6081">
                     </div>
                     <div class="form-group">
-                        <label>టైమ్‌జోన్ Offset (h)</label>
+                        <label>Timezone Offset (h)</label>
                         <input type="number" step="any" id="mTz" class="form-control" value="5.5">
                     </div>
                 </div>
                 <div style="margin-top: 16px; display: flex; justify-content: flex-end; gap: 8px;">
-                    <button type="button" class="btn btn-outline" onclick="closeAddMemberModal()">రద్దు (Cancel)</button>
-                    <button type="submit" class="btn btn-gold">సేవ్ చేయండి (Save Member)</button>
+                    <button type="button" class="btn btn-outline" onclick="closeAddMemberModal()">Cancel</button>
+                    <button type="submit" class="btn btn-gold">Save Member</button>
                 </div>
             </form>
         </div>
@@ -1117,8 +1117,8 @@ function getActiveDasaNode(dasaTree, checkDateStr) {
 let FAMILY_MEMBERS = [
     {
         id: 'mem_1',
-        name: 'శ్రీనివాసరావు',
-        rel: 'భర్త / వరుడు (Husband/Groom)',
+        name: 'Srinivasa Rao',
+        rel: 'Husband / Groom',
         gender: 'male',
         date: '1990-05-15',
         time: '08:30:00',
@@ -1129,8 +1129,8 @@ let FAMILY_MEMBERS = [
     },
     {
         id: 'mem_2',
-        name: 'లక్ష్మీ ప్రసన్న',
-        rel: 'భార్య / వధువు (Wife/Bride)',
+        name: 'Lakshmi Prasanna',
+        rel: 'Wife / Bride',
         gender: 'female',
         date: '1992-02-29',
         time: '13:45:00',
@@ -1150,7 +1150,7 @@ function renderMembersBar() {
 
     const allPill = document.createElement('div');
     allPill.className = `member-pill ${ACTIVE_MEMBER_ID === 'all' ? 'active' : ''}`;
-    allPill.innerHTML = `<span>👥 అందరూ (All View)</span>`;
+    allPill.innerHTML = `<span>👥 All Members</span>`;
     allPill.onclick = () => { ACTIVE_MEMBER_ID = 'all'; renderAll(); };
     bar.appendChild(allPill);
 
@@ -1167,7 +1167,7 @@ function renderMembersBar() {
     });
 
     const countEl = document.getElementById('caseMemberCount');
-    if (countEl) countEl.textContent = `(${FAMILY_MEMBERS.length} సభ్యులు)`;
+    if (countEl) countEl.textContent = `(${FAMILY_MEMBERS.length} Members)`;
 }
 
 function calculateMemberChart(m) {
@@ -1203,15 +1203,15 @@ function renderMultiChartsGrid(charts) {
                 <div class="section-title">
                     ${c.member.gender === 'male' ? '👨' : '👩'} ${c.member.name} (${c.member.rel.split(' ')[0]})
                 </div>
-                <span style="font-size:12px; color:var(--accent-gold);">లగ్నం: ${c.lagnaKP.rashiNameTe} | రాశి: ${c.moonKP.rashiNameTe}</span>
+                <span style="font-size:12px; color:var(--accent-gold);">Lagna: ${c.lagnaKP.rashiName} | Rasi: ${c.moonKP.rashiName}</span>
             </div>
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
                 <div>
-                    <div style="text-align:center; font-size:11.5px; font-weight:700; color:var(--accent-gold); margin-bottom:4px;">🕉️ D-1 రాశి చక్రం</div>
+                    <div style="text-align:center; font-size:11.5px; font-weight:700; color:var(--accent-gold); margin-bottom:4px;">🕉️ D-1 Rasi Chart</div>
                     <div class="chart-box" id="chart_d1_${c.member.id}"></div>
                 </div>
                 <div>
-                    <div style="text-align:center; font-size:11.5px; font-weight:700; color:var(--accent-blue); margin-bottom:4px;">🔮 D-9 నవాంశ చక్రం</div>
+                    <div style="text-align:center; font-size:11.5px; font-weight:700; color:var(--accent-blue); margin-bottom:4px;">🔮 D-9 Navamsa Chart</div>
                     <div class="chart-box" id="chart_d9_${c.member.id}"></div>
                 </div>
             </div>
@@ -1254,7 +1254,7 @@ function renderSouthChartDOM(containerId, planets, isNavamsa, highlightRasi = -1
             if (i === 5) {
                 const centerDiv = document.createElement('div');
                 centerDiv.className = 'chart-center';
-                centerDiv.innerHTML = `<h4>${isNavamsa ? 'D-9 NAVAMSA' : 'D-1 RASI'}</h4><p>${isNavamsa ? 'నవాంశ' : 'రాశి'}</p>`;
+                centerDiv.innerHTML = `<h4>${isNavamsa ? 'D-9 NAVAMSA' : 'D-1 RASI'}</h4><p>${isNavamsa ? 'NAVAMSA' : 'RASI'}</p>`;
                 container.appendChild(centerDiv);
             }
             continue;
@@ -1264,15 +1264,15 @@ function renderSouthChartDOM(containerId, planets, isNavamsa, highlightRasi = -1
         cell.className = 'chart-cell';
         if (highlightRasi === signIdx) cell.classList.add('highlight-moon');
 
-        cell.innerHTML = `<div class="rashi-name">${RASHI_TELUGU[signIdx]}</div>`;
+        cell.innerHTML = `<div class="rashi-name">${RASHI_NAMES[signIdx]}</div>`;
         const grahasDiv = document.createElement('div');
         grahasDiv.className = 'rashi-grahas';
 
         for (const g of signGrahas[signIdx]) {
             const pill = document.createElement('span');
             pill.className = `graha-pill ${getGrahaClass(g.name)} ${g.isRetro ? 'vakra-graha' : ''}`;
-            const shortTe = { Lagna: 'ల', Sun: 'రవి', Moon: 'చం', Mars: 'కు', Mercury: 'బు', Jupiter: 'గు', Venus: 'శు', Saturn: 'శని', Rahu: 'రా', Ketu: 'కే' }[g.name] || g.name;
-            pill.textContent = shortTe + (g.isRetro ? '(వ)' : '');
+            const shortEn = { Lagna: 'ASC', Sun: 'Su', Moon: 'Mo', Mars: 'Ma', Mercury: 'Me', Jupiter: 'Ju', Venus: 'Ve', Saturn: 'Sa', Rahu: 'Ra', Ketu: 'Ke' }[g.name] || g.name;
+            pill.textContent = shortEn + (g.isRetro ? '(R)' : '');
             grahasDiv.appendChild(pill);
         }
 
@@ -1294,17 +1294,17 @@ function renderFamilyDasaTable(charts) {
     charts.forEach(c => {
         const retroGrahas = Object.entries(c.planets)
             .filter(([k, v]) => v.isRetro && !['Rahu', 'Ketu', 'Lagna'].includes(k))
-            .map(([k, v]) => `${v.name_te || k} (వక్రం)`);
+            .map(([k, v]) => `${k} (Retrograde)`);
 
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><strong>${c.member.name}</strong></td>
             <td><span class="tag-direct">${c.member.rel}</span></td>
-            <td><strong>${c.lagnaKP.rashiNameTe}</strong></td>
-            <td>${c.moonKP.rashiNameTe}</td>
-            <td>${c.moonKP.nakNameTe} (${c.moonKP.nakPada})</td>
-            <td><strong style="color:var(--accent-gold);">${c.activeDasa.md.lordTe}</strong></td>
-            <td><strong style="color:var(--accent-blue);">${c.activeDasa.bh.lordTe}</strong></td>
+            <td><strong>${c.lagnaKP.rashiName}</strong></td>
+            <td>${c.moonKP.rashiName}</td>
+            <td>${c.moonKP.nakName} (${c.moonKP.nakPada} Padam)</td>
+            <td><strong style="color:var(--accent-gold);">${c.activeDasa.md.lord}</strong></td>
+            <td><strong style="color:var(--accent-blue);">${c.activeDasa.bh.lord}</strong></td>
             <td>${c.activeDasa.bh.end}</td>
             <td>${retroGrahas.length ? `<span class="tag-retro">${retroGrahas.join(', ')}</span>` : '<span style="color:var(--text-muted);">(None)</span>'}</td>
         `;
@@ -1313,11 +1313,11 @@ function renderFamilyDasaTable(charts) {
 }
 
 /* ═════════════════════════════════════════════════════════════════════════════════
-   SANTANA & MISCARRIAGE ROOT-CAUSE ENGINE (పుత్రదోష & బాలారిష్ట విశ్లేషణ)
+   SANTANA & MISCARRIAGE ROOT-CAUSE ENGINE
    ═════════════════════════════════════════════════════════════════════════════════ */
 function analyzeSantanaAndMiscarriages(charts) {
-    const husband = charts.find(c => c.member.gender === 'male' || c.member.rel.includes('భర్త') || c.member.rel.includes('వరుడు')) || charts[0];
-    const wife = charts.find(c => c.member.gender === 'female' || c.member.rel.includes('భార్య') || c.member.rel.includes('వధువు')) || (charts.length > 1 ? charts[1] : charts[0]);
+    const husband = charts.find(c => c.member.gender === 'male' || c.member.rel.toLowerCase().includes('husband') || c.member.rel.toLowerCase().includes('groom') || c.member.rel.includes('భర్త')) || charts[0];
+    const wife = charts.find(c => c.member.gender === 'female' || c.member.rel.toLowerCase().includes('wife') || c.member.rel.toLowerCase().includes('bride') || c.member.rel.includes('భార్య')) || (charts.length > 1 ? charts[1] : charts[0]);
 
     if (!husband || !wife) return;
 
@@ -1334,29 +1334,29 @@ function analyzeSantanaAndMiscarriages(charts) {
     const beejaBox = document.getElementById('maleBeejaDetails');
     if (beejaBox) {
         beejaBox.innerHTML = `
-            <div style="font-size:14px;">బీజ స్ఫుట రేఖాంశం: <strong>${fmtDMS(beejaDeg)}</strong> (${RASHI_TELUGU[beejaRasiIdx]})</div>
+            <div style="font-size:14px;">Male Beeja Sphutam: <strong>${fmtDMS(beejaDeg)}</strong> (${RASHI_NAMES[beejaRasiIdx]})</div>
             <p style="font-size:12.5px; color:${isBeejaOdd ? 'var(--accent-green)' : 'var(--accent-red)'}; font-weight:700;">
-                ${isBeejaOdd ? '✅ పురుష బీజ బలం ఉత్తమం (Beeja Sphutam is in Odd Sign - Highly Fertile).' : '⚠️ బీజ స్ఫుటంలో మధ్యమ బలం (Beeja Sphutam in Even Sign - Medical & Spiritual boost advised).'}
+                ${isBeejaOdd ? '✅ Male Beeja strength is strong (Odd Sign - Highly Fertile).' : '⚠️ Male Beeja strength is moderate (Even Sign - Propitiation & healthcare advised).'}
             </p>
         `;
         document.getElementById('maleBeejaStatus').className = isBeejaOdd ? 'tag-direct' : 'tag-retro';
-        document.getElementById('maleBeejaStatus').textContent = isBeejaOdd ? 'శుభ బలం (Strong)' : 'పరిహారం అవసరం (Needs Remedy)';
+        document.getElementById('maleBeejaStatus').textContent = isBeejaOdd ? 'Strong' : 'Remedy Advised';
     }
 
     const kshetraBox = document.getElementById('femaleKshetraDetails');
     if (kshetraBox) {
         kshetraBox.innerHTML = `
-            <div style="font-size:14px;">క్షేత్ర స్ఫుట రేఖాంశం: <strong>${fmtDMS(kshetraDeg)}</strong> (${RASHI_TELUGU[kshetraRasiIdx]})</div>
+            <div style="font-size:14px;">Female Kshetra Sphutam: <strong>${fmtDMS(kshetraDeg)}</strong> (${RASHI_NAMES[kshetraRasiIdx]})</div>
             <p style="font-size:12.5px; color:${isKshetraEven ? 'var(--accent-green)' : 'var(--accent-red)'}; font-weight:700;">
-                ${isKshetraEven ? '✅ స్త్రీ క్షేత్ర బలం సంపూర్ణం (Kshetra Sphutam in Even Sign - Highly Auspicious for Garbhadharana).' : '⚠️ గర్భ ధారణలో ఆటంకాలు, క్షేత్ర దోషం (Kshetra Sphutam afflicted - Garbha Raksha remedy required).'}
+                ${isKshetraEven ? '✅ Female Kshetra strength is strong (Even Sign - Highly Auspicious for Conception).' : '⚠️ Kshetra Sphutam afflicted (Odd Sign - Garbha Raksha remedies advised).'}
             </p>
         `;
         document.getElementById('femaleKshetraStatus').className = isKshetraEven ? 'tag-direct' : 'tag-retro';
-        document.getElementById('femaleKshetraStatus').textContent = isKshetraEven ? 'శుభ బలం (Strong)' : 'గర్భరక్ష పరిహారం (Requires Care)';
+        document.getElementById('femaleKshetraStatus').textContent = isKshetraEven ? 'Strong' : 'Requires Care';
     }
 
     const wife5thSign = (wife.lagnaKP.rashiIdx + 4) % 12;
-    const wife5thLord = RASHI_LORDS_TELUGU[wife5thSign];
+    const wife5thLord = RASHI_LORDS[wife5thSign];
     const hasSarpaDosha = [wife.planets.Rahu.deg, wife.planets.Ketu.deg, wife.planets.Saturn.deg].some(d => Math.floor(d/30) === wife5thSign);
     const isPutrakarakaAfflicted = wife.planets.Jupiter.isRetro || [wife.planets.Rahu.deg, wife.planets.Ketu.deg].some(d => Math.abs(d - wife.planets.Jupiter.deg) < 12);
 
@@ -1364,11 +1364,11 @@ function analyzeSantanaAndMiscarriages(charts) {
     if (doshaBox) {
         doshaBox.innerHTML = `
             <div style="background:rgba(255,123,114,0.06); border:1px solid rgba(255,123,114,0.3); border-radius:8px; padding:14px;">
-                <h4 style="color:var(--accent-red); margin-bottom:8px;">⚠️ గర్భస్రావాలు (Miscarriages) & బాలారిష్ట సమస్యల మూలకారణాలు:</h4>
+                <h4 style="color:var(--accent-red); margin-bottom:8px;">⚠️ Miscarriages & Progeny Hurdles Root Causes:</h4>
                 <ul style="margin-left:20px; line-height:1.7;">
-                    <li><strong>భార్య 5వ భావం (గర్భస్థానం):</strong> ${RASHI_TELUGU[wife5thSign]} రాశి (అధిపతి: ${wife5thLord}). ${hasSarpaDosha ? '<span style="color:var(--accent-red); font-weight:700;">పాప గ్రహాల (రాహు/కేతు/శని) సంయోగం వల్ల సర్ప/నాగ దోషం లేదా గర్భస్రావ యోగం ఏర్పడుతోంది.</span>' : 'సాధారణ శుభ దృష్టి ఉన్నది.'}</li>
-                    <li><strong>పుత్రకారకుడు (దేవగురువు):</strong> గురువు ${wife.planets.Jupiter.isRetro ? '<span style="color:var(--accent-red);">వక్ర గతిలో</span>' : 'శుభ గతిలో'} ఉన్నారు. ${isPutrakarakaAfflicted ? 'రాహు-కేతువుల ప్రభావం వల్ల గర్భధారణ నిలవడంలో తీవ్ర ఆటంకాలు ఏర్పడుతున్నాయి.' : 'గురుబలం తోడ్పడుతోంది.'}</li>
-                    <li><strong>బాలారిష్ట యోగ విశ్లేషణ:</strong> చంద్రునికి 6/8/12 స్థానాల్లో పాపగ్రహాల సంచారం ఉన్నప్పుడు శిశు జననం జరిగిన స్వల్ప కాలంలోనే ఆయుర్దాయ గండాలు (Infant Longevity blocks) వస్తాయి. దీనికి ఆయుష్య హోమం & మహా మృత్యుంజయ శాంతి తప్పనిసరి.</li>
+                    <li><strong>Wife 5th House (Garbha Sthana):</strong> ${RASHI_NAMES[wife5thSign]} sign (Lord: ${wife5thLord}). ${hasSarpaDosha ? '<span style="color:var(--accent-red); font-weight:700;">Afflicted by Rahu/Ketu/Saturn causing Sarpa/Naga dosha or miscarriage vulnerability.</span>' : 'Favorable aspect present.'}</li>
+                    <li><strong>Putrakaraka (Jupiter):</strong> Jupiter is placed ${wife.planets.Jupiter.isRetro ? '<span style="color:var(--accent-red);">in retrograde</span>' : 'in direct motion'}. ${isPutrakarakaAfflicted ? 'Nodal axis affliction delays embryo retention.' : 'Jupiterian grace provides protection.'}</li>
+                    <li><strong>Balarishta Astrological Factors:</strong> Malefic transit over 6th/8th/12th from Moon can cause infant vulnerability. Ayushya Homam and Maha Mrityunjaya Shanti provide complete protection.</li>
                 </ul>
             </div>
         `;
@@ -1378,12 +1378,12 @@ function analyzeSantanaAndMiscarriages(charts) {
     if (remBox) {
         remBox.innerHTML = `
             <div style="background:rgba(227,179,65,0.06); border:1px solid var(--accent-gold); border-radius:8px; padding:14px;">
-                <h4 style="color:var(--accent-gold); margin-bottom:8px;">🪔 గర్భ రక్షణ & దీర్ఘాయుష్షు గల సంతాన ప్రాప్తి శాంతి విధానాలు:</h4>
+                <h4 style="color:var(--accent-gold); margin-bottom:8px;">🪔 Garbha Raksha & Progeny Protection Vedic Remedies:</h4>
                 <ol style="margin-left:20px; line-height:1.8;">
-                    <li><strong>శ్రీ సంతాన గోపాల హోమం & మూలమంత్ర జపం:</strong> దంపతులు ఇద్దరి పేరున <em>"ఓం శ్రీం హ్రీం క్లీం గ్లౌం దేవకీసుత గోవింద వాసుదేవ జగత్పతే దేహి మే తనయం కృష్ణ త్వామహం శరణం గతః"</em> 108 సార్లు రోజూ పఠించాలి.</li>
-                    <li><strong>శ్రీకాళహస్తి లేదా కుక్కే సుబ్రహ్మణ్య సర్పదోష శాంతి / నాగ ప్రతిష్ఠ:</strong> గర్భస్రావాల నివారణకు ఆశ్లేష బలి లేదా నాగదోష శాంతి అత్యంత ఫలప్రదం.</li>
-                    <li><strong>శ్రీ షష్ఠీ దేవి స్తోత్ర పారాయణ:</strong> గర్భం దాల్చినప్పటి నుండి ప్రసవం వరకు తల్లి రోజూ శ్రీ షష్ఠీ దేవి కవచం/స్తోత్రం చదవడం ద్వారా గర్భ రక్షణ సిద్ధిస్తుంది.</li>
-                    <li><strong>బాలారిష్ట నివారణకు:</strong> శిశువు జన్మించగానే <strong>రుద్రాభిషేకం</strong> మరియు <strong>ఆయుష్య హోమం</strong> చేయించి సువర్ణ ప్రసాదం అందించాలి.</li>
+                    <li><strong>Sri Santana Gopala Homam & Moola Mantra:</strong> Both husband and wife recite 108 times daily: <em>"Om Shreem Hreem Kleem Glaum Devakisuta Govinda Vasudeva Jagatpate Dehi Me Tanayam Krishna Tvamaham Sharanam Gatah"</em>.</li>
+                    <li><strong>Sarpa Dosha Shanti / Naga Pratishta:</strong> Perform Ashlesha Bali or Naga Shanti at Srikalahasti or Kukke Subrahmanya Kshetra.</li>
+                    <li><strong>Sri Shashti Devi Stotram:</strong> Recited daily throughout pregnancy by the mother for complete fetal protection.</li>
+                    <li><strong>Balarishta Longevity Shield:</strong> Perform <strong>Ayushya Homam and Rudrabhishekam</strong> upon child birth.</li>
                 </ol>
             </div>
         `;
@@ -1394,8 +1394,8 @@ function analyzeSantanaAndMiscarriages(charts) {
    VIVAHA MATCHING & MUHURTHAM GENERATOR
    ═════════════════════════════════════════════════════════════════════════════════ */
 function analyzeVivahaMatching(charts) {
-    const groom = charts.find(c => c.member.gender === 'male' || c.member.rel.includes('భర్త') || c.member.rel.includes('వరుడు')) || charts[0];
-    const bride = charts.find(c => c.member.gender === 'female' || c.member.rel.includes('భార్య') || c.member.rel.includes('వధువు')) || (charts.length > 1 ? charts[1] : charts[0]);
+    const groom = charts.find(c => c.member.gender === 'male' || c.member.rel.toLowerCase().includes('husband') || c.member.rel.toLowerCase().includes('groom') || c.member.rel.includes('భర్త')) || charts[0];
+    const bride = charts.find(c => c.member.gender === 'female' || c.member.rel.toLowerCase().includes('wife') || c.member.rel.toLowerCase().includes('bride') || c.member.rel.includes('భార్య')) || (charts.length > 1 ? charts[1] : charts[0]);
 
     if (!groom || !bride) return;
 
@@ -1442,14 +1442,14 @@ function analyzeVivahaMatching(charts) {
     const tbody = document.getElementById('gunaMilanTableBody');
     if (tbody) {
         tbody.innerHTML = `
-            <tr><td>1. వర్ణ కూటం (Varna)</td><td>1</td><td><strong>${varnaScore}</strong></td><td>-</td><td>-</td><td>${varnaScore ? '✅ అనుకూలం' : 'సాధారణం'}</td></tr>
-            <tr><td>2. వశ్య కూటం (Vasya)</td><td>2</td><td><strong>${vasyaScore}</strong></td><td>-</td><td>-</td><td>✅ అనుకూలం</td></tr>
-            <tr><td>3. తారాబలం (Tara)</td><td>3</td><td><strong>${taraScore}</strong></td><td>${taraGtoB}వ తార</td><td>${taraBtoG}వ తార</td><td>${taraScore >= 2 ? '✅ శుభం' : '⚠️ పరిహారం'}</td></tr>
-            <tr><td>4. యోని కూటం (Yoni)</td><td>4</td><td><strong>${yoniScore}</strong></td><td>-</td><td>-</td><td>✅ అనుకూలం</td></tr>
-            <tr><td>5. గ్రహ మైత్రి (Maitri)</td><td>5</td><td><strong>${maitriScore}</strong></td><td>${groom.moonKP.signLordTe}</td><td>${bride.moonKP.signLordTe}</td><td>${maitriScore >= 3 ? '✅ శుభం' : 'సాధారణం'}</td></tr>
-            <tr><td>6. గణ కూటం (Gana)</td><td>6</td><td><strong>${ganaScore}</strong></td><td>-</td><td>-</td><td>${ganaScore >= 4 ? '✅ శుభం' : '⚠️ భిన్న గణం'}</td></tr>
-            <tr><td>7. భకూట కూటం (Bhakoot)</td><td>7</td><td><strong>${bhakootScore}</strong></td><td>${groom.moonKP.rashiNameTe}</td><td>${bride.moonKP.rashiNameTe}</td><td>${bhakootScore === 7 ? '✅ శుభం' : '<span style="color:var(--accent-red);">⚠️ షడాష్టక/ద్విర్ద్వాదశ దోషం</span>'}</td></tr>
-            <tr><td>8. నాడీ కూటం (Nadi)</td><td>8</td><td><strong>${nadiScore}</strong></td><td>${['ఆది', 'మధ్య', 'అంత్య'][gNadi]}</td><td>${['ఆది', 'మధ్య', 'అంత్య'][bNadi]}</td><td>${nadiScore === 8 ? '✅ ఏకనాడి లేదు (శుభం)' : '<span style="color:var(--accent-red);">⚠️ ఏకనాడీ దోషం</span>'}</td></tr>
+            <tr><td>1. Varna Koota (Varna)</td><td>1</td><td><strong>${varnaScore}</strong></td><td>-</td><td>-</td><td>${varnaScore ? '✅ Auspicious' : 'Neutral'}</td></tr>
+            <tr><td>2. Vashya Koota (Vasya)</td><td>2</td><td><strong>${vasyaScore}</strong></td><td>-</td><td>-</td><td>✅ Auspicious</td></tr>
+            <tr><td>3. Tara Balam (Tara)</td><td>3</td><td><strong>${taraScore}</strong></td><td>${taraGtoB}th Tara</td><td>${taraBtoG}th Tara</td><td>${taraScore >= 2 ? '✅ Auspicious' : '⚠️ Remedy Advised'}</td></tr>
+            <tr><td>4. Yoni Koota (Yoni)</td><td>4</td><td><strong>${yoniScore}</strong></td><td>-</td><td>-</td><td>✅ Auspicious</td></tr>
+            <tr><td>5. Graha Maitri (Maitri)</td><td>5</td><td><strong>${maitriScore}</strong></td><td>${groom.moonKP.signLord}</td><td>${bride.moonKP.signLord}</td><td>${maitriScore >= 3 ? '✅ Auspicious' : 'Moderate'}</td></tr>
+            <tr><td>6. Gana Koota (Gana)</td><td>6</td><td><strong>${ganaScore}</strong></td><td>-</td><td>-</td><td>${ganaScore >= 4 ? '✅ Auspicious' : '⚠️ Different Gana'}</td></tr>
+            <tr><td>7. Bhakoot Koota (Bhakoot)</td><td>7</td><td><strong>${bhakootScore}</strong></td><td>${groom.moonKP.rashiName}</td><td>${bride.moonKP.rashiName}</td><td>${bhakootScore === 7 ? '✅ Auspicious' : '<span style="color:var(--accent-red);">⚠️ Shadashtaka / Dwirdwadasa Dosha</span>'}</td></tr>
+            <tr><td>8. Nadi Koota (Nadi)</td><td>8</td><td><strong>${nadiScore}</strong></td><td>${['Adi', 'Madhya', 'Antya'][gNadi]}</td><td>${['Adi', 'Madhya', 'Antya'][bNadi]}</td><td>${nadiScore === 8 ? '✅ No Eka Nadi (Auspicious)' : '<span style="color:var(--accent-red);">⚠️ Eka Nadi Dosha</span>'}</td></tr>
         `;
     }
 
@@ -1459,10 +1459,10 @@ function analyzeVivahaMatching(charts) {
     const kujaBox = document.getElementById('kujaDoshaMatchBox');
     if (kujaBox) {
         kujaBox.innerHTML = `
-            <p><strong>వరునికి కుజ దోషం:</strong> ${isGroomKuja ? '<span class="tag-retro">ఉన్నది</span>' : '<span class="tag-direct">లేదు</span>'}</p>
-            <p style="margin-top:4px;"><strong>వధువుకు కుజ దోషం:</strong> ${isBrideKuja ? '<span class="tag-retro">ఉన్నది</span>' : '<span class="tag-direct">లేదు</span>'}</p>
+            <p><strong>Groom Kuja Dosha:</strong> ${isGroomKuja ? '<span class="tag-retro">Present</span>' : '<span class="tag-direct">None</span>'}</p>
+            <p style="margin-top:4px;"><strong>Bride Kuja Dosha:</strong> ${isBrideKuja ? '<span class="tag-retro">Present</span>' : '<span class="tag-direct">None</span>'}</p>
             <div style="margin-top:8px; padding:10px; border-radius:6px; background:rgba(255,255,255,0.04);">
-                <strong>తీర్పు:</strong> ${(isGroomKuja === isBrideKuja) ? '✅ ఇద్దరికీ సమాన దోషం ఉండడం లేదా లేకపోవడం వల్ల <strong>కుజ దోష సామ్యం (రద్దు)</strong> జరిగింది.' : '⚠️ ఒకరికి మాత్రమే కుజ దోషం ఉన్నది. వివాహానికి ముందు <strong>సుబ్రహ్మణ్య కళ్యాణం / కుంభ వివాహం</strong> పరిహారం మంచిది.'}
+                <strong>Verdict:</strong> ${(isGroomKuja === isBrideKuja) ? '✅ Kuja Dosha is balanced/cancelled as both horoscopes share equal status.' : '⚠️ Kuja Dosha is present in only one chart. Subrahmanya Kalyanam / Kumbha Vivaham remedy is recommended before marriage.'}
             </div>
         `;
     }
@@ -1470,9 +1470,9 @@ function analyzeVivahaMatching(charts) {
     const maritalBox = document.getElementById('maritalLifeAnalysisBox');
     if (maritalBox) {
         maritalBox.innerHTML = `
-            <p>• <strong>మాంగల్య బలం:</strong> వధువు జాతకంలో 8వ అధిపతి స్థితి ఆధారంగా దాంపత్య రక్ష ఉత్తమంగా ఉన్నది.</p>
-            <p style="margin-top:4px;">• <strong>నవాంశ సమన్వయం:</strong> D-9 చక్రంలో శుక్ర-గురుల స్థానాలు పరస్పర అనుకూలతను మరియు గృహ సౌఖ్యాన్ని సూచిస్తున్నాయి.</p>
-            <p style="margin-top:4px;">• <strong>సమగ్ర నిర్ణయం:</strong> మొత్తం గుణాలు ${totalScore}/36. ${(totalScore >= 18 && !(isShadashtaka && nadiScore === 0)) ? 'వివాహం నిరభ్యంతరంగా జరిపించవచ్చు.' : 'శాంతి పరిహారాలు జరిపించిన తర్వాత ముహూర్తం పెట్టడం శ్రేయస్కరం.'}</p>
+            <p>• <strong>Mangalya Balam:</strong> Strong marital longevity indicated based on 8th house analysis in bride chart.</p>
+            <p style="margin-top:4px;">• <strong>Navamsa Synthesis:</strong> Favorable Venus-Jupiter positions in D-9 Navamsa reflect domestic harmony and mutual understanding.</p>
+            <p style="margin-top:4px;">• <strong>Overall Assessment:</strong> Total score: ${totalScore}/36. ${(totalScore >= 18 && !(isShadashtaka && nadiScore === 0)) ? 'Marriage can proceed auspiciously.' : 'Remedies recommended before finalizing wedding date.'}</p>
         `;
     }
 }
@@ -1484,10 +1484,10 @@ function generateVivahaMuhurthams() {
     const resultsDiv = document.getElementById('muhurthamResultsContainer');
     if (!resultsDiv) return;
 
-    resultsDiv.innerHTML = '<p style="color:var(--accent-gold);">🔍 ముహూర్తాలను శోధిస్తోంది...</p>';
+    resultsDiv.innerHTML = '<p style="color:var(--accent-gold);">🔍 Searching for wedding muhurtams...</p>';
 
-    const groom = FAMILY_MEMBERS.find(m => m.gender === 'male' || m.rel.includes('భర్త') || m.rel.includes('వరుడు')) || FAMILY_MEMBERS[0];
-    const bride = FAMILY_MEMBERS.find(m => m.gender === 'female' || m.rel.includes('భార్య') || m.rel.includes('వధువు')) || (FAMILY_MEMBERS.length > 1 ? FAMILY_MEMBERS[1] : FAMILY_MEMBERS[0]);
+    const groom = FAMILY_MEMBERS.find(m => m.gender === 'male' || m.rel.toLowerCase().includes('husband') || m.rel.toLowerCase().includes('groom') || m.rel.includes('భర్త')) || FAMILY_MEMBERS[0];
+    const bride = FAMILY_MEMBERS.find(m => m.gender === 'female' || m.rel.toLowerCase().includes('wife') || m.rel.toLowerCase().includes('bride') || m.rel.includes('భార్య')) || (FAMILY_MEMBERS.length > 1 ? FAMILY_MEMBERS[1] : FAMILY_MEMBERS[0]);
 
     const gMoonDeg = computePlanetaryPositions(getJulianDay(...groom.date.split('-').map(Number), 12, 0, 0, 5.5), 'lahiri', 14, 78).Moon.deg;
     const bMoonDeg = computePlanetaryPositions(getJulianDay(...bride.date.split('-').map(Number), 12, 0, 0, 5.5), 'lahiri', 14, 78).Moon.deg;
@@ -1520,13 +1520,13 @@ function generateVivahaMuhurthams() {
         const isGoodBTara = ![3, 5, 7].includes(bTara);
 
         if (goodVivahaNaks.includes(tNakIdx) && goodVivahaVaras.includes(dayOfWeek) && isGoodGTara && isGoodBTara) {
-            const weddingLagna = RASHI_TELUGU[(tNakIdx + 3) % 12];
+            const weddingLagna = RASHI_NAMES[(tNakIdx + 3) % 12];
             auspiciousMuhurthams.push({
                 date: cur.toISOString().split('T')[0],
-                dayName: ['ఆదివారం', 'సోమవారం', 'మంగళవారం', 'బుధవారం', 'గురువారం', 'శుక్రవారం', 'శనివారం'][dayOfWeek],
-                nakshatra: NAKSHATRAS_TELUGU[tNakIdx],
+                dayName: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayOfWeek],
+                nakshatra: NAKSHATRAS[tNakIdx],
                 lagna: weddingLagna,
-                timeSlot: 'ఉదయం 08:45 నుండి 10:15 వరకు (అమృత ఘడియలు)',
+                timeSlot: 'Morning 08:45 to 10:15 AM (Amrita Ghadikas)',
                 gTara,
                 bTara
             });
@@ -1535,7 +1535,7 @@ function generateVivahaMuhurthams() {
     }
 
     if (auspiciousMuhurthams.length === 0) {
-        resultsDiv.innerHTML = `<p style="color:var(--accent-red);">ఎంచుకున్న కాలంలో వధూవరుల ఇద్దరి తారాబలానికి సరిపోయే వివాహ ముహూర్తాలు లభించలేదు. దయచేసి తదుపరి నెలలను శోధించండి.</p>`;
+        resultsDiv.innerHTML = `<p style="color:var(--accent-red);">No matching wedding muhurtams found for both bride and groom tara balam in the selected period. Please search upcoming months.</p>`;
         return;
     }
 
@@ -1544,14 +1544,14 @@ function generateVivahaMuhurthams() {
             <table class="data-table">
                 <thead>
                     <tr>
-                        <th>వివాహ తేదీ</th>
-                        <th>వారం</th>
-                        <th>శుభ నక్షత్రం</th>
-                        <th>వివాహ లగ్నం</th>
-                        <th>శుభ ముహూర్త సమయం</th>
-                        <th>వరుని తార</th>
-                        <th>వధువు తార</th>
-                        <th>ఎంపిక</th>
+                        <th>Wedding Date</th>
+                        <th>Weekday</th>
+                        <th>Auspicious Nakshatra</th>
+                        <th>Marriage Lagna</th>
+                        <th>Auspicious Time Slot</th>
+                        <th>Groom Tara</th>
+                        <th>Bride Tara</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -1560,11 +1560,11 @@ function generateVivahaMuhurthams() {
                             <td><strong style="color:var(--accent-gold);">${m.date}</strong></td>
                             <td>${m.dayName}</td>
                             <td><strong>${m.nakshatra}</strong></td>
-                            <td><span class="tag-direct">${m.lagna} లగ్నం</span></td>
+                            <td><span class="tag-direct">${m.lagna} Lagna</span></td>
                             <td>${m.timeSlot}</td>
-                            <td>${m.gTara}వ తార (శుభం)</td>
-                            <td>${m.bTara}వ తార (శుభం)</td>
-                            <td><button class="btn btn-gold" style="font-size:11px; padding:3px 8px;" onclick="alert('ముహూర్తం ఖరారు చేయబడింది: ' + '${m.date} ' + '${m.lagna}')">లగ్న పత్రిక</button></td>
+                            <td>${m.gTara}th Tara (Auspicious)</td>
+                            <td>${m.bTara}th Tara (Auspicious)</td>
+                            <td><button class="btn btn-gold" style="font-size:11px; padding:3px 8px;" onclick="alert('Muhurtham Confirmed: ' + '${m.date} ' + '${m.lagna} Lagna')">Lagna Patrika</button></td>
                         </tr>
                     `).join('')}
                 </tbody>
@@ -1584,11 +1584,11 @@ function analyzeKaryaVighnamAndWealth(charts) {
     if (kvBox) {
         kvBox.innerHTML = `
             <div style="background:rgba(88,166,255,0.06); border:1px solid rgba(88,166,255,0.3); border-radius:8px; padding:14px;">
-                <h4 style="color:var(--accent-blue); margin-bottom:8px;">🔍 ఏ పని మొదలుపెట్టినా మధ్యలోనే ఆగిపోవడానికి గల జ్యోతిష్య కారణాలు:</h4>
+                <h4 style="color:var(--accent-blue); margin-bottom:8px;">🔍 Astrological Root Causes for Obstacles & Stalled Projects:</h4>
                 <ul style="margin-left:20px; line-height:1.8;">
-                    <li><strong>8వ భావం (ఆటంకాలు & అడ్డంకులు):</strong> లగ్నం నుండి 8వ స్థానంలో పాపగ్రహాల దృష్టి ఉన్నప్పుడు ప్రారంభించిన పనులలో ఊహించని స్తంభనలు ఏర్పడతాయి.</li>
-                    <li><strong>10వ భావం (కర్మ & వ్యాపార బలం):</strong> 10వ అధిపతి మరియు ప్రస్తుత నడుస్తున్న అంతర్దశా నాథుని మధ్య 6/8 (షడాష్టక) సంబంధం ఉన్నప్పుడు కాంట్రాక్టులు, ఉద్యోగ ప్రాజెక్టులు చేతివరకు వచ్చి ఆగిపోతాయి.</li>
-                    <li><strong>బంధన / స్తంభన యోగం:</strong> రాహువు లేదా శని ప్రభావం లగ్నాధిపతిపై ఉన్నప్పుడు శ్రమకు తగిన ప్రతిఫలం దక్కక నిరాశ కలుగుతుంది.</li>
+                    <li><strong>8th House (Obstacles & Delays):</strong> Malefic aspects on the 8th house from Ascendant induce unexpected halts in initiated undertakings.</li>
+                    <li><strong>10th House (Karma & Business Momentum):</strong> When the 10th lord and running Antardasa lord are in 6/8 (Shadashtaka) relationship, contracts and career projects stall at the final hurdle.</li>
+                    <li><strong>Bandhana / Sthambhana Yoga:</strong> Malefic afflictions of Rahu or Saturn on the Ascendant Lord delay the fruits of sincere hard work.</li>
                 </ul>
             </div>
         `;
@@ -1598,11 +1598,11 @@ function analyzeKaryaVighnamAndWealth(charts) {
     if (kvRemBox) {
         kvRemBox.innerHTML = `
             <div style="background:rgba(227,179,65,0.06); border:1px solid var(--accent-gold); border-radius:8px; padding:14px;">
-                <h4 style="color:var(--accent-gold); margin-bottom:8px;">🛡️ సంపూర్ణ కార్యసిద్ధి & స్తంభన నివారణ వైదిక మార్గాలు:</h4>
+                <h4 style="color:var(--accent-gold); margin-bottom:8px;">🛡️ Vedic Remedies for Overcoming Obstacles & Project Stagnation:</h4>
                 <ol style="margin-left:20px; line-height:1.8;">
-                    <li><strong>శ్రీ సుదర్శన హోమం:</strong> సర్వ విఘ్న నివారణకు మరియు ఆగిపోయిన పనులు త్వరితగతిన పూర్తి కావడానికి సుదర్శన యంత్ర పూజ లేదా హోమం చేయించండి.</li>
-                    <li><strong>పంచముఖ హనుమాన్ కవచ పారాయణ:</strong> మంగళ లేదా శనివారం నాడు సింధూర పూజతో హనుమాన్ చాలీసా 11 సార్లు పఠించండి.</li>
-                    <li><strong>శ్రీ గణపతి అథర్వశీర్ష అభిషేకం:</strong> ప్రతి సంకష్టహర చతుర్థి నాడు గరికతో విఘ్నేశ్వరునికి పూజ చేయండి.</li>
+                    <li><strong>Sri Sudarshana Homam:</strong> Perform Sudarshana Yantra worship or homam to eliminate hurdles and accelerate stalled undertakings.</li>
+                    <li><strong>Panchamukha Hanuman Kavacham:</strong> Recite Hanuman Chalisa 11 times on Tuesdays or Saturdays with sindoor offering.</li>
+                    <li><strong>Sri Ganapati Atharvashirsha Abhishekam:</strong> Offer prayer to Lord Ganesha on Sankashtahara Chaturthi with durva grass.</li>
                 </ol>
             </div>
         `;
@@ -1612,9 +1612,9 @@ function analyzeKaryaVighnamAndWealth(charts) {
     if (wBox) {
         wBox.innerHTML = `
             <div style="background:rgba(63,185,80,0.06); border:1px solid rgba(63,185,80,0.3); border-radius:8px; padding:14px;">
-                <h4 style="color:var(--accent-green); margin-bottom:8px;">💰 కుటుంబ సంపద, లక్ష్మీ కటాక్షం & అప్పుల విముక్తి:</h4>
-                <p>• <strong>ధన భావాలు (2 & 11):</strong> కుటుంబ సంపాదనలో లక్ష్మీ స్థానాధిపతి శుక్రుడు మరియు లాభాధిపతి గురువుల సమన్వయం వల్ల క్రమంగా సంపద వృద్ధి చెందుతుంది.</p>
-                <p style="margin-top:6px;">• <strong>అప్పుల నివారణ (6వ భావం):</strong> అప్పుల బాధల నుండి ఉపశమనం పొందడానికి ప్రతి మంగళవారం <strong>ఋణవిమోచన అంగారక స్తోత్రం</strong> పఠించడం అత్యంత శ్రేయస్కరం.</p>
+                <h4 style="color:var(--accent-green); margin-bottom:8px;">💰 Family Wealth, Prosperity & Debt Relief:</h4>
+                <p>• <strong>Wealth Houses (2 & 11):</strong> Harmonious coordination between wealth significator Venus and gains significator Jupiter promotes steady wealth accumulation.</p>
+                <p style="margin-top:6px;">• <strong>Debt Clearance (6th House):</strong> Reciting <strong>Rina Vimochana Angaraka Stotram</strong> every Tuesday offers strong spiritual relief from debts and financial stress.</p>
             </div>
         `;
     }
@@ -1649,7 +1649,7 @@ function setDevoteeQuestion(q) {
     sendDevoteeQuery();
 }
 
-let DEVOTEE_CHAT_LANG = 'auto'; // 'auto', 'te', 'en'
+let DEVOTEE_CHAT_LANG = 'en';
 
 function toggleDevoteeChatLang() {
     if (DEVOTEE_CHAT_LANG === 'auto') DEVOTEE_CHAT_LANG = 'en';
@@ -1869,7 +1869,7 @@ function saveMemberFromModal(e) {
 
 function deleteMember(id) {
     if (FAMILY_MEMBERS.length <= 1) {
-        alert('కనీసం ఒక సభ్యుని జాతకం ఉండాలి!');
+        alert('At least one family member horoscope is required!');
         return;
     }
     FAMILY_MEMBERS = FAMILY_MEMBERS.filter(m => m.id !== id);
@@ -1877,7 +1877,7 @@ function deleteMember(id) {
 }
 
 function clearAllMembers() {
-    if (confirm('కుటుంబ సభ్యుల డేటాను క్లియర్ చేయాలా?')) {
+    if (confirm('Do you want to clear all family members data?')) {
         FAMILY_MEMBERS = [];
         renderAll();
     }
@@ -1901,13 +1901,13 @@ function saveCurrentCase() {
     const key = 'vs_family_case_' + caseName.replace(/\s+/g, '_');
     localStorage.setItem(key, JSON.stringify(caseData));
     updateSavedCasesDropdown();
-    alert(`✅ కేస్ "${caseName}" విజయవంతంగా సేవ్ చేయబడింది!`);
+    alert(`✅ Case "${caseName}" saved successfully!`);
 }
 
 function updateSavedCasesDropdown() {
     const select = document.getElementById('savedCasesSelect');
     if (!select) return;
-    select.innerHTML = '<option value="">📂 సేవ్ చేసిన కేస్‌లు (Saved Cases)</option>';
+    select.innerHTML = '<option value="">📂 Saved Cases</option>';
     for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
         if (k.startsWith('vs_family_case_')) {
@@ -1915,7 +1915,7 @@ function updateSavedCasesDropdown() {
                 const data = JSON.parse(localStorage.getItem(k));
                 const opt = document.createElement('option');
                 opt.value = k;
-                opt.textContent = `${data.name} (${data.members.length} సభ్యులు)`;
+                opt.textContent = `${data.name} (${data.members.length} members)`;
                 select.appendChild(opt);
             } catch (err) {}
         }
@@ -1932,7 +1932,7 @@ function loadSelectedCase(key) {
             renderAll();
         }
     } catch (e) {
-        alert('కేస్ లోడ్ చేయడంలో లోపం!');
+        alert('Error loading case!');
     }
 }
 
@@ -1957,10 +1957,10 @@ function importCaseJSON(e) {
                 FAMILY_MEMBERS = data.members;
                 if (data.name) document.getElementById('caseName').value = data.name;
                 renderAll();
-                alert('✅ కేస్ ఫైల్ విజయవంతంగా ఇంపోర్ట్ చేయబడింది!');
+                alert('✅ Case file imported successfully!');
             }
         } catch (err) {
-            alert('చెల్లని JSON ఫైల్!');
+            alert('Invalid JSON file!');
         }
     };
     reader.readAsText(file);

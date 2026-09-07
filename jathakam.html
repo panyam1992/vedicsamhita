@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,7 +10,7 @@
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="manifest" href="manifest.json">
-    <title>🔮 జాతక ఫలితాలు & దశా-గోచార ఫలితాలు (Vedic Samhita Lab)</title>
+    <title>🔮 Vedic Horoscope & Dasha-Gochara Predictions (Vedic Samhita Lab)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Mandali&family=Suranna&family=EB+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
@@ -721,10 +721,10 @@
 <!-- Top Navigation Bar -->
 <nav style="text-align:center; padding:10px 14px; background:#161b22; border-bottom:1px solid #30363d; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px; position:sticky; top:0; z-index:1000;">
     <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🙏 Daily Panchangam</a>
-    <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Phalalu</a>
-    <a href="jathakam.html" style="color:#ffffff; background:rgba(227,179,65,0.25); border:1px solid #e3b341; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; border-radius:4px; font-weight:bold;">🔮 Single Jathakam</a>
+    <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Predictions</a>
+    <a href="jathakam.html" style="color:#ffffff; background:rgba(227,179,65,0.25); border:1px solid #e3b341; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; border-radius:4px; font-weight:bold;">🔮 Single Horoscope</a>
     <a href="muhurtavali.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
-    <a href="family_jathakam.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
+    <a href="family_jathakam.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Horoscope</a>
         <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Mandali',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
 </nav>
 
@@ -732,12 +732,12 @@
     <!-- Header -->
     <header class="lab-header">
         <div class="lab-title">
-            <h1>🔮 జాతక ఫలితాలు & దశా-గోచార ఫలితాలు</h1>
+            <h1>🔮 Vedic Horoscope & Dasha-Gochara Predictions</h1>
             <p>Vedic Astrology Engine with Detailed Mahadasa-Antardasa Predictions, Bhava Interpretations & Vedic Pariharams</p>
         </div>
         <div class="header-actions">
-            <button class="lang-toggle" onclick="toggleLanguage()" id="langBtn">🌐 భాష: తెలుగు (Telugu)</button>
-            <button class="btn btn-secondary" onclick="setNow()">⚡ ప్రస్తుత సమయం (Set Now)</button>
+            <button class="lang-toggle" style="display:none;" onclick="toggleLanguage()" id="langBtn">🌐 Lang: English</button>
+            <button class="btn btn-secondary" onclick="setNow()">⚡ Set to Current Time</button>
         </div>
     </header>
 
@@ -745,35 +745,35 @@
     <section class="config-card">
         <div class="form-grid">
             <div class="form-group">
-                <label for="birthDate">📅 జన్మ / ఈవెంట్ తేదీ (Date)</label>
+                <label for="birthDate">📅 Birth / Event Date</label>
                 <input type="date" id="birthDate" class="form-control">
             </div>
             <div class="form-group">
-                <label for="birthTime">⏰ జన్మ సమయం (Birth Time)</label>
+                <label for="birthTime">⏰ Birth Time</label>
                 <input type="time" id="birthTime" class="form-control" step="1">
             </div>
             <div class="form-group" style="grid-column: span 2;">
-                <label for="citySearchInput">🔍 ప్రపంచవ్యాప్తంగా నగరం శోధించండి (City Search)</label>
+                <label for="citySearchInput">🔍 Search City Worldwide</label>
                 <div class="city-search-container">
-                    <input type="text" id="citySearchInput" class="form-control" placeholder="నగరం పేరు టైప్ చేయండి (ఉదా: Hyderabad, Anantapur, Frisco, London)..." oninput="onCitySearchInput(this.value)" autocomplete="off">
+                    <input type="text" id="citySearchInput" class="form-control" placeholder="Type city name (e.g. Frisco, Dallas, London, New York, Hyderabad)..." oninput="onCitySearchInput(this.value)" autocomplete="off">
                     <div class="city-search-results" id="citySearchResults"></div>
                 </div>
                 <div id="cityStatusMsg" class="status-msg"></div>
             </div>
             <div class="form-group">
-                <label for="latitude">అక్షాంశం Latitude (°)</label>
+                <label for="latitude">Latitude (°)</label>
                 <input type="number" id="latitude" class="form-control" value="33.1507" step="0.0001">
             </div>
             <div class="form-group">
-                <label for="longitude">రేఖాంశం Longitude (°)</label>
+                <label for="longitude">Longitude (°)</label>
                 <input type="number" id="longitude" class="form-control" value="-96.8236" step="0.0001">
             </div>
             <div class="form-group">
-                <label for="tzOffset">టైమ్‌జోన్ UTC Offset (hrs)</label>
+                <label for="tzOffset">Timezone UTC Offset (hrs)</label>
                 <input type="number" id="tzOffset" class="form-control" value="-5" step="0.5">
             </div>
             <div class="form-group">
-                <label for="ayanamsaType">అయనాంశ (Ayanamsa)</label>
+                <label for="ayanamsaType">Ayanamsa</label>
                 <select id="ayanamsaType" class="form-control">
                     <option value="lahiri" selected>Lahiri / Chitrapaksha (Vedic Samhita)</option>
                     <option value="kp_new">KP New (Straight Line)</option>
@@ -783,15 +783,15 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="gender">👤 లింగము (Gender)</label>
+                <label for="gender">👤 Gender</label>
                 <select id="gender" class="form-control">
-                    <option value="male" selected>పురుషుడు (Male)</option>
-                    <option value="female">స్త్రీ (Female)</option>
-                    <option value="other">ఇతరులు (Other)</option>
+                    <option value="male" selected>Male</option>
+                    <option value="female">Female</option>
+                    <option value="other">Other</option>
                 </select>
             </div>
             <div class="form-group">
-                <label for="houseSystem">భావ విభజన (House System)</label>
+                <label for="houseSystem">House System</label>
                 <select id="houseSystem" class="form-control">
                     <option value="placidus" selected>Placidus (KP Standard)</option>
                     <option value="equal">Equal House</option>
@@ -799,20 +799,20 @@
                 </select>
             </div>
             <div class="form-group" style="align-self: end;">
-                <button class="btn btn-primary" style="width: 100%; padding: 10px;" onclick="calculateAll()">🔮 జాతకం లెక్కించండి (Calculate)</button>
+                <button class="btn btn-primary" style="width: 100%; padding: 10px;" onclick="calculateAll()">🔮 Calculate Horoscope</button>
             </div>
         </div>
     </section>
 
     <!-- Tabs Navigation -->
     <nav class="tabs">
-        <button class="tab-btn active" onclick="showTab('chartsTab', this)">📊 కుండలి / చక్రాలు & ఫలితాలు (Charts & Predictions)</button>
-        <button class="tab-btn" onclick="showTab('dasaTab', this)">🌳 వింశోత్తరి దశా ఫలితాలు & పరిహారాలు (Dasa)</button>
-        <button class="tab-btn admin-only" onclick="showTab('gocharaTab', this)">🪐 గోచార ఫలితాలు (Gochara Transits)</button>
-        <button class="tab-btn admin-only" onclick="showTab('chatTab', this)">💬 జాతక సహాయకుడు (Astro Chat)</button>
-        <button class="tab-btn admin-only" onclick="showTab('kpLordsTab', this)">⭐ KP వివరాలు & లార్డ్స్</button>
-        <button class="tab-btn admin-only" onclick="showTab('cuspsTab', this)">🏠 భావ సంధి & Cusps</button>
-        <button class="tab-btn admin-only" onclick="showTab('aspectsTab', this)">📐 గ్రహ దృష్టి & Aspects</button>
+        <button class="tab-btn active" onclick="showTab('chartsTab', this)">📊 Kundali Charts & Predictions</button>
+        <button class="tab-btn" onclick="showTab('dasaTab', this)">🌳 Vimshottari Dasa & Remedies</button>
+        <button class="tab-btn admin-only" onclick="showTab('gocharaTab', this)">🪐 Transit Predictions (Gochara)</button>
+        <button class="tab-btn admin-only" onclick="showTab('chatTab', this)">💬 Astrology AI Assistant</button>
+        <button class="tab-btn admin-only" onclick="showTab('kpLordsTab', this)">⭐ KP System & Lords</button>
+        <button class="tab-btn admin-only" onclick="showTab('cuspsTab', this)">🏠 House Cusps</button>
+        <button class="tab-btn admin-only" onclick="showTab('aspectsTab', this)">📐 Planetary Aspects</button>
     </nav>
 
     <!-- TAB 1: CHARTS & PREDICTIONS -->
@@ -823,23 +823,23 @@
         <!-- 2. TATKALA GRAHA SAMPATTI (Planetary Positions Table) -->
         <div class="section-card" style="margin-bottom: 20px;">
             <div class="section-header">
-                <div class="section-title">🪐 తత్కాల గ్రహ సంపత్తి & గ్రహ స్థితులు (Tatkala Graha Sampatti)</div>
-                <button class="btn btn-secondary" style="font-size:12px; padding:4px 10px;" onclick="copyTable('planetTableTab1')">📋 కాపీ పట్టిక (Copy)</button>
+                <div class="section-title">🪐 Planetary Positions & Astronomical Coordinates (Graha Sampatti)</div>
+                <button class="btn btn-secondary" style="font-size:12px; padding:4px 10px;" onclick="copyTable('planetTableTab1')">📋 Copy Table</button>
             </div>
             <div class="data-table-container">
                 <table class="data-table" id="planetTableTab1">
                     <thead>
                         <tr>
-                            <th>గ్రహం (Graha)</th>
-                            <th>నిరయణ రేఖాంశం</th>
-                            <th>రాశి (Sign)</th>
-                            <th>రాశిలో డిగ్రీలు</th>
-                            <th>నక్షత్రం (పాదం)</th>
-                            <th>రాశ్యాధిపతి</th>
-                            <th>నక్షత్రాధిపతి</th>
-                            <th>సబ్ లార్డ్</th>
-                            <th>సబ్-సబ్ లార్డ్</th>
-                            <th>గతి (Motion)</th>
+                            <th>Planet (Graha)</th>
+                            <th>Sidereal Longitude</th>
+                            <th>Sign (Rashi)</th>
+                            <th>Degree in Sign</th>
+                            <th>Nakshatra (Pada)</th>
+                            <th>Sign Lord</th>
+                            <th>Star Lord</th>
+                            <th>Sub Lord</th>
+                            <th>Sub-Sub Lord</th>
+                            <th>Motion</th>
                         </tr>
                     </thead>
                     <tbody id="planetTableBody"></tbody>
@@ -851,7 +851,7 @@
         <div class="two-col-grid">
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🕉️ రాశి చక్రం (D1 Rasi - South Indian)</div>
+                    <div class="section-title">🕉️ Rasi Chart (D1 - South Indian)</div>
                     <span id="rasiChartAyanamsa" style="font-size: 11px; color: var(--text-secondary);"></span>
                 </div>
                 <div class="chart-box" id="southRasiChart"></div>
@@ -859,7 +859,7 @@
 
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🔮 నవాంశ చక్రం (D9 Navamsa - South Indian)</div>
+                    <div class="section-title">🔮 Navamsa Chart (D9 - South Indian)</div>
                     <span style="font-size: 11px; color: var(--text-secondary);">D9 Harmonic</span>
                 </div>
                 <div class="chart-box" id="southNavamsaChart"></div>
@@ -870,7 +870,7 @@
             <div class="phalita-card">
                 <div class="phalita-card-header">
                     <span class="phalita-icon">🌟</span>
-                    <h3 id="phRasiTitle">జన్మ రాశి & నక్షత్ర విశ్లేషణ</h3>
+                    <h3 id="phRasiTitle">Janma Rasi & Nakshatra Analysis</h3>
                 </div>
                 <div class="phalita-text" id="phRasiOverview"></div>
                 <div class="info-pill-grid" id="phPillGrid"></div>
@@ -879,7 +879,7 @@
             <div class="phalita-card">
                 <div class="phalita-card-header">
                     <span class="phalita-icon">👑</span>
-                    <h3 id="phLagnaTitle">లగ్న ఫలితం & వ్యక్తిత్వం</h3>
+                    <h3 id="phLagnaTitle">Lagna & Personality Profile</h3>
                 </div>
                 <div class="phalita-text" id="phLagnaOverview"></div>
             </div>
@@ -887,7 +887,7 @@
             <div class="phalita-card admin-only">
                 <div class="phalita-card-header">
                     <span class="phalita-icon">⏳</span>
-                    <h3 id="phDasaTitle">ప్రస్తుత నడుస్తున్న దశ ఫలితం</h3>
+                    <h3 id="phDasaTitle">Current Dasha-Bhukti Prediction</h3>
                 </div>
                 <div class="phalita-text" id="phDasaOverview"></div>
             </div>
@@ -896,14 +896,14 @@
         <div class="two-col-grid admin-only">
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">✨ జాతకంలో ప్రముఖ శుభ యోగాలు (Auspicious Yogas)</div>
+                    <div class="section-title">✨ Auspicious Vedic Yogas</div>
                 </div>
                 <div id="yogasContainer"></div>
             </div>
 
             <div class="section-card">
                 <div class="section-header">
-                    <div class="section-title">🛡️ దోష విశ్లేషణ & పరిహారాలు (Doshas & Remedies)</div>
+                    <div class="section-title">🛡️ Doshas & Vedic Remedies</div>
                 </div>
                 <div id="doshasContainer"></div>
             </div>
@@ -912,8 +912,8 @@
         <!-- 4. 12 HOUSE INTERPRETATIONS -->
         <div class="section-card admin-only" style="margin-top: 18px;">
             <div class="section-header">
-                <div class="section-title">🏛️ ద్వాదశ భావాల సమగ్ర ఫలితాలు (12 House Interpretations)</div>
-                <span style="font-size: 12px; color: var(--text-secondary);">వివరాల కొరకు ప్రతి భావాన్ని క్లిక్ చేయండి</span>
+                <div class="section-title">🏛️ Comprehensive 12 House Interpretations</div>
+                <span style="font-size: 12px; color: var(--text-secondary);">Click any house below to view detailed significations and planetary influences</span>
             </div>
             <div class="bhava-accordion" id="bhavaAccordion"></div>
         </div>
@@ -925,19 +925,19 @@
 
         <div class="section-card admin-only">
             <div class="section-header">
-                <div class="section-title">🔍 ఏ దశ-అంతర్దశ ఫలితాలైనా తెలుసుకోండి (Dasa Explorer)</div>
+                <div class="section-title">🔍 Explore Any Dasa-Antardasa Period</div>
             </div>
             <div class="form-grid" style="margin-bottom: 16px;">
                 <div class="form-group">
-                    <label>మహాదశను ఎంచుకోండి (Mahadasa)</label>
+                    <label>Select Mahadasa</label>
                     <select id="selExploreMD" class="form-control" onchange="onExploreDasaChange()"></select>
                 </div>
                 <div class="form-group">
-                    <label>అంతర్దశ (భుక్తి) ని ఎంచుకోండి (Antardasa)</label>
+                    <label>Select Antardasa (Bhukti)</label>
                     <select id="selExploreAD" class="form-control" onchange="onExploreDasaChange()"></select>
                 </div>
                 <div class="form-group">
-                    <label>ప్రత్యంతర దశ (Pratyantardasa)</label>
+                    <label>Select Pratyantardasa</label>
                     <select id="selExplorePD" class="form-control" onchange="onExploreDasaChange()"></select>
                 </div>
             </div>
@@ -946,11 +946,11 @@
 
         <div class="section-card">
             <div class="section-header">
-                <div class="section-title">🌳 వింశోత్తరి దశల సమగ్ర కాలక్రమ పట్టిక (Full Hierarchy Tree)</div>
+                <div class="section-title">🌳 Vimshottari Dasa Hierarchy Tree (Full Timeline)</div>
                 <div id="dasaSummary" style="font-size: 13px; color: var(--accent-gold);"></div>
             </div>
             <p style="font-size: 12.5px; color: var(--text-secondary); margin-bottom: 12px;">
-                మహాదశ, అంతర్దశ (భుక్తి), ప్రత్యంతర దశల కాలాలు. ఏదైనా నోడ్‌పై క్లిక్ చేసి ఉప-దశలను తెరవండి.
+                Timeline of Mahadasa, Antardasa (Bhukti), and Pratyantardasa periods. Click any node to expand sub-periods.
             </p>
             <div id="dasaTreeContainer"></div>
         </div>
@@ -962,11 +962,11 @@
 
         <div class="section-card">
             <div class="section-header">
-                <div class="section-title">🪐 గోచార గ్రహ సంచార విశ్లేషణ (Planetary Transit Analysis)</div>
+                <div class="section-title">🪐 Planetary Transit Analysis (Gochara)</div>
                 <div style="display:flex; align-items:center; gap:10px;">
-                    <label style="font-size:12px; color:var(--text-secondary);">గోచార తేదీ (Transit Date):</label>
+                    <label style="font-size:12px; color:var(--text-secondary);">Transit Date:</label>
                     <input type="date" id="gocharaDate" class="form-control" style="padding:4px 8px; font-size:13px;" onchange="recalculateGochara()">
-                    <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="recalculateGochara()">🔄 అప్‌డేట్ చేయండి (Update)</button>
+                    <button class="btn btn-secondary" style="padding:4px 10px; font-size:12px;" onclick="recalculateGochara()">🔄 Update Transit</button>
                 </div>
             </div>
 
@@ -977,14 +977,14 @@
             <div>
                 <div class="section-card">
                     <div class="section-header">
-                        <div class="section-title">🌟 గురు, శని & రాహు-కేతు గోచార ఫలితాలు</div>
+                        <div class="section-title">🌟 Jupiter, Saturn & Rahu-Ketu Major Transits</div>
                     </div>
                     <div id="gocharaMajorPlanets"></div>
                 </div>
 
                 <div class="section-card">
                     <div class="section-header">
-                        <div class="section-title">🛡️ గోచార దోష నివారణ & పరిహారాలు (Remedies)</div>
+                        <div class="section-title">🛡️ Transit Remedies & Dosha Pacification</div>
                     </div>
                     <div id="gocharaRemedies"></div>
                 </div>
@@ -993,7 +993,7 @@
             <div>
                 <div class="section-card">
                     <div class="section-header">
-                        <div class="section-title">🗺️ ప్రస్తుత గోచార చక్రం (Transit Chart)</div>
+                        <div class="section-title">🗺️ Current Transit Chart (Gochara Kundali)</div>
                         <span style="font-size:11px; color:var(--accent-blue);">🟦 Highlighted = Janma Rasi</span>
                     </div>
                     <div class="chart-box" id="gocharaTransitChart"></div>
@@ -1001,7 +1001,7 @@
 
                 <div class="section-card">
                     <div class="section-header">
-                        <div class="section-title">☀️ రవి, కుజ, బుధ, శుక్రుల గోచారం</div>
+                        <div class="section-title">☀️ Sun, Mars, Mercury & Venus Transits</div>
                     </div>
                     <div id="gocharaMinorPlanets"></div>
                 </div>
@@ -1015,25 +1015,25 @@
             <div class="chat-header">
                 <div class="chat-header-title">
                     <span>🔮</span>
-                    <span id="chatHeaderTitle">వేదిక్ సంహిత జాతక సహాయకుడు (Astrology Chat Assistant)</span>
+                    <span id="chatHeaderTitle">Vedic Samhita Astrology AI Assistant</span>
                 </div>
                 <div style="display:flex; gap:8px; align-items:center;">
-                    <span style="font-size:11.5px; color:var(--accent-gold);" id="chatContextSummary">లగ్నం & రాశి విశ్లేషణ సిద్ధంగా ఉంది</span>
-                    <button class="btn btn-secondary" style="font-size:11px; padding:3px 8px;" onclick="clearAstroChat()">🗑️ క్లియర్</button>
+                    <span style="font-size:11.5px; color:var(--accent-gold);" id="chatContextSummary">Lagna & Rasi analysis ready</span>
+                    <button class="btn btn-secondary" style="font-size:11px; padding:3px 8px;" onclick="clearAstroChat()">🗑️ Clear</button>
                 </div>
             </div>
 
             <!-- Quick Suggestions / Prompt Chips -->
             <div class="chat-chips-container">
-                <button class="chat-chip" onclick="askQuickPrompt('నాకు ఉద్యోగంలో ఉన్నతి, వ్యాపార లాభాలు ఎప్పుడు కలుగుతాయి?')">💼 ఉద్యోగం & వ్యాపార యోగం</button>
-                <button class="chat-chip" onclick="askQuickPrompt('నా జాతకంలో వివాహ యోగం ఎప్పుడు ఉంది? దాంపత్య ఫలితాలు ఎలా ఉన్నాయి?')">💍 వివాహం & జీవిత భాగస్వామి</button>
-                <button class="chat-chip" onclick="askQuickPrompt('నా ఆర్థిక పరిస్థితి, ధనలాభం మరియు ఆస్తుల వృద్ధి ఎలా ఉంటుంది?')">💰 ధనం & స్థిరాస్తులు</button>
-                <button class="chat-chip" onclick="askQuickPrompt('నా ఆరోగ్య స్థితి ఎలా ఉంది? ఎలాంటి జాగ్రత్తలు తీసుకోవాలి?')">🩺 ఆరోగ్యం & ఆయుష్షు</button>
-                <button class="chat-chip" onclick="askQuickPrompt('నాకు సంతాన ప్రాప్తి ఎప్పుడు కలుగుతుంది? గర్భ రక్షణ ఎలా ఉంటుంది?')">👶 సంతాన ప్రాప్తి & గర్భ రక్షణ</button>
-                <button class="chat-chip" onclick="askQuickPrompt('నాకు విదేశీ ప్రయాణం లేదా విదేశాల్లో నివాస యోగం ఉందా?')">✈️ విదేశీ యోగం</button>
-                <button class="chat-chip" onclick="askQuickPrompt('ప్రస్తుత దశ-అంతర్దశ ప్రకారం నేను ఎలాంటి శాంతి పరిహారాలు, పూజలు చేయాలి?')">🛡️ దశా శాంతి పరిహారాలు</button>
-                <button class="chat-chip" onclick="askQuickPrompt('నా జాతకంలో ఉన్న ప్రధాన శుభ యోగాలు మరియు దోషాలు ఏమిటి?')">✨ యోగాలు & దోషాలు</button>
-                <button class="chat-chip" onclick="askQuickPrompt('నాకు ఏలినాటి శని లేదా అష్టమ శని ప్రభావం ఉందా? గురు బలం ఎలా ఉంది?')">🪐 శని & గురు గోచారం</button>
+                <button class="chat-chip" onclick="askQuickPrompt('When will I see career growth and business success?')">💼 Career & Business</button>
+                <button class="chat-chip" onclick="askQuickPrompt('When is marriage indicated in my chart and what are spouse characteristics?')">💍 Marriage & Spouse</button>
+                <button class="chat-chip" onclick="askQuickPrompt('How are my finances, wealth prospects, and property gains?')">💰 Wealth & Assets</button>
+                <button class="chat-chip" onclick="askQuickPrompt('How is my health and what precautions should I take?')">🩺 Health & Longevity</button>
+                <button class="chat-chip" onclick="askQuickPrompt('What are my progeny prospects and family blessings?')">👶 Children & Family</button>
+                <button class="chat-chip" onclick="askQuickPrompt('Are foreign travel or overseas settlement indicated in my chart?')">✈️ Foreign Travel</button>
+                <button class="chat-chip" onclick="askQuickPrompt('What Vedic remedies, mantras, and pujas are recommended for my current Dasa?')">🛡️ Dasa Remedies</button>
+                <button class="chat-chip" onclick="askQuickPrompt('What are the key auspicious Yogas and Doshas in my birth chart?')">✨ Yogas & Doshas</button>
+                <button class="chat-chip" onclick="askQuickPrompt('Is Sade Sati or Ashtama Shani active and what is Jupiter strength?')">🪐 Saturn & Jupiter Transit</button>
             </div>
 
             <!-- Messages Window -->
@@ -1041,8 +1041,8 @@
 
             <!-- Input Bar -->
             <div class="chat-input-row">
-                <input type="text" id="chatInputText" class="chat-input" placeholder="మీ జాతకానికి సంబంధించి ఏదైనా ప్రశ్న అడగండి (ఉదా: ఉద్యోగంలో మార్పు, వివాహం, సంతానం, ఆస్తి)..." onkeydown="onChatInputKeyDown(event)">
-                <button class="btn btn-primary" onclick="sendUserChat()" style="padding:10px 18px;">పంపండి (Send) ➔</button>
+                <input type="text" id="chatInputText" class="chat-input" placeholder="Ask any question about this horoscope (e.g. career change, marriage timing, finances)..." onkeydown="onChatInputKeyDown(event)">
+                <button class="btn btn-primary" onclick="sendUserChat()" style="padding:10px 18px;">Send ➔</button>
             </div>
         </div>
     </div>
@@ -1051,23 +1051,23 @@
     <div id="kpLordsTab" class="tab-content admin-only">
         <div class="section-card">
             <div class="section-header">
-                <div class="section-title">🪐 KP 4-Fold గ్రహ స్థితులు & లార్డ్స్</div>
+                <div class="section-title">🪐 KP 4-Fold Planetary Positions & Lords</div>
                 <button class="btn btn-secondary" style="font-size:12px; padding:4px 10px;" onclick="copyTable('kpPlanetTable')">📋 Copy Table</button>
             </div>
             <div class="data-table-container">
                 <table class="data-table" id="kpPlanetTable">
                     <thead>
                         <tr>
-                            <th>గ్రహం (Graha)</th>
-                            <th>నిరయణ రేఖాంశం</th>
-                            <th>రాశి (Sign)</th>
-                            <th>రాశిలో డిగ్రీలు</th>
-                            <th>నక్షత్రం (పాదం)</th>
-                            <th>రాశ్యాధిపతి</th>
-                            <th>నక్షత్రాధిపతి</th>
-                            <th>సబ్ లార్డ్</th>
-                            <th>సబ్-సబ్ లార్డ్</th>
-                            <th>గతి (Motion)</th>
+                            <th>Planet (Graha)</th>
+                            <th>Sidereal Longitude</th>
+                            <th>Sign (Rashi)</th>
+                            <th>Degree in Sign</th>
+                            <th>Nakshatra (Pada)</th>
+                            <th>Sign Lord</th>
+                            <th>Star Lord</th>
+                            <th>Sub Lord</th>
+                            <th>Sub-Sub Lord</th>
+                            <th>Motion</th>
                         </tr>
                     </thead>
                     <tbody id="kpPlanetTableBody"></tbody>
@@ -1080,20 +1080,20 @@
     <div id="cuspsTab" class="tab-content admin-only">
         <div class="section-card">
             <div class="section-header">
-                <div class="section-title">🏠 భావ ప్రారంభాలు & కస్ప్స్ (1 to 12 Bhavas)</div>
+                <div class="section-title">🏠 House Cusps & Boundaries (1 to 12 Bhavas)</div>
             </div>
             <div class="data-table-container">
                 <table class="data-table">
                     <thead>
                         <tr>
-                            <th>భావం (Cusp #)</th>
-                            <th>ప్రారంభ డిగ్రీ</th>
-                            <th>రాశి</th>
-                            <th>రాశ్యాధిపతి</th>
-                            <th>నక్షత్రాధిపతి</th>
-                            <th>సబ్ లార్డ్</th>
-                            <th>సబ్-సబ్ లార్డ్</th>
-                            <th>ఉన్న గ్రహాలు</th>
+                            <th>Cusp #</th>
+                            <th>Start Degree</th>
+                            <th>Sign</th>
+                            <th>Sign Lord</th>
+                            <th>Star Lord</th>
+                            <th>Sub Lord</th>
+                            <th>Sub-Sub Lord</th>
+                            <th>Occupants</th>
                         </tr>
                     </thead>
                     <tbody id="cuspsTableBody"></tbody>
@@ -1106,7 +1106,7 @@
     <div id="aspectsTab" class="tab-content admin-only">
         <div class="section-card">
             <div class="section-header">
-                <div class="section-title">📐 గ్రహ దృక్కులు & Aspects</div>
+                <div class="section-title">📐 Planetary Aspects Matrix</div>
             </div>
             <div class="data-table-container">
                 <table class="data-table" id="aspectsMatrixTable">
@@ -1121,10 +1121,9 @@
 </div>
 
 <script>
-let CURRENT_LANG = 'te';
+let CURRENT_LANG = 'en';
 try {
-    const saved = localStorage.getItem('VS_LANG');
-    if (saved === 'te' || saved === 'en') CURRENT_LANG = saved;
+    localStorage.setItem('VS_LANG', 'en');
 } catch(e) {}
 
 const SAMVATSARAM_TE = [
@@ -1626,7 +1625,7 @@ function renderPanchangamCard(containerId, pData, titleText) {
             <div style="display:flex; align-items:center; gap:8px;">
                 <span>🕉️</span> <strong>${titleText}</strong>
             </div>
-            <span style="font-size:12px; color:var(--accent-gold); font-weight:normal;">వేదిక్ సంహిత పంచాంగ గణితం</span>
+            <span style="font-size:12px; color:var(--accent-gold); font-weight:normal;">${isTe ? 'వేదిక్ సంహిత పంచాంగ గణితం' : 'Vedic Samhita Engine'}</span>
         </div>
         <div class="panchangam-era-text">
             ${isTe 
@@ -1637,27 +1636,27 @@ function renderPanchangamCard(containerId, pData, titleText) {
             <div class="panchanga-anga-item">
                 <span>${isTe ? 'వారము (Day)' : 'Weekday'}</span>
                 <strong>${pData.vaara}</strong>
-                <div class="end-time">సూర్యోదయం: ${pData.sunrise}</div>
+                <div class="end-time">${isTe ? 'సూర్యోదయం: ' : 'Sunrise: '}${pData.sunrise}</div>
             </div>
             <div class="panchanga-anga-item">
                 <span>${isTe ? 'తిథి (Tithi)' : 'Tithi'}</span>
                 <strong>${pData.tithiBirth}</strong>
-                <div class="end-time">ముగింపు: <strong>${pData.tithiEndTime}</strong> వరకు</div>
+                <div class="end-time">${isTe ? `ముగింపు: <strong>${pData.tithiEndTime}</strong> వరకు` : `Ends: <strong>${pData.tithiEndTime}</strong>`}</div>
             </div>
             <div class="panchanga-anga-item">
                 <span>${isTe ? 'నక్షత్రం (Nakshatra)' : 'Nakshatra'}</span>
-                <strong>${pData.nakshatraBirth} (${pData.nakPada}వ పాదం)</strong>
-                <div class="end-time">ముగింపు: <strong>${pData.nakEndTime}</strong> వరకు</div>
+                <strong>${pData.nakshatraBirth} (${pData.nakPada}${isTe ? 'వ పాదం' : ' Padam'})</strong>
+                <div class="end-time">${isTe ? `ముగింపు: <strong>${pData.nakEndTime}</strong> వరకు` : `Ends: <strong>${pData.nakEndTime}</strong>`}</div>
             </div>
             <div class="panchanga-anga-item">
                 <span>${isTe ? 'యోగం (Yoga)' : 'Yoga'}</span>
                 <strong>${pData.yoga}</strong>
-                <div class="end-time">ముగింపు: ${pData.yogaEndTime}</div>
+                <div class="end-time">${isTe ? `ముగింపు: ${pData.yogaEndTime}` : `Ends: ${pData.yogaEndTime}`}</div>
             </div>
             <div class="panchanga-anga-item">
                 <span>${isTe ? 'కరణం (Karana)' : 'Karana'}</span>
                 <strong>${pData.karana}</strong>
-                <div class="end-time">ముగింపు: ${pData.karanaEndTime}</div>
+                <div class="end-time">${isTe ? `ముగింపు: ${pData.karanaEndTime}` : `Ends: ${pData.karanaEndTime}`}</div>
             </div>
         </div>
         <div class="panchanga-muhurtha-grid">
@@ -1950,75 +1949,129 @@ function computeVimshottariDasa(moonDeg, birthDate) {
 const PLANET_PARIHARAMS = {
     "Sun": {
         deity_te: "శ్రీ సూర్య భగవానుడు / గాయత్రీ దేవి",
+        deity_en: "Lord Surya / Goddess Gayatri",
         stotram_te: "ఆదిత్య హృదయ స్తోత్రం, సూర్యాష్టకం నిత్య పారాయణ.",
+        stotram_en: "Aditya Hridaya Stotram, Suryashtakam daily recitation.",
         japa_te: "సూర్య గాయత్రీ మంత్రం లేదా 'ఓం హ్రాం హ్రీం హ్రౌం సః సూర్యాయ నమః' (7000 సార్లు).",
+        japa_en: "Surya Gayatri Mantra or 'Om Hram Hreem Hroum Sah Suryaya Namah' (7,000 times).",
         dana_te: "ఆదివారం గోధుమలు, కెంపు (రూబీ), రాగి పాత్ర, ఎరుపు వస్త్రం లేదా బెల్లం దానం.",
+        dana_en: "Wheat, ruby, copper vessel, red cloth or jaggery on Sundays.",
         gem_te: "మాణిక్యం (Ruby) లేదా సూర్యకాంత మణి రాగి/బంగారంలో కుడిచేతి ఉంగరపు వేలికి.",
-        tips_te: "రోజూ ఉదయం సూర్య నమస్కారాలు, తండ్రి గారిని గౌరవించడం మరియు రాగి పాత్రలో నీరు త్రాగడం శుభకరం."
+        gem_en: "Ruby (Manikyam) or Sunstone in copper/gold on right ring finger.",
+        tips_te: "రోజూ ఉదయం సూర్య నమస్కారాలు, తండ్రి గారిని గౌరవించడం మరియు రాగి పాత్రలో నీరు త్రాగడం శుభకరం.",
+        tips_en: "Practice morning Surya Namaskaras, respect father, and drink water stored in copper vessel."
     },
     "Moon": {
         deity_te: "పరమశివుడు / పార్వతీ దేవి",
+        deity_en: "Lord Shiva / Goddess Parvati",
         stotram_te: "చంద్ర శేఖరాష్టకం, శివ తాండవ స్తోత్రం, శ్రీ లలితా సహస్రనామ స్తోత్రం.",
+        stotram_en: "Chandrashekarashtakam, Shiva Tandava Stotram, Sri Lalitha Sahasranamam.",
         japa_te: "చంద్ర మంత్రం 'ఓం శ్రాం శ్రీం శ్రౌం సః చంద్రాయ నమః' (11000 సార్లు).",
+        japa_en: "Chandra Mantra 'Om Shram Shreem Shroum Sah Chandraya Namah' (11,000 times).",
         dana_te: "సోమవారం బియ్యం, పాలు, పెరుగు, శంఖం, తెల్ల వస్త్రాలు లేదా వెండి దానం.",
+        dana_en: "Rice, milk, curd, conch shell, white cloth or silver on Mondays.",
         gem_te: "ముత్యం (Pearl) లేదా చంద్రకాంత మణి వెండిలో చిటికెన వేలికి.",
-        tips_te: "తల్లి గారి ఆశీస్సులు నిత్యం తీసుకోవడం, పౌర్ణమి నాడు చంద్ర దర్శనం & ధ్యానం విశేష మానసిక శాంతినిస్తాయి."
+        gem_en: "Natural Pearl (Moti) or Moonstone in silver on little finger.",
+        tips_te: "తల్లి గారి ఆశీస్సులు నిత్యం తీసుకోవడం, పౌర్ణమి నాడు చంద్ర దర్శనం & ధ్యానం విశేష మానసిక శాంతినిస్తాయి.",
+        tips_en: "Seek mother's blessings daily; moon meditation on Purnima brings deep mental tranquility."
     },
     "Mars": {
         deity_te: "శ్రీ సుబ్రహ్మణ్యేశ్వర స్వామి / ఆంజనేయ స్వామి",
+        deity_en: "Lord Subrahmanya / Lord Hanuman",
         stotram_te: "సుబ్రహ్మణ్య భుజంగ స్తోత్రం, రుద్ర నమకం-చమకం, సుబ్రహ్మణ్యాష్టకం.",
+        stotram_en: "Subrahmanya Bhujanga Stotram, Sri Rudram, Subrahmanyashtakam.",
         japa_te: "కుజ మంత్రం 'ఓం క్రాం క్రీం క్రౌం సః భౌమాయ నమః' (10000 సార్లు).",
+        japa_en: "Kuja Mantra 'Om Kram Kreem Kroum Sah Bhaumaya Namah' (10,000 times).",
         dana_te: "మంగళవారం కందిపప్పు, ఎర్ర చందనం, రాగి, పగడం లేదా ఎరుపు వస్త్రం దానం.",
+        dana_en: "Red lentils (Toor dal), red sandalwood, copper, coral or red cloth on Tuesdays.",
         gem_te: "ఎరుపు పగడం (Red Coral) రాగి/బంగారంలో ఉంగరపు వేలికి.",
-        tips_te: "రక్తదానం చేయడం, తోబుట్టువులను ఆదరించడం, కోపాన్ని అదుపులో ఉంచుకోవడం పరమ శ్రేయస్కరం."
+        gem_en: "Red Coral (Pagadam) in copper or gold on ring finger.",
+        tips_te: "రక్తదానం చేయడం, తోబుట్టువులను ఆదరించడం, కోపాన్ని అదుపులో ఉంచుకోవడం పరమ శ్రేయస్కరం.",
+        tips_en: "Donate blood, support siblings, and practice anger management."
     },
     "Rahu": {
         deity_te: "శ్రీ దుర్గాదేవి / సరస్వతీ దేవి / శ్రీకాళహస్తీశ్వరుడు",
+        deity_en: "Goddess Durga / Goddess Saraswati / Lord Kalahasteeswara",
         stotram_te: "దుర్గా సప్తశతి, రాహు కవచం, మహిషాసుర మర్దినీ స్తోత్రం.",
+        stotram_en: "Durga Saptashati, Rahu Kavacham, Mahishasura Mardini Stotram.",
         japa_te: "రాహు మంత్రం 'ఓం భ్రాం భ్రీం భ్రౌం సః రాహవే నమః' (18000 సార్లు).",
+        japa_en: "Rahu Mantra 'Om Bhram Bhreem Bhroum Sah Rahave Namah' (18,000 times).",
         dana_te: "శనివారం/బుధవారం మినుములు, నువ్వులు, గోమేధికం, నల్ల దుప్పటి లేదా ఇనుప పాత్ర దానం.",
+        dana_en: "Black gram (Urad dal), sesame seeds, hessonite, dark blanket or iron vessel on Saturdays.",
         gem_te: "గోమేధికం (Hessonite Garnet) పంచలోహాలలో లేదా వెండిలో మధ్య వేలికి.",
-        tips_te: "శ్రీకాళహస్తి లేదా తిరునాగేశ్వరం క్షేత్ర దర్శనం, నిస్సహాయులకు/కుష్టు రోగులకు సహాయం చేయడం శ్రేయస్కరం."
+        gem_en: "Hessonite Garnet (Gomedhikam) in silver or panchaloha on middle finger.",
+        tips_te: "శ్రీకాళహస్తి లేదా తిరునాగేశ్వరం క్షేత్ర దర్శనం, నిస్సహాయులకు/కుష్టు రోగులకు సహాయం చేయడం శ్రేయస్కరం.",
+        tips_en: "Visit Srikalahasti or Thirunageswaram, help needy or disabled individuals."
     },
     "Jupiter": {
         deity_te: "శ్రీ దక్షిణామూర్తి / దత్తాత్రేయ స్వామి / బృహస్పతి",
+        deity_en: "Lord Dakshinamurthy / Lord Dattatreya / Brihaspati",
         stotram_te: "దక్షిణామూర్తి స్తోత్రం, గురు పాదుకా స్తోత్రం, గురు కవచం.",
+        stotram_en: "Dakshinamurthy Stotram, Guru Paduka Stotram, Guru Kavacham.",
         japa_te: "గురు మంత్రం 'ఓం గ్రాం గ్రీం గ్రౌం సః గురవే నమః' (19000 సార్లు).",
+        japa_en: "Guru Mantra 'Om Gram Greem Groum Sah Gurave Namah' (19,000 times).",
         dana_te: "గురువారం శనగలు, పసుపు వస్త్రాలు, పుష్యరాగం, పంచదార, పుస్తకాలు లేదా పసుపు దానం.",
+        dana_en: "Bengal gram (chana dal), yellow cloth, yellow sapphire, sugar, or sacred books on Thursdays.",
         gem_te: "కనక పుష్యరాగం (Yellow Sapphire) బంగారంలో చూపుడు వేలికి (Index Finger).",
-        tips_te: "గురువులను, పెద్దలను, బ్రాహ్మణులను గౌరవించడం మరియు దేవాలయ నిర్మాణ కార్యక్రమాల్లో పాలుపంచుకోవడం శుభం."
+        gem_en: "Yellow Sapphire (Pukhraj) in gold on index finger.",
+        tips_te: "గురువులను, పెద్దలను, బ్రాహ్మణులను గౌరవించడం మరియు దేవాలయ నిర్మాణ కార్యక్రమాల్లో పాలుపంచుకోవడం శుభం.",
+        tips_en: "Respect mentors and teachers; participate in temple and community welfare."
     },
     "Saturn": {
         deity_te: "శ్రీ హనుమాన్ స్వామి / శనీశ్వర స్వామి / కాలభైరవుడు",
+        deity_en: "Lord Hanuman / Lord Shanishwara / Lord Kalabhairava",
         stotram_te: "హనుమాన్ చాలీసా, సుందరకాండ, దశరథ కృత శని స్తోత్రం.",
+        stotram_en: "Hanuman Chalisa, Sundarakanda, Dasharatha Shani Stotram.",
         japa_te: "శని మంత్రం 'ఓం ప్రాం ప్రీం ప్రౌం సః శనైశ్చరాయ నమః' (23000 సార్లు).",
+        japa_en: "Shani Mantra 'Om Pram Preem Proum Sah Shanaischaraya Namah' (23,000 times).",
         dana_te: "శనివారం నువ్వులు, నువ్వుల నూనె, నల్ల వస్త్రాలు, ఇనుము, నీలం లేదా నల్ల గొడుగు దానం.",
+        dana_en: "Sesame seeds, sesame oil, black cloth, iron, or black umbrella on Saturdays.",
         gem_te: "ఇంద్రనీలం (Blue Sapphire) లేదా కాకినీలం పంచలోహాలలో మధ్య వేలికి (నిపుణుల సలహాతో).",
-        tips_te: "శనివారం రావిచెట్టు కింద నువ్వుల నూనెతో దీపారాధన, పేద కార్మికులకు లేదా వికలాంగులకు ఆహార దానం చేయాలి."
+        gem_en: "Blue Sapphire (Indraneelam) or Amethyst in panchaloha/silver on middle finger.",
+        tips_te: "శనివారం రావిచెట్టు కింద నువ్వుల నూనెతో దీపారాధన, పేద కార్మికులకు లేదా వికలాంగులకు ఆహార దానం చేయాలి.",
+        tips_en: "Light sesame oil lamp under Peepal tree on Saturdays; feed poor laborers or stray animals."
     },
     "Mercury": {
         deity_te: "శ్రీ మహావిష్ణువు / హయగ్రీవ స్వామి",
+        deity_en: "Lord Maha Vishnu / Lord Hayagriva",
         stotram_te: "విష్ణు సహస్రనామ స్తోత్రం, నారాయణ కవచం, బుధ కవచం.",
+        stotram_en: "Vishnu Sahasranama Stotram, Narayana Kavacham, Budha Kavacham.",
         japa_te: "బుధ మంత్రం 'ఓం బ్రాం బ్రీం బ్రౌం సః బుధాయ నమః' (9000 సార్లు).",
+        japa_en: "Budha Mantra 'Om Bram Breem Broum Sah Budhaya Namah' (9,000 times).",
         dana_te: "బుధవారం పెసలు, ఆకుపచ్చ వస్త్రాలు, పచ్చ (ఎమరాల్డ్), కాంస్య పాత్ర లేదా ఆకుకూరలు దానం.",
+        dana_en: "Green moong dal, green cloth, emerald, bronze vessel or leafy greens on Wednesdays.",
         gem_te: "జాతి పచ్చ (Emerald) బంగారంలో లేదా వెండిలో చిటికెన వేలికి.",
-        tips_te: "ఆవుకు పచ్చిగడ్డి తినిపించడం, విద్యార్థులకు పుస్తకాలు పంపిణీ చేయడం మరియు అబద్ధాలు ఆడకపోవడం ఉత్తమం."
+        gem_en: "Natural Emerald (Panna) in gold or silver on little finger.",
+        tips_te: "ఆవుకు పచ్చిగడ్డి తినిపించడం, విద్యార్థులకు పుస్తకాలు పంపిణీ చేయడం మరియు అబద్ధాలు ఆడకపోవడం ఉత్తమం.",
+        tips_en: "Feed cows green grass, donate books to students, maintain truthful speech."
     },
     "Ketu": {
         deity_te: "శ్రీ మహా గణపతి / వినాయక స్వామి",
+        deity_en: "Lord Maha Ganapati / Lord Ganesha",
         stotram_te: "గణేశ సంకటనాశన స్తోత్రం, గణపతి అథర్వశీర్షం, కేతు కవచం.",
+        stotram_en: "Ganesha Sankatanashana Stotram, Ganapati Atharvashirsha, Ketu Kavacham.",
         japa_te: "కేతు మంత్రం 'ఓం స్రాం స్రీం స్రౌం సః కేతవే నమః' (17000 సార్లు).",
+        japa_en: "Ketu Mantra 'Om Sram Sreem Sroum Sah Ketave Namah' (17,000 times).",
         dana_te: "మంగళవారం/శనివారం ఉలవలు, కంబళి, వైడూర్యం, నూనె లేదా బూడిద రంగు వస్త్రం దానం.",
+        dana_en: "Horse gram (Kulthi), blanket, cat's eye, mustard oil or ash-colored cloth on Tuesdays/Saturdays.",
         gem_te: "వైడూర్యం (Cat's Eye) వెండి లేదా పంచలోహాలలో ఉంగరపు వేలికి.",
-        tips_te: "రోజూ గణపతికి గరిక పూజ, వీధి కుక్కలకు ఆహారం పెట్టడం మరియు ఆధ్యాత్మిక ధ్యానం ఉత్తమ శాంతినిస్తాయి."
+        gem_en: "Cat's Eye (Vaiduryam) in silver or panchaloha on ring finger.",
+        tips_te: "రోజూ గణపతికి గరిక పూజ, వీధి కుక్కలకు ఆహారం పెట్టడం మరియు ఆధ్యాత్మిక ధ్యానం ఉత్తమ శాంతినిస్తాయి.",
+        tips_en: "Offer durva grass to Lord Ganesha, feed stray dogs, practice spiritual meditation."
     },
     "Venus": {
         deity_te: "శ్రీ మహాలక్ష్మీ దేవి / అన్నపూర్ణా దేవి",
+        deity_en: "Goddess Mahalakshmi / Goddess Annapoorna",
         stotram_te: "కనకధారా స్తోత్రం, శ్రీ సూక్తం, మహాలక్ష్మ్యష్టకం.",
+        stotram_en: "Kanakadhara Stotram, Sri Suktam, Mahalakshmi Ashtakam.",
         japa_te: "శుక్ర మంత్రం 'ఓం ద్రాం ద్రీం ద్రౌం సః శుక్రాయ నమః' (16000 సార్లు).",
+        japa_en: "Shukra Mantra 'Om Dram Dreem Droum Sah Shukraya Namah' (16,000 times).",
         dana_te: "శుక్రవారం బొబ్బర్లు (అలసందలు), పట్టు వస్త్రాలు, వజ్రం, వెండి, నెయ్యి లేదా కర్పూరం దానం.",
+        dana_en: "White cowpeas (lobia), silk cloth, diamond, silver, ghee or camphor on Fridays.",
         gem_te: "వజ్రం (Diamond) లేదా ఓపల్/వైట్ జార్ఖాన్ ప్లాటినం/వెండిలో ఉంగరపు వేలికి.",
-        tips_te: "స్త్రీలను గౌరవించడం, ఇంటిని శుభ్రంగా ఉంచుకోవడం, సుగంధ పరిమళ ద్రవ్యాలు వాడటం ఐశ్వర్యప్రదం."
+        gem_en: "Diamond or White Zircon/Opal in platinum/silver on ring finger.",
+        tips_te: "స్త్రీలను గౌరవించడం, ఇంటిని శుభ్రంగా ఉంచుకోవడం, సుగంధ పరిమళ ద్రవ్యాలు వాడటం ఐశ్వర్యప్రదం.",
+        tips_en: "Respect women, maintain cleanliness in home, use fragrant scents for prosperity."
     }
 };
 
@@ -2181,10 +2234,36 @@ const DASA_PHALITALU = {
     "Mercury": { title_te: "బుధ మహాదశ ఫలితాలు (17 సం.)", desc_te: "వ్యాపార లాభాలు, విద్యలో రాణింపు, రచనా నైపుణ్యం, సమాచార రంగంలో ఉన్నతి. శ్రీమహావిష్ణువు సహస్రనామ పారాయణ ఉత్తమ ఫలితాలను ఇస్తుంది.", desc_en: "Flourishing business, educational milestones and sharp wit." }
 };
 
+const GANA_EN = { "దేవ": "Deva", "మనుష్య": "Manushya", "రాక్షస": "Rakshasa" };
+const NADI_EN = { "ఆది": "Aadi", "మధ్య": "Madhya", "అంత్య": "Antya" };
+const YONI_EN = {
+    "గుర్రం": "Horse (Ashwa)", "ఏనుగు": "Elephant (Gaja)", "మేక": "Goat (Aja)", "పాము": "Serpent (Sarpa)",
+    "కుక్క": "Dog (Shwana)", "పిల్లి": "Cat (Marjara)", "గొర్రె": "Ram (Mesha)", "ఎలుక": "Rat (Mushika)",
+    "ఆవు": "Cow (Go)", "గేదె": "Buffalo (Mahisha)", "పులి": "Tiger (Vyaghra)", "జింక": "Deer (Mriga)",
+    "కోతి": "Monkey (Vanara)", "ముంగిస": "Mongoose (Nakula)", "సింహం": "Lion (Simha)"
+};
+const DEITY_EN = {
+    "అశ్విని కుమారులు": "Ashwini Kumaras", "యముడు": "Yamaraja", "అగ్ని దేవుడు": "Lord Agni", "బ్రహ్మ దేవుడు": "Lord Brahma",
+    "సోముడు (చంద్రుడు)": "Soma (Moon)", "రుద్రుడు": "Lord Rudra", "అదితి": "Aditi", "బృహస్పతి": "Lord Brihaspati",
+    "సర్పాలు": "Sarpas / Nagas", "పితృ దేవతలు": "Pitru Devatas", "భగుడు (సూర్యుడు)": "Bhaga (Surya)", "అర్యముడు": "Aryama",
+    "సూర్యుడు": "Lord Surya", "విశ్వకర్మ": "Lord Vishwakarma", "వాయు దేవుడు": "Lord Vayu", "ఇంద్రాగ్నులు": "Indra-Agni",
+    "మిత్రుడు (సూర్యుడు)": "Mitra (Surya)", "ఇంద్రుడు": "Lord Indra", "నిరృతి": "Nirriti", "వరుణుడు": "Lord Varuna",
+    "విశ్వేదేవతలు": "Vishvedevas", "మహావిష్ణువు": "Lord Maha Vishnu", "అష్ట వసువులు": "Ashta Vasus", "వరుణ దేవుడు": "Lord Varuna",
+    "అజైకపాదుడు": "Ajaikapada", "అహిర్బుధ్న్యుడు": "Ahirbudhnya", "పూషణుడు": "Lord Pushan"
+};
+const COLOR_EN = {
+    "ఎరుపు/నలుపు": "Red / Black", "తెలుపు": "White", "ఎరుపు/నారింజ": "Red / Orange", "తెలుపు/వెండి": "White / Silver",
+    "వెండి/బూడిద": "Silver / Gray", "ఆకుపచ్చ/నలుపు": "Green / Black", "పసుపు": "Yellow", "నీలం/నలుపు": "Blue / Black",
+    "ఆకుపచ్చ": "Green", "పసుపు/ఎరుపు": "Yellow / Red", "గులాబీ/గోధుమ": "Pink / Brown", "నీలం/తెలుపు": "Blue / White",
+    "ఆకుపచ్చ/తెలుపు": "Green / White", "నలుపు/ఎరుపు": "Black / Red", "పసుపు/నలుపు": "Yellow / Black", "బంగారం/ఎరుపు": "Gold / Red",
+    "నలుపు": "Black", "లేత నీలం": "Light Blue", "వెండి/నలుపు": "Silver / Black", "గోధుమ/ఆకుపచ్చ": "Brown / Green", "ముదురు నీలం": "Dark Blue"
+};
+
 function renderActiveDasaPhalitalu(dasa) {
     const card = document.getElementById('activeDasaPhalitaCard');
     if (!card) return;
 
+    const isTe = (CURRENT_LANG === 'te');
     const now = new Date();
     let currentMD = dasa.tree.find(md => now >= md.start && now < md.end) || dasa.tree[0];
     let currentB = currentMD.bhuktis.find(b => now >= b.start && now < b.end) || currentMD.bhuktis[0];
@@ -2205,52 +2284,54 @@ function renderActiveDasaPhalitalu(dasa) {
     card.innerHTML = `
         <div class="dasa-highlight-title">
             <div style="display:flex; align-items:center; gap:10px;">
-                <span>⏳</span> <strong>ప్రస్తుతం నడుస్తున్న దశా కాలక్రమం & సమగ్ర ఫలితాలు</strong>
+                <span>⏳</span> <strong>${isTe ? 'ప్రస్తుతం నడుస్తున్న దశా కాలక్రమం & సమగ్ర ఫలితాలు' : 'Currently Running Dasha Timeline & Complete Predictions'}</strong>
             </div>
-            <span class="badge-running">RUNNING NOW</span>
+            <span class="badge-running">${isTe ? 'నడుస్తున్న దశ' : 'RUNNING NOW'}</span>
         </div>
 
         <div class="dasa-stage-grid">
             <div class="dasa-stage-card">
-                <h4>🪐 మహాదశ: ${mdLordTe} (${mdLord} Mahadasa)</h4>
+                <h4>🪐 ${isTe ? `మహాదశ: ${mdLordTe} (${mdLord} Mahadasa)` : `Mahadasha: ${mdLord}`}</h4>
                 <p style="font-size:12.5px; color:var(--accent-gold); margin-bottom:4px;">
-                    📅 కాలం: ${fmtDate(currentMD.start)} ➔ ${fmtDate(currentMD.end)} (${currentMD.durationYears.toFixed(1)} సం.)
+                    📅 ${isTe ? `కాలం: ${fmtDate(currentMD.start)} ➔ ${fmtDate(currentMD.end)} (${currentMD.durationYears.toFixed(1)} సం.)` : `Period: ${fmtDate(currentMD.start)} ➔ ${fmtDate(currentMD.end)} (${currentMD.durationYears.toFixed(1)} Yrs)`}
                 </p>
                 <p style="font-size:13.5px; color:var(--text-primary); line-height:1.6;">
-                    ${CURRENT_LANG === 'te' ? mdData.desc_te : mdData.desc_en}
+                    ${isTe ? mdData.desc_te : mdData.desc_en}
                 </p>
             </div>
 
             <div class="dasa-stage-card">
-                <h4>🌙 అంతర్దశ (భుక్తి): ${bLordTe} (${bLord} Bhukti)</h4>
+                <h4>🌙 ${isTe ? `అంతర్దశ (భుక్తి): ${bLordTe} (${bLord} Bhukti)` : `Antardasha (Bhukti): ${bLord}`}</h4>
                 <p style="font-size:12.5px; color:var(--accent-gold); margin-bottom:4px;">
-                    📅 ముగింపు: <strong>${fmtDate(currentB.end)}</strong> వరకు
+                    📅 ${isTe ? `ముగింపు: <strong>${fmtDate(currentB.end)}</strong> వరకు` : `Ends: <strong>${fmtDate(currentB.end)}</strong>`}
                 </p>
                 <p style="font-size:13.5px; color:var(--text-primary); line-height:1.6;">
-                    ${CURRENT_LANG === 'te' ? antarTextObj.te : antarTextObj.en}
+                    ${isTe ? antarTextObj.te : antarTextObj.en}
                 </p>
             </div>
 
             <div class="dasa-stage-card">
-                <h4>⚡ ప్రత్యంతర దశ: ${pLordTe} (${pLord} Pratyantara)</h4>
+                <h4>⚡ ${isTe ? `ప్రత్యంతర దశ: ${pLordTe} (${pLord} Pratyantara)` : `Pratyantara Dasha: ${pLord}`}</h4>
                 <p style="font-size:12.5px; color:var(--accent-gold); margin-bottom:4px;">
-                    📅 ముగింపు: <strong>${fmtDate(currentP.end)}</strong> వరకు
+                    📅 ${isTe ? `ముగింపు: <strong>${fmtDate(currentP.end)}</strong> వరకు` : `Ends: <strong>${fmtDate(currentP.end)}</strong>`}
                 </p>
                 <p style="font-size:13.5px; color:var(--text-primary); line-height:1.6;">
-                    ${pLordTe} ప్రత్యంతర దశ ప్రభావం వల్ల రోజువారీ నిర్ణయాల్లో చురుకుదనం, పనులలో నూతన వేగం మరియు ఆకస్మిక అభివృద్ధి కనిపిస్తుంది.
+                    ${isTe 
+                        ? `${pLordTe} ప్రత్యంతర దశ ప్రభావం వల్ల రోజువారీ నిర్ణయాల్లో చురుకుదనం, పనులలో నూతన వేగం మరియు ఆకస్మిక అభివృద్ధి కనిపిస్తుంది.` 
+                        : `Under the influence of ${pLord} Pratyantara Dasha, daily decision-making accelerates, actions gain momentum, and spontaneous progress is indicated.`}
                 </p>
             </div>
         </div>
 
         <div class="dasa-pariharam-box">
-            <h4>🛡️ ప్రస్తుత ${mdLordTe} మహాదశ - ${bLordTe} భుక్తి శాంతి పరిహారాలు (Pariharams & Remedies)</h4>
+            <h4>🛡️ ${isTe ? `ప్రస్తుత ${mdLordTe} మహాదశ - ${bLordTe} భుక్తి శాంతి పరిహారాలు (Pariharams & Remedies)` : `Remedies & Pariharams for Current ${mdLord} Mahadasha - ${bLord} Bhukti`}</h4>
             <ul class="pariharam-list">
-                <li><strong>ఆరాధించాల్సిన దైవం:</strong> ${pData.deity_te}</li>
-                <li><strong>పఠించాల్సిన స్తోత్రం:</strong> ${pData.stotram_te}</li>
-                <li><strong>జప మంత్రం:</strong> ${pData.japa_te}</li>
-                <li><strong>దానాలు:</strong> ${pData.dana_te}</li>
-                <li><strong>ధరించదగిన రత్నం:</strong> ${pData.gem_te}</li>
-                <li><strong>జీవన సూత్రాలు & జాగ్రత్తలు:</strong> ${pData.tips_te}</li>
+                <li><strong>${isTe ? 'ఆరాధించాల్సిన దైవం:' : 'Deity to Worship:'}</strong> ${isTe ? pData.deity_te : (pData.deity_en || pData.deity_te)}</li>
+                <li><strong>${isTe ? 'పఠించాల్సిన స్తోత్రం:' : 'Recommended Stotram:'}</strong> ${isTe ? pData.stotram_te : (pData.stotram_en || pData.stotram_te)}</li>
+                <li><strong>${isTe ? 'జప మంత్రం:' : 'Japa Mantra:'}</strong> ${isTe ? pData.japa_te : (pData.japa_en || pData.japa_te)}</li>
+                <li><strong>${isTe ? 'దానాలు:' : 'Charity / Danam:'}</strong> ${isTe ? pData.dana_te : (pData.dana_en || pData.dana_te)}</li>
+                <li><strong>${isTe ? 'ధరించదగిన రత్నం:' : 'Prescribed Gemstone:'}</strong> ${isTe ? pData.gem_te : (pData.gem_en || pData.gem_te)}</li>
+                <li><strong>${isTe ? 'జీవన సూత్రాలు & జాగ్రత్తలు:' : 'Lifestyle & Guidance:'}</strong> ${isTe ? pData.tips_te : (pData.tips_en || pData.tips_te)}</li>
             </ul>
         </div>
     `;
@@ -2263,8 +2344,9 @@ function initDasaExplorer(dasa) {
     const selAD = document.getElementById('selExploreAD');
     const selPD = document.getElementById('selExplorePD');
     if (!selMD || !selAD || !selPD) return;
+    const isTe = (CURRENT_LANG === 'te');
 
-    selMD.innerHTML = dasa.tree.map((md, i) => `<option value="${md.lord}" ${i===0?'selected':''}>${md.lordTe || md.lord} మహాదశ (${fmtDate(md.start)} - ${fmtDate(md.end)})</option>`).join('');
+    selMD.innerHTML = dasa.tree.map((md, i) => `<option value="${md.lord}" ${i===0?'selected':''}>${isTe ? `${md.lordTe || md.lord} మహాదశ` : `${md.lord} Mahadasha`} (${fmtDate(md.start)} - ${fmtDate(md.end)})</option>`).join('');
 
     updateExploreBhuktis();
 }
@@ -2274,8 +2356,9 @@ function updateExploreBhuktis() {
     const selMDVal = document.getElementById('selExploreMD').value;
     const mdNode = CURRENT_DATA.dasa.tree.find(md => md.lord === selMDVal) || CURRENT_DATA.dasa.tree[0];
     const selAD = document.getElementById('selExploreAD');
+    const isTe = (CURRENT_LANG === 'te');
 
-    selAD.innerHTML = mdNode.bhuktis.map((b, i) => `<option value="${b.lord}" ${i===0?'selected':''}>${b.lordTe || b.lord} భుక్తి (${fmtDate(b.start)} - ${fmtDate(b.end)})</option>`).join('');
+    selAD.innerHTML = mdNode.bhuktis.map((b, i) => `<option value="${b.lord}" ${i===0?'selected':''}>${isTe ? `${b.lordTe || b.lord} భుక్తి` : `${b.lord} Bhukti`} (${fmtDate(b.start)} - ${fmtDate(b.end)})</option>`).join('');
 
     updateExplorePratyantaras();
 }
@@ -2287,8 +2370,9 @@ function updateExplorePratyantaras() {
     const mdNode = CURRENT_DATA.dasa.tree.find(md => md.lord === selMDVal) || CURRENT_DATA.dasa.tree[0];
     const bNode = mdNode.bhuktis.find(b => b.lord === selADVal) || mdNode.bhuktis[0];
     const selPD = document.getElementById('selExplorePD');
+    const isTe = (CURRENT_LANG === 'te');
 
-    selPD.innerHTML = bNode.pratyantaras.map((p, i) => `<option value="${p.lord}" ${i===0?'selected':''}>${p.lordTe || p.lord} ప్రత్యంతర (${fmtDate(p.start)} - ${fmtDate(p.end)})</option>`).join('');
+    selPD.innerHTML = bNode.pratyantaras.map((p, i) => `<option value="${p.lord}" ${i===0?'selected':''}>${isTe ? `${p.lordTe || p.lord} ప్రత్యంతర` : `${p.lord} Pratyantara`} (${fmtDate(p.start)} - ${fmtDate(p.end)})</option>`).join('');
 
     renderCustomExploreDasa();
 }
@@ -2311,6 +2395,7 @@ function renderCustomExploreDasa() {
     const selPDVal = document.getElementById('selExplorePD').value;
     const container = document.getElementById('customDasaResultBox');
     if (!container) return;
+    const isTe = (CURRENT_LANG === 'te');
 
     const mdIdx = DASA_LORDS.indexOf(selMDVal);
     const adIdx = DASA_LORDS.indexOf(selADVal);
@@ -2327,14 +2412,16 @@ function renderCustomExploreDasa() {
     container.innerHTML = `
         <div style="background:rgba(227,179,65,0.06); border:1px solid var(--accent-gold); border-radius:10px; padding:16px;">
             <h4 style="color:var(--accent-gold); font-size:16px; margin-bottom:8px;">
-                📜 ${mdLordTe} మహాదశ - ${adLordTe} భుక్తి - ${pdLordTe} ప్రత్యంతర సమగ్ర ఫలితం
+                📜 ${isTe ? `${mdLordTe} మహాదశ - ${adLordTe} భుక్తి - ${pdLordTe} ప్రత్యంతర సమగ్ర ఫలితం` : `${selMDVal} Mahadasha - ${selADVal} Bhukti - ${selPDVal} Pratyantara Comprehensive Result`}
             </h4>
             <p style="font-size:14px; line-height:1.7; color:var(--text-primary); margin-bottom:12px;">
-                <strong>విశ్లేషణ:</strong> ${CURRENT_LANG === 'te' ? antarTextObj.te : antarTextObj.en}
+                <strong>${isTe ? 'విశ్లేషణ:' : 'Analysis:'}</strong> ${isTe ? antarTextObj.te : antarTextObj.en}
             </p>
             <div style="background:rgba(248,81,73,0.06); border-left:3px solid var(--accent-red); padding:10px 14px; border-radius:4px; font-size:13px;">
-                <strong style="color:var(--accent-red);">ఈ కాలానికి విశేష పరిహారం:</strong> 
-                ${pData.deity_te} ఆరాధన, ${pData.stotram_te} మరియు ${pData.dana_te} చేయడం వల్ల శుభ ఫలితాలు ఇనుమడిస్తాయి.
+                <strong style="color:var(--accent-red);">${isTe ? 'ఈ కాలానికి విశేష పరిహారం:' : 'Special Remedy for this Period:'}</strong> 
+                ${isTe 
+                    ? `${pData.deity_te} ఆరాధన, ${pData.stotram_te} మరియు ${pData.dana_te} చేయడం వల్ల శుభ ఫలితాలు ఇనుమడిస్తాయి.` 
+                    : `Worship of ${pData.deity_en || pData.deity_te}, chanting ${pData.stotram_en || pData.stotram_te}, and offering ${pData.dana_en || pData.dana_te} will enhance auspicious outcomes.`}
             </div>
         </div>
     `;
@@ -2366,12 +2453,12 @@ function generatePhalitalu(planets, cusps, dasa, gender = 'male') {
     `;
 
     document.getElementById('phPillGrid').innerHTML = `
-        <div class="info-pill"><span>${isTe ? 'గణము' : 'Ganam'}</span>${nakInfo.gana}</div>
-        <div class="info-pill"><span>${isTe ? 'యోని' : 'Yoni'}</span>${nakInfo.yoni}</div>
-        <div class="info-pill"><span>${isTe ? 'నాడి' : 'Nadi'}</span>${nakInfo.nadi}</div>
+        <div class="info-pill"><span>${isTe ? 'గణము' : 'Ganam'}</span>${isTe ? nakInfo.gana : (GANA_EN[nakInfo.gana] || nakInfo.gana)}</div>
+        <div class="info-pill"><span>${isTe ? 'యోని' : 'Yoni'}</span>${isTe ? nakInfo.yoni : (YONI_EN[nakInfo.yoni] || nakInfo.yoni)}</div>
+        <div class="info-pill"><span>${isTe ? 'నాడి' : 'Nadi'}</span>${isTe ? nakInfo.nadi : (NADI_EN[nakInfo.nadi] || nakInfo.nadi)}</div>
         <div class="info-pill"><span>${isTe ? 'రత్నం' : 'Lucky Gem'}</span>${nakInfo.gem}</div>
-        <div class="info-pill"><span>${isTe ? 'అధిష్టాన దైవం' : 'Deity'}</span>${nakInfo.deity}</div>
-        <div class="info-pill"><span>${isTe ? 'అదృష్ట రంగు' : 'Lucky Color'}</span>${nakInfo.color}</div>
+        <div class="info-pill"><span>${isTe ? 'అధిష్టాన దైవం' : 'Deity'}</span>${isTe ? nakInfo.deity : (DEITY_EN[nakInfo.deity] || nakInfo.deity)}</div>
+        <div class="info-pill"><span>${isTe ? 'అదృష్ట రంగు' : 'Lucky Color'}</span>${isTe ? nakInfo.color : (COLOR_EN[nakInfo.color] || nakInfo.color)}</div>
         <div class="info-pill"><span>${isTe ? 'అదృష్ట సంఖ్య' : 'Lucky #'}</span>${nakInfo.lucky}</div>
     `;
 
@@ -2740,7 +2827,7 @@ function renderSouthChart(containerId, planets, isNavamsa, highlightRasi = -1) {
         for (const g of signGrahas[signIdx]) {
             const pill = document.createElement('span');
             pill.className = `graha-pill ${getGrahaClass(g.name)} ${g.isRetro ? 'vakra-graha' : ''}`;
-            let label = g.name === 'Lagna' ? 'లగ్నం' : (CURRENT_LANG === 'te' ? getGrahaTeluguShort(g.name) : g.name.substring(0, 2));
+            let label = g.name === 'Lagna' ? (CURRENT_LANG === 'te' ? 'లగ్నం' : 'ASC') : (CURRENT_LANG === 'te' ? getGrahaTeluguShort(g.name) : g.name.substring(0, 2));
             if (g.isRetro) {
                 label += (CURRENT_LANG === 'te' ? '(వ)' : '(R)');
             }
@@ -2890,8 +2977,11 @@ function renderCuspsTable(cusps, planets) {
 }
 
 function renderDasaTree(dasa) {
+    const isTe = (CURRENT_LANG === 'te');
     const container = document.getElementById('dasaTreeContainer');
-    document.getElementById('dasaSummary').textContent = `జన్మకాల శేష దశ: ${dasa.balanceLord} మహాదశ ${dasa.balanceYears} సంవత్సరాలు`;
+    document.getElementById('dasaSummary').textContent = isTe 
+        ? `జన్మకాల శేష దశ: ${dasa.balanceLord} మహాదశ ${dasa.balanceYears} సంవత్సరాలు` 
+        : `Birth Balance Dasha: ${dasa.balanceLord} Mahadasha for ${dasa.balanceYears} Years`;
     container.innerHTML = '';
 
     const now = new Date();
@@ -2905,8 +2995,8 @@ function renderDasaTree(dasa) {
         mdHeader.className = `tree-header ${isCurrentMD ? 'active-dasa' : ''}`;
         mdHeader.innerHTML = `
             <span class="tree-toggle">▶</span>
-            <span class="tree-title">🪐 ${md.lordTe || md.lord} మహాదశ (${md.durationYears.toFixed(1)} సం.)</span>
-            ${isCurrentMD ? '<span class="badge-running">నడుస్తున్న దశ (RUNNING)</span>' : ''}
+            <span class="tree-title">🪐 ${isTe ? `${md.lordTe || md.lord} మహాదశ` : `${md.lord} Mahadasha`} (${md.durationYears.toFixed(1)} ${isTe ? 'సం.' : 'Yrs'})</span>
+            ${isCurrentMD ? `<span class="badge-running">${isTe ? 'నడుస్తున్న దశ (RUNNING)' : 'RUNNING DASHA'}</span>` : ''}
             <span class="tree-dates">${fmtDate(md.start)} ➔ ${fmtDate(md.end)}</span>
         `;
 
@@ -2923,8 +3013,8 @@ function renderDasaTree(dasa) {
             bHeader.className = `tree-header ${isCurrentB ? 'active-dasa' : ''}`;
             bHeader.innerHTML = `
                 <span class="tree-toggle">▶</span>
-                <span class="tree-title">🌙 ${b.lordTe || b.lord} భుక్తి</span>
-                ${isCurrentB ? '<span class="badge-running">నడుస్తున్న భుక్తి</span>' : ''}
+                <span class="tree-title">🌙 ${isTe ? `${b.lordTe || b.lord} భుక్తి` : `${b.lord} Bhukti`}</span>
+                ${isCurrentB ? `<span class="badge-running">${isTe ? 'నడుస్తున్న భుక్తి' : 'RUNNING BHUKTI'}</span>` : ''}
                 <span class="tree-dates">${fmtDate(b.start)} ➔ ${fmtDate(b.end)}</span>
             `;
 
@@ -2938,8 +3028,8 @@ function renderDasaTree(dasa) {
                 pDiv.className = 'tree-node';
                 pDiv.innerHTML = `
                     <div class="tree-header ${isCurrentP ? 'active-dasa' : ''}">
-                        <span class="tree-title">⚡ ${p.lordTe || p.lord} ప్రత్యంతర దశ</span>
-                        ${isCurrentP ? '<span class="badge-running">ACTIVE</span>' : ''}
+                        <span class="tree-title">⚡ ${isTe ? `${p.lordTe || p.lord} ప్రత్యంతర దశ` : `${p.lord} Pratyantara Dasha`}</span>
+                        ${isCurrentP ? `<span class="badge-running">${isTe ? 'ACTIVE' : 'ACTIVE'}</span>` : ''}
                         <span class="tree-dates">${fmtDate(p.start)} ➔ ${fmtDate(p.end)}</span>
                     </div>
                 `;
@@ -3014,7 +3104,7 @@ function renderAspectsMatrix(aspects) {
     const thead = document.getElementById('aspectsMatrixHead');
     const tbody = document.getElementById('aspectsMatrixBody');
 
-    thead.innerHTML = '<th>గ్రహం</th>' + aspects.pKeys.map(k => `<th>${k}</th>`).join('');
+    thead.innerHTML = `<th>${CURRENT_LANG === 'te' ? 'గ్రహం' : 'Planet'}</th>` + aspects.pKeys.map(k => `<th>${k}</th>`).join('');
     tbody.innerHTML = '';
 
     aspects.matrix.forEach((row, i) => {
@@ -3076,9 +3166,9 @@ function generateGochara(natalPlanets, gDateStr, lat, lon, tz, ayanType) {
                 🪐 ${isTe ? 'గోచార అనుకూలత' : 'Transit Score'}: <span style="color:${scorePercentage >= 60 ? 'var(--accent-green)' : scorePercentage >= 40 ? 'var(--accent-gold)' : 'var(--accent-red)'}; margin-left:6px;">${scorePercentage}%</span>
             </div>
             <div class="gochara-pills">
-                <div class="gochara-pill ${isJupGood ? 'good' : 'bad'}">${isTe ? 'గురు' : 'Jupiter'}: ${jupH}వ స్థానం (${isJupGood ? (isTe ? 'శుభం' : 'Benefic') : (isTe ? 'సాధారణ' : 'Neutral')})</div>
-                <div class="gochara-pill ${isSatGood ? 'good' : 'bad'}">${isTe ? 'శని' : 'Saturn'}: ${satH}వ స్థానం (${isSadeSati ? (isTe ? 'ఏలినాటి శని' : 'Sade Sati') : isAshtamaShani ? (isTe ? 'అష్టమ శని' : 'Ashtama') : isSatGood ? (isTe ? 'శుభం' : 'Benefic') : (isTe ? 'ప్రతికూలం' : 'Adverse')})</div>
-                <div class="gochara-pill ${isRahuGood ? 'good' : 'bad'}">${isTe ? 'రాహువు' : 'Rahu'}: ${rahuH}వ స్థానం</div>
+                <div class="gochara-pill ${isJupGood ? 'good' : 'bad'}">${isTe ? 'గురు' : 'Jupiter'}: ${jupH}${isTe ? 'వ స్థానం' : 'th House'} (${isJupGood ? (isTe ? 'శుభం' : 'Benefic') : (isTe ? 'సాధారణ' : 'Neutral')})</div>
+                <div class="gochara-pill ${isSatGood ? 'good' : 'bad'}">${isTe ? 'శని' : 'Saturn'}: ${satH}${isTe ? 'వ స్థానం' : 'th House'} (${isSadeSati ? (isTe ? 'ఏలినాటి శని' : 'Sade Sati') : isAshtamaShani ? (isTe ? 'అష్టమ శని' : 'Ashtama') : isSatGood ? (isTe ? 'శుభం' : 'Benefic') : (isTe ? 'ప్రతికూలం' : 'Adverse')})</div>
+                <div class="gochara-pill ${isRahuGood ? 'good' : 'bad'}">${isTe ? 'రాహువు' : 'Rahu'}: ${rahuH}${isTe ? 'వ స్థానం' : 'th House'}</div>
             </div>
         `;
     }
@@ -3088,7 +3178,7 @@ function generateGochara(natalPlanets, gDateStr, lat, lon, tz, ayanType) {
         majorDiv.innerHTML = `
             <div class="gochara-planet-card">
                 <div class="gochara-planet-header">
-                    <strong>👑 దేవగురువు (Jupiter Transit)</strong>
+                    <strong>👑 ${isTe ? 'దేవగురువు (Jupiter Transit)' : 'Jupiter Transit'}</strong>
                     <span class="gochara-status ${isJupGood ? 'shubha' : 'madhyama'}">${isJupGood ? (isTe ? 'శుభ గోచారం' : 'Benefic') : (isTe ? 'మధ్యమ గోచారం' : 'Moderate')}</span>
                 </div>
                 <p style="font-size:13px; line-height:1.6;">
@@ -3100,7 +3190,7 @@ function generateGochara(natalPlanets, gDateStr, lat, lon, tz, ayanType) {
 
             <div class="gochara-planet-card">
                 <div class="gochara-planet-header">
-                    <strong>🪐 శనీశ్వరుడు (Saturn Transit)</strong>
+                    <strong>🪐 ${isTe ? 'శనీశ్వరుడు (Saturn Transit)' : 'Saturn Transit'}</strong>
                     <span class="gochara-status ${isSatGood ? 'shubha' : 'ashubha'}">${isSatGood ? (isTe ? 'అనుకూలం' : 'Favorable') : isSadeSati ? (isTe ? 'ఏలినాటి శని' : 'Sade Sati') : (isTe ? 'జాగ్రత్త' : 'Caution')}</span>
                 </div>
                 <p style="font-size:13px; line-height:1.6;">
@@ -3112,7 +3202,7 @@ function generateGochara(natalPlanets, gDateStr, lat, lon, tz, ayanType) {
 
             <div class="gochara-planet-card">
                 <div class="gochara-planet-header">
-                    <strong>🐍 రాహు-కేతువులు (Rahu-Ketu Transit)</strong>
+                    <strong>🐍 ${isTe ? 'రాహు-కేతువులు (Rahu-Ketu Transit)' : 'Rahu-Ketu Transit'}</strong>
                     <span class="gochara-status ${isRahuGood ? 'shubha' : 'madhyama'}">${isRahuGood ? (isTe ? 'యోగదాయకం' : 'Favorable') : (isTe ? 'పరిహారం అవసరం' : 'Remedy Advised')}</span>
                 </div>
                 <p style="font-size:13px; line-height:1.6;">
@@ -3129,19 +3219,19 @@ function generateGochara(natalPlanets, gDateStr, lat, lon, tz, ayanType) {
         minorDiv.innerHTML = `
             <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); gap:10px;">
                 <div class="info-pill" style="flex-direction:column; align-items:flex-start; text-align:left;">
-                    <span>☀️ రవి (Sun): ${sunH}వ స్థానం</span>
+                    <span>${isTe ? '☀️ రవి (Sun)' : '☀️ Sun'}: ${sunH}${isTe ? 'వ స్థానం' : 'th House'}</span>
                     <strong>${isSunGood ? (isTe ? 'శుభ ఫలితం' : 'Benefic') : (isTe ? 'సాధారణం' : 'Neutral')}</strong>
                 </div>
                 <div class="info-pill" style="flex-direction:column; align-items:flex-start; text-align:left;">
-                    <span>⚔️ కుజుడు (Mars): ${marsH}వ స్థానం</span>
+                    <span>${isTe ? '⚔️ కుజుడు (Mars)' : '⚔️ Mars'}: ${marsH}${isTe ? 'వ స్థానం' : 'th House'}</span>
                     <strong>${isMarsGood ? (isTe ? 'శుభ ఫలితం' : 'Benefic') : (isTe ? 'ఆవేశం తగ్గించుకోవాలి' : 'Caution')}</strong>
                 </div>
                 <div class="info-pill" style="flex-direction:column; align-items:flex-start; text-align:left;">
-                    <span>📚 బుధుడు (Mercury): ${mercH}వ స్థానం</span>
+                    <span>${isTe ? '📚 బుధుడు (Mercury)' : '📚 Mercury'}: ${mercH}${isTe ? 'వ స్థానం' : 'th House'}</span>
                     <strong>${isMercGood ? (isTe ? 'బుద్ధి బలం' : 'Intellect') : (isTe ? 'సాధారణం' : 'Neutral')}</strong>
                 </div>
                 <div class="info-pill" style="flex-direction:column; align-items:flex-start; text-align:left;">
-                    <span>💎 శుక్రుడు (Venus): ${venH}వ స్థానం</span>
+                    <span>${isTe ? '💎 శుక్రుడు (Venus)' : '💎 Venus'}: ${venH}${isTe ? 'వ స్థానం' : 'th House'}</span>
                     <strong>${isVenGood ? (isTe ? 'సౌఖ్యం' : 'Comfort') : (isTe ? 'సాధారణం' : 'Neutral')}</strong>
                 </div>
             </div>
@@ -3152,11 +3242,11 @@ function generateGochara(natalPlanets, gDateStr, lat, lon, tz, ayanType) {
     if (remDiv) {
         remDiv.innerHTML = `
             <div style="background:rgba(227,179,65,0.06); border:1px solid var(--accent-gold); border-radius:10px; padding:14px;">
-                <h4 style="color:var(--accent-gold); margin-bottom:6px;">🛡️ ప్రస్తుత గోచార శాంతి పరిహారాలు:</h4>
+                <h4 style="color:var(--accent-gold); margin-bottom:6px;">🛡️ ${isTe ? 'ప్రస్తుత గోచార శాంతి పరిహారాలు:' : 'Current Transit Remedies & Guidance:'}</h4>
                 <p style="font-size:13px; line-height:1.6;">
-                    ${isSadeSati || isAshtamaShani ? '• శని ప్రీత్యర్థం శనివారం <strong>హనుమాన్ చాలీసా</strong> పారాయణ లేదా నువ్వుల నూనెతో దీపారాధన చేయండి.<br>' : ''}
-                    • గురు అనుగ్రహం కొరకు గురువారం <strong>దక్షిణామూర్తి స్తోత్రం</strong> లేదా సాయిబాబా పూజ శుభకరం.<br>
-                    • రాహు-కేతు దోష నివృత్తి కొరకు మంగళవారం <strong>శ్రీ సుబ్రహ్మణ్య అష్టకం</strong> పఠించండి.
+                    ${isSadeSati || isAshtamaShani ? (isTe ? '• శని ప్రీత్యర్థం శనివారం <strong>హనుమాన్ చాలీసా</strong> పారాయణ లేదా నువ్వుల నూనెతో దీపారాధన చేయండి.<br>' : '• For Saturn peace, recite Hanuman Chalisa or light sesame oil lamp on Saturdays.<br>') : ''}
+                    ${isTe ? '• గురు అనుగ్రహం కొరకు గురువారం <strong>దక్షిణామూర్తి స్తోత్రం</strong> లేదా సాయిబాబా పూజ శుభకరం.<br>' : '• For Jupiter blessings, recite Dakshinamurthy Stotram on Thursdays.<br>'}
+                    ${isTe ? '• రాహు-కేతు దోష నివృత్తి కొరకు మంగళవారం <strong>శ్రీ సుబ్రహ్మణ్య అష్టకం</strong> పఠించండి.' : '• For Rahu-Ketu propitiation, recite Sri Subrahmanya Ashtakam on Tuesdays.'}
                 </p>
             </div>
         `;
@@ -3221,7 +3311,7 @@ function appendChatMessage(sender, htmlContent) {
 
     msgDiv.innerHTML = `
         <div class="msg-bubble">${htmlContent}</div>
-        <div class="msg-time">${sender === 'user' ? 'మీరు (You)' : 'AI జ్యోతిష్య సహాయకుడు'} • ${timeStr}</div>
+        <div class="msg-time">${sender === 'user' ? (CURRENT_LANG === 'te' ? 'మీరు (You)' : 'You') : (CURRENT_LANG === 'te' ? 'AI జ్యోతిష్య సహాయకుడు' : 'AI Astrologer')} • ${timeStr}</div>
     `;
 
     chatBox.appendChild(msgDiv);
@@ -3261,7 +3351,7 @@ function sendUserChat() {
         setTimeout(() => {
             appendChatMessage('ai', CURRENT_LANG === 'te' 
                 ? '⚠️ దయచేసి ముందుగా పైన మీ పుట్టిన తేదీ, సమయం మరియు నగరాన్ని నమోదు చేసి "🔮 జాతకం లెక్కించండి" బటన్ క్లిక్ చేయండి.'
-                : '⚠️ Please enter your birth date, time and city above, then click "Calculate Jathakam" first.');
+                : '⚠️ Please enter your birth date, time and city above, then click "Calculate Horoscope" first.');
         }, 300);
         return;
     }
@@ -3272,7 +3362,7 @@ function sendUserChat() {
     const typingDiv = document.createElement('div');
     typingDiv.className = 'chat-msg ai';
     typingDiv.id = typingId;
-    typingDiv.innerHTML = `<div class="msg-bubble" style="font-style:italic; color:var(--accent-gold);">🔮 మీ కుండలి, గ్రహ స్థితులు & నడుస్తున్న దశా-గోచారాలను విశ్లేషిస్తోంది...</div>`;
+    typingDiv.innerHTML = `<div class="msg-bubble" style="font-style:italic; color:var(--accent-gold);">${CURRENT_LANG === 'te' ? '🔮 మీ కుండలి, గ్రహ స్థితులు & నడుస్తున్న దశా-గోచారాలను విశ్లేషిస్తోంది...' : '🔮 Analyzing your kundali, planetary positions & transit dashas...'}</div>`;
     chatBox.appendChild(typingDiv);
     chatBox.scrollTop = chatBox.scrollHeight;
 
@@ -3573,7 +3663,7 @@ function generateAstroChatAnswer(query, data) {
             </div>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">👶 Progeny, Pregnancy & D-7 Saptamsa Astrological Analysis:</h4>
-            <p>1. <strong>5th House of Progeny:</strong> For ${lagnaKP.rashiName} Lagna, 5th house is ${h5RashiTe} ruled by ${h5Lord}, with Jupiter as natural Putrakaraka and ${PK} as Jaimini Putrakaraka.</p>
+            <p>1. <strong>5th House of Progeny:</strong> For ${lagnaKP.rashiName} Lagna, 5th house is ${RASHI_NAMES[h5Idx]} ruled by ${h5Lord}, with Jupiter as natural Putrakaraka and ${PK} as Jaimini Putrakaraka.</p>
             ${isComplication ? `
             <p style="margin-top:6px;">2. <strong>Astrological Factor for Ectopic / Complications:</strong> Active Rahu Mahadasa - Venus Bhukti (Venus governing reproductive system/fallopian tubes + Rahu inducing sudden anomalous conditions) combined with Kuja/Saturn affliction triggered tubal pregnancy in 2025. This is a temporary astrological phase, not permanent infertility.</p>
             ` : ''}
@@ -3604,7 +3694,7 @@ function generateAstroChatAnswer(query, data) {
             </p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">💍 Marriage & Relationship Analysis (D-9 Navamsa):</h4>
-            <p>1. <strong>7th House:</strong> Lord ${h7Lord}, with primary significator ${isFemale ? 'Jupiter (Husband)' : 'Venus (Wife)'} and Darakaraka ${DK}.</p>
+            <p>1. <strong>7th House:</strong> Lord ${h7Lord}, with primary significator ${isFemale ? 'Jupiter (Husband)' : 'Venus (Wife)'} and Darakaraka ${DK}. D-9 Navamsa Ascendant is in ${RASHI_NAMES[d9LagnaSign]}.</p>
             <p style="margin-top:6px;">2. <strong>Kuja Dosha:</strong> ${isKujaDosha ? 'Present; matching and pariharams advised.' : 'No Kuja Dosha.'}</p>
             <p style="margin-top:6px;">3. <strong>Timing:</strong> Transit Jupiter in house ${guruHouseFromMoon} from Moon sign indicates ${isGuruGood ? 'a highly favorable alliance window.' : 'steady prospects.'}</p>
         `;
@@ -3631,7 +3721,7 @@ function generateAstroChatAnswer(query, data) {
             </p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">💼 Career & Promotion Analysis (D-10 Dasamsa):</h4>
-            <p>1. <strong>10th House:</strong> Lord ${h10Lord} governs career authority, with Amatyakaraka ${AmK} and D-10 Ascendant in ${RASHI_NAMES_TELUGU[d10LagnaSign]}.</p>
+            <p>1. <strong>10th House:</strong> Lord ${h10Lord} governs career authority, with Amatyakaraka ${AmK} and D-10 Ascendant in ${RASHI_NAMES[d10LagnaSign]}.</p>
             <p style="margin-top:6px;">2. <strong>Active Period:</strong> ${mdLord} Mahadasa - ${bLord} Bhukti (ends ${fmtDate(currentB.end)}).</p>
             <p style="margin-top:6px;">3. <strong>Timing:</strong> Transit Jupiter in house ${guruHouseFromMoon} indicates ${isGuruGood ? 'high prospects for promotions and raises.' : 'steady progress with diligence.'}</p>
         `;
@@ -3673,7 +3763,7 @@ function generateAstroChatAnswer(query, data) {
     if (q.includes('sthana') || q.includes('స్థాన') || q.includes('మార్పిడి') || q.includes('marpidi') || q.includes('transfer') || q.includes('relocation') || q.includes('change of place') || q.includes('shift') || q.includes('shifting') || q.includes('ఊరు మార') || q.includes('ఇల్లు మార') || q.includes('స్థల మార్పు') || q.includes('స్థానచలన') || (q.includes('job') && q.includes('change')) || (q.includes('ఉద్యోగ') && q.includes('మార్పు'))) {
         const isTransferDasa = ['Rahu', 'Ketu', 'Moon', 'Jupiter', 'Saturn'].includes(bLord) || ['Rahu', 'Ketu', 'Saturn'].includes(mdLord);
         const isTransferGochara = [4, 8, 12].includes(guruHouseFromMoon) || [1, 4, 7, 10].includes(shaniHouseFromMoon) || isSadeSati;
-        const transferProbability = (isTransferDasa && isTransferGochara) ? "అత్యంత బలంగా ఉంది (High Probability)" : (isTransferDasa || isTransferGochara) ? "మధ్యస్థంగా ఉంది (Moderate Probability)" : "సాధారణంగా ఉంది (Low Probability)";
+        const transferProbability = (isTransferDasa && isTransferGochara) ? (isTe ? "అత్యంత బలంగా ఉంది (High Probability)" : "High Probability") : (isTransferDasa || isTransferGochara) ? (isTe ? "మధ్యస్థంగా ఉంది (Moderate Probability)" : "Moderate Probability") : (isTe ? "సాధారణంగా ఉంది (Low Probability)" : "Low Probability");
 
         return isTe ? `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">🚚 స్థాన మార్పిడి & స్థానచలన విశ్లేషణ (Change of Place / Transfer):</h4>
@@ -3710,7 +3800,7 @@ function generateAstroChatAnswer(query, data) {
             </p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">💰 Wealth & Assets Prediction (D-2 Hora):</h4>
-            <p>1. <strong>Wealth Houses:</strong> 2nd Lord ${h2LordTe} & 11th Lord ${h11LordTe} support financial inflow, with 4th Lord ${h4LordTe} governing fixed property.</p>
+            <p>1. <strong>Wealth Houses:</strong> 2nd Lord ${h2Lord} & 11th Lord ${h11Lord} support financial inflow, with 4th Lord ${h4Lord} governing fixed property.</p>
             <p style="margin-top:6px;">2. <strong>Remedy:</strong> Recite Kanakadhara Stotram on Fridays for steady prosperity.</p>
         `;
     }
@@ -3726,7 +3816,7 @@ function generateAstroChatAnswer(query, data) {
             </p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">📉 Debt Relief & Financial Recovery:</h4>
-            <p>6th Lord ${h6LordTe} governs debts. Recite Rina Vimochana Angaraka Stotram on Tuesdays for rapid debt clearance.</p>
+            <p>6th Lord ${h6Lord} governs debts. Recite Rina Vimochana Angaraka Stotram on Tuesdays for rapid debt clearance.</p>
         `;
     }
 
@@ -3734,7 +3824,7 @@ function generateAstroChatAnswer(query, data) {
     if (q.includes('ఆరోగ్య') || q.includes('ఆయుష్షు') || q.includes('health') || q.includes('జబ్బు') || q.includes('రోగ') || q.includes('disease') || q.includes('surgery') || q.includes('నీరసం') || q.includes('మానసిక') || q.includes('stress') || q.includes('peace') || q.includes('నిద్ర') || q.includes('aarogyam') || q.includes('operation') || q.includes('ఆపరేషన్') || q.includes('depression') || q.includes('ఆందోళన')) {
         return isTe ? `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">🩺 ఆరోగ్య స్థితి & ఆయుర్దాయ విశ్లేషణ (Health & D-30 Trimsamsa):</h4>
-            <p>1. <strong>లగ్న బలం & రోగ స్థానం:</strong> మీ లగ్నాధిపతి <strong>${lagnaKP.signLordTe}</strong> శారీరక రోగనిరోధక శక్తిని, 6వ అధిపతి <strong>${h6LordTe}</strong> రోగ నిరోధక సామర్థ్యాన్ని, 8వ అధిపతి <strong>${h8LordTe}</strong> దీర్ఘాయుష్షును సూచిస్తారు.<br>
+            <p>1. <strong>లగ్న బలం & రోగ స్థానం:</strong> మీ లగ్నాధిపతి <strong>${lagnaKP.signLordTe}</strong> శారీరక రోగనిరోధక शक्तिని, 6వ అధిపతి <strong>${h6LordTe}</strong> రోగ నిరోధక సామర్థ్యాన్ని, 8వ అధిపతి <strong>${h8LordTe}</strong> దీర్ఘాయుష్షును సూచిస్తారు.<br>
             • త్రింశాంశ (D-30) చక్రంలో లగ్నం <strong>${RASHI_NAMES_TELUGU[d30LagnaSign]}</strong> లో ఉంది.</p>
             <p style="margin-top:6px;">2. <strong>ప్రస్తుత కాల ప్రభావం & జాగ్రత్తలు:</strong> నడుస్తున్న <strong>${bLordTe} భుక్తి</strong> మరియు శని గోచారం <strong>${shaniHouseFromMoon}వ స్థానంలో</strong> ఉన్నందున, ${isSadeSati ? 'ఏలినాటి శని ప్రభావం వల్ల నిద్రలేమి, కీళ్ళు మరియు మానసిక ఒత్తిడి పట్ల జాగ్రత్త వహించాలి.' : 'ఆరోగ్యం నిలకడగా ఉంటుంది, సరైన సమయానికి ఆహారం తీసుకోవడం శ్రేయస్కరం.'}</p>
             <p style="margin-top:8px; background:rgba(248,81,73,0.1); border-left:3px solid var(--accent-red); padding:8px 12px; border-radius:4px;">
@@ -3742,7 +3832,7 @@ function generateAstroChatAnswer(query, data) {
             </p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">🩺 Health & Vitality Analysis (D-30 Trimsamsa):</h4>
-            <p>1. <strong>Ascendant Lord:</strong> ${lagnaKP.signLord} governs physical vitality and 6th Lord ${h6LordTe} governs immune strength.</p>
+            <p>1. <strong>Ascendant Lord:</strong> ${lagnaKP.signLord} governs physical vitality and 6th Lord ${h6Lord} governs immune strength.</p>
             <p style="margin-top:6px;">2. <strong>Remedy:</strong> Recite Maha Mrityunjaya Mantra daily.</p>
         `;
     }
@@ -3758,7 +3848,7 @@ function generateAstroChatAnswer(query, data) {
             </p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">✈️ Foreign Travel & Visa Prospects:</h4>
-            <p>9th Lord ${h9LordTe} and 12th Lord ${h12LordTe} favorably activate overseas opportunities in the current period.</p>
+            <p>9th Lord ${h9Lord} and 12th Lord ${h12Lord} favorably activate overseas opportunities in the current period.</p>
         `;
     }
 
@@ -3789,7 +3879,7 @@ function generateAstroChatAnswer(query, data) {
             </p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">⚖️ Legal Disputes & Court Matters:</h4>
-            <p>6th house lord ${h6LordTe} governs victory over legal disputes.</p>
+            <p>6th house lord ${h6Lord} governs victory over legal disputes.</p>
         `;
     }
 
@@ -3803,7 +3893,7 @@ function generateAstroChatAnswer(query, data) {
             <p style="margin-top:6px;">తల్లిదండ్రుల సేవ మరియు వారి ఆశీస్సులు మీకు సమస్త దోషాల నుండి రక్షణ కల్పిస్తాయి.</p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">👨‍👩‍👦 Parents & Family Harmony (D-12 Dwadasamsa):</h4>
-            <p>4th House Lord ${h4LordTe} rules mother, 9th House Lord ${h9LordTe} rules father.</p>
+            <p>4th House Lord ${h4Lord} rules mother, 9th House Lord ${h9Lord} rules father.</p>
         `;
     }
 
@@ -3832,9 +3922,12 @@ function generateAstroChatAnswer(query, data) {
             <p style="margin-top:6px; color:var(--text-secondary); font-size:12.5px;">ఈ పరిహారాలు పాటించడం వల్ల గ్రహ దోషాలు తొలగి సర్వతోముఖాభివృద్ధి లభిస్తుంది.</p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">🛡️ Customized Planetary Remedies:</h4>
-            <p>• <strong>Presiding Deity:</strong> ${pData.deity_te}</p>
-            <p>• <strong>Stotram:</strong> ${pData.stotram_te}</p>
-            <p>• <strong>Charity:</strong> ${pData.dana_te}</p>
+            <p>• <strong>Presiding Deity:</strong> ${pData.deity_en || pData.deity_te}</p>
+            <p>• <strong>Stotram:</strong> ${pData.stotram_en || pData.stotram_te}</p>
+            <p>• <strong>Charity:</strong> ${pData.dana_en || pData.dana_te}</p>
+            <p>• <strong>Japa Mantra:</strong> ${pData.japa_en || pData.japa_te}</p>
+            <p>• <strong>Prescribed Gemstone:</strong> ${pData.gem_en || pData.gem_te}</p>
+            <p>• <strong>Lifestyle & Guidance:</strong> ${pData.tips_en || pData.tips_te}</p>
         `;
     }
 
@@ -3848,7 +3941,10 @@ function generateAstroChatAnswer(query, data) {
             <p>4. <strong>గురు గోచారం:</strong> గురువు చంద్రునికి ${guruHouseFromMoon}వ స్థానంలో ఉన్నాడు (${isGuruGood ? 'శుభకరమైన గురు బలం కలదు' : 'సాధారణ గురు బలం'}).</p>
         ` : `
             <h4 style="color:var(--accent-gold); margin-bottom:8px;">✨ Yogas, Doshas & Transits:</h4>
-            <p>Ascendant ${lagnaKP.rashiName}, Moon sign ${moonKP.rashiName}.</p>
+            <p>1. <strong>Ascendant & Moon Sign:</strong> Ascendant ${lagnaKP.rashiName} (Lord: ${lagnaKP.signLord}), Moon Sign ${moonKP.rashiName}.</p>
+            <p>2. <strong>Kuja Dosha:</strong> ${isKujaDosha ? 'Kuja Dosha is present. Lord Subrahmanya worship and Tuesday prayers recommended.' : 'No Kuja Dosha / Cancelled by favorable planetary placement.'}</p>
+            <p>3. <strong>Saturn Transit:</strong> Saturn occupies house ${shaniHouseFromMoon} from Moon sign ${isSadeSati ? '(Sade Sati phase active).' : isAshtamaShani ? '(Ashtama Shani phase active).' : '(Transit is favorable).'}</p>
+            <p>4. <strong>Jupiter Transit:</strong> Jupiter occupies house ${guruHouseFromMoon} from Moon sign (${isGuruGood ? 'Highly favorable Jupiter transit' : 'Neutral Jupiter transit'}).</p>
         `;
     }
 
@@ -3919,7 +4015,7 @@ function calculateAll() {
     renderDasaTree(dasa);
     renderAspectsMatrix(aspects);
 
-    document.getElementById('rasiChartAyanamsa').textContent = `అయనాంశ: ${ayanType.toUpperCase()} (${fmtDMS(ayanVal)})`;
+    document.getElementById('rasiChartAyanamsa').textContent = (CURRENT_LANG === 'te') ? `అయనాంశ: ${ayanType.toUpperCase()} (${fmtDMS(ayanVal)})` : `Ayanamsa: ${ayanType.toUpperCase()} (${fmtDMS(ayanVal)})`;
 }
 
 function toggleLanguage() {
@@ -3972,7 +4068,7 @@ function onCitySearchInput(val) {
             .then(r => r.json())
             .then(data => {
                 if (!data.results || data.results.length === 0) {
-                    resDiv.innerHTML = '<div class="city-search-item" style="color:var(--text-muted); cursor:default;">నగరాలు కనుగొనబడలేదు</div>';
+                    resDiv.innerHTML = `<div class="city-search-item" style="color:var(--text-muted); cursor:default;">${CURRENT_LANG === 'te' ? 'నగరాలు కనుగొనబడలేదు' : 'No cities found'}</div>`;
                     resDiv.style.display = 'block';
                     return;
                 }
@@ -4010,7 +4106,9 @@ function selectSearchedCity(encodedJson) {
     const resDiv = document.getElementById('citySearchResults');
     if (resDiv) resDiv.style.display = 'none';
 
-    showStatusMsg(`📍 స్థానం సెట్ చేయబడింది: ${data.name} (UTC ${tz >= 0 ? '+' + tz : tz} గంటలు). లెక్కింపు కొరకు 'జాతకం లెక్కించండి' క్లిక్ చేయండి.`);
+    showStatusMsg(CURRENT_LANG === 'te' 
+        ? `📍 స్థానం సెట్ చేయబడింది: ${data.name} (UTC ${tz >= 0 ? '+' + tz : tz} గంటలు). లెక్కింపు కొరకు 'జాతకం లెక్కించండి' క్లిక్ చేయండి.` 
+        : `📍 Location set: ${data.name} (UTC ${tz >= 0 ? '+' + tz : tz} hrs). Click 'Calculate Horoscope' to view results.`);
 }
 
 function showStatusMsg(msg) {
@@ -4029,7 +4127,9 @@ function setNow() {
     
     document.getElementById('birthDate').value = localDate;
     document.getElementById('birthTime').value = localTime;
-    showStatusMsg(`⏰ ప్రస్తుత స్థానిక సమయం సెట్ చేయబడింది (${localDate} ${localTime}).`);
+    showStatusMsg(CURRENT_LANG === 'te' 
+        ? `⏰ ప్రస్తుత స్థానిక సమయం సెట్ చేయబడింది (${localDate} ${localTime}).` 
+        : `⏰ Set to current local time (${localDate} ${localTime}).`);
 }
 
 function initDefaultDateTime() {
@@ -4073,8 +4173,10 @@ function copyTable(tableId) {
 }
 
 window.addEventListener('DOMContentLoaded', function() {
+    CURRENT_LANG = 'en';
+    try { localStorage.setItem('VS_LANG', 'en'); } catch(e) {}
     const langBtn = document.getElementById('langBtn');
-    if (langBtn) langBtn.textContent = (CURRENT_LANG === 'te') ? '🌐 భాష: తెలుగు (Telugu)' : '🌐 Lang: English';
+    if (langBtn) langBtn.textContent = '🌐 Lang: English';
     initDefaultDateTime();
     calculateAll();
 });

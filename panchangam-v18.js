@@ -44,11 +44,10 @@ const CITIES = {
 };
 
 
-// ─── Plain & Simple Bilingual Language Engine (English & Telugu) ───
+// ─── 100% English First Engine (Multilingual hooks preserved) ───
 let CURRENT_LANG = 'en';
 try {
-    const saved = localStorage.getItem('VS_LANG');
-    if (saved === 'te' || saved === 'en') CURRENT_LANG = saved;
+    localStorage.setItem('VS_LANG', 'en');
 } catch(e) {}
 
 const SAMVATSARAM_TE = [
@@ -1502,6 +1501,56 @@ function getSayamSandhya(ssHrs) {
     // Sunset ± 24 minutes (2 ghatis centered on sunset)
     return { start: ssHrs - 24/60, end: ssHrs + 24/60 };
 }
+
+/* ═══════════ 28 ANANDADI YOGA ENGINE ═══════════ */
+const ANANDADI_YOGAS = [
+    { name: "Ananda", meaning: "Joy, Bliss & Fulfillment", isGood: true },
+    { name: "Kaladanda", meaning: "Loss, Distress & Inauspiciousness", isGood: false },
+    { name: "Dhumra", meaning: "Anxiety, Obstacles & Hardship", isGood: false },
+    { name: "Dhatri", meaning: "Prosperity, Nourishment & Success", isGood: true },
+    { name: "Saumya", meaning: "Auspiciousness, Peace & Happiness", isGood: true },
+    { name: "Dhwanksha", meaning: "Loss, Destruction & Discord", isGood: false },
+    { name: "Dhwaja", meaning: "Victory, Royal Honor & Success", isGood: true },
+    { name: "Srivatsa", meaning: "Fortune, Auspiciousness & Wealth", isGood: true },
+    { name: "Vajra", meaning: "Obstacles, Harshness & Danger", isGood: false },
+    { name: "Mudgara", meaning: "Hardship, Heavy Hurdles & Loss", isGood: false },
+    { name: "Chhatra", meaning: "Protection, Favor of Authorities & Success", isGood: true },
+    { name: "Mitra", meaning: "Friendship, Comfort & Success", isGood: true },
+    { name: "Manasa", meaning: "Wish Fulfillment & Mental Peace", isGood: true },
+    { name: "Padma", meaning: "Wealth, Lakshmi Grace & Honor", isGood: true },
+    { name: "Lumba", meaning: "Waste of Effort, Hurdles & Loss", isGood: false },
+    { name: "Utpata", meaning: "Sudden Calamity, Distress & Turmoil", isGood: false },
+    { name: "Mrityu", meaning: "Severe Inauspiciousness, Avoid ventures", isGood: false },
+    { name: "Kana", meaning: "Destruction, Weakness & Financial Loss", isGood: false },
+    { name: "Siddhi", meaning: "Accomplishment of All Undertakings", isGood: true },
+    { name: "Shubha", meaning: "General Well-being & Auspiciousness", isGood: true },
+    { name: "Amrita", meaning: "Highly Auspicious, Invaluable Results", isGood: true },
+    { name: "Musala", meaning: "Strife, Quarrels & Weaponry Discord", isGood: false },
+    { name: "Gada", meaning: "Illness, Hurdles & Suffering", isGood: false },
+    { name: "Matanga", meaning: "Royal Respect, Elephantine Strength & Victory", isGood: true },
+    { name: "Rakshasa", meaning: "Demonic Hurdles, Cruel Influences", isGood: false },
+    { name: "Chara", meaning: "Dynamic Progress, Excellent for Journeys", isGood: true },
+    { name: "Sthira", meaning: "Permanence, Excellent for Long-term Ventures", isGood: true },
+    { name: "Pravardhamana", meaning: "Continuous Growth, Prosperity & Expansion", isGood: true }
+];
+
+// Base 28-Nakshatra indices for Weekdays (0=Sun to 6=Sat)
+// 0:Sun -> Ashwini(0), 1:Mon -> Mrigashira(4), 2:Tue -> Ashlesha(8),
+// 3:Wed -> Hasta(12), 4:Thu -> Anuradha(16), 5:Fri -> Uttarashadha(20), 6:Sat -> Shatabhisha(24)
+const ANANDADI_BASE_NAK28 = [0, 4, 8, 12, 16, 20, 24];
+
+function getNak28Idx(nak27Idx) {
+    // In 28-nakshatra scheme, Abhijit (index 21) sits between Uttarashadha (20) and Shravana (22)
+    return nak27Idx <= 20 ? nak27Idx : nak27Idx + 1;
+}
+
+function getAnandadiYoga(dow, nak27Idx) {
+    const base = ANANDADI_BASE_NAK28[dow];
+    const cur = getNak28Idx(nak27Idx);
+    const diff = (cur - base + 28) % 28;
+    return ANANDADI_YOGAS[diff];
+}
+
 
 function computeVarjyamAmrit(srJD, nextSrJD, tz) {
     const nakIdx = getNakIdx(srJD);
@@ -3119,6 +3168,18 @@ function _calculatePanchangamInner() {
         }).join('');
     }
 
+    // Render Anandadi Yoga for active Nakshatras
+    const anandadiEl = document.getElementById('valAnandadiYoga');
+    if (anandadiEl) {
+        const endsWord = isTe ? 'ముగింపు' : 'ends';
+        anandadiEl.innerHTML = naks.map(nk => {
+            const yoga = getAnandadiYoga(dow, nk.idx);
+            const endLocal = jdToLocal(nk.endJD, tz);
+            const badge = yoga.isGood ? '✅ Auspicious' : '⚠️ Inauspicious';
+            return `<li><strong>${yoga.name} Yoga</strong> <span class="end-info">(${badge} — ${yoga.meaning})</span> <span class="end-info">— ${endsWord} ${fmtDateTime(endLocal)}</span></li>`;
+        }).join('');
+    }
+
     // Render Maudhyam (Astangata / Planetary Combustion) if active
     const maudhyamSection = document.getElementById('moudhyamSection');
     const maudhyamEl = document.getElementById('valMaudhyam');
@@ -3221,8 +3282,11 @@ function _calculatePanchangamInner() {
 
     setElText('valRahu', fmtRange(rahu.start, rahu.end));
     setElText('valYamaganda', fmtRange(yama.start, yama.end));
+    setElText('valYama', fmtRange(yama.start, yama.end));
     setElText('valGulika', fmtRange(guli.start, guli.end));
 
+    const durmText = durm.map(dd => fmtRange(dd.start, dd.end)).join(', ');
+    setElText('valDurmuhuratam', durmText);
     const dEl = document.getElementById('valDurmuhurat');
     if (dEl) dEl.innerHTML = durm.map(dd => `<li>${fmtRange(dd.start, dd.end)}</li>`).join('');
 
@@ -3250,6 +3314,7 @@ function _calculatePanchangamInner() {
     setElText('valGodhuli', fmtRange(godhuli.start, godhuli.end));
     const aparhna = getAparhnaKalam(srHrs, ssHrs);
     setElText('valAparhna', fmtRange(aparhna.start, aparhna.end));
+    setElText('valAparahna', fmtRange(aparhna.start, aparhna.end));
     const pratah = getPratahSandhya(srHrs);
     setElText('valPratah', fmtRange(pratah.start, pratah.end));
     const sayam = getSayamSandhya(ssHrs);
@@ -3419,9 +3484,16 @@ function _calculatePanchangamInner() {
 
 
 
-document.getElementById('resultsSection').style.display = 'block';
+    document.getElementById('resultsSection').style.display = 'block';
     document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
     applyTransliteration();
+
+    // Update URL query parameters for direct sharing
+    try {
+        const queryCity = (window._selectedCity && window._selectedCity.name && window._selectedCity.name.toLowerCase().includes('dallas')) ? 'dallas' : (window._selectedCity ? encodeURIComponent(window._selectedCity.name) : 'dallas');
+        const newUrl = `${window.location.pathname}?date=${dateVal}&city=${queryCity}`;
+        window.history.replaceState({ path: newUrl }, '', newUrl);
+    } catch(e) {}
 }
 
 function applyTransliteration() {
@@ -4209,6 +4281,62 @@ window.onload = function() {
         datePicker.value = new Date().toISOString().split('T')[0];
     }
     
+    // ── Deep-Linking URL Query Handling (?date=YYYY-MM-DD&city=dallas) ──
+    const urlParams = new URLSearchParams(window.location.search);
+    const dateParam = urlParams.get('date');
+    const cityParam = urlParams.get('city');
+    const latParam = urlParams.get('lat');
+    const lonParam = urlParams.get('lon');
+
+    if (dateParam && /^\d{4}-\d{2}-\d{2}$/.test(dateParam)) {
+        if (datePicker) datePicker.value = dateParam;
+    }
+
+    // Dallas / Frisco deep-linking or custom city
+    if (cityParam) {
+        const cLower = cityParam.toLowerCase();
+        let targetCity = null;
+        if (cLower === 'dallas' || cLower === 'frisco' || cLower.includes('texas')) {
+            targetCity = { name: "Frisco / Dallas, TX, USA", lat: 33.1507, lon: -96.8236, tzName: "America/Chicago" };
+        } else if (CITIES[cLower]) {
+            const c = CITIES[cLower];
+            targetCity = { name: c.name, lat: c.lat, lon: c.lon, tzName: (c.dst === 'US' ? 'America/New_York' : 'Asia/Kolkata') };
+        } else {
+            targetCity = { name: decodeURIComponent(cityParam), lat: 33.1507, lon: -96.8236, tzName: "America/Chicago" };
+        }
+
+        if (targetCity) {
+            window._selectedCity = targetCity;
+            try { localStorage.setItem('vedicsamhita_user_location', JSON.stringify(targetCity)); } catch(e) {}
+            const cityInput = document.getElementById('citySearch');
+            if (cityInput) cityInput.value = targetCity.name;
+            const latInput = document.getElementById('latInput');
+            const lonInput = document.getElementById('lonInput');
+            const tzInput = document.getElementById('tzInput');
+            if (latInput) latInput.value = targetCity.lat;
+            if (lonInput) lonInput.value = targetCity.lon;
+            if (tzInput) tzInput.value = getTzOffsetFromTimezoneString(targetCity.tzName, datePicker ? datePicker.value : null);
+            calculatePanchangam();
+            return;
+        }
+    } else if (latParam && lonParam) {
+        const latVal = parseFloat(latParam);
+        const lonVal = parseFloat(lonParam);
+        const cName = urlParams.get('name') || "Custom Location";
+        const targetCity = { name: cName, lat: latVal, lon: lonVal, tzName: "America/Chicago" };
+        window._selectedCity = targetCity;
+        const cityInput = document.getElementById('citySearch');
+        if (cityInput) cityInput.value = cName;
+        const latInput = document.getElementById('latInput');
+        const lonInput = document.getElementById('lonInput');
+        const tzInput = document.getElementById('tzInput');
+        if (latInput) latInput.value = latVal;
+        if (lonInput) lonInput.value = lonVal;
+        if (tzInput) tzInput.value = urlParams.get('tz') ? parseFloat(urlParams.get('tz')) : -5;
+        calculatePanchangam();
+        return;
+    }
+
     // Check saved user location in browser memory
     let savedLoc = null;
     try {
