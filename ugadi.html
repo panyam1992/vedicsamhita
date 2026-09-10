@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="te">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -10,18 +10,18 @@
     <link rel="apple-touch-icon" href="logo.jpg">
     <link rel="icon" type="image/jpeg" href="logo.jpg">
     <link rel="manifest" href="manifest.json">
-    <title>Ugadi Panchangam Predictions - Rajadi Navanayaka Nirnayam | Vedic Samhita</title>
-    <meta name="description" content="Ugadi Panchangam Predictions - Rajadi Navanayaka Nirnayam, Makara Sankranti Purusha, Kandaya Phalam, Adaya-Vyaya, and Annual Sacred Vratas.">
+    <title>Sri Ugadi Panchanga Shravanamrutam | Vedic Samhita</title>
+    <meta name="description" content="Sri Ugadi Panchanga Shravanamrutam: Rajadi Navanayaka Nirnayam, Jagallagna Ingress, Makara Sankranti Purusha, Kandaya Phalam, 12 Rashis Adaya-Vyaya, and Annual Sacred Vratas.">
     <link rel="canonical" href="https://www.vedicsamhita.com/ugadi.html" />
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Vedic Samhita">
     <meta property="og:url" content="https://www.vedicsamhita.com/ugadi.html">
-    <meta property="og:title" content="Ugadi Panchangam Predictions - Rajadi Navanayaka Nirnayam | Vedic Samhita">
-    <meta property="og:description" content="Ugadi Panchangam Predictions - Rajadi Navanayaka Nirnayam, Makara Sankranti Purusha, Kandaya Phalam, Adaya-Vyaya, and Annual Sacred Vratas.">
+    <meta property="og:title" content="Sri Ugadi Panchanga Shravanamrutam | Vedic Samhita">
+    <meta property="og:description" content="Sri Ugadi Panchanga Shravanamrutam - Rajadi Navanayaka Nirnayam, Jagallagna Ingress, 12 Rashis Adaya-Vyaya, and Annual Predictions.">
     <meta property="og:image" content="https://www.vedicsamhita.com/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Mandali&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Noto+Sans+Telugu:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=3">
     <style>
         :root {
@@ -42,7 +42,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         body {
-            font-family: 'Mandali', 'Inter', -apple-system, sans-serif;
+            font-family: 'Noto Sans Telugu', 'Inter', -apple-system, sans-serif;
             background: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%) fixed;
             color: var(--text-dark);
             min-height: 100vh;
@@ -329,10 +329,21 @@
             color: #333;
         }
         .shloka-sanskrit {
-            font-style: italic;
             font-weight: 600;
             color: #8b0000;
             margin-bottom: 6px;
+            line-height: 1.6;
+        }
+        .shloka-sanskrit.font-iast {
+            font-family: 'Cormorant Garamond', Georgia, serif;
+            font-size: 1.12rem;
+            font-style: italic;
+            letter-spacing: 0.2px;
+        }
+        .shloka-sanskrit.font-telugu {
+            font-family: 'Noto Sans Telugu', sans-serif;
+            font-size: 1.02rem;
+            font-style: normal;
         }
         .shloka-meaning {
             font-size: 0.88rem;
@@ -449,6 +460,20 @@
             .nayaka-grid { grid-template-columns: 1fr; }
             .chart-box { max-width: 320px; }
         }
+
+        @media print {
+            .site-nav, .community-banner, .year-selector, #langToggleBtn, button { display: none !important; }
+            body { background: #fff !important; color: #000 !important; }
+            body::before { display: none !important; }
+            .ugadi-container { max-width: 100% !important; padding: 0 !important; }
+            .info-card { box-shadow: none !important; border: 1px solid #ccc !important; page-break-inside: avoid; margin-bottom: 15px !important; background: #fff !important; }
+            .section-divider { display: none !important; }
+            .ugadi-header { padding: 0 0 10px 0 !important; }
+            .ugadi-title { font-size: 1.6rem !important; }
+            .table-responsive { overflow: visible !important; }
+            .shloka-box { background: #fbfbfb !important; border: 1px solid #ddd !important; }
+            .nayaka-card { page-break-inside: avoid; background: #fff !important; }
+        }
     </style>
 </head>
 <body>
@@ -456,12 +481,14 @@
     <!-- Site Navigation -->
     <nav class="site-nav">
         <a href="index.html">🙏 Daily Panchangam</a>
-        <a href="ugadi.html" class="active">📜 Ugadi Predictions</a>
+        <a href="ugadi.html" class="active" id="navUgadi">📜 <span id="navUgadiText">Ugadi Panchangam</span></a>
+        <a href="dharmavichara.html">📖 Dharma Vichara</a>
         <a href="jathakam.html">🔮 Single Horoscope</a>
         <a href="muhurtavali.html" class="admin-only">✨ Muhurtavali</a>
         <a href="family_jathakam.html" class="admin-only">👨‍👩‍👧‍👦 Family Horoscope</a>
-        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Mandali',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
-        <button class="lang-toggle-btn" style="display:none;" onclick="toggleLanguage()">🌐 <span id="langBtnText">English</span></button>
+        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
+        <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🌐 <span id="langBtnText">English</span></button>
+        <button onclick="window.print()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🖨️ <span id="printBtnText">Print / PDF</span></button>
     </nav>
 
     <!-- Community Join Banner -->
@@ -477,8 +504,8 @@
         <!-- Header -->
         <div class="ugadi-header">
             <img src="logo.jpg" alt="Vedic Samhita Logo">
-            <div class="ugadi-title" id="pageTitle">Ugadi Panchangam Predictions</div>
-            <div class="ugadi-subtitle" id="pageSubTitle">Rajadi Navanayaka Nirnayam & Annual Predictions</div>
+            <div class="ugadi-title" id="pageTitle">Sri Ugadi Panchanga Shravanamrutam</div>
+            <div class="ugadi-subtitle" id="pageSubTitle">Rajadi Navanayaka Nirnayam • Jagallagna Ingress • 12 Rashis Adaya-Vyaya</div>
         </div>
 
         <!-- Selector Card (Location & Year) -->
@@ -497,7 +524,7 @@
                     <div class="input-label">
                         <span id="lblYear">Select Year</span>
                     </div>
-                    <select id="ugadiYear" class="custom-input"></select>
+                    <select id="ugadiYear" class="custom-input" onchange="calculateUgadiPhalalu()"></select>
                 </div>
             </div>
 
@@ -518,7 +545,24 @@
             <div class="info-row"><span class="info-label" id="lblInfoDate">Ugadi Date (Chaitra Shukla Padyami)</span> <span class="info-value" id="uDate">—</span></div>
             <div class="info-row"><span class="info-label" id="lblInfoDay">Ugadi Weekday</span> <span class="info-value" id="uDay">—</span></div>
             <div class="info-row"><span class="info-label" id="lblInfoDuration">Year Duration</span> <span class="info-value" id="uDuration">—</span></div>
+            <div id="uAdhikaNote" style="display:none; margin-top:14px;"></div>
         </div>
+
+        <!-- Samvatsara Phalam Card -->
+        <div class="info-card" id="samvatsaraPhalamCard">
+            <h3>📜 <span id="hdrSamvatsaraPhalam">Samvatsara Phalam &amp; Classical Shloka</span></h3>
+            <p id="subSamvatsaraPhalam" style="font-size:0.9rem; color:var(--text-muted); margin-top:0;">Classical Sanskrit Shloka and annual predictions for the year.</p>
+            <div id="uSamvatsaraBox" style="background:#fffcf5; border:1.5px solid var(--border-gold); border-radius:8px; padding:16px; margin-top:10px;">
+                <div id="uSamvatsaraTitle" style="font-weight:bold; font-size:1.1rem; color:var(--text-crimson); font-family:'Cinzel', serif; margin-bottom:8px;"></div>
+                <div class="shloka-box" style="margin-bottom:10px;">
+                    <div class="shloka-sanskrit" id="uSamvatsaraShloka"></div>
+                    <div class="shloka-meaning" id="uSamvatsaraMeaning"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">⟡ ⟡ ⟡</div>
+
 
         <div class="section-divider">⟡ ⟡ ⟡</div>
 
@@ -552,7 +596,6 @@
         <!-- Kandaya Phalam -->
         <div class="info-card">
             <h3>📊 <span id="hdrKandaya">27 Nakshatras Kandaya Phalam</span></h3>
-            <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;">Harmonized classical calculation of Ugadi Tithi, Vara, Nakshatra, Yoga, and Karana.</p>
             <div id="kandayaResults" class="table-responsive"></div>
         </div>
 
@@ -599,10 +642,10 @@
                     <thead>
                         <tr style="position:sticky; top:0; background:#f4eedb; z-index:2;">
                             <th style="width:40px; text-align:center;">#</th>
-                            <th>Sacred Vrata / Festival Event</th>
-                            <th>Lunar Month & Tithi</th>
-                            <th>Gregorian Date & Day</th>
-                            <th>Significance & Auspicious Timings</th>
+                            <th id="thVrataEvent">Sacred Vrata / Festival Event</th>
+                            <th id="thVrataTithi">Lunar Month &amp; Tithi</th>
+                            <th id="thVrataDate">Gregorian Date &amp; Day</th>
+                            <th id="thVrataDesc">Significance &amp; Auspicious Timings</th>
                         </tr>
                     </thead>
                     <tbody id="vrataScheduleBody">
@@ -614,10 +657,59 @@
 
         <div class="section-divider">⟡ ⟡ ⟡</div>
 
+        <!-- Annual Shodasha Samskara (Panchadasha Karmas) Auspicious Muhurtams Schedule Card -->
+        <div class="info-card" id="shodashaMuhurtaCard">
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-bottom:8px;">
+                <h3 style="margin:0;">🪔 <span id="hdrShodashaMuhurta">Annual Muhurtams</span></h3>
+                <span id="muhurtaTotalCountBadge" style="background:#4a0e0e; color:#ffd700; padding:4px 12px; border-radius:15px; font-size:0.85rem; font-weight:bold; font-family:'Cinzel', serif;"></span>
+            </div>
+            <p id="subShodashaMuhurta" style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">
+                Comprehensive annual schedule of auspicious Muhurtams throughout this Ugadi year (Click any category below to filter).
+            </p>
+            <div id="noteShodashaMuhurta" style="background:#fffdf5; border:1px solid #fde047; border-left:4px solid #ca8a04; border-radius:6px; padding:10px 14px; margin-bottom:16px; font-size:0.85rem; color:#451a03; line-height:1.5;">
+                <span id="noteShodashaMuhurtaText"><strong>📜 Shastric Guidance &amp; Personalization Advisory:</strong> The dates provided below represent general canonical Muhurta windows calculated per classical astronomical Siddhantas (Muhurta Chintamani, Kalamrita, and Dharma Sindhu). Because final auspiciousness (Shubhatva) depends strictly upon the native's individual birth chart — including Janma Kundali, Janma Nakshatra, Tarabalam, Chandrabalam, and personalized Lagna Shuddhi — devotees and families are advised to consult experienced Siddhanta Kartas or qualified Vedic Pandits for custom horoscope verification before finalizing sacred ceremonies.</span>
+            </div>
+
+            <!-- 10 Interactive Filter Category Cards -->
+            <div class="highlights-grid" id="shodashaHighlightsGrid"></div>
+
+            <!-- Schedule Header & Search/Filter Controls -->
+            <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px; margin-top:24px; margin-bottom:12px; padding-top:16px; border-top:1.5px dashed #d4af37;">
+                <div style="font-weight:bold; font-size:1.05rem; color:var(--text-royal);" id="muhurtaActiveCategoryTitle">
+                    📅 Schedule of Auspicious Muhurtams
+                </div>
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                    <input type="text" id="muhurtaSearchInput" placeholder="Search Samskara, month, date..." oninput="filterMuhurtaSchedule(this.value)" style="padding:6px 12px; border:1px solid var(--border-gold); border-radius:4px; font-family:inherit; font-size:0.85rem; background:#fff; min-width:200px;">
+                    <button type="button" onclick="showAllMuhurtaDates()" id="btnShowAllMuhurtas" style="background:#4a0e0e; color:#ffd700; border:none; border-radius:4px; padding:6px 12px; font-size:0.85rem; font-weight:bold; cursor:pointer;">
+                        Show All
+                    </button>
+                </div>
+            </div>
+
+            <!-- Detailed Muhurtas Table -->
+            <div class="table-responsive" style="max-height:550px; overflow-y:auto; border:1px solid #d4af37; border-radius:8px;">
+                <table class="ugadi-table" style="margin:0; width:100%;">
+                    <thead>
+                        <tr style="position:sticky; top:0; background:#f4eedb; z-index:2;">
+                            <th style="width:40px; text-align:center;">#</th>
+                            <th id="thMuhurtaCeremony">Samskara / Sacred Ceremony</th>
+                            <th id="thMuhurtaTithi">Lunar Month &amp; Tithi</th>
+                            <th id="thMuhurtaDate">Gregorian Date &amp; Day</th>
+                            <th id="thMuhurtaNakLagna">Auspicious Nakshatra &amp; Lagna</th>
+                        </tr>
+                    </thead>
+                    <tbody id="muhurtaScheduleBody">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section-divider">⟡ ⟡ ⟡</div>
+
         <!-- Footer -->
-        <div style="text-align:center; padding:16px; background:#fcf9f2; border-radius:8px; font-size:0.85rem; color:#666;">
-            <strong>NOTE:</strong> Ugadi predictions apply from Chaitra Shukla Padyami to Phalguna Krishna Amavasya.<br>
-            Calculated according to authentic Vedic Samhita astronomical Siddhanta mathematics.
+        <div style="text-align:center; padding:16px; background:#fcf9f2; border-radius:8px; font-size:0.85rem; color:#666;" id="ugadiFooterNote">
+            <span id="ugadiFooterNoteText"><strong>NOTE:</strong> These predictions apply from Sri Parabhava Nama Samvatsara Chaitra Shukla Padyami to Phalguna Krishna Amavasya.<br>Calculated according to authentic Vedic Samhita astronomical Siddhanta mathematics.</span>
         </div>
     </div>
 
@@ -626,8 +718,67 @@
     <script>
 let CURRENT_UGADI_LANG = 'en';
 try {
-    localStorage.setItem('VS_LANG', 'en');
+    const savedL = localStorage.getItem('VS_UGADI_LANG');
+    if (savedL) CURRENT_UGADI_LANG = savedL;
 } catch(e) {}
+
+function teluguToIAST(text) {
+    if (!text) return '';
+    const VOWELS = {
+        'అ': 'a', 'ఆ': 'ā', 'ఇ': 'i', 'ఈ': 'ī', 'ఉ': 'u', 'ఊ': 'ū',
+        'ఋ': 'ṛ', 'ౠ': 'ṝ', 'ఌ': 'ḷ', 'ౡ': 'ḹ',
+        'ఎ': 'e', 'ఏ': 'e', 'ఐ': 'ai', 'ఒ': 'o', 'ఓ': 'o', 'ఔ': 'au'
+    };
+    const MATRAS = {
+        'ా': 'ā', 'ి': 'i', 'ీ': 'ī', 'ు': 'u', 'ూ': 'ū',
+        'ృ': 'ṛ', 'ౄ': 'ṝ', 'ౢ': 'ḷ', 'ౣ': 'ḹ',
+        'ె': 'e', 'ే': 'e', 'ై': 'ai', 'ొ': 'o', 'ో': 'o', 'ౌ': 'au'
+    };
+    const CONSONANTS = {
+        'క': 'k', 'ఖ': 'kh', 'గ': 'g', 'ఘ': 'gh', 'ఙ': 'ṅ',
+        'చ': 'c', 'ఛ': 'ch', 'జ': 'j', 'ఝ': 'jh', 'ఞ': 'ñ',
+        'ట': 'ṭ', 'ఠ': 'ṭh', 'డ': 'ḍ', 'ఢ': 'ḍh', 'ణ': 'ṇ',
+        'త': 't', 'థ': 'th', 'ద': 'd', 'ధ': 'dh', 'న': 'n',
+        'ప': 'p', 'ఫ': 'ph', 'బ': 'b', 'భ': 'bh', 'మ': 'm',
+        'య': 'y', 'ర': 'r', 'ఱ': 'r', 'ల': 'l', 'వ': 'v',
+        'శ': 'ś', 'ష': 'ṣ', 'స': 's', 'హ': 'h', 'ళ': 'ḷ'
+    };
+    const VIRAMA = '్';
+    const ANUSVARA = 'ం';
+    const VISARGA = 'ః';
+    const AVAGRAHA = 'ఽ';
+
+    let out = '';
+    const chars = Array.from(text);
+    for (let i = 0; i < chars.length; i++) {
+        const c = chars[i];
+        const next = chars[i+1];
+
+        if (VOWELS[c]) {
+            out += VOWELS[c];
+        } else if (CONSONANTS[c]) {
+            const base = CONSONANTS[c];
+            if (next === VIRAMA) {
+                out += base;
+                i++;
+            } else if (MATRAS[next]) {
+                out += base + MATRAS[next];
+                i++;
+            } else {
+                out += base + 'a';
+            }
+        } else if (c === ANUSVARA) {
+            out += 'ṃ';
+        } else if (c === VISARGA) {
+            out += 'ḥ';
+        } else if (c === AVAGRAHA || c === '౭') {
+            out += '\'';
+        } else {
+            out += c;
+        }
+    }
+    return out;
+}
 
 function normDeg(deg) {
     deg = deg % 360;
@@ -672,160 +823,762 @@ const PLANET_NAMES_EN = ["Sun (Surya)", "Moon (Chandra)", "Mars (Kuja)", "Mercur
 /* ═════════════════════════════════════════════════════════════════════════════════
    CLASSICAL SHLOKAS & PHALITALU FOR ALL 9 NAVANAYAKAS
    ═════════════════════════════════════════════════════════════════════════════════ */
+const SAMVATSARA_SHLOKAS_DATA = [
+    {
+        name_te: "ప్రభవ", name_en: "Prabhava",
+        shloka: "ప్రభవాబ్దే ప్రజానాంచ సౌఖ్యం సంపత్సువృష్టయః | ధర్మార్ధకామసౌఖ్యాని సుభిక్షం రాజసంపదః ||",
+        meaning_te: "ప్రభవ సంవత్సరమందు సమస్త ప్రజలకు సుఖసంతోషములు, విశేష సంపదలు, సకాల సువృష్టి, ధర్మార్ధకామ సౌఖ్యములు, సుభిక్షము మరియు పాలకులకు అధిక సంపదలు కలుగును.",
+        meaning_en: "In the Prabhava year, society enjoys abundant happiness, wealth, timely rains, righteousness, agricultural abundance, and prosperous governance."
+    },
+    {
+        name_te: "విభవ", name_en: "Vibhava",
+        shloka: "విభవాబ్దే నరాస్సర్వే సుఖినో ధనసంయుతాః | సస్యార్ఘవృష్టి సంపూర్ణా గావో బహుపయోధుహాః ||",
+        meaning_te: "విభవ సంవత్సరమందు మానవులందరు ధనధాన్య సుఖసంపన్నులై ఉందురు. సమస్త సస్యములు, సువృష్టి పరిపూర్ణముగా ఉండును. గోవులు విస్తారముగా పాలనిచ్చును.",
+        meaning_en: "In Vibhava year, people prosper with ample wealth, complete agricultural fulfillment, nourishing rainfall, and flourishing dairy production."
+    },
+    {
+        name_te: "శుక్ల", name_en: "Shukla",
+        shloka: "శుక్లాబ్దే శుభకార్యాణి సుభిక్షం సస్యవర్ధనమ్ | నీతిమంతో నృపాస్సర్వే ప్రజా సంపూర్ణమంగళాః ||",
+        meaning_te: "శుక్ల సంవత్సరమందు శుభకార్యములు విరివిగా జరుగును, సుభిక్షము, సస్యవృద్ధి, నీతిమంతులైన పాలకులు, ప్రజలకు సమగ్ర మంగళములు సిద్ధించును.",
+        meaning_en: "In Shukla year, auspicious celebrations abound, harvests expand, rulers practice ethical statecraft, and welfare blesses society."
+    },
+    {
+        name_te: "ప్రమోదూత", name_en: "Pramodoota",
+        shloka: "ప్రమోదూతాహ్వయే హ్యబ్దే ప్రమోదో జాయతే భువి | సువృష్టిస్సర్వ సస్యానాం క్షేమారోగ్య సుఖాని చ ||",
+        meaning_te: "ప్రమోదూత సంవత్సరమందు లోకమంతటా ఆనందోత్సాహములు, సకల సస్యములకు సువృష్టి, క్షేమము, సంపూర్ణ ఆరోగ్యము కలుగును.",
+        meaning_en: "Pramodoota brings widespread joy and optimism, timely seasonal rains, robust harvests, health, and peace across communities."
+    },
+    {
+        name_te: "ప్రజోత్పత్తి", name_en: "Prajotpatti",
+        shloka: "ప్రజోత్పత్తౌ ప్రజావృద్ధిః బహుధాన్య సమృద్ధయః | నానా దేశేషు సుఖినో రోగపీడా వివర్జితాః ||",
+        meaning_te: "ప్రజోత్పత్తి సంవత్సరమందు ప్రజావృద్ధి, బహుధాన్య సమృద్ధి, రోగపీడలు తొలగి నానా దేశములలో జనులు సుఖముగా ఉందురు.",
+        meaning_en: "Prajotpatti marks demographic vitality, burgeoning grain stores, eradication of epidemics, and flourishing global settlements."
+    },
+    {
+        name_te: "ఆంగీరస", name_en: "Angirasa",
+        shloka: "ఆంగీరసాబ్దే సువృష్టిశ్చ విప్రా వేదపరాయణాః | రాజానో ధర్మనిరతాః సస్యావృద్ధిః ప్రజాయతే ||",
+        meaning_te: "ఆంగీరస సంవత్సరమందు సువృష్టి, వేదవిదులకు గౌరవము, పాలకులు ధర్మనిరతులై పాలింతురు, సమస్త పంటలు సమృద్ధిగా పండును.",
+        meaning_en: "Angirasa features excellent seasonal rainfall, spiritual flourishing, righteous administrative rule, and agricultural boom."
+    },
+    {
+        name_te: "శ్రీముఖ", name_en: "Shrimukha",
+        shloka: "శ్రీముఖే శోభతే ధాత్రీ సస్యసంపత్సువృష్టిభిః | వ్యాపారాశ్చ ప్రవర్ధంతే ధనధాన్యం మహీయతే ||",
+        meaning_te: "శ్రీముఖ సంవత్సరమందు భూమి సస్యసంపదలతో సువృష్టితో శోభిల్లును. వ్యాపార వాణిజ్యములు విస్తరించి ధనధాన్యములు వర్ధిల్లును.",
+        meaning_en: "Shrimukha beautifies the earth with lush green yields, expands trade commerce, and elevates societal wealth."
+    },
+    {
+        name_te: "భావ", name_en: "Bhava",
+        shloka: "భావాబ్దే భవనం లక్ష్మ్యాః సువృష్టిః ప్రాణిజీవనమ్ | సకలాభిమతార్థాశ్చ సిద్ధ్యంతే సర్వదేహినామ్ ||",
+        meaning_te: "భావ సంవత్సరమందు లక్ష్మీదేవి కటాక్షము, జీవకోటికి సరిపడు సువృష్టి, ప్రజల సకల సత్సంకల్పములు నెరవేరును.",
+        meaning_en: "Bhava brings prosperity, nourishing rains for all living beings, and fulfillment of virtuous endeavors."
+    },
+    {
+        name_te: "యువ", name_en: "Yuva",
+        shloka: "యువాబ్దే యువరూపాభైః సస్యైర్లసతి మేదినీ | అల్పా రోగాః సువృష్టిశ్చ నిరుపద్రవతా భువి ||",
+        meaning_te: "యువ సంవత్సరమందు నవయవ్వన శోభతో భూమి సస్యశ్యామలమగును, రోగములు తగ్గి లోకమంతటా ఉపద్రవములు లేని శాంతి నెలకొనును.",
+        meaning_en: "Yuva adorns nature in vibrant fresh blooms, reduces illnesses, and fosters peaceful stability free from major calamities."
+    },
+    {
+        name_te: "ధాతు", name_en: "Dhatu",
+        shloka: "ధాత్రాహ్వయే మహాసస్యాః ధనధాన్య సమృద్ధయః | నానా రత్న సువర్ణాది వృద్ధిః స్యాద్వసుధాతలే ||",
+        meaning_te: "ధాత సంవత్సరమందు మహాసస్యములు, ధనధాన్య సమృద్ధి, రత్నములు, బంగారం మరియు లోహపరిశ్రమలు విశేష వృద్ధిని పొందును.",
+        meaning_en: "Dhatu is marked by grand harvest yields, financial growth, and booming mineral, precious metal, and gem industries."
+    },
+    {
+        name_te: "ఈశ్వర", name_en: "Ishvara",
+        shloka: "ఈశ్వరాబ్దే శివోపాస్యాః శాంతిర్జయతి సర్వతః | రోగహానిః సువృష్టిశ్చ ధర్మకార్య ప్రవర్తనమ్ ||",
+        meaning_te: "ఈశ్వర సంవత్సరమందు దైవోపాసనలు, సర్వత్రా శాంతి, రోగ నివారణ, సువృష్టి మరియు ధర్మకార్యములు నిర్విఘ్నముగా సాగును.",
+        meaning_en: "Ishvara brings spiritual illumination, universal tranquility, disease resolution, and steady sacred rituals."
+    },
+    {
+        name_te: "బహుధాన్య", name_en: "Bahudhanya",
+        shloka: "బహుధాన్యే బహుధాన్యం సువృష్టిశ్చ నిరంతరా | ప్రమోదితాశ్చ రాజానః ప్రజానాం సౌఖ్యసంపదః ||",
+        meaning_te: "బహుధాన్య సంవత్సరమందు సర్వధాన్యాలు విశేషముగా పండును, నిరంతర సువృష్టి, పాలకులు ప్రమోదముతో నుందురు, ప్రజలకు సౌఖ్యసంపదలు సిద్ధించును.",
+        meaning_en: "Bahudhanya lives up to its name with overflowing granaries, frequent rains, cheerful rulers, and abundant domestic joy."
+    },
+    {
+        name_te: "ప్రమాథి", name_en: "Pramathi",
+        shloka: "ప్రమాథ్యాహ్వయ వర్షే తు మధ్యమం సస్యవర్ధనమ్ | వాతోద్ధతాశ్చ వారిదాః క్షేత్రసంరక్షణం హితమ్ ||",
+        meaning_te: "ప్రమాథి సంవత్సరమందు మధ్యమ సస్యవృద్ధి, గాలులతో కూడిన వర్షాలు, వ్యవసాయ రంగంలో శ్రద్ధ, జాగ్రత్తలు అవసరమగును.",
+        meaning_en: "Pramathi brings average crop yields with gusty rain patterns, recommending mindful agricultural management."
+    },
+    {
+        name_te: "విక్రమ", name_en: "Vikrama",
+        shloka: "విక్రమాబ్దే నృపాః శూరాః విక్రమంతి రణాంగణే | సువృష్టిర్మధ్యమా సస్యా శౌర్యశోభా ప్రవర్ధతే ||",
+        meaning_te: "విక్రమ సంవత్సరమందు దేశ రక్షణ వ్యవస్థ బలోపేతమగును, పాలకులలో పరాక్రమము, మధ్యమ వర్షము, సైనిక శౌర్యము ప్రకాశించును.",
+        meaning_en: "Vikrama highlights national defense vigilance, valorous leadership, moderate precipitation, and patriotic pride."
+    },
+    {
+        name_te: "వృష", name_en: "Vrisha",
+        shloka: "వృషాబ్దే ధర్మవృద్ధించ గోసమృద్ధిః ప్రజాయతే | సస్యాని బహులాన్యేవ సువృష్టిస్సర్వతో భువి ||",
+        meaning_te: "వృష సంవత్సరమందు ధర్మము నాల్గుపాదాల నడచును, గోసంపద వృద్ధి, విస్తారమైన పంటలు మరియు లోకమంతటా సువృష్టి లభించును.",
+        meaning_en: "Vrisha embodies upright dharma, thriving cattle herds, plentiful agrarian harvests, and harmonious seasonal rains."
+    },
+    {
+        name_te: "చిత్రభాను", name_en: "Chitrabhanu",
+        shloka: "చిత్రభానౌ విచిత్రాశ్చ వర్షాః సస్యాని వర్ధనే | కలానాం వివిధా వృద్ధిః విచిత్ర ఫలదాయకః ||",
+        meaning_te: "చిత్రభాను సంవత్సరమందు విచిత్రమైన వర్షాలు, వైవిధ్యభరితమైన పంటలు, లలిత కళలు, విజ్ఞాన రంగములలో విశేష వృద్ధి కలుగును.",
+        meaning_en: "Chitrabhanu yields varied weather, diverse agricultural gains, dynamic progress in arts, science, and technology."
+    },
+    {
+        name_te: "స్వభాను", name_en: "Subhanu",
+        shloka: "స్వభానావబ్దే మధ్యవృష్టిః సస్యాః సంతోషకారిణః | రాజానో విజిగీషావః ప్రజా శ్రమసమన్వితాః ||",
+        meaning_te: "స్వభాను సంవత్సరమందు మధ్యమ వర్షములు, ఆహ్లాదకరమైన పంటలు, పాలకులలో దౌత్యనీతి మరియు ప్రజలలో పరిశ్రమల యందు ఉత్సాహముండును.",
+        meaning_en: "Subhanu brings moderate showers, satisfying grain production, active political diplomacy, and diligent labor growth."
+    },
+    {
+        name_te: "తారణ", name_en: "Tarana",
+        shloka: "తారణాబ్దే సుకృష్టాః స్యుః క్షేత్రాణి బహువారిదాః | సంకటేభ్యస్సముత్తారః ప్రజానాం జాయతే ధ్రువమ్ ||",
+        meaning_te: "తారణ సంవత్సరమందు మేఘాలు పుష్కలముగా వర్షించి భూములు సస్యశ్యామలమగును, కష్టముల నుండి ప్రజలు విముక్తులై తరింతురు.",
+        meaning_en: "Tarana brings life-giving rains, bountiful fields, and liberation from previous challenges and adversities."
+    },
+    {
+        name_te: "పార్థివ", name_en: "Parthiva",
+        shloka: "పార్థివాబ్దే పృథివీ సర్వా సస్యశోభా సమన్వితా | నృపాశ్చ కీర్తిమంతస్స్యుః ప్రజా సంపత్సురక్షితా ||",
+        meaning_te: "పార్థివ సంవత్సరమందు ధరణి అంతయు సస్యశోభతో కళకళలాడును, పాలకులకు సత్కీర్తి, ప్రజల ధనసంపదలకు రక్షణ లభించును.",
+        meaning_en: "Parthiva blesses the land with picturesque green harvests, noble fame for righteous leaders, and protected wealth."
+    },
+    {
+        name_te: "వ్యయ", name_en: "Vyaya",
+        shloka: "వ్యయాబ్దే ఖర్చుబాహుళ్యం సస్యవృద్ధిశ్చ మధ్యమా | సువృష్టిః క్వచిదవృష్టిః స్యాత్ సంయమః శ్రేయసే భవేత్ ||",
+        meaning_te: "వ్యయ సంవత్సరమందు ఖర్చులు అధికమగును, సస్యవృద్ధి మధ్యమముగా ఉండును, ఆర్థిక నియంత్రణ, ఆదా పాటించుట శ్రేయస్కరము.",
+        meaning_en: "Vyaya counsels fiscal prudence as public expenditure expands; harvests remain moderate with patchy rainfall."
+    },
+    {
+        name_te: "సర్వజిత్", name_en: "Sarvajit",
+        shloka: "సర్వజిద్వత్సరే సర్వే జయంతి శత్రుబాధకాన్ | సుభిక్షం సర్వసస్యానాం సువృష్టిర్మంగళప్రదా ||",
+        meaning_te: "సర్వజిత్ సంవత్సరమందు శత్రుబాధలు తొలగి విజయములు చేకూరును, సర్వసస్యములు సుభిక్షముగా పండును, మంగళకరమైన సువృష్టి కురియును.",
+        meaning_en: "Sarvajit brings triumph over lingering disputes, universal agricultural sufficiency, and auspicious rain patterns."
+    },
+    {
+        name_te: "సర్వధారి", name_en: "Sarvadhari",
+        shloka: "సర్వధార్యాహ్వయే సర్వా ధాత్రీ ధాన్యాన్వితా భవేత్ | ధారయంత్యఖిలాం పుష్టిం ప్రజాగోకులపాలనాత్ ||",
+        meaning_te: "సర్వధారి సంవత్సరమందు భూమి సర్వధాన్యములతో నిండును, పుష్టి, సంపూర్ణ పోషణ, గోసంరక్షణ మరియు ప్రజా సౌఖ్యము వర్ధిల్లును.",
+        meaning_en: "Sarvadhari sustains the earth with bountiful grains, flourishing livestock, robust public nutrition, and stability."
+    },
+    {
+        name_te: "విరోధి", name_en: "Virodhi",
+        shloka: "విరోధ్యబ్దే పరస్పరం విరోధాశ్చోపజాయతే | మధ్యమా వారిదృష్టిశ్చ శాంతిసంకల్పనైశ్శుభమ్ ||",
+        meaning_te: "విరోధి సంవత్సరమందు పరస్పర విభేదాలు తలెత్తే అవకాశముండును, మధ్యమ వర్షము, శాంతి సామరస్యములు పాటించినచో శుభములు కలుగును.",
+        meaning_en: "Virodhi indicates geopolitical friction requiring thoughtful diplomacy; rainfall is moderate; harmony averts discord."
+    },
+    {
+        name_te: "వికృతి", name_en: "Vikruti",
+        shloka: "వికృతౌ వికృతిః క్వాపి వాతరోగాశ్చ జాయతే | ధాన్యాని మధ్యమాన్యేవ రక్షణం గోధనస్య చ ||",
+        meaning_te: "వికృతి సంవత్సరమందు వాతావరణంలో మార్పులు, వాత రోగములు, మధ్యమ పంటలు ఉండును, ఆరోగ్యము పట్ల శ్రద్ధ అవసరము.",
+        meaning_en: "Vikruti features eccentric weather fluctuations, moderate harvests, and advises proactive community healthcare."
+    },
+    {
+        name_te: "ఖర", name_en: "Khara",
+        shloka: "ఖరాబ్దే తీక్ష్ణతా వాయోః తీవ్రాంశోరుష్ణవర్ధనమ్ | సస్యాని స్వల్పకాండాని సురక్షా కార్యా జీవినామ్ ||",
+        meaning_te: "ఖర సంవత్సరమందు ఎండల తీవ్రత, ఉష్ణోగ్రతల పెరుగుదల, చిరుధాన్యములు బాగుగా పండును, జీవులకు తాగునీటి సంరక్షణ ముఖ్యం.",
+        meaning_en: "Khara brings warm summer seasons and strong breezes, benefiting resilient millets while urging water conservation."
+    },
+    {
+        name_te: "నందన", name_en: "Nandana",
+        shloka: "నందనాబ్దే ప్రజానందం బహుధాన్యసమృద్ధయః | నృపాశ్చ సుప్రసన్నాస్స్యుః సువృష్టిః సర్వతో భువి ||",
+        meaning_te: "నందన సంవత్సరమందు ప్రజలకు అపరిమిత ఆనందము, బహుధాన్య సమృద్ధి, పాలకులు సుప్రసన్నులగుదురు, సమస్త ప్రాంతములలో సువృష్టి.",
+        meaning_en: "Nandana produces abundant joy, brimming grain reserves, satisfied governance, and equitable monsoon showers."
+    },
+    {
+        name_te: "విజయ", name_en: "Vijaya",
+        shloka: "విజయాబ్దే జయస్సర్వత్ర ధర్మకార్యేషు వర్ధతే | సస్యసంపత్సువృష్టిశ్చ వ్యాపారే లాభదాయికః ||",
+        meaning_te: "విజయ సంవత్సరమందు సర్వ ధర్మకార్యములలో విజయం, సస్యసంపదలు, విస్తార వర్షాలు, వాణిజ్య వ్యాపారాలలో విశేష లాభాలు చేకూరును.",
+        meaning_en: "Vijaya grants victory in noble pursuits, splendid agricultural harvests, timely downpours, and lucrative commerce."
+    },
+    {
+        name_te: "జయ", name_en: "Jaya",
+        shloka: "జయాబ్దే జయతే ధాత్రీ సస్యైర్బహువిధైరపి | విగతాశ్చ భయాస్సర్వే ప్రజా ముదితమానసాః ||",
+        meaning_te: "జయ సంవత్సరమందు భూమి బహువిధ సస్యములతో జయశీలమగును, సకల భయములు నశించి ప్రజలు ఉల్లాసముగా జీవింతురు.",
+        meaning_en: "Jaya dispels anxieties, fosters thriving diversified crops, and ensures cheerfulness and stability."
+    },
+    {
+        name_te: "మన్మథ", name_en: "Manmatha",
+        shloka: "మన్మథాబ్దే మహా ప్రీతిః వివాహోత్సవవర్ధనమ్ | సువృష్టిః ఫలితా వృక్షా రసధాన్యసమృద్ధయః ||",
+        meaning_te: "మన్మథ సంవత్సరమందు ప్రజలలో పరస్పర ప్రీతి, వివాహాది శుభకార్యములు, సువృష్టి, ఫలవృక్షములు, రసధాన్యముల సమృద్ధి కలుగును.",
+        meaning_en: "Manmatha brings romance, social celebrations, abundant weddings, fruit-laden orchards, and sweet agricultural harvests."
+    },
+    {
+        name_te: "దుర్ముఖి", name_en: "Durmukhi",
+        shloka: "దుర్ముఖ్యామబ్దే వితథం వచనాని కలహావహాః | మధ్యవృష్టిశ్చ సస్యాని నీతిరక్షణమాచరేత్ ||",
+        meaning_te: "దుర్ముఖి సంవత్సరమందు వాక్పారుష్యము వలన కలహములు రాకుండ చూసుకొనవలెను, మధ్యమ వర్షము, నీతి నియమములు పాటించిన శుభం.",
+        meaning_en: "Durmukhi cautions against hasty speech; brings moderate rains, and rewards measured diplomatic conduct."
+    },
+    {
+        name_te: "హేవిళంబి", name_en: "Hevilambi",
+        shloka: "హేవిళంబ్యాహ్వయే వర్షే విళంబో జాయతే క్వచిత్ | అంత్యే తు సుఫలా వృష్టిః ధాన్యవృద్ధిః సుసౌఖ్యదా ||",
+        meaning_te: "హేవిళంబి సంవత్సరమందు తొలకరి కొంత ఆలస్యమైనను చివరకు విస్తార వర్షాలు కురిసి సస్యవృద్ధి, సౌఖ్యములు లభించును.",
+        meaning_en: "Hevilambi may delay early rains, but culminates in generous late-season showers, replenishing crops and reservoirs."
+    },
+    {
+        name_te: "విళంబి", name_en: "Vilambi",
+        shloka: "విళంబ్యాబ్దే ప్రశాంతతా సస్యాని విలసంతి చ | మంధరాశ్చ ఘనా వర్షేత్ సంతోషాయ ప్రజాజనే ||",
+        meaning_te: "విళంబి సంవత్సరమందు ప్రశాంత వాతావరణం, పంటలు నిదానముగా చక్కగా పండును, చిరుజల్లుల నుండి సమృద్ధి వర్షములు కలుగును.",
+        meaning_en: "Vilambi fosters steady, unhurried agrarian development, peaceful civic life, and reliable seasonal rainfall."
+    },
+    {
+        name_te: "వికారి", name_en: "Vikari",
+        shloka: "వికార్యబ్దే విచిత్రాణి పరిణామాని దేహినామ్ | ధాన్యేషు మధ్యమం భాగం ఆరోగ్యం పరిపాలయేత్ ||",
+        meaning_te: "వికారి సంవత్సరమందు అనుకోని మార్పులు, మధ్యమ పంటలు, ఆహార విహారములలో సమతుల్యత పాటించి ఆరోగ్యాన్ని కాపాడుకొనవలెను.",
+        meaning_en: "Vikari brings unexpected climatic shifts and average harvests, emphasizing holistic preventive wellness."
+    },
+    {
+        name_te: "శార్వరి", name_en: "Sharvari",
+        shloka: "శార్వర్యామబ్దే రాక్షోభః సస్యావస్థా విచిత్రతా | సువృష్టిః ఖండదేశేషు ధైర్యేణ జయమశ్నుతే ||",
+        meaning_te: "శార్వరి సంవత్సరమందు కొన్ని ప్రాంతాలలో ఖండవృష్టి, ప్రజలలో మనోబలము అవసరము, ధైర్యముతో ప్రయత్నించినచో విజయము కలుగును.",
+        meaning_en: "Sharvari tests resilience through localized rainfall variances; steadfast diligence yields success."
+    },
+    {
+        name_te: "ప్లవ", name_en: "Plava",
+        shloka: "ప్లవాబ్దే తోయపూర్ణాశ్చ నద్యో వాపీ సరోవరాః | జలాశ్రయాణి సర్వాణి సస్యవృద్ధిర్మహీయతే ||",
+        meaning_te: "ప్లవ సంవత్సరమందు నదులు, చెరువులు, సరస్సులు నీటితో నిండి పొంగిపొర్లును, జలసమృద్ధి, వ్యవసాయం కళకళలాడును.",
+        meaning_en: "Plava overflows lakes, rivers, and aquifers with generous rains, powering splendid wetland agricultural wealth."
+    },
+    {
+        name_te: "శుభకృత్", name_en: "Shubhakrut",
+        shloka: "శుభకృద్వత్సరే శశ్వత్ శుభకార్యమహోత్సవాః | సుభిక్షమారోగ్యసౌఖ్యం సస్యాఢ్యా చ వసుంధరా ||",
+        meaning_te: "శుభకృత్ సంవత్సరమందు నిత్యం శుభకార్యములు, ఉత్సవములు, సుభిక్షము, సంపూర్ణ ఆరోగ్యము, భూమి సస్యశ్యామలమగును.",
+        meaning_en: "Shubhakrut fills households with auspicious celebrations, grand health, peace, and bountiful agricultural yields."
+    },
+    {
+        name_te: "శోభకృత్", name_en: "Shobhakrut",
+        shloka: "శోభకృద్వత్సరే సర్వసస్యానామభివృద్ధయః | నృపాణాం స్నేహమన్యోన్యం ప్రజానాంచ పరస్పరమ్ ||",
+        meaning_te: "శోభకృత్ సంవత్సరమందు సమస్త సస్యములు అభివృద్ధి చెందును, పాలకులలో మరియు ప్రజలలో పరస్పర స్నేహభావము, సుఖములు వర్థిల్లును.",
+        meaning_en: "Shobhakrut promotes flourishing crops, cordial mutual cooperation among world leaders, and domestic goodwill."
+    },
+    {
+        name_te: "క్రోధి", name_en: "Krodhi",
+        shloka: "క్రోధినీ శరది నిరంతరక్షితిపతికలహైః విహీనధనాః | ఫలమూలాశనవశగాస్తథాపిలోకాశ్చవర్ధంతే ||",
+        meaning_te: "క్రోధి సంవత్సరమందు పాలకులలో కలహములు, కోపావేశములు హెచ్చును, ఈతిబాధల వలన సస్యములు మధ్యమముగా ఉండును, సంయమనము అవసరము.",
+        meaning_en: "Krodhi highlights heightened administrative tensions and fiery temperaments; crops remain moderate with price swings."
+    },
+    {
+        name_te: "విశ్వావసు", name_en: "Vishvavasu",
+        shloka: "విశ్వావసౌ వివిధ సస్యయుతాధరిత్రీ నానాకరప్రచురతోయదమేఘబృందైః | నానావిధ క్రతువరైశ్చ విప్రసంఘైః భాత్యంగవంగమగధా నిహతాశ్చచోరైః ||",
+        meaning_te: "విశ్వావసు సంవత్సరమందు వివిధ సస్యములతో ధరిత్రి శోభిల్లును. మేఘములు చక్కగా వర్షించును. విద్వాంసులు యజ్ఞయాగాదులను నిర్వర్తింతురు, మధ్యమ ధరలు.",
+        meaning_en: "Vishvavasu decorates the land with multifaceted crops, steady showers, religious revival, and balanced markets."
+    },
+    {
+        name_te: "పరాభవ", name_en: "Parabhava",
+        shloka: "పరాభవాబ్దే రాజానః ప్రాప్నువంతి పరాభవమ్ | భవంతి క్షుద్రధాన్యాని ప్రభూతాని సువృష్టయః || పరాభవాబ్దే లోకానాం రాజానశ్శత్రవోభువి | ఆమయః క్షుద్రసస్యాని ప్రభూతాన్యల్ప వృష్టయః ||",
+        meaning_te: "పరాభవాబ్దములో రాజులు పరస్పరము శత్రువులగుదురు, పరాభవముల నొందుదురు. క్షుద్ర ధాన్యములు (చిరుధాన్యాలు, మినుములు, ఉలవలు) విస్తారముగా పండును. అల్పవృష్టి లేదా ఖండవృష్టి కురియును. కొన్ని ప్రాంతాలలో వాయు సంబంధ రోగములు వృద్ధిచెందును.",
+        meaning_en: "In the Parabhava year, political rivalries and setbacks are seen among heads of state. Coarse grains, millets, and hardy crops yield bountifully. Rainfall tends to be uneven and moderate, requiring careful water resource planning."
+    },
+    {
+        name_te: "ప్లవంగ", name_en: "Plavanga",
+        shloka: "అబ్దే ప్లవంగే ప్రమదాజనాస్తు కుర్వంతి వైరం పురుషేషునిత్యం | ధరాధిపక్షోభవిఘుట్టితా స్యాత్త థాపి సంపూర్ణ ఫలాధరిత్రీ || ప్లవంగాబ్దే మధ్యవృష్టి శ్చోరరోగసమన్వితా |",
+        meaning_te: "ప్లవంగ సంవత్సరమందు స్త్రీ జనము పురుషులతో నిత్యము కలహింతురు. పాలకులలో వివాదములు జరుగుచున్నను భూమి సంపూర్ణముగా పంటలనిచ్చును. మధ్యమ వర్షము కురియును. చౌర్యభయము, ఆరోగ్య సమస్యల యందు జాగ్రత్త అవసరము.",
+        meaning_en: "In Plavanga year, domestic disputes and social debates rise. Though governance encounters instability, mother earth yields bountiful harvests. Rainfall remains moderate with seasonal health cautions."
+    },
+    {
+        name_te: "కీలక", name_en: "Kilaka",
+        shloka: "వర్షాఢ్యం సుఫలం ధాన్యం సువాచాం సంపదస్తదా | స్త్రీ పుంసోశ్చ సంభోగః కీలకాబ్దే తథోచ్యతే || కీలకాబ్దేత్వీతిభీతిః ప్రజాక్షోభో నృపాహవైః | తథాపివర్తతే లోకస్సుమధాన్యార్ఘ వృష్టిభిః ||",
+        meaning_te: "కీలక సంవత్సరమందు సమృద్ధిగా వర్షములు కురియును, సర్వ ధాన్యములు చక్కగా ఫలించును. ప్రజల వాక్కులలో సంపద, దాంపత్య సౌఖ్యము, సంతృప్తి కలుగును. కొన్ని సరిహద్దు ప్రాంతాలలో పాలక విభేదాలున్నను ధాన్యలభ్యత బాగుండును.",
+        meaning_en: "In the Keelaka year, generous timely rains bless the earth, bumper crop yields fill the granaries, cultural eloquence and interpersonal harmony flourish despite sporadic political friction."
+    },
+    {
+        name_te: "సౌమ్య", name_en: "Saumya",
+        shloka: "సౌమ్యాబ్దే సర్వసస్యాని వర్ధంతే సుమనోహరాః | ప్రజాశ్చ సుఖినస్సర్వే నీతియుక్తా మహీపతే || సువృష్టిః సుఫలా భూమిరారోగ్యం సర్వదేహినామ్ ||",
+        meaning_te: "సౌమ్య సంవత్సరమందు సర్వ సస్యములు అత్యంత మనోహరముగా పండును. పాలకులు నీతిమంతులై పాలింతురు. ప్రజలందరు సంపూర్ణ సుఖసంతోషములతో, ఆరోగ్యముతో వర్ధిల్లుదురు.",
+        meaning_en: "In the Saumya year, agriculture and vegetation attain peak beauty, righteous leadership prevails, and society thrives in health and tranquility."
+    },
+    {
+        name_te: "సాధారణ", name_en: "Sadharana",
+        shloka: "సాధారణాహ్వయే వర్షే సమవృష్టిః ప్రవర్తతే | సాధారణం ఫలం సస్యే సమధర్మరతా నరాః ||",
+        meaning_te: "సాధారణ సంవత్సరమందు సమవృష్టి, పంటలు సమతుల్యముగా పండును, ధరలు నిలకడగా ఉండును, మానవులు సాధారణ జీవనమును ప్రశాంతముగా సాగింతురు.",
+        meaning_en: "Sadharana brings well-balanced rainfall, steady crop productivity, stable commodity markets, and predictable normalcy."
+    },
+    {
+        name_te: "విరోధికృత్", name_en: "Virodhikrut",
+        shloka: "విరోధికృద్వత్సరే తు విరోధో రాజయోర్భవేత్ | మధ్యమం ధాన్యవృద్ధిశ్చ ప్రజారోగ్యే హితం చరేత్ ||",
+        meaning_te: "విరోధికృత్ సంవత్సరమందు అంతర్జాతీయ రంగంలో విభేదాలు, మధ్యమ వర్షము, ధాన్యవృద్ధి సాధారణముగా ఉండును, దౌత్యనీతి ముఖ్యం.",
+        meaning_en: "Virodhikrut cautions about international diplomatic standoffs, moderate precipitation, and counsels measured governance."
+    },
+    {
+        name_te: "పరీధావి", name_en: "Paridhavi",
+        shloka: "పరీధావ్యాహ్వయే వర్షే సస్యవృద్ధిస్సుమంగళా | పరిశ్రమేణ జాయంతే లాభాని నిఖిలాని చ ||",
+        meaning_te: "పరీధావి సంవత్సరమందు సస్యవృద్ధి శుభకరముగా ఉండును, కష్టపడి పనిచేసే రైతులకు, కార్మికులకు విశేష లాభాలు చేకూరును.",
+        meaning_en: "Paridhavi rewards honest toil with fertile harvests, rewarding farmers, industries, and enterprises."
+    },
+    {
+        name_te: "ప్రమాదీచ", name_en: "Pramadicha",
+        shloka: "ప్రమాదీచాహ్వయే వర్షే ప్రమత్తాశ్చ నరా భవేత్ | మధ్యవృష్టిర్మహాధాత్రీ రక్షయేత్ ధర్మసంచయమ్ ||",
+        meaning_te: "ప్రమాదీచ సంవత్సరమందు అలసత్వము లేకుండా బాధ్యతలను నిర్వర్తించవలెను, మధ్యమ వర్షము, ధర్మరక్షణ శ్రేయస్కరము.",
+        meaning_en: "Pramadicha advises against complacency in financial and civic affairs; crops and rainfall remain moderate."
+    },
+    {
+        name_te: "ఆనంద", name_en: "Ananda",
+        shloka: "ఆనందాబ్దే మహానందో లోకానాం జాయతే సదా | సువృష్టిస్సర్వసస్యానాం సుభిక్షం రాజపూజితమ్ ||",
+        meaning_te: "ఆనంద సంవత్సరమందు లోకములో మహదానందము, సర్వసస్యములకు సమృద్ధి సువృష్టి, దేశమంతటా సుభిక్షము, సౌభాగ్యము నెలకొనును.",
+        meaning_en: "Ananda fills the world with jubilation, generous rainfall, lush crop growth, and auspicious domestic harmony."
+    },
+    {
+        name_te: "రాక్షస", name_en: "Rakshasa",
+        shloka: "రాక్షసాబ్దే కఠోరాణి కర్మాణి చ భవంతి హి | సస్యాని మధ్యమాన్యేవ రక్షా కార్యా విశేషతః ||",
+        meaning_te: "రాక్షస సంవత్సరమందు కొన్ని కఠిన పరిస్థితులు, శాంతిభద్రతల రక్షణపై ప్రత్యేక శ్రద్ధ అవసరము, మధ్యమ పంటలు పండును.",
+        meaning_en: "Rakshasa advises firm governance and public vigilance; crops remain moderate with uneven rain."
+    },
+    {
+        name_te: "నల", name_en: "Nala",
+        shloka: "నలాబ్దే జలసమృద్ధిః సస్యవృద్ధిశ్చ శాశ్వతీ | గావశ్చ బహుదుగ్ధాః స్యుః సుభిక్షం వసుధాతలే ||",
+        meaning_te: "నల సంవత్సరమందు జలసమృద్ధి, శాశ్వత సస్యవృద్ధి, గోవులు విస్తారముగా పాలనిచ్చును, భూమి సుభిక్షమగును.",
+        meaning_en: "Nala blesses reservoirs with abundant water, provides lavish grain harvests, and boosts dairy wealth."
+    },
+    {
+        name_te: "పింగళ", name_en: "Pingala",
+        shloka: "పింగళాబ్దే సువర్ణాది లోహానాం వృద్ధిరుత్తమా | మధ్యమా వారిదృష్టిశ్చ సస్యాః ఫలసమన్వితాః ||",
+        meaning_te: "పింగళ సంవత్సరమందు బంగారం, రాగి, లోహపరిశ్రమలు లాభసాటిగా ఉండును, మధ్యమ వర్షము, ఫలసస్యములు చక్కగా పండును.",
+        meaning_en: "Pingala triggers robust expansion in gold, copper, and metallurgy, with moderate rains and good orchards."
+    },
+    {
+        name_te: "కాళయుక్తి", name_en: "Kalayukti",
+        shloka: "కాళయుక్త్యామబ్దే యుక్తిః సర్వకార్యేషు సిద్ధిదా | సస్యార్ఘా మధ్యమాః ప్రోక్తా నీత్యా వర్ధంతే మానవాః ||",
+        meaning_te: "కాళయుక్తి సంవత్సరమందు యుక్తితో, వివేకముతో పనులు సాధించవలెను, సస్యములు మధ్యమముగా ఉండును, విజ్ఞాన రంగం వృద్ధిచెందును.",
+        meaning_en: "Kalayukti rewards strategic intellect and technological ingenuity; agricultural yields remain balanced."
+    },
+    {
+        name_te: "సిద్ధార్థి", name_en: "Siddharthi",
+        shloka: "సిద్ధార్థ్యబ్దే సిద్ధయః స్యుః సర్వేషాం శుభకర్మణాం | సువృష్టిరత్యంతసస్యం సుభిక్షం దేశవాసినామ్ ||",
+        meaning_te: "సిద్ధార్థి సంవత్సరమందు సకల శుభకార్యములు సిద్ధించును, సమృద్ధి సువృష్టి, అత్యంత సస్యవృద్ధి, దేశవాసులందరు సుఖింతురు.",
+        meaning_en: "Siddharthi grants accomplishment in noble undertakings, copious rainfall, abundant granaries, and peace."
+    },
+    {
+        name_te: "రౌద్రి", name_en: "Raudri",
+        shloka: "రౌద్ర్యాహ్వయే మహావాతాః ఉష్ణతా చ ప్రవర్ధతే | రక్షణీయాశ్చ ధాన్యాశ్చ ధైర్యేణ సుఖమాప్నుయాత్ ||",
+        meaning_te: "రౌద్రి సంవత్సరమందు తీవ్ర గాలులు, ఉష్ణోగ్రతల పెరుగుదల, ధాన్యనిల్వలను కాపాడుకొనవలెను, శాంతి సంకల్పములు శ్రేయస్కరం.",
+        meaning_en: "Raudri indicates strong winds and intense heat patterns, advising food preservation and fire safeguards."
+    },
+    {
+        name_te: "దుర్మతి", name_en: "Durmathi",
+        shloka: "దుర్మత్యామబ్దే విజ్ఞానం సన్మార్గేణ నియోజయేత్ | మధ్యవృష్టిః సస్యహానిం పరిహర్తుం ప్రయత్నవాన్ ||",
+        meaning_te: "దుర్మతి సంవత్సరమందు జ్ఞానాన్ని సన్మార్గమున నడపవలెను, మధ్యమ వర్షము, పంటల సంరక్షణకు సాంకేతిక పరిజ్ఞానము తోడ్పడును.",
+        meaning_en: "Durmathi emphasizes righteous guidance and modern agro-technology to counteract average seasonal showers."
+    },
+    {
+        name_te: "దుందుభి", name_en: "Dundubhi",
+        shloka: "దుందుభ్యామబ్దే నాదాశ్చ మంగళా జయశంసితాః | సువృష్టిస్సకలే దేశే ధనధాన్యసమృద్ధయః ||",
+        meaning_te: "దుందుభి సంవత్సరమందు మంగళ తూర్య నాదములు, విజయములు, దేశమంతటా సువృష్టి, ధనధాన్యములు సంపూర్ణముగా వర్ధిల్లును.",
+        meaning_en: "Dundubhi resounds with celebratory kettledrums, military triumphs, universal rainfall, and boundless wealth."
+    },
+    {
+        name_te: "రుధిరోద్గారి", name_en: "Rudhirodgari",
+        shloka: "రుధిరోద్గార్యబ్దే రక్తధాన్యా వృద్ధిర్మహత్తరా | శౌర్యరక్షా చ కర్తవ్యా సువృష్టిర్మధ్యమా భవేత్ ||",
+        meaning_te: "రుధిరోద్గారి సంవత్సరమందు ఎర్రధాన్యములు (కందులు, రాగులు, ఎర్రవరి) విస్తారముగా పండును, దేశ రక్షణ బలపడును, మధ్యమ వర్షము.",
+        meaning_en: "Rudhirodgari powers high yields for red pulses and millets, fortifies defense readiness, with moderate rains."
+    },
+    {
+        name_te: "రక్తాక్షి", name_en: "Raktakshi",
+        shloka: "రక్తాక్ష్యామబ్దే శాంతించ దయాభావం ప్రవర్ధయేత్ | సస్యాని ఫలయుక్తాని సువృష్టిః సమభాగతః ||",
+        meaning_te: "రక్తాక్షి సంవత్సరమందు దయాగుణము, శాంతి సామరస్యములు వృద్ధిచేసుకొనవలెను, పంటలు సమృద్ధిగా పండును, సమాన వర్షములు కురియును.",
+        meaning_en: "Raktakshi encourages compassion and social unity; delivers fertile harvests and balanced regional rainfall."
+    },
+    {
+        name_te: "క్రోధన", name_en: "Krodhana",
+        shloka: "క్రోధనాబ్దే కోపత్యాగః పరస్పరహితాచరణమ్ | సస్యవృద్ధిర్మధ్యమా స్యాత్ ధర్మో రక్షతి రక్షితః ||",
+        meaning_te: "క్రోధన సంవత్సరమందు కోపాన్ని విడనాడి పరస్పర సహకారముతో మెలగవలెను, మధ్యమ సస్యవృద్ధి, ధర్మమార్గమే సర్వదా రక్షించును.",
+        meaning_en: "Krodhana advises emotional restraint and collaborative goodwill; crops yield moderately; dharma protects the faithful."
+    },
+    {
+        name_te: "అక్షయ", name_en: "Akshaya",
+        shloka: "అక్షయాబ్దే క్షయో నాస్తి ధనధాన్యసుఖైస్సహ | సువృష్టిస్సర్వతో ధాత్రీ అక్షయశ్రీరవిచ్ఛిన్నా ||",
+        meaning_te: "అక్షయ సంవత్సరమందు ధనధాన్య సౌఖ్యములకు కొరత ఉండదు, సర్వత్రా సువృష్టి, భూమి అక్షయ సంపదలతో విరాజిల్లును.",
+        meaning_en: "Akshaya promises inexhaustible bounty, universal rains, eternal prosperity, and completes the 60-year cycle in triumph."
+    }
+];
+
 const NAYAKA_SHLOKAS_DATA = {
     Raja: {
-        title_te: "👑 రాజు (Raja - King)",
+        title_te: "👑 రాజు (Raja - King of the Year)",
         title_en: "👑 Raja (King of the Year)",
         desc_te: "చైత్ర శుద్ధ పాడ్యమి (ఉగాది) నాటి వారపు అధిపతి",
         desc_en: "Ruler of the weekday of Chaitra Shukla Padyami (Ugadi day)",
         planets: [
             {
-                shloka: "రవౌ రాజ్ఞి భవేద్రోగో నృపాణాం కలహో మహాన్ | వర్షం నైవ ప్రవర్తేత సస్యహానిః ప్రజారతిః ||",
-                meaning_te: "సూర్యుడు రాజైనచో పాలకులలో కలహాలు, కఠిన నిర్ణయాలు, ఎండల తీవ్రత, ప్రజలలో ఉష్ణవ్యాధులు మరియు వర్షాలు మధ్యమంగా ఉండును.",
-                meaning_en: "When Sun is King, government adopts strict policies, summer heat is intense, moderate rainfall, health care needed."
+                shloka: "అన్యోన్యవైరం క్షితిపాలకానాం నిత్యాంబు ముంచంతి బలాహకాశ్చ | భూపాద్భయం శస్త్రభయం ప్రజానాంలోకోఽగ్నిబాధాఽబ్దపతౌపతంగే ||",
+                meaning_te: "సూర్యుడు రాజాధిపతి అయినచో రాజులలో పరస్పర విరోధము, మేఘములు సదా వర్షించును, పాలకుల వలన మరియు ఆయుధముల వలన ప్రజలకు భయము, లోకమున అగ్నిబాధలు కలుగును.",
+                meaning_en: "Sun as King: Disunity among rulers, steady rainfall, fear from weapons and administrative stringency, and occasional fire hazards."
             },
             {
-                shloka: "చంద్రే రాజ్ఞి భవేత్ప్రీతిః సర్వసస్య ఫలాన్వితా | వర్షంతి జలదాః కాలే సర్వే నందంతి మానవాః ||",
-                meaning_te: "చంద్రుడు రాజైనచో లోకమునంతటను సకాల వర్షాలు, సమస్త సస్య సమృద్ధి, క్షీర సమృద్ధి మరియు జనులందరికీ సుఖ సంతోషాలు కలుగును.",
-                meaning_en: "When Moon is King, abundant seasonal rains, bountiful harvests, flourishing dairy and general prosperity prevail."
+                shloka: "ధారాధరాః క్ష్మామఖిలాం ప్రకుర్యుర్ధారాధరాం క్షేమసుభే సుభిక్షమ్ | ప్రజాన్వపాశ్చాతిసుఖాశ్చ భూమౌశీతోత్సవాశ్చాబ్దపతౌ శశాంకే ||",
+                meaning_te: "చంద్రుడు రాజాధిపతి అయినచో భూమి అంతటా విస్తారమైన వర్షములు, క్షేమారోగ్యములు, సుభిక్షము, ప్రజలు మరియు పాలకులు పరమ సుఖముతోను, చల్లని ఉత్సవములతోను ఆనందింతురు.",
+                meaning_en: "Moon as King: Abundant rainfall across the land, prosperity, excellent public health, peace, and joyous celebrations."
             },
             {
-                shloka: "భౌమే రాజ్ఞి హ్యనవృష్టిశ్చ చోరాగ్ని భయ సంకులమ్ | నృపాశ్చ సమరే లుబ్ధాః ప్రజాః పీడ్యంతి సర్వశః ||",
-                meaning_te: "కుజుడు రాజైనచో అగ్ని ప్రమాదాలు, చోర భయాలు, సైనిక కదలికలు, వర్షాభావము మరియు ధరల పెరుగుదల సంభవించును.",
-                meaning_en: "When Mars is King, vigilance against fire hazards, heightened defense activity, fluctuating rains and commodity price hikes."
+                shloka: "వాతోద్ధతోవహ్నిరతి ప్రచండోదహత్యలం గ్రామపురీవనాని | నవారి ముంచంతి ఘనాస్త్వనర్ఘ్యో యుద్ధంనృపాణాం క్షితిబేఽబ్దినాథే ||",
+                meaning_te: "కుజుడు రాజాధిపతి అయినచో పెనుగాలులతో కూడిన అగ్నిప్రమాదములు గ్రామములు, పట్టణములు, అడవులను దహించును. మేఘములు స్వల్పముగా వర్షించును, ధరలు పెరుగును, పాలకులలో యుద్ధములు సంభవించును.",
+                meaning_en: "Mars as King: Fierce winds, fire accidents affecting towns and forests, scanty rainfall, price inflation, and regional conflicts."
             },
             {
-                shloka: "బుధే రాజ్ఞి ధరా సర్వా నానాసస్య సమాకులా | విద్వజ్జన ప్రమోదశ్చ వాణిజ్యే లాభ వర్ధనమ్ ||",
-                meaning_te: "బుధుడు రాజైనచో వాణిజ్య వ్యాపారాలు లాభదాయకముగా సాగును, విద్యార్థులకు, శాస్త్రవేత్తలకు పురోభివృద్ధి, ఉత్తమ పంటలు పండును.",
-                meaning_en: "When Mercury is King, commercial trade thrives, students and scholars excel, technology and crops flourish."
+                shloka: "ప్రభూతవాయుర్భువిమధ్యవృష్టిః గదాహవ ప్రోద్ధతరాజకోపః | బుధేఽబ్దనాథేఽప్య పరంచ సస్యం శ్రేష్ఠంచ వృద్ధిర్లిపిలేఖకానామ్ ||",
+                meaning_te: "బుధుడు రాజాధిపతి అయినచో పెనుగాలులు, మధ్యమ వర్షము, వ్యాధులు, యుద్ధోత్సాహముతో రాజులకు కోపము, ఉత్తర దిశ సస్యములు శ్రేష్ఠముగా పండును, పండితులకు, రచయితలకు, లేఖకులకు విశేష వృద్ధి కలుగును.",
+                meaning_en: "Mercury as King: Strong breezes, moderate rainfall, heightened administrative diplomacy, rich autumn harvests, and great prosperity for scholars, writers, and artists."
             },
             {
-                shloka: "జీవే రాజ్ఞి ప్రజానాం చ ధర్మవృద్ధిః ప్రవర్తతే | సకాలే వర్షతే దేవో వేదశాస్త్ర మహోత్సవాః ||",
-                meaning_te: "గురువు రాజైనచో ధర్మవృద్ధి, శాంతి, ఆలయాలలో ఉత్సవాలు, సకాల వర్షాలు మరియు సకల జనులకు సంపదలు లభించును.",
-                meaning_en: "When Jupiter is King, righteous values surge, auspicious temple events, timely rains and broad economic stability."
+                shloka: "ద్విజాతయః కర్మరతాః స్వధర్మాస్సన్మార్గగా నీతివిదో నరేంద్రాః | సుభిక్షమారోగ్య సుఖేప్రజానాం సువృష్టిరబ్దాధిపతౌ సురేజ్యే ||",
+                meaning_te: "గురువు రాజాధిపతి అయినచో పండితులు, జ్ఞానులు స్వధర్మ నిరతులగుదురు. పాలకులు నీతిమంతులై సన్మార్గమున పాలింతురు. సుభిక్షము, ఆరోగ్యము, సమస్త ప్రజలకు సుఖము, సకాల సువృష్టి కలుగును.",
+                meaning_en: "Jupiter as King: Righteous governance, moral rectitude, spiritual flourish, abundant timely rainfall, excellent public health, and societal harmony."
             },
             {
-                shloka: "శుక్రే రాజ్ఞి ప్రజాః సర్వాః సుఖినో ధనధాన్యైః | నానావిధ సుగంధాశ్చ కళాకౌశల వర్ధనమ్ ||",
-                meaning_te: "శుక్రుడు రాజైనచో పుష్కలమైన వర్షాలు, వివాహాది శుభకార్యాలు, సినిమా, లలిత కళారంగాలకు అఖండ పురోభివృద్ధి కలుగును.",
-                meaning_en: "When Venus is King, lavish rains, joy in family celebrations, boom in arts, cinema, jewelry and textiles."
+                shloka: "సమృద్ధసస్యావసుధా సువృష్టిర్గావోహి సంపూర్ణపయః ప్రదాఃస్యుః | ప్రియః ప్రియాణాం జనయంతితేషాం కామోపచారైర్భృగుజేఽబ్దనాథే ||",
+                meaning_te: "శుక్రుడు రాజాధిపతి అయినచో సమస్త సస్యములతో భూమి కళకళలాడును, విస్తార సువృష్టి, గోవులు సమృద్ధిగా పాలనిచ్చును, ప్రజలు సుఖసంతోషములతో, కళా వినోదములతో, ప్రీతితో జీవింతురు.",
+                meaning_en: "Venus as King: Bountiful agricultural harvest, flourishing dairy yields, aesthetic joy, cultural grandeur, and widespread happiness."
             },
             {
-                shloka: "మందే రాజ్ఞి ప్రజాపీడా శత్రువృద్ధిః పరస్పరమ్ | వాతరోగ భయం తీవ్రా వృష్టిర్నైవ సమాహితా ||",
-                meaning_te: "శని రాజైనచో వాతావరణంలో ఆకస్మిక మార్పులు, శ్రామికులకు గౌరవం, చలి గాలులు మరియు ప్రజా సంక్షేమ పథకాలు విస్తరించును.",
-                meaning_en: "When Saturn is King, welfare of working classes improves, erratic weather fluctuations, emphasis on disciplined governance."
+                shloka: "మధ్యాని సస్యాని విచిత్రవృష్టిః చోరాహ వప్రోద్ధతరాజకోపః | యదుత్తరం సస్యచయం కుధాన్యం సంపూర్ణమస్మిన్ రవిజేఽబ్దనాథే ||",
+                meaning_te: "శని రాజాధిపతి అయినచో మధ్యమ సస్యములు, విచిత్ర వర్షములు (ఒకచోట కురిసి మరొకచోట కురవకపోవుట), చోరభయము, యుద్ధ భయము, పాలకుల ఆగ్రహము, కుధాన్యములు (చిరుధాన్యములు) సంపూర్ణముగా పండును.",
+                meaning_en: "Saturn as King: Uneven rainfall patterns, moderate cereal production, robust growth of coarse grains/millets, heightened public vigilance against theft, and strict state discipline."
             }
         ]
     },
     Mantri: {
-        title_te: "🏛️ మంత్రి (Mantri - Prime Minister)",
-        title_en: "🏛️ Mantri (Prime Minister)",
-        desc_te: "మేష సంక్రమణం (ఏప్రిల్) నాటి వారపు అధిపతి",
-        desc_en: "Ruler of the weekday when Sun enters Mesha (Aries)",
+        title_te: "📜 మంత్రి (Mantri - Prime Minister)",
+        title_en: "📜 Mantri (Prime Minister / Chief Counselor)",
+        desc_te: "సూర్యుడు మేషరాశిలో ప్రవేశించిన (ఏప్రిల్) నాటి వారపు అధిపతి",
+        desc_en: "Ruler of the weekday when Sun enters Mesha / Aries (Mesha Sankramana, April)",
         planets: [
-            { shloka: "రవౌ మంత్రే నృపోగ్రశ్చ దండనీతిః ప్రవర్తతే ||", meaning_te: "సూర్యుడు మంత్రి అయినచో పరిపాలనా రంగంలో కఠినమైన చట్టాలు, శాంతిభద్రతల పరిరక్షణ పెరుగును.", meaning_en: "When Sun is Mantri, administrative discipline and strict law enforcement prevail." },
-            { shloka: "చంద్రే మంత్రే భవేచ్ఛాంతిః సర్వకార్యార్థ సాధనీ ||", meaning_te: "చంద్రుడు మంత్రి అయినచో ప్రజలలో సౌభ్రాత్రం, శాంతియుత వాతావరణం, మంత్రుల సలహాలు ఫలించును.", meaning_en: "When Moon is Mantri, harmonious ministerial decisions and peaceful civil administration." },
-            { shloka: "భౌమే మంత్రే వివాదాశ్చ సైనికానాం జయో భవేత్ ||", meaning_te: "కుజుడు మంత్రి అయినచో రక్షణ రంగానికి ప్రాధాన్యత, శత్రువులపై విజయం, రాజకీయ వివాదాలు.", meaning_en: "When Mars is Mantri, defense capabilities strengthen, assertive geopolitical posture." },
-            { shloka: "బుధే మంత్రే సుబుద్ధిశ్చ విద్యా బుద్ధి ప్రవర్ధనమ్ ||", meaning_te: "బుధుడు మంత్రి అయినచో దౌత్య సంబంధాలు మెరుగుపడును, నూతన ఆర్థిక విధానాలు సత్ఫలితాలనిచ్చును.", meaning_en: "When Mercury is Mantri, diplomatic finesse, intelligent financial policies bring stability." },
-            { shloka: "జీవే మంత్రే సుభీక్షం స్యాత్ ధర్మకార్య ప్రవర్తనమ్ ||", meaning_te: "గురువు మంత్రి అయినచో ఉత్తమ పరిపాలన, న్యాయ వ్యవస్థ బలోపేతం, దేశంలో సంపదలు వృద్ధి చెందును.", meaning_en: "When Jupiter is Mantri, wise governance, judicial strength and abundant national welfare." },
-            { shloka: "శుక్రే మంత్రే సమస్తార్థ సంపత్తిః సుఖదాయినీ ||", meaning_te: "శుక్రుడు మంత్రి అయినచో విదేశీ వాణిజ్యం వృద్ధి, ప్రజలకు విలాస వస్తువులు, పన్నుల ఉపశమనం.", meaning_en: "When Venus is Mantri, trade flourishes, economic incentives and public welfare multiply." },
-            { shloka: "మందే మంత్రే కునీతిశ్చ కార్యాణాం మందతా భవేత్ ||", meaning_te: "శని మంత్రి అయినచో నిర్ణయాలు నెమ్మదిగా సాగును, దీర్ఘకాలిక మౌలిక వసతుల ప్రాజెక్టులు ప్రారంభమగును.", meaning_en: "When Saturn is Mantri, focus on long-term infrastructure and labor reforms." }
+            {
+                shloka: "రాజ్ఞామన్యోన్య వైరిత్వమనావృష్టిశ్చ సంగరః | అధర్మనిరతామర్త్యా భాస్కరేఽబ్దైతు మంత్రిణి ||",
+                meaning_te: "సూర్యుడు మంత్రి అయినచో పాలకులలో పరస్పర వైరము, వర్షాభావము, యుద్ధములు, అధర్మ ప్రవర్తనల వలన సమాజమున అశాంతి కలుగును.",
+                meaning_en: "Sun as Minister: Friction among political leaders, intermittent droughts, geopolitical tension, and moral challenges."
+            },
+            {
+                shloka: "సువృష్టిః సర్వ సస్యాని ఫలితాని భవంతి చ | క్షేమారోగ్యేసుభిక్షంచ శశాంకే సచివే సతి ||",
+                meaning_te: "చంద్రుడు మంత్రి అయినచో సమృద్ధి వర్షములు, సర్వ సస్యములు సఫలమగును, క్షేమము, సంపూర్ణ ఆరోగ్యము మరియు దేశమున సుభిక్షము వర్ధిల్లును.",
+                meaning_en: "Moon as Minister: Excellent timely showers, rich agricultural yields, superb public wellness, peace, and national prosperity."
+            },
+            {
+                shloka: "పుర గ్రామవనాదీని దహ్యంతే వహ్నినాభృశమ్ | వృష్టిర్మధ్యాభవేద్యుద్ధం మంత్రిణ్యవనిజేసతి ||",
+                meaning_te: "కుజుడు మంత్రి అయినచో నగరములు, గ్రామములు, అడవులు అగ్ని వలన దహించబడును, వర్షములు మధ్యమముగా ఉండును, యుద్ధ భయము హెచ్చును.",
+                meaning_en: "Mars as Minister: Forest fires and urban fire hazards, average rainfall, border friction, and strict military preparedness."
+            },
+            {
+                shloka: "వాయునా పీడితా మేఘాస్సర్వేపాపరతానరాః | అమాత్యే సోమపుత్రేతు జాయతే మధ్యమం ఫలమ్ ||",
+                meaning_te: "బుధుడు మంత్రి అయినచో పెనుగాలుల వలన మేఘములు చెదిరిపోవును, సాధారణ వర్షములు, సమాజమున మధ్యమ ఫలములు కలుగును.",
+                meaning_en: "Mercury as Minister: Cloud dispersal due to strong gusts, moderate seasonal rains, mixed societal outcomes, and intellectual progress."
+            },
+            {
+                shloka: "జీవేత్వమాత్యే బహుధాన్యసంపదః ప్రభాతవర్షాశ్చ భవంతిలోకే | ఫలంతి వృక్షా బహుసస్యవృద్ధిః ధరా ప్రజాగోకుల సంకులాసదా ||",
+                meaning_te: "గురువు మంత్రి అయినచో బహుధాన్య సంపదలు, ఉదయకాల సకాల వర్షములు, ఫలవృక్షములు ఫలించును, భూమి పచ్చగా మారి గోసంపద, ప్రజలు సదా వర్ధిల్లుదురు.",
+                meaning_en: "Jupiter as Minister: Abundant grains, auspicious morning showers, fruitful orchards, burgeoning dairy wealth, and social contentment."
+            },
+            {
+                shloka: "స్త్రీ పుంసోర్హి సదాప్రీతిః ఫలితా సస్యజాతయః | భవంతిగావః సుదుఘాః భృగుపుత్రేతు మంత్రిణి ||",
+                meaning_te: "శుక్రుడు మంత్రి అయినచో ప్రజలలో పరస్పర ప్రీతి, సమస్త పంటలు సమృద్ధిగా పండును, గోవులు విస్తారముగా పాలనిచ్చును, సౌభాగ్యము విలసిల్లును.",
+                meaning_en: "Venus as Minister: Deep interpersonal harmony, magnificent crop yields, rich milk supply, economic luxury, and cultural vitality."
+            },
+            {
+                shloka: "మధ్యవృష్టిర్మందసస్యం సర్వేపాపరతాః నరాః | ప్రజాపీడాభవేన్నిత్యం సూర్యపుత్రేతు మంత్రిణి ||",
+                meaning_te: "శని మంత్రి అయినచో మధ్యమ వర్షము, పంటలు సాధారణముగా పండును, ప్రజలకు శ్రమ మరియు బాధలు కలుగును, నిగ్రహము అవసరమగును.",
+                meaning_en: "Saturn as Minister: Moderate precipitation, sluggish crop growth, increased toil for working classes, and calls for disciplined governance."
+            }
         ]
     },
     Senadhipati: {
-        title_te: "⚔️ సేనాధిపతి (Senadhipati - Commander)",
-        title_en: "⚔️ Senadhipati (Commander-in-Chief)",
-        desc_te: "సింహ సంక్రమణం (ఆగస్టు) నాటి వారపు అధిపతి",
-        desc_en: "Ruler of the weekday when Sun enters Simha (Leo)",
+        title_te: "⚔️ సేనాధిపతి (Senadhipati - Commander-in-Chief)",
+        title_en: "⚔️ Senadhipati (Commander-in-Chief of Armed Forces)",
+        desc_te: "సూర్యుడు సింహరాశిలో ప్రవేశించిన (ఆగస్టు) నాటి వారపు అధిపతి",
+        desc_en: "Ruler of the weekday when Sun enters Simha / Leo (Simha Sankramana, August)",
         planets: [
-            { shloka: "రవౌ సేనాపతౌ తీవ్రా శత్రునాశః ప్రజాయతే ||", meaning_te: "సూర్యుడు సేనాధిపతి అయినచో సైనిక పరాక్రమం, శత్రు భయాల నిర్మూలన, దేశ సరిహద్దులు సురక్షితం.", meaning_en: "When Sun is Commander, formidable military strength and border defense security." },
-            { shloka: "చంద్రే సేనాపతౌ సౌమ్యా శాంతియుద్ధ ప్రశాంతిదా ||", meaning_te: "చంద్రుడు సేనాధిపతి అయినచో శాంతి చర్చలు సఫలమగును, అంతర్గత శాంతిభద్రతలు పటిష్టం.", meaning_en: "When Moon is Commander, diplomatic negotiations prevail over aggression." },
-            { shloka: "భౌమే సేనాపతౌ వీర్యం సమరాగ్ని ప్రవర్ధనమ్ ||", meaning_te: "కుజుడు సేనాధిపతి అయినచో సైనిక చర్యలు, ఆధునిక ఆయుధ సంపత్తి వృద్ధి, శత్రువులపై ఆధిపత్యం.", meaning_en: "When Mars is Commander, aggressive defense modernization and decisive leadership." },
-            { shloka: "బుధే సేనాపతౌ యుక్తిః రక్షణే ధీమతాం జయః ||", meaning_te: "బుధుడు సేనాధిపతి అయినచో సైబర్ భద్రత, గూఢచార విభాగం అత్యుత్తమ విజయాలు సాధించును.", meaning_en: "When Mercury is Commander, intelligence, cyber security and strategic tactics excel." },
-            { shloka: "జీవే సేనాపతౌ ధర్మో నీతియుక్తం జయప్రదమ్ ||", meaning_te: "గురువు సేనాధిపతి అయినచో ధర్మబద్ధమైన రక్షణ, అంతర్జాతీయ గౌరవం, శాంతి స్థాపన.", meaning_en: "When Jupiter is Commander, righteous military power commands global respect." },
-            { shloka: "శుక్రే సేనాపతౌ శాంతిః నౌకాదళ విభూషితమ్ ||", meaning_te: "శుక్రుడు సేనాధిపతి అయినచో నౌకాదళం బలోపేతం, సంధి ప్రయత్నాలు అనుకూలించును.", meaning_en: "When Venus is Commander, naval strength expands and diplomatic peace is maintained." },
-            { shloka: "మందే సేనాపతౌ రక్షా కఠినా శ్రమజీవినామ్ ||", meaning_te: "శని సేనాధిపతి అయినచో సరిహద్దులలో నిరంతర నిఘా, పటిష్టమైన రక్షణ వ్యూహాలు.", meaning_en: "When Saturn is Commander, enduring defensive fortresses and tireless surveillance." }
+            {
+                shloka: "అన్యోన్యయుద్ధం ధరణీశ్వరాణామల్పాంబుదా వారిధరాస్సవాతాః | రక్తాని సస్యాని ఫలంతిభూమౌ సైన్యాధిపత్యే దివసేశ్వరస్య ||",
+                meaning_te: "సూర్యుడు సేనాపతి అయినచో పాలకులలో పరస్పర యుద్ధములు, గాలులతో కూడిన స్వల్ప వర్షములు, ఎరుపు రంగు ధాన్యములు చక్కగా పండును.",
+                meaning_en: "Sun as Commander-in-Chief: Geopolitical saber-rattling among world powers, windy moderate showers, and high yields for red grains and pulses."
+            },
+            {
+                shloka: "వర్షంతి మేఘాశ్చ జలంధరిత్ర్యాం వ్యతీతరోగా స్సుఖినోజనాశ్చ | గావోబహుక్షీరదుఘాభవంతి సైన్యాధిపత్యే మృగలాంఛనస్య ||",
+                meaning_te: "చంద్రుడు సేనాపతి అయినచో మేఘములు భూమిపై పుష్కలముగా వర్షించును, రోగములు తగ్గి జనులు సుఖింతురు, గోవులు విస్తారముగా పాలనిచ్చును.",
+                meaning_en: "Moon as Commander-in-Chief: Lavish rainfall across the land, disease mitigation, cheerful populations, and flourishing cattle."
+            },
+            {
+                shloka: "ఆతంకపీడా భువిసస్యనాశోలోకాస్సమస్తా జ్వలితాభవంతి | అత్యంతయుద్ధం క్షితిపాలకానాం కుజేచసేనాధిపతౌ ధరిత్ర్యామ్ ||",
+                meaning_te: "కుజుడు సేనాపతి అయినచో ఆతంకము, పంటల నష్టము, అగ్నిభయము, లోకములో యుద్ధోన్మాదము, పాలకులలో తీవ్ర యుద్ధములు సంభవించును.",
+                meaning_en: "Mars as Commander-in-Chief: Heightened border volatility, crop damage from pests/heat, defense mobilizations, and intense skirmishes."
+            },
+            {
+                shloka: "వాతాహతాః వారిధరాః కదాచిద్వర్షంతి సస్యానిఫలాన్వితాని | లోకాస్సదాపీడితకామచారాస్సైన్యాధిపత్యే ఖలుచంద్రజస్య ||",
+                meaning_te: "బుధుడు సేనాపతి అయినచో గాలులచే మేఘములు అప్పుడప్పుడు వర్షించును, పంటలు ఫలించును, దౌత్యనీతి ద్వారా సమస్యలు పరిష్కారమగును.",
+                meaning_en: "Mercury as Commander-in-Chief: Gusty intermittent rains, adequate agricultural yields, tactical diplomacy superseding open combat."
+            },
+            {
+                shloka: "నృపాస్సదా సద్విధిసంప్రవృత్తా విప్రాస్సదా వేదవిధి ప్రవృత్తాః | జనాస్సదా సంభృతధర్మవృత్తాస్సైన్యాధిపత్యే సురమంత్రిణశ్చ ||",
+                meaning_te: "గురువు సేనాపతి అయినచో పాలకులు సద్విధి సన్మార్గమున నడతురు, విద్వాంసులు వేదకర్మల యందుందురు, ప్రజలు ధర్మనిరతులై శాంతిభద్రతలు నెలకొనును.",
+                meaning_en: "Jupiter as Commander-in-Chief: Righteous statecraft, spiritual harmony, adherence to constitutional rule of law, and strong domestic defense."
+            },
+            {
+                shloka: "సువృష్టిరత్యంత సమృద్ధసస్యం సుభిక్షమర్ఘో బహులోధరిత్ర్యామ్ | నరాః స్త్రియః కామరతాః ప్రవృత్తా సైన్యాధిపత్యే ఖలుభార్గవస్య ||",
+                meaning_te: "శుక్రుడు సేనాపతి అయినచో సువృష్టి, అత్యంత సమృద్ధి సస్యములు, సుభిక్షము, వ్యాపారవృద్ధి, సమాజమున శాంతి మరియు ఉల్లాసము విలసిల్లును.",
+                meaning_en: "Venus as Commander-in-Chief: Splendid rains, booming agricultural abundance, economic vitality, low casualty rates, and cultural joy."
+            },
+            {
+                shloka: "సేనాధిపే సూర్యసుతే ధరిత్ర్యాం సేనావిముక్తా స్సతతం నరేంద్రాః | అధర్మ యుక్తా స్సతతం ప్రజాశ్చ కృష్ణానిధాన్యాని ఫలంతి భూమౌ ||",
+                meaning_te: "శని సేనాపతి అయినచో సైనిక బలగములు నిరంతర సంసిద్ధతలో ఉండును, నల్లని ధాన్యములు (మినుములు, నువ్వులు) బాగుగా పండును, కఠిన చట్టములు అమలు జరుగును.",
+                meaning_en: "Saturn as Commander-in-Chief: Constant military readiness, enforcement of stringent laws, public discipline, and excellent harvests of dark grains."
+            }
         ]
     },
     Sasyadhipati: {
-        title_te: "🌾 సస్యాధిపతి (Sasyadhipati - Crops)",
-        title_en: "🌾 Sasyadhipati (Lord of Vegetation)",
-        desc_te: "కర్కాటక సంక్రమణం (జూలై - దక్షిణాయనం) నాటి వారపు అధిపతి",
-        desc_en: "Ruler of the weekday when Sun enters Karkataka (Cancer)",
+        title_te: "🌾 సస్యాధిపతి (Sasyadhipati - Lord of Agriculture & Kharif Crops)",
+        title_en: "🌾 Sasyadhipati (Lord of Early Kharif Crops & Agriculture)",
+        desc_te: "సూర్యుడు కర్కాటక రాశిలో ప్రవేశించిన (జూలై) నాటి వారపు అధిపతి",
+        desc_en: "Ruler of the weekday when Sun enters Karkataka / Cancer (Karkataka Sankramana, July)",
         planets: [
-            { shloka: "రవౌ సస్యాధిపే శోషః ఫలహానిః ప్రవర్తతే ||", meaning_te: "సూర్యుడు సస్యాధిపతి అయినచో ఎండల తీవ్రత వల్ల పంటలలో కొన్ని నష్టాలు, పండ్ల తోటలు అనుకూలం.", meaning_en: "Sun as Sasyadhipati: selective crop yields, thriving horticulture." },
-            { shloka: "చంద్రే సస్యాధిపే సర్వ సస్య సంపత్తి రుత్తమా ||", meaning_te: "చంద్రుడు సస్యాధిపతి అయినచో సమస్త పైర్లు పచ్చదనంతో కళకళలాడును, వ్యవసాయం లాభసాటి.", meaning_en: "Moon as Sasyadhipati: lush green fields, outstanding agricultural prosperity." },
-            { shloka: "భౌమే సస్యాధిపే దాహః కీటపీడా ప్రవర్తతే ||", meaning_te: "కుజుడు సస్యాధిపతి అయినచో పురుగుల నివారణ అవసరం, ఎర్రని ధాన్యాలు, మిరప, పప్పు దినుసులు లాభం.", meaning_en: "Mars as Sasyadhipati: red grains, pulses, and spices yield good market value." },
-            { shloka: "బుధే సస్యాధిపే సర్వ సస్యావృద్ధిః ప్రమోదదా ||", meaning_te: "బుధుడు సస్యాధిపతి అయినచో ఆకుకూరలు, కూరగాయలు, చెరుకు, పత్తి పంటలు పుష్కలంగా పండును.", meaning_en: "Mercury as Sasyadhipati: commercial crops, cotton, sugarcane, greens flourish." },
-            { shloka: "జీవే సస్యాధిపే ధాన్యం పుష్కలం సర్వతోముఖమ్ ||", meaning_te: "గురువు సస్యాధిపతి అయినచో వరి, గోధుమలు, పసుపు మొదలైన ఉత్తమ పంటలతో ధాన్యాగారాలు నిండును.", meaning_en: "Jupiter as Sasyadhipati: golden harvests of paddy, wheat, turmeric fill granaries." },
-            { shloka: "శుక్రే సస్యాధిపే శ్రేష్ఠ సస్య సమృద్ధి రక్షితా ||", meaning_te: "శుక్రుడు సస్యాధిపతి అయినచో వరి, పూల తోటలు, సుగంధ ద్రవ్యాలు అఖండ లాభాలను తెచ్చును.", meaning_en: "Venus as Sasyadhipati: fragrant crops, flowers, basmati rice yield high profits." },
-            { shloka: "మందే సస్యాధిపే తైల తిల సస్యాని వర్ధతే ||", meaning_te: "శని సస్యాధిపతి అయినచో నూనెగింజలు, నువ్వులు, వేరుశనగ, చిరుధాన్యాలు (మిల్లెట్స్) విశేష లాభం.", meaning_en: "Saturn as Sasyadhipati: oilseeds, sesame, millets, and groundnuts prosper." }
+            {
+                shloka: "సస్యాధీశోభాస్వతి విరలానిచ సర్వసస్యాని | అతివిపులం త్వీతిభయం కుళుత్థచణకాదికం పూర్ణమ్ ||",
+                meaning_te: "సూర్యుడు సస్యాధిపతి అయినచో సస్యములు విరళముగా పండును, ఈతిబాధలు ఉండును, ఉలవలు, శనగలు వంటి పప్పుధాన్యములు సంపూర్ణముగా పండును.",
+                meaning_en: "Sun as Lord of Crops: Thin growth for mainstream crops, mild pest/weather stress, but bumper harvests for horsegram, chickpea, and hardy pulses."
+            },
+            {
+                shloka: "జలధాన్యానిసర్వాణి స్థలధాన్యానియానిచ | వృక్షజాతి స్సుఫలితా చంద్రేసస్యాధిపేసతి ||",
+                meaning_te: "చంద్రుడు సస్యాధిపతి అయినచో జలధాన్యములు (వరి), మెట్ట ధాన్యములు, సర్వ వృక్షజాతులు చక్కగా ఫలించును, వ్యవసాయం సమృద్ధిగా సాగును.",
+                meaning_en: "Moon as Lord of Crops: Lush wet-land crops (paddy), thriving dry-land millets, blooming orchards, and lush agricultural harvests."
+            },
+            {
+                shloka: "రక్తశాలి మహాశాలితువరీచణకాదయః | రక్తభూమి స్సుఫలితాభౌమేవసస్యాధిపేసతి ||",
+                meaning_te: "కుజుడు సస్యాధిపతి అయినచో ఎర్రవరి, రాజనాలు, కందులు, శనగలు మరియు ఎర్ర నేలలు సమృద్ధిగా ఫలించును.",
+                meaning_en: "Mars as Lord of Crops: Excellent production of red rice, coarse grains, red gram (toor dal), chickpeas, and bumper yields in red-soil zones."
+            },
+            {
+                shloka: "మధ్యవృష్టిర్మందసస్యం మేఘాః వాతేనపీడితాః | త్రాసస్సర్వ నరాణాంచ సస్యాధీశే బుధేయది ||",
+                meaning_te: "బుధుడు సస్యాధిపతి అయినచో మధ్యమ వర్షములు, సస్యవృద్ధి సాధారణముగా ఉండును, రైతులు శ్రద్ధ వహించవలసి ఉండును.",
+                meaning_en: "Mercury as Lord of Crops: Moderate rainfall, moderate crop growth, weather fluctuations, requiring scientific soil management."
+            },
+            {
+                shloka: "యవగోధూమచణకాః ఫలితావృక్షజాతయః | నీతియుక్తా స్సదా భూపాజీవేనస్యాధిపేసతి ||",
+                meaning_te: "గురువు సస్యాధిపతి అయినచో యవలు, గోధుమలు, శనగలు, సర్వ ఫలవృక్షములు సమృద్ధిగా ఫలించును, ధరలు నిలకడగా ఉండును.",
+                meaning_en: "Jupiter as Lord of Crops: Bumper crops of barley, wheat, chickpeas, and orchard fruits; stable commodity markets."
+            },
+            {
+                shloka: "ధాన్యానిజలజానీహ స్థలజానిఫలంతిహి | పాండు భూమిస్సుఫలితా శుక్రేసస్యాధిపేయది ||",
+                meaning_te: "శుక్రుడు సస్యాధిపతి అయినచో జలధాన్యములు, మెట్టధాన్యములు, తెల్లటి నేలలు పుష్కలముగా పండును, అన్నదాతలకు అధిక లాభములు చేకూరును.",
+                meaning_en: "Venus as Lord of Crops: Spectacular harvests of paddy, horticulture, and cash crops, bringing handsome profits to farmers."
+            },
+            {
+                shloka: "మధ్యమసస్యంతిలమిశ్రితాయే సస్యపేచరాజభయమ్ | కోద్రవ కులుత్థ చణకైర్మార్పైర్వృద్ధిశ్చ విపులతరమ్ ||",
+                meaning_te: "శని సస్యాధిపతి అయినచో మధ్యమ సస్యములు, కొర్రలు, ఉలవలు, శనగలు, మినుములు, నువ్వులు విశేషముగా పండును.",
+                meaning_en: "Saturn as Lord of Crops: Sturdy growth for coarse millets (kodrava, korra), horsegram, black gram, and oilseeds."
+            }
         ]
     },
     Dhanyadhipati: {
-        title_te: "🌾 ధాన్యాధిపతి (Dhanyadhipati - Grains)",
-        title_en: "🌾 Dhanyadhipati (Lord of Grains)",
-        desc_te: "ధనుస్సంక్రమణం (డిసెంబర్) నాటి వారపు అధిపతి",
-        desc_en: "Ruler of the weekday when Sun enters Dhanus (Sagittarius)",
+        title_te: "🌽 ధాన్యాధిపతి (Dhanyadhipati - Lord of Winter & Rabi Grains)",
+        title_en: "🌽 Dhanyadhipati (Lord of Winter / Rabi Cereals & Grains)",
+        desc_te: "సూర్యుడు ధనుస్సు రాశిలో ప్రవేశించిన (డిసెంబర్) నాటి వారపు అధిపతి",
+        desc_en: "Ruler of the weekday when Sun enters Dhanus / Sagittarius (Dhanus Sankramana, December)",
         planets: [
-            { shloka: "రవౌ ధాన్యాధిపే రక్తా ధాన్యావృద్ధిః ప్రకీర్తితా ||", meaning_te: "సూర్యుడు ధాన్యాధిపతి అయినచో ఎర్రచందనం, గోధుమలు, కందుల ధరలు పెరుగును.", meaning_en: "Sun as Dhanyadhipati: wheat, red lentils, timber command high prices." },
-            { shloka: "చంద్రే ధాన్యాధిపే శ్వేత ధాన్య సమృద్ధి రుత్తమా ||", meaning_te: "చంద్రుడు ధాన్యాధిపతి అయినచో వరి, పాలు, చెరుకు, తెల్లని ఆహార ధాన్యాల కొరత ఉండదు.", meaning_en: "Moon as Dhanyadhipati: bumper harvest of white rice, milk, dairy, sugarcane." },
-            { shloka: "భౌమే ధాన్యాధిపే పప్పు ధాన్యాది విక్రయః ||", meaning_te: "కుజుడు ధాన్యాధిపతి అయినచో పప్పుదినుసులు, నూనెలు, మిరపకాయల వ్యాపారం లాభదాయకం.", meaning_en: "Mars as Dhanyadhipati: pulses, oils, spices show strong market demand." },
-            { shloka: "బుధే ధాన్యాధిపే సర్వ ధాన్యావృద్ధిః సుభీక్షతా ||", meaning_te: "బుధుడు ధాన్యాధిపతి అయినచో పెసలు, సజ్జలు, మొక్కజొన్న, మినుములు సమృద్ధిగా లభించును.", meaning_en: "Mercury as Dhanyadhipati: green gram, maize, millets produce great yields." },
-            { shloka: "జీవే ధాన్యాధిపే పూర్ణ ధాన్యాగారాశ్చ మోదితాః ||", meaning_te: "గురువు ధాన్యాధిపతి అయినచో సమస్త ధాన్యాలు చౌకగా లభించి ప్రజలకు ఆహార భద్రత కలుగును.", meaning_en: "Jupiter as Dhanyadhipati: complete food security, affordable grain availability." },
-            { shloka: "శుక్రే ధాన్యాధిపే సుగంధ ధాన్యాది సమృద్ధిదా ||", meaning_te: "శుక్రుడు ధాన్యాధిపతి అయినచో మేలిరకం బాస్మతి బియ్యం, సుగంధ ద్రవ్యాలు విస్తారంగా లభించును.", meaning_en: "Venus as Dhanyadhipati: aromatic grains, luxury condiments yield high returns." },
-            { shloka: "మందే ధాన్యాధిపే కృష్ణ ధాన్యావృద్ధిః శ్రమోత్థితా ||", meaning_te: "శని ధాన్యాధిపతి అయినచో రాగులు, జొన్నలు, నువ్వులు, నల్ల ధాన్యాల పంటలు ఉత్తమం.", meaning_en: "Saturn as Dhanyadhipati: millets, ragi, black gram, sesame yield great health and wealth." }
+            {
+                shloka: "మధ్యవృష్టిః ఫలం స్వల్పం అనర్ఘశ్చ మహద్భయమ్ | రక్త సస్యానిజాయంతేసూర్యేధాన్యాధిపేసతి ||",
+                meaning_te: "సూర్యుడు ధాన్యాధిపతి అయినచో మధ్యమ వర్షము, పంటల ఫలము స్వల్పము, ధరల పెరుగుదల, ఎర్రటి సస్యములు పండును.",
+                meaning_en: "Sun as Lord of Grains: Patchy rains, modest yield, rising food prices, and favorable returns on red pulses."
+            },
+            {
+                shloka: "బహుక్షీర ప్రదాగావస్సర్వే వ్యాధి వివర్జితాః | సుభిక్షంచమహద్వర్షం చంద్రే ధాన్యాధిపేసతి ||",
+                meaning_te: "చంద్రుడు ధాన్యాధిపతి అయినచో గోవులు పుష్కలముగా పాలనిచ్చును, వ్యాధులు నశించును, సుభిక్షము మరియు విస్తార వర్షములు కురియును.",
+                meaning_en: "Moon as Lord of Grains: Flourishing livestock, high dairy yield, mitigation of epidemics, bumper harvests, and general well-being."
+            },
+            {
+                shloka: "ఫలంతిశూకి ధాన్యాని శింబిధాన్యానియానిచ | రక్తభూమి స్సుఫలితాభౌమే ధాన్యాధిపేసతి ||",
+                meaning_te: "కుజుడు ధాన్యాధిపతి అయినచో ముండ్ల ధాన్యములు (యవలు, గోధుమలు), చిక్కుడు జాతులు, ఎర్రనేల ధాన్యములు విశేషముగా పండును.",
+                meaning_en: "Mars as Lord of Grains: Heavy yield for awned grains (wheat, barley), leguminous crops (beans, lentils), and red-soil grains."
+            },
+            {
+                shloka: "మధ్యావృష్టిర్మంద సస్యం మేఘావాతేనపీడితాః | త్రాసస్సర్వనరాణాంచ బుధేధాన్యాధిపే సతి ||",
+                meaning_te: "బుధుడు ధాన్యాధిపతి అయినచో మధ్యమ వర్షము, సాధారణ పంట దిగుబడులు, పవన వేగము వలన మేఘములు చలించును.",
+                meaning_en: "Mercury as Lord of Grains: Average rainfall, stable grain reserves, and brisk commerce in agricultural commodities."
+            },
+            {
+                shloka: "సువృష్టి స్సర్వ సస్యానాం సర్వసస్య సమృద్ధయః | భవంతి గావః సుదుఘాఃగురౌధాన్యాధిపేసతి ||",
+                meaning_te: "గురువు ధాన్యాధిపతి అయినచో సమస్త సస్యములకు సువృష్టి లభించును, ధాన్యరాశులు సమృద్ధమగును, గోవులు విస్తారముగా పాలనిచ్చును.",
+                meaning_en: "Jupiter as Lord of Grains: Timely rainfall, granaries brimming with wheat, paddy, and cereals, flourishing livestock."
+            },
+            {
+                shloka: "అతివృష్టిస్సుభిక్షంచ ఫలితాసస్య జాతయః | మానవా నిరుజస్సర్వేధాన్యాధీశే భృగౌ సతి ||",
+                meaning_te: "శుక్రుడు ధాన్యాధిపతి అయినచో సమృద్ధి వర్షములు, సుభిక్షము, సర్వ ధాన్యములు ఫలించును, ప్రజలు రోగరహితులై ఆనందింతురు.",
+                meaning_en: "Venus as Lord of Grains: Copious rains, agricultural bounty, healthy populace, and affordable food grain supplies."
+            },
+            {
+                shloka: "కృష్ణధాన్యాని సర్వాణి సూక్ష్మధాన్యాని యానిచ | కృష్ణభూమిస్సుఫలితా ధాన్యాధీశే శనైశ్చరే ||",
+                meaning_te: "శని ధాన్యాధిపతి అయినచో నల్లధాన్యములు (మినుములు, నువ్వులు), సూక్ష్మధాన్యములు (కొర్రలు, అరికెలు, సాములు), నల్లరేగడి భూములు విరివిగా పండును.",
+                meaning_en: "Saturn as Lord of Grains: Flourishing millets, black gram, sesame, and high productivity in black-cotton soil regions."
+            }
         ]
     },
-    Rasadhipati: {
-        title_te: "🌸 రసాధిపతి (Rasadhipati - Liquids & Juices)",
-        title_en: "🌸 Rasadhipati (Lord of Liquids/Juices)",
-        desc_te: "తులా సంక్రమణం (అక్టోబర్) నాటి వారపు అధిపతి",
-        desc_en: "Ruler of the weekday when Sun enters Tula (Libra)",
+    Arghadhipati: {
+        title_te: "⚖️ అర్ఘాధిపతి (Arghadhipati - Lord of Commodity Pricing & Markets)",
+        title_en: "⚖️ Arghadhipati (Lord of Commodity Prices & Inflation)",
+        desc_te: "సూర్యుడు మిథున రాశిలో ప్రవేశించిన (జూన్) నాటి వారపు అధిపతి",
+        desc_en: "Ruler of the weekday when Sun enters Mithuna / Gemini (Mithuna Sankramana, June)",
         planets: [
-            { shloka: "రవౌ రసాధిపే తైల ఘృతాదీనాం మహార్ఘతా ||", meaning_te: "సూర్యుడు రసాధిపతి అయినచో నెయ్యి, నూనెలు, తేనె మొదలైన రసద్రవ్యాల ధరలు పెరుగును.", meaning_en: "Sun as Rasadhipati: price appreciation in ghee, edible oils, honey." },
-            { shloka: "చంద్రే రసాధిపే క్షీర జలాదీనాం సమృద్ధిదా ||", meaning_te: "చంద్రుడు రసాధిపతి అయినచో పాలు, నీరు, చెరకు రసం, తీపి పదార్థాలు పుష్కలంగా లభించును.", meaning_en: "Moon as Rasadhipati: abundance of milk, pure drinking water, sugarcane juice." },
-            { shloka: "భౌమే రసాధిపే రక్త చందన తైల వర్ధనమ్ ||", meaning_te: "కుజుడు రసాధిపతి అయినచో ఔషధ రసాలు, చమురు, రసాయన పరిశ్రమలకు విశేష లాభం.", meaning_en: "Mars as Rasadhipati: petrochemicals, pharmaceuticals, chemical liquids boom." },
-            { shloka: "బుధే రసాధిపే సర్వ రసద్రవ్య ఫలాగమః ||", meaning_te: "బుధుడు రసాధిపతి అయినచో పండ్ల రసాలు, శీతల పానీయాలు, సుగంధ ద్రవ్యాల వ్యాపారం లాభదాయకం.", meaning_en: "Mercury as Rasadhipati: fruit juices, beverages, aromatic liquids flourish." },
-            { shloka: "జీవే రసాధిపే శుద్ధ మధురామృత వర్షితమ్ ||", meaning_te: "గురువు రసాధిపతి అయినచో ఆవునెయ్యి, పాలు, పంచామృతాలు, ఆయుర్వేద రసౌషధాలు శుభకరం.", meaning_en: "Jupiter as Rasadhipati: purity in dairy, Ayurvedic herbal medicines, nectarous health." },
-            { shloka: "శుక్రే రసాధిపే సుగంధ తైల పుష్పాసవాన్వితా ||", meaning_te: "శుక్రుడు రసాధిపతి అయినచో అత్తర్లు, సుగంధ తైలాలు, సౌందర్య లేపనాలు అపరిమిత లాభాలను తెచ్చును.", meaning_en: "Venus as Rasadhipati: perfumery, essential oils, cosmetics industry sees peak growth." },
-            { shloka: "మందే రసాధిపే తిల తైలాది విస్తారః ||", meaning_te: "శని రసాధిపతి అయినచో నువ్వుల నూనె, ఆవనూనె, ఖనిజ నూనెలు (క్రూడాయిల్) విరివిగా లభించును.", meaning_en: "Saturn as Rasadhipati: sesame oil, mustard oil, crude petroleum flow smoothly." }
-        ]
-    },
-    Neerasadhipati: {
-        title_te: "💎 నీరసాధిపతి (Neerasadhipati - Minerals & Metals)",
-        title_en: "💎 Neerasadhipati (Lord of Metals & Gems)",
-        desc_te: "మకర సంక్రమణం (జనవరి - ఉత్తరాయణం) నాటి వారపు అధిపతి",
-        desc_en: "Ruler of the weekday when Sun enters Makara (Capricorn)",
-        planets: [
-            { shloka: "రవౌ నీరసాధిపే స్వర్ణ మాణిక్యాది మహార్ఘతా ||", meaning_te: "సూర్యుడు నీరసాధిపతి అయినచో బంగారం, కెంపులు, రాగి ధరలు ఆకాశాన్నంటును.", meaning_en: "Sun as Neerasadhipati: gold, rubies, copper witness strong price surges." },
-            { shloka: "చంద్రే నీరసాధిపే రౌప్య ముక్తాఫల శుభోదయః ||", meaning_te: "చంద్రుడు నీరసాధిపతి అయినచో వెండి, ముత్యాలు, శంఖాల వ్యాపారం అద్భుత లాభాలనిచ్చును.", meaning_en: "Moon as Neerasadhipati: silver, pearls, white crystals yield great prosperity." },
-            { shloka: "భౌమే నీరసాధిపే రక్త రత్న ప్రవాళ లాభదా ||", meaning_te: "కుజుడు నీరసాధిపతి అయినచో పగడాలు, రాగి, రక్తచందనం, భూగర్భ ఖనిజాల వ్యాపారం లాభం.", meaning_en: "Mars as Neerasadhipati: corals, red stones, copper, mining exploration thrives." },
-            { shloka: "బుధే నీరసాధిపే మరకత కాంస్యాది వర్ధనమ్ ||", meaning_te: "బుధుడు నీరసాధిపతి అయినచో పచ్చలు, కంచు, ఇత్తడి, ఎలక్ట్రానిక్స్ ఖనిజాలు చౌకగా లభించును.", meaning_en: "Mercury as Neerasadhipati: emeralds, bronze, brass, semiconductor minerals thrive." },
-            { shloka: "జీవే నీరసాధిపే పుష్యరాగ స్వర్ణ పూజితా ||", meaning_te: "గురువు నీరసాధిపతి అయినచో పుష్యరాగం, పసుపు రత్నాలు, దేవాలయాల బంగారు ఆభరణాల వృద్ధి.", meaning_en: "Jupiter as Neerasadhipati: yellow sapphires, temple gold ornaments, stable gem markets." },
-            { shloka: "శుక్రే నీరసాధిపే వజ్ర రజతాది సుఖప్రదా ||", meaning_te: "శుక్రుడు నీరసాధిపతి అయినచో వజ్రాలు, వెండి, ప్లాటినం, విలాసవంతమైన ఆభరణాల వ్యాపారం.", meaning_en: "Venus as Neerasadhipati: diamonds, platinum, silver, fine jewelry boom." },
-            { shloka: "మందే నీరసాధిపే నీల లోహ కాంస్యాది లాభదమ్ ||", meaning_te: "శని నీరసాధిపతి అయినచో నీలమణి, ఇనుము, ఉక్కు, బొగ్గు, సిమెంట్ పరిశ్రమలు అఖండ లాభాలు.", meaning_en: "Saturn as Neerasadhipati: blue sapphires, iron, steel, coal, cement industries soar." }
+            {
+                shloka: "అనర్ఘశ్చాల్ప వృష్టిః స్యాత్ ప్రజానాం క్షుద్భయంతథా | రాజ్ఞాం పరస్పరక్రోధస్సూర్యేఽర్ఘాధిపతౌయది ||",
+                meaning_te: "సూర్యుడు అర్ఘాధిపతి అయినచో ధరలు పెరుగును (అనర్ఘత), స్వల్ప వర్షము, పాలకులలో పరస్పర విభేదములు, నిత్యావసర సరుకుల రక్షణ అవసరమగును.",
+                meaning_en: "Sun as Lord of Commodity Pricing: Scanty precipitation, upward inflationary pressure on consumer staples, and tense administrative debates."
+            },
+            {
+                shloka: "సువృష్టి స్సర్వ సస్యానాం మభివృద్ధిః ప్రజాయతే | మహతీచార్ఘవృద్ధిః స్యాచ్చంద్రేఽర్ఘాధిపతౌసతి ||",
+                meaning_te: "చంద్రుడు అర్ఘాధిపతి అయినచో సువృష్టి, సర్వ సస్యములు అభివృద్ధి చెందును, మార్కెట్లలో వాణిజ్యము సమృద్ధమై ప్రజలకు ధరలు అనుకూలముగా ఉండును.",
+                meaning_en: "Moon as Lord of Commodity Pricing: Favorable rains, rapid agricultural growth, flourishing trade, and consumer-friendly commodity prices."
+            },
+            {
+                shloka: "భౌమేచార్ఘపతౌస్వల్పవృష్టిర్వాయుసమన్వితా | క్వచిదవృష్టిః క్వచిద్ధాన్యం ప్రజారోగ్యం క్వచిత్ క్వచిత్ ||",
+                meaning_te: "కుజుడు అర్ఘాధిపతి అయినచో గాలులతో కూడిన స్వల్ప వర్షము, ఒకచోట వర్షము మరియొకచోట వర్షాభావము, ధరల యందు హెచ్చుతగ్గులు ఉండును.",
+                meaning_en: "Mars as Lord of Commodity Pricing: Spotty showers, volatile price swings in metals, fuel, and pulses; regional price disparity."
+            },
+            {
+                shloka: "అర్ఘాధినాథేరజనీకరాత్మజే వృష్ట్యర్ఘసస్యాని బహూనిచస్యుః | కౌమారపాషండజినేంద్ర జాలికాః ప్రభూతహాస్యానృతధాపరేజనాః ||",
+                meaning_te: "బుధుడు అర్ఘాధిపతి అయినచో సమృద్ధి వర్షములు, సస్యవృద్ధి, వ్యాపార లావాదేవీలు విస్తరించును, నిత్యావసర వస్తువుల ధరలు సమతుల్యముగా ఉండును.",
+                meaning_en: "Mercury as Lord of Commodity Pricing: Good seasonal rainfall, steady commodity trading, balanced retail inflation, and vibrant commercial markets."
+            },
+            {
+                shloka: "సువృష్టిభిర్ధాన్యధనైశ్చ రాజితాభూమిః మహోయజ్ఞపరైర్ద్విజైస్సురైః | నిత్యోత్సవైర్మంగలతూర్య నిస్వనైరర్ఘాదిపే దేవగురౌచ శశ్వత్ ||",
+                meaning_te: "గురువు అర్ఘాధిపతి అయినచో సువృష్టి, ధాన్య సంపదలు, శాంతి సౌభాగ్యములు, శుభకార్యములు, సమాజమున ఆర్థిక సుస్థిరత నెలకొనును.",
+                meaning_en: "Jupiter as Lord of Commodity Pricing: Abundant food grains, stable currency value, low inflation, ethical market practices, and religious festivities."
+            },
+            {
+                shloka: "అర్ఘాధిపేయధాశుక్రే సర్వధాన్య సువృష్టయః | శ్వేతధాన్యం సుఫలితం సుభిక్షం స్యాచ్చభూతలే ||",
+                meaning_te: "శుక్రుడు అర్ఘాధిపతి అయినచో సర్వ ధాన్యములకు సువృష్టి, తెల్లని ధాన్యములు (వరి, పత్తి, చెరకు) బాగుగా పండును, భూమి సుభిక్షమగును.",
+                meaning_en: "Venus as Lord of Commodity Pricing: Plentiful rainfall, excellent output of rice, sugar, and cotton, affordable prices, and widespread prosperity."
+            },
+            {
+                shloka: "వృష్టిస్తు మధ్యాఽర్ఘపతౌ శనౌచేదాతంక చోరాగ్నియుతామహీస్యాత్ | భయంభవేదన్న సమృద్ధిరల్పాకృష్ణానిధాన్యాని ఫలంతిభూమౌ ||",
+                meaning_te: "శని అర్ఘాధిపతి అయినచో మధ్యమ వర్షము, ఇనుము, నూనెలు, నల్లధాన్యముల ధరలు పెరుగును, ఆహార భద్రతకై నిల్వలు పెంచుకోవలెను.",
+                meaning_en: "Saturn as Lord of Commodity Pricing: Moderate rainfall, higher prices for petroleum, iron, and edible oils, but stable supply of coarse millets."
+            }
         ]
     },
     Meghadhipati: {
-        title_te: "🌧️ మేఘాధిపతి (Meghadhipati - Rainfall)",
-        title_en: "🌧️ Meghadhipati (Lord of Clouds & Rains)",
+        title_te: "🌧️ మేఘాధిపతి (Meghadhipati - Lord of Clouds & Monsoon Rainfall)",
+        title_en: "🌧️ Meghadhipati (Lord of Clouds & Monsoon Rainfall)",
         desc_te: "సూర్యుడు ఆర్ద్ర నక్షత్రంలో ప్రవేశించిన (జూన్) నాటి వారపు అధిపతి",
-        desc_en: "Ruler of the weekday when Sun enters Ardra Nakshatra (June)",
+        desc_en: "Ruler of the weekday when Sun enters Ardra Nakshatra (Ardra Pravesha, June)",
         planets: [
-            { shloka: "రవౌ మేఘాధిపే వృష్టిః మందా గర్జన సంయుతా ||", meaning_te: "సూర్యుడు మేఘాధిపతి అయినచో ఉరుములు మెరుపులతో కూడిన సాధారణ వర్షాలు, కొన్ని ప్రాంతాలలో అనావృష్టి.", meaning_en: "Sun as Meghadhipati: thunderous storms with patchy, moderate rainfall." },
-            { shloka: "చంద్రే మేఘాధిపే వారి పూరితా సర్వ నిర్ఝరాః ||", meaning_te: "చంద్రుడు మేఘాధిపతి అయినచో నదులు, చెరువులు నిండి పొంగిపొర్లును, సకాల సమృద్ధి వర్షాలు.", meaning_en: "Moon as Meghadhipati: widespread torrential rains, overflowing reservoirs and rivers." },
-            { shloka: "భౌమే మేఘాధిపే ఖండవృష్టిః విద్యుద్భయాన్వితా ||", meaning_te: "కుజుడు మేఘాధిపతి అయినచో ఖండవృష్టి (ఒకచోట కురిసి మరొకచోట కురవకపోవడం), పిడుగుల భయం.", meaning_en: "Mars as Meghadhipati: sporadic heavy downpours accompanied by lightning." },
-            { shloka: "బుధే మేఘాధిపే శ్రేష్ఠా సుగంధ పవనాన్వితా ||", meaning_te: "బుధుడు మేఘాధిపతి అయినచో చల్లని గాలులతో కూడిన ఉత్తమ వర్షాలు, పంటలకు అమృతం వంటి నీరు.", meaning_en: "Mercury as Meghadhipati: pleasant seasonal breezes, gentle beneficial showers." },
-            { shloka: "జీవే మేఘాధిపే దివ్యా మేఘా వర్షంతి సర్వదా ||", meaning_te: "గురువు మేఘాధిపతి అయినచో సకాల వర్షాలు, భూగర్భ జలాల పెరుగుదల, సమస్త ప్రాణులకు తృప్తి.", meaning_en: "Jupiter as Meghadhipati: auspicious timely rains replenish groundwater levels." },
-            { shloka: "శుక్రే మేఘాధిపే పుష్కలా తోయ సంపదా ||", meaning_te: "శుక్రుడు మేఘాధిపతి అయినచో విస్తారమైన వర్షాలు, జలాశయాలు నిండి వ్యవసాయం కళకళలాడును.", meaning_en: "Venus as Meghadhipati: abundant soothing rains bring grand agricultural bliss." },
-            { shloka: "మందే మేఘాధిపే మందా ఝంఝామారుత సంకులా ||", meaning_te: "శని మేఘాధిపతి అయినచో పెనుగాలులు, తుఫానులతో కూడిన అకాల వర్షాలు, తీరప్రాంతాల్లో జాగ్రత్త.", meaning_en: "Saturn as Meghadhipati: high-velocity cyclonic gusts and delayed showers." }
+            {
+                shloka: "మహద్భయం ఫలం స్వల్పం వర్షం స్యాత్ఖండమండలే | రక్తసస్యం సుఫలితం సూర్యేమేఘాధిపేసతి ||",
+                meaning_te: "సూర్యుడు మేఘాధిపతి అయినచో పిడుగుల భయము, ఖండవృష్టి (కొన్ని మండలములలో మాత్రమే వర్షము), ఎర్రసస్యములు పండును.",
+                meaning_en: "Sun as Lord of Clouds: Intense heat waves, sporadic localized thunderstorms with lightning, and good harvest for pulses."
+            },
+            {
+                shloka: "సువృష్టి స్సర్వదేశానాం ఫలితా ధాన్యజాతయః | బహుక్షీర ప్రదాగావో మేఘాధీశే నిశాకరే ||",
+                meaning_te: "చంద్రుడు మేఘాధిపతి అయినచో సర్వదేశములలో సకాల సువృష్టి, సర్వధాన్యములు సమృద్ధిగా పండును, జలాశయములు నిండును.",
+                meaning_en: "Moon as Lord of Clouds: Universal bountiful monsoon, reservoirs and rivers brim to capacity, magnificent agrarian prosperity."
+            },
+            {
+                shloka: "అతివాయురనర్ఘశ్చ స్వల్ప వర్షం తథాభువి | రక్తసస్యాని జాయంతే భౌమే మేఘాధిపేసతి ||",
+                meaning_te: "కుజుడు మేఘాధిపతి అయినచో పెనుగాలులు, మేఘములు చెదిరి వర్షము స్వల్పమగును, ఎర్రసస్యములు పండును, ఉష్ణోగ్రతలు పెరుగును.",
+                meaning_en: "Mars as Lord of Clouds: High winds dispersing rain clouds, below-average rainfall, lightning hazards, and rising temperatures."
+            },
+            {
+                shloka: "గర్జితాఽ శనిపాషాణవాతాన్విత పయోధరాః | మధ్యదేశే మహద్వర్షం బుధేమేఘాధిపేసతి ||",
+                meaning_te: "బుధుడు మేఘాధిపతి అయినచో ఉరుములు, వడగండ్లు, చల్లని గాలులతో కూడిన ఉత్తమ వర్షములు కురిసి పంటలకు అమృతమగును.",
+                meaning_en: "Mercury as Lord of Clouds: Thunder, hail, cool seasonal winds, and refreshing beneficial showers invigorating farmlands."
+            },
+            {
+                shloka: "సస్యార్ఘవృష్టిభి స్తుష్టాభవేద్ధాత్రీ నిరంతరమ్ | వీతరోగభయాన్సర్వే మేఘాధీశౌ బృహస్పతౌ ||",
+                meaning_te: "గురువు మేఘాధిపతి అయినచో సస్యములు, వర్షము సమృద్ధిగా ఉండి భూమి సదా తృప్తిగా ఉండును, రోగభయములు తొలగి జనులు సుఖింతురు.",
+                meaning_en: "Jupiter as Lord of Clouds: Timely, gentle, nourishing downpours, high groundwater recharge, disease suppression, and agrarian abundance."
+            },
+            {
+                shloka: "అతివృష్టి సుభిక్షంచ సస్య వృద్ధిర్నిరామయా | క్షీరప్రదాస్సదా గావశ్శుక్రే మేఘాధిపే సతి ||",
+                meaning_te: "శుక్రుడు మేఘాధిపతి అయినచో విస్తారమైన వర్షములు, చెరువులు, కుంటలు నిండును, సస్యవృద్ధి, సుభిక్షము మరియు పాడిపంటల సమృద్ధి కలుగును.",
+                meaning_en: "Venus as Lord of Clouds: Torrential soothing rains, full aquifers and lakes, lush vegetation, and boundless prosperity."
+            },
+            {
+                shloka: "మధ్య సస్యమనర్భశ్చ ఖండవృష్టే ప్రజాయతే | కృష్ణధాన్య సమృద్ధిశ్చ మేఘాధిపే శనైశ్చరే ||",
+                meaning_te: "శని మేఘాధిపతి అయినచో ఖండవృష్టి, గాలులతో కూడిన అకాల వర్షములు, నల్లధాన్యములు సమృద్ధిగా పండును.",
+                meaning_en: "Saturn as Lord of Clouds: Uneven spatial rainfall distribution, delayed rainy fronts, cyclonic depressions, and good yields for dry crops."
+            }
+        ]
+    },
+    Rasadhipati: {
+        title_te: "🍯 రసాధిపతి (Rasadhipati - Lord of Liquids, Dairy & Sugars)",
+        title_en: "🍯 Rasadhipati (Lord of Liquids, Dairy, Oils & Sugars)",
+        desc_te: "సూర్యుడు తులా రాశిలో ప్రవేశించిన (అక్టోబర్) నాటి వారపు అధిపతి",
+        desc_en: "Ruler of the weekday when Sun enters Tula / Libra (Tula Sankramana, October)",
+        planets: [
+            {
+                shloka: "ఘృతతైలగుడ క్షౌద్రాయేచాన్యేరసజాతయః | శూన్యార్ఘం యాంతితే సర్వేరవౌయదిరసాధిపే ||",
+                meaning_te: "సూర్యుడు రసాధిపతి అయినచో నెయ్యి, నూనెలు, బెల్లము, తేనె మొదలగు రసవస్తువుల ధరలు పెరుగును లేదా హెచ్చుతగ్గులకు లోనగును.",
+                meaning_en: "Sun as Lord of Liquids & Essences: Volatility and price surges in ghee, edible oils, jaggery, honey, and herbal extracts."
+            },
+            {
+                shloka: "రసస్వామిని సోమేతు రసాశ్చ ఫలితాస్తథా | ఆనందదోరాజవర్గో వృష్టిరభ్యధికాభవేత్ ||",
+                meaning_te: "చంద్రుడు రసాధిపతి అయినచో పాలు, చెరకు రసము, ఔషధ రసములు సమృద్ధిగా లభించును, వర్షములు అధికముగా కురియును, ప్రజాజీవనము ఆనందదాయకమగును.",
+                meaning_en: "Moon as Lord of Liquids & Essences: Plentiful sugarcane juices, milk derivatives, medicinal syrups, high water purity, and abundant rainfall."
+            },
+            {
+                shloka: "జీరకలవణం సర్పిస్తిలతైలగుడాదయః | శూన్యార్ఘం యాంతి తే సర్వేభౌమే యదిరసాధిపే ||",
+                meaning_te: "కుజుడు రసాధిపతి అయినచో జీలకర్ర, ఉప్పు, నెయ్యి, నువ్వుల నూనె, బెల్లము మొదలగు వస్తువుల ధరలు విశేషముగా పెరుగును.",
+                meaning_en: "Mars as Lord of Liquids & Essences: Escalating market demand and higher prices for cumin, rock salt, clarified butter, sesame oil, and jaggery."
+            },
+            {
+                shloka: "శశితనయే రసనాథేసుపిప్పలీ శొంటిహింగులశునాని | ఘృతతైలాద్యం నిఖిలం దుర్లభమిక్షూర్ధ్వవంశకలమ్ ||",
+                meaning_te: "బుధుడు రసాధిపతి అయినచో పిప్పళ్ళు, శొంఠి, ఇంగువ, వెల్లుల్లి, ఆయుర్వేద మూలికలు బాగా లభించును, నెయ్యి, నూనెలు సామాన్యముగా లభించును.",
+                meaning_en: "Mercury as Lord of Liquids & Essences: Rich availability of ginger, long pepper, asafoetida, garlic, and pharmaceuticals; active spice trade."
+            },
+            {
+                shloka: "రసనాథేదివిజగురౌచందన కర్పూర కందమూలాని | సులభాని రసాన్యఖిలాన్యఫలంతి చకుంకుమాద్యాని ||",
+                meaning_te: "గురువు రసాధిపతి అయినచో చందనము, కర్పూరము, కందమూలములు, కుంకుమ, సుగంధ ద్రవ్యములు సులభముగా లభించును, సమాజమున తృప్తి ఉండును.",
+                meaning_en: "Jupiter as Lord of Liquids & Essences: Ready accessibility of sandalwood, camphor, herbal roots, saffron, and sanctified fragrant essences."
+            },
+            {
+                shloka: "సుగంధవస్తూని సితేరసేనేనిర్గంధవస్తూనిరసాదికాని | క్షారాణిసర్వాణి చ కందమూలఫలానిపుష్పాణి బహూనిచస్యుః ||",
+                meaning_te: "శుక్రుడు రసాధిపతి అయినచో సుగంధ ద్రవ్యములు, పూల రసములు, తీపి పదార్థములు, కందమూలములు, పండ్లు సమృద్ధిగా లభించి ప్రజలకు ఆహ్లాదము కలుగును.",
+                meaning_en: "Venus as Lord of Liquids & Essences: Bountiful perfumery, cosmetic essences, fruit pulps, confectionery, and rich floral extracts."
+            },
+            {
+                shloka: "తిలమాషకులుత్థాది కృష్ణధాన్యానియానిచ | కృష్ణభూమిస్సు ఫలితా మందేయది రసాధివే ||",
+                meaning_te: "శని రసాధిపతి అయినచో నువ్వులనూనె, ఆవనూనె, ఖనిజ తైలములు (పెట్రోలియం), నల్లరేగడి నేలలలోని రససారము చక్కగా అభివృద్ధి చెందును.",
+                meaning_en: "Saturn as Lord of Liquids & Essences: Steady production of sesame oil, mustard oil, mineral oils, crude petroleum, and tar derivatives."
+            }
+        ]
+    },
+    Neerasadhipati: {
+        title_te: "💎 నీరసాధిపతి (Nirasadhipati - Lord of Minerals, Gems & Metals)",
+        title_en: "💎 Nirasadhipati (Lord of Minerals, Metals, Gems & Non-Liquids)",
+        desc_te: "సూర్యుడు మకర రాశిలో ప్రవేశించిన (జనవరి) నాటి వారపు అధిపతి",
+        desc_en: "Ruler of the weekday when Sun enters Makara / Capricorn (Makara Sankramana, January)",
+        planets: [
+            {
+                shloka: "నీరసాధిపతౌ సూర్యేతామ్రచందనయోరపి | రక్తమాణిక్యయుక్తానాం జాయతే వృద్ధిరుత్తమా ||",
+                meaning_te: "సూర్యుడు నీరసాధిపతి అయినచో రాగి, ఎర్రచందనము, మాణిక్యములు (కెంపులు), పగడములు వంటి ఖనిజములకు విశేష వృద్ధి, ధరల పెరుగుదల కలుగును.",
+                meaning_en: "Sun as Lord of Minerals & Metals: Great appreciation in value and demand for copper, red sandalwood, rubies, and precious solar gems."
+            },
+            {
+                shloka: "ముక్తాఫలం రత్నసువర్ణబీజకాంస్యాది వస్త్రాభరణాని శశ్వత్ | వృద్ధింగతాన్యాశుభవంతిలోకే చంద్రేయదా నీరసనాయకే సతి ||",
+                meaning_te: "చంద్రుడు నీరసాధిపతి అయినచో ముత్యములు, రత్నములు, బంగారం, కంచు, పట్టువస్త్రములు, ఆభరణములకు విశేష గిరాకీ మరియు వ్యాపారవృద్ధి కలుగును.",
+                meaning_en: "Moon as Lord of Minerals & Metals: Booming commerce in pearls, diamonds, gold bullion, bronze, silk textiles, and exquisite ornaments."
+            },
+            {
+                shloka: "చందనాగరు కస్తూరీ ప్రవాలరక్తవాససామ్ | నీరసాధిపతౌ భౌమేత్వర్ఘవృద్ధిః ప్రజాయతే ||",
+                meaning_te: "కుజుడు నీరసాధిపతి అయినచో రక్తచందనము, అగరు, కస్తూరి, పగడములు, ఎరుపురంగు లోహములు మరియు రక్షణ సామగ్రికి గిరాకీ పెరుగును.",
+                meaning_en: "Mars as Lord of Minerals & Metals: Steep valuation for red coral, precious agarwood, musk, defense armaments, and copper-alloy hardware."
+            },
+            {
+                shloka: "గారుత్మతాది రత్నానిధాన్యాని వివిధానిచ | సర్వాణి వృద్ధిమాయాంతి బుధే నీరసనాయకే ||",
+                meaning_te: "బుధుడు నీరసాధిపతి అయినచో పచ్చలు (మరకతములు), రత్నములు, కాగితము, లేఖన సామగ్రి, వివిధ లోహములు వర్తకములో విశేష వృద్ధిని పొందును.",
+                meaning_en: "Mercury as Lord of Minerals & Metals: Lucrative markets for emeralds, semi-precious stones, brass, stationery, and technology hardware."
+            },
+            {
+                shloka: "పూగీఫలాన్యఖిల రత్నసువర్ణధాన్య కార్పాసచర్మ కుసుమానిచ చందనంచ | వృద్ధిం యయుర్ద్విజగణాస్సుఖినోభవంతి భూమౌచనీరసపతౌ సురరాజపూజ్యే ||",
+                meaning_te: "గురువు నీరసాధిపతి అయినచో బంగారం, పుష్యరాగములు, వక్కలు, పత్తి, చందనము మొదలగు సర్వ శ్రేష్ఠ వస్తువులు వృద్ధిచెందును, ప్రజలు సుఖింతురు.",
+                meaning_en: "Jupiter as Lord of Minerals & Metals: Steady upward climb for gold reserves, yellow sapphires, fine cotton, betel nut, and auspicious commodities."
+            },
+            {
+                shloka: "కర్పూరాగరుగంధానాంహైమమౌక్తిక వాససామ్ | వృద్ధయో౭ర్హేణ జాయంతే శుక్రే నీరసనాయకే ||",
+                meaning_te: "శుక్రుడు నీరసాధిపతి అయినచో వెండి, ప్లాటినం, వజ్రములు, ముత్యములు, కర్పూరము, అగరు, పట్టువస్త్రములకు విశేష వ్యాపారవృద్ధి, లాభములు కలుగును.",
+                meaning_en: "Venus as Lord of Minerals & Metals: Grand gains in silver, platinum, diamonds, high fashion textiles, cosmetics, and luxury goods."
+            },
+            {
+                shloka: "స్వర్ణమణిరత్న మౌక్తిక చందన కర్పూర రజతనష్టస్యాత్ | రవితనయే నీరసపేలోహత్రపుతైలవృద్ధిశ్చ ||",
+                meaning_te: "శని నీరసాధిపతి అయినచో ఇనుము, సీసము, ఉక్కు, తగరము, నీలమణులు, బొగ్గు, ఖనిజ తైలములు విశేష వృద్ధిని, అధిక లాభములను పొందును.",
+                meaning_en: "Saturn as Lord of Minerals & Metals: Massive industrial demand and price appreciation for iron, steel, lead, tin, blue sapphires, and crude oil."
+            }
         ]
     },
     Pashupalaka: {
-        title_te: "🐮 పశుపాలకుడు / గోపాలకుడు (Pashupalaka - Livestock)",
+        title_te: "🐮 పశుపాలకుడు (Pashupalaka - Livestock & Cattle)",
         title_en: "🐮 Pashupalaka (Lord of Cattle & Livestock)",
         desc_te: "సూర్యుడు రోహిణి నక్షత్రంలో ప్రవేశించిన (మే) నాటి వారపు అధిపతి",
-        desc_en: "Ruler of the weekday when Sun enters Rohini Nakshatra (May)",
+        desc_en: "Ruler of the weekday when Sun enters Rohini Nakshatra (Rohini Pravesha, May)",
         planets: [
             { shloka: "రవౌ పశుపతౌ తీవ్రా తృష్ణార్తాః పశవో భవేత్ ||", meaning_te: "సూర్యుడు పశుపాలకుడైనచో ఎండలకు పశువులకు తాగునీరు, పచ్చగడ్డి సంరక్షణ అవసరం.", meaning_en: "Sun as Pashupalaka: summer shade and water care advised for livestock." },
             { shloka: "చంద్రే పశుపతౌ పుష్టీః క్షీరాధిక్యం ప్రవర్ధతే ||", meaning_te: "చంద్రుడు పశుపాలకుడైనచో గోసంపద వృద్ధి, పుష్కలమైన పాలు, పశువుల ఆరోగ్యం సంపూర్ణం.", meaning_en: "Moon as Pashupalaka: flourishing dairy output, healthy and thriving cattle." },
@@ -837,7 +1590,6 @@ const NAYAKA_SHLOKAS_DATA = {
         ]
     }
 };
-
 /* ═════════════════════════════════════════════════════════════════════════════════
    ASTRONOMICAL INGRESS COMPUTATION FOR ALL 9 NAYAKAS
    ═════════════════════════════════════════════════════════════════════════════════ */
@@ -889,48 +1641,189 @@ function findSunIngressDeg(targetDeg, year, approxMonth, localTz = 5.5) {
    ═════════════════════════════════════════════════════════════════════════════════ */
 function computeSankrantiPurusha(makaraJD) {
     const isTe = (CURRENT_UGADI_LANG === 'te');
-    const dow = Math.floor(makaraJD + 5.5/24 + 1.5) % 7;
-    const nakIdx = getNakIdx(makaraJD);
+    const dow = Math.floor(makaraJD + 5.5/24 + 1.5) % 7; // Ingress weekday (0=Sun, 6=Sat)
 
-    const namesTe = ["ధ్వాంక్షి", "మహోదరి", "కలహంస", "మందాకిని", "మిశ్ర", "రాక్షసి", "ఘోర"];
-    const namesEn = ["Dhvankshi", "Mahodari", "Kalahamsa", "Mandakini", "Mishra", "Rakshasi", "Ghora"];
+    // Compute Lunar Karana at Makara Ingress JD
+    const k60 = Math.floor(((getMoonNirayana(makaraJD) - getSunNirayana(makaraJD) + 360) % 360) / 6);
+    let k11 = 0; // 0 to 10 matching book pp. 307-312
+    if (k60 === 0) k11 = 7;       // Kimstughna
+    else if (k60 === 57) k11 = 9;  // Shakuna
+    else if (k60 === 58) k11 = 8;  // Chatushpada
+    else if (k60 === 59) k11 = 10; // Naga
+    else k11 = (k60 - 1) % 7;      // 0: Bava, 1: Balava, 2: Kaulava, 3: Taitila, 4: Gara, 5: Vanija, 6: Vishti (Bhadra)
 
-    const vehiclesTe = ["పులి (Tiger)", "గుర్రం (Horse)", "ఏనుగు (Elephant)", "సింహం (Lion)", "గాడిద (Donkey)", "దున్నపోతు (Buffalo)", "మేక (Goat)"];
-    const vehiclesEn = ["Tiger", "Horse", "Elephant", "Lion", "Donkey", "Buffalo", "Goat"];
+    // Weekday Names & Bath (Book p. 307)
+    // ఘోరధ్వాంక్షౌ మహోదర మందో మందాకినీ తథా | మిశ్రో రాక్షస ఇత్యేవనామాని రవివారతః ||
+    const varaNamesTe = ["ఘోర (Ghora)", "ధ్వాంక్ష (Dhwanksha)", "మహోదర (Mahodara)", "మంద (Manda)", "మందాకినీ (Mandakini)", "మిశ్ర (Mishra)", "రాక్షస (Rakshasa)"];
+    const varaNamesEn = ["Ghora", "Dhwanksha", "Mahodara", "Manda", "Mandakini", "Mishra", "Rakshasa"];
 
-    const clothesTe = ["ఎరుపు (Red)", "పసుపు (Yellow)", "నలుపు (Black)", "తెలుపు (White)", "చిత్ర వర్ణం (Multi-color)", "ఆకుపచ్చ (Green)", "నీలం (Blue)"];
-    const clothesEn = ["Red", "Yellow", "Black", "White", "Multi-colored", "Green", "Blue"];
+    // Weekday Ingress Bath (Book p. 307: అగురుచందనం బిల్వంకుంకుమం నింబకం తథా | శంఖాంబునిర్మలం తోయం భానువారాదిషుక్రమాత్ ||)
+    const snanaTe = ["అగరు స్నానము", "చందన స్నానము", "బిల్వపత్ర స్నానము", "కుంకుమ స్నానము", "నింబక (వేప) స్నానము", "శంఖోదక స్నానము", "నిర్మలోదక స్నానము"];
+    const snanaEn = ["Aguru (Aloe-wood) Bath", "Chandana (Sandalwood) Bath", "Bilva Leaf Holy Bath", "Kumkuma Holy Bath", "Nimba (Neem) Bath", "Shankhodaka (Conch Purified) Bath", "Nirmalodaka (Pure River Water) Bath"];
 
-    const weaponsTe = ["గద (Mace)", "ఖడ్గం (Sword)", "ధనుస్సు (Bow)", "త్రిశూలం (Trident)", "చక్రం (Discus)", "శూలం (Spear)", "పాశం (Noose)"];
-    const weaponsEn = ["Mace", "Sword", "Bow", "Trident", "Discus", "Spear", "Noose"];
+    // Weekday Impact / Vara Phalam (Book p. 307, 311)
+    const varaImpactTe = [
+        "ఆదివారము ఘోర నామము: శూద్రులకు, శ్రామిక వర్గానికి ప్రత్యేక రక్షణ అవసరము, ప్రభుత్వంలో కఠిన సంస్కరణలు.",
+        "సోమవారము ధ్వాంక్ష నామము: చోరులకు, సమాజ విద్రోహులకు పీడ మరియు కఠిన శిక్షలు, శాంతిభద్రతల పరిరక్షణ.",
+        "మంగళవారము మహోదర నామము: వైశ్యులకు, వర్తకులకు వ్యాపార హెచ్చుతగ్గులు, ఆహార మరియు లోహ నిల్వల భద్రత ముఖ్యం.",
+        "బుధవారము మంద నామము: విద్యావంతులకు, బ్రాహ్మణులకు, అధికారులకు బాధ్యతల ఒత్తిడి, మేధోపరమైన పరీక్షలు.",
+        "గురువారము మందాకినీ నామము: బ్రాహ్మణులకు, సజ్జనులకు శుభము; పాలకులకు, రాజకీయ నాయకులకు విభేదాలు, పరీక్షలు.",
+        "శుక్రవారము మిశ్ర నామము: గోవులకు, పాడి పశువులకు ప్రత్యేక పశువైద్య రక్షణ చర్యలు అవసరము, రసధాన్య లాభాలు.",
+        "శనివారము రాక్షస నామము: సమస్త జనులకు అప్రమత్తత అవసరము, కఠిన చట్టాల అమలు, సమాజ రక్షణకు క్రమశిక్షణ."
+    ];
+    const varaImpactEn = [
+        "Sunday (Ghora): Calls for welfare measures for working communities; decisive administrative reforms.",
+        "Monday (Dhwanksha): Strict state action against unlawful elements; enforcement of civil order.",
+        "Tuesday (Mahodara): Commercial volatility for merchants; requires careful inventory management in metals and commodities.",
+        "Wednesday (Manda): Intellectuals and bureaucrats face heightened workload and policy evaluations.",
+        "Thursday (Mandakini): Auspicious for scholars; diplomatic challenges and policy scrutiny for state leadership.",
+        "Friday (Mishra): Special veterinary healthcare advised for livestock; steady returns in agro-dairy sectors.",
+        "Saturday (Rakshasa): Recommends public vigilance and steadfast discipline against social disruptions."
+    ];
 
-    const foodTe = ["పాయసం (Sweet Kheer)", "పెరుగు అన్నం (Curd Rice)", "నెయ్యి అన్నం (Ghee Rice)", "పాలు (Milk)", "తేనె (Honey)", "అన్నం (Rice)", "పిండివంటలు (Savory Sweets)"];
-    const foodEn = ["Sweet Kheer", "Curd Rice", "Ghee Rice", "Milk", "Honey", "Plain Rice", "Savory Sweets"];
+    // 11 Karana Ingress Attributes (Book pp. 307-312)
+    const karanaNamesTe = ["బవ", "బాలవ", "కౌలవ", "తైతుల", "గరజ", "వణిజ", "భద్ర (విష్టి)", "కింస్తుఘ్న", "చతుష్పద", "శకున", "నాగ"];
+    const karanaNamesEn = ["Bava", "Balava", "Kaulava", "Taitila", "Garaja", "Vanija", "Bhadra (Vishti)", "Kimstughna", "Chatushpada", "Shakuna", "Naga"];
 
-    const purushaName = isTe ? namesTe[dow] : namesEn[dow];
-    const vehicle = isTe ? vehiclesTe[dow] : vehiclesEn[dow];
-    const cloth = isTe ? clothesTe[dow] : clothesEn[dow];
-    const weapon = isTe ? weaponsTe[dow] : weaponsEn[dow];
-    const food = isTe ? foodTe[dow] : foodEn[dow];
+    // Vastra (Book p. 307: శ్వేతాంబరం రక్తవిచిత్ర పీతం నీలాంబరం కంబలచర్మ కంథాః | పర్ణాంశుకం వల్కలకంశుకాభంవాదికే...)
+    const vastraTe = ["శ్వేతాంబరం (తెల్లని వస్త్రము)", "రక్తాంబరం (ఎరుపు వస్త్రము)", "విచిత్రాంబరం (రంగురంగుల వస్త్రము)", "పీతాంబరం (పసుపు వస్త్రము)", "నీలాంబరం (నల్లని/నీలి వస్త్రము)", "కంబలాంబరం (రగ్గు/కంబళి)", "చర్మాంబరం (తోలు వస్త్రము)", "కంథాంబరం (బొంత వస్త్రము)", "పర్ణాంశుకం (ఆకు వస్త్రము)", "వల్కలాంబరం (నార వస్త్రము)", "శుకాభం (చిలుకపచ్చ వస్త్రము)"];
+    const vastraEn = ["Shvetambaram (White Garment)", "Raktambaram (Red Garment)", "Vichitrambaram (Multi-colored Attire)", "Pitambaram (Yellow Garment)", "Nilambaram (Blue-Black Garment)", "Kambalambaram (Woolen Blanket)", "Charmambaram (Leather / Deerskin)", "Kanthambaram (Patchwork Quilt)", "Parnamshukam (Foliage Garments)", "Valkalambaram (Tree-Bark Garment)", "Shukabham (Parrot-Green Garment)"];
+
+    // Gandha / Fragrance (Book p. 308)
+    const gandhaTe = ["కుంకుమ", "అగరు", "కస్తూరి", "కర్పూరము", "లత్తుక (అలక్తకము)", "చందనము", "పద్మగంధము", "విభూది (భస్మము)", "గోరోచనము", "కుచందనము (రక్తచందనము)", "పసుపు (హరిద్ర)"];
+    const gandhaEn = ["Kumkuma", "Aguru", "Kasturi (Musk)", "Karpuram (Camphor)", "Alaktaka", "Chandana (Sandalwood)", "Lotus Fragrance", "Bhasma (Sacred Ash)", "Gorochanam", "Red Sandalwood", "Haridra (Turmeric)"];
+
+    // Pushpa / Flower (Book p. 308)
+    const pushpaTe = ["కేతకీ (మొగలి)", "వకుల (పొగడ)", "జాజి", "కరవీర (గన్నేరు)", "చంపక (సంపెంగ)", "శతపత్ర (తామర)", "పున్నాగ", "నీలోత్పల (నల్లకలువ)", "సౌగంధిక పుష్పము", "మల్లిక", "జపాపుష్పము (మందార)"];
+    const pushpaEn = ["Ketaki", "Bakula", "Jaji (Jasmine)", "Karavira (Oleander)", "Champaka", "Shatapatra (Lotus)", "Punnaga", "Nilotpala (Blue Lily)", "Saugandhika", "Mallika", "Japa (Hibiscus)"];
+
+    // Abharana / Ornament (Book p. 309)
+    const abharanaTe = ["మాణిక్యము (కెంపు)", "నీలము", "రజతము (వెండి)", "వజ్రము", "గోమేధికము", "విద్రుమము (పగడము)", "పుష్యరాగము", "గ్రైవేయము (కంఠహారము)", "హేమ (బంగారము)", "స్ఫటికము", "వైడూర్యము"];
+    const abharanaEn = ["Manikya (Ruby)", "Nila (Blue Sapphire)", "Rajatama (Silver)", "Vajra (Diamond)", "Gomedhika (Hessonite)", "Vidruma (Coral)", "Pushyaraga (Yellow Sapphire)", "Graiveyam (Golden Torque)", "Hema (Gold)", "Sphatikam (Quartz)", "Vaiduryam (Cat's Eye)"];
+
+    // Patra / Vessel (Book p. 309)
+    const patraTe = ["సువర్ణ పాత్ర (బంగారు)", "రజత పాత్ర (వెండి)", "తామ్ర పాత్ర (రాగి)", "అయః పాత్ర (ఇనుప)", "సీస పాత్ర", "త్రపు పాత్ర (తగరపు)", "కాంస్య పాత్ర (కంచు)", "పాషాణ పాత్ర (రాతి)", "దారు పాత్ర (కల్ప/చెక్క)", "మృత్ పాత్ర (మట్టి)", "వేణు పాత్ర (వెదురు)"];
+    const patraEn = ["Suvarna Patra (Gold)", "Rajata Patra (Silver)", "Tamra Patra (Copper)", "Ayasa Patra (Iron)", "Sisa Patra (Lead)", "Trapu Patra (Tin)", "Kamsya Patra (Bronze)", "Pashana Patra (Stone)", "Daru Patra (Wood)", "Mrit Patra (Clay)", "Venu Patra (Bamboo)"];
+
+    // Ahara / Food (Book p. 309: అన్నంచ పాయసం భక్ష్యం అపూపంచ పయోదధి...)
+    const aharaTe = ["అన్నము", "పాయసము", "భక్ష్యము", "అపూపము", "పాలు (క్షీరము)", "పెరుగు (దధి)", "చిత్రాన్నము", "గుడాన్నము", "మధ్వన్నము (తేనె అన్నం)", "ఆజ్యాన్నము (నెయ్యన్నం)", "శర్కర (మిఠాయి)"];
+    const aharaEn = ["Boiled Rice", "Sweet Payasam (Kheer)", "Sweet Confectionery (Bhakshyam)", "Apoopam (Sweet Cakes)", "Pure Milk", "Fresh Curd (Yogurt)", "Chitrannam (Spiced Rice)", "Gudannam (Jaggery Rice)", "Madhvannam (Honey Rice)", "Ajyannam (Ghee Rice)", "Sharkara (Sugar Sweets)"];
+
+    // Phala / Fruit (Book p. 309: నారికేల కదళీఫలే తథా చూతజంబుబదరీ ఫలానిచ...)
+    const phalaTe = ["నారికేళము (కొబ్బరి)", "కదళీ ఫలము (అరటి)", "చూత ఫలము (మామిడి)", "జంబూ ఫలము (నేరేడు)", "బదరీ ఫలము (రేగి)", "తాల ఫలము (తాటిపండు)", "బిల్వ ఫలము (మారేడు)", "మధూక ఫలము (ఇప్ప)", "ఖర్జూరము", "ఆమ్ల ఫలము (నిమ్మ)", "పనస ఫలము"];
+    const phalaEn = ["Coconut (Narikela)", "Banana (Kadali)", "Mango (Chuta)", "Rose Apple / Jamun (Jambu)", "Jujube (Badari)", "Palm Fruit (Tala)", "Bael Fruit (Bilva)", "Mahua Fruit (Madhuka)", "Dates (Kharjura)", "Lemon (Amla)", "Jackfruit (Panasa)"];
+
+    // Vahana / Conveyance (Book p. 310: హరిశార్దూల వారాహఖర కుంజరకాశ్రికమాత్ | మహిషాశ్వోశ్వనశ్చైవాజో, వృషభకుక్కుటౌ ||)
+    const vahanaTe = ["సింహము (Lion)", "పెద్దపులి (Tiger)", "వరాహము (Boar)", "గాడిద (Donkey)", "ఏనుగు (Elephant)", "దున్నపోతు (Buffalo)", "గుర్రము (Horse)", "కుక్క (Dog)", "మేక (Goat)", "ఎద్దు (Bull)", "కోడి (Rooster)"];
+    const vahanaEn = ["Lion (Hari)", "Tiger (Shardula)", "Boar (Varaha)", "Donkey (Khara)", "Elephant (Kunjara)", "Buffalo (Mahisha)", "Horse (Ashva)", "Dog (Shvana)", "Goat (Aja)", "Bull (Vrishabha)", "Rooster (Kukkuta)"];
+
+    // Chatra / Umbrella (Book p. 310)
+    const chatraTe = ["శ్వేత ఛత్రము (తెల్ల గొడుగు)", "రక్త ఛత్రము (ఎర్ర గొడుగు)", "పీత ఛత్రము (పసుపు గొడుగు)", "నీల ఛత్రము (నీలి గొడుగు)", "కాంచన ఛత్రము (బంగారు గొడుగు)", "పర్ణ ఛత్రము (ఆకుల గొడుగు)", "మయూర పింఛ ఛత్రము (నెమలి పింఛాల గొడుగు)", "జీర్ణ ఛత్రము (పాత గొడుగు)", "కంబల ఛత్రము", "శూర్ప ఛత్రము (చేట గొడుగు)", "పలాశపత్ర ఛత్రము (మోదుగాకు గొడుగు)"];
+    const chatraEn = ["White Umbrella", "Red Umbrella", "Yellow Umbrella", "Blue Umbrella", "Golden Umbrella", "Foliage Leaf Umbrella", "Peacock Feather Umbrella", "Aged Umbrella", "Blanket Canopy", "Winnowing Canopy", "Palash Leaf Umbrella"];
+
+    // Ayudha / Weapon (Book p. 310: ముసలంభిండివాలాసి, దండకోదండ తోమరః | కుంతపాశాంకుశాస్త్రాణి బాణాశ్చ బవ పూర్వకే ||)
+    const ayudhaTe = ["ముసలము (గద/రోకలి)", "భిండివాలము (ఈటె/వడిసెల)", "అసి (ఖడ్గము/కత్తి)", "దండము", "కోదండము (ధనుస్సు)", "తోమరము", "కుంతము (ఈటె)", "పాశము", "అంకుశము", "అస్త్రము", "బాణము"];
+    const ayudhaEn = ["Musala (Mace / Pestle)", "Bhindivala (Javelin / Sling)", "Asi (Sacred Sword)", "Danda (Scepter / Staff)", "Kodanda (Bow)", "Tomara (Iron Club)", "Kunta (Lance / Spear)", "Pasha (Sacred Noose)", "Ankusha (Goad)", "Astra (Missile)", "Bana (Arrow)"];
+
+    // Gamana / Direction of Travel (Book p. 311: బవే పూర్వముఖం యానం బాలకే యమదిఙ్ముఖమ్ | కౌలవే చోత్తరం యానం తైతులే పశ్చిమం ముఖమ్...)
+    const gamanaTe = ["తూర్పు దిశ (East)", "దక్షిణ దిశ - యమ దిక్కు (South)", "ఉత్తర దిశ (North)", "పశ్చిమ దిశ (West)", "ఆగ్నేయ దిశ (South-East)", "వాయవ్య దిశ (North-West)", "ఈశాన్య దిశ (North-East)", "సర్వ దిక్కులు (All Directions)", "పాతాళ దిశ (Downward)", "నైరృతి దిశ (South-West)", "ఊర్ధ్వ దిశ (Skyward)"];
+    const gamanaEn = ["East (Purva)", "South (Yama / Dakshina)", "North (Uttara)", "West (Pashchima)", "South-East (Agneya)", "North-West (Vayavya)", "North-East (Ishanya)", "All Directions (Sarva-dik)", "Downward (Patala)", "South-West (Nairuti)", "Skyward (Urdhva)"];
+
+    // Chesta & Avastha (Book p. 311: కించిత్ స్మితం క్రోధముఖీ చలజ్జా... చతుష్పదేనాగవతైతులాభ్యామ్యోస్సుప్తో...)
+    const chestaTe = ["కించిత్ స్మితం (మందహాసము)", "క్రోధముఖము (కోపము)", "లజ్జా (సిగ్గు)", "వైరాగ్యము (నిస్పృహ)", "విస్మయము (ఆశ్చర్యము)", "లాలన (వాత్సల్యము)", "చింత (ఆలోచన)", "అధోముఖి (క్రింది చూపు)", "ఊర్ధ్వముఖి (పై చూపు)", "విషాదము (దుఃఖము)", "ఉన్మాదము (ఆవేశము)"];
+    const chestaEn = ["Gentle Smile (Kinchit Smita)", "Wrathful Countenance (Krodhamukhi)", "Modesty (Lajja)", "Ascetic Detachment (Vairagya)", "Wonder (Vismaya)", "Fond Affection (Lalana)", "Contemplative Reflection (Chinta)", "Downcast Gaze (Adhomukhi)", "Upward Gaze (Urdhvamukhi)", "Melancholic Grief (Vishada)", "Passionate Frenzy (Unmada)"];
+
+    const avasthaTe = ["నివిష్టావస్థ (కూర్చున్న స్థితి)", "నివిష్టావస్థ (కూర్చున్న స్థితి)", "ఊర్ధ్వస్థితి - తిష్ఠన్ (నిలబడిన స్థితి)", "సుప్తావస్థ (శయనించిన స్థితి)", "నివిష్టావస్థ (కూర్చున్న స్థితి)", "నివిష్టావస్థ (కూర్చున్న స్థితి)", "నివిష్టావస్థ (కూర్చున్న స్థితి)", "ఊర్ధ్వస్థితి - తిష్ఠన్ (నిలబడిన స్థితి)", "సుప్తావస్థ (శయనించిన స్థితి)", "ఊర్ధ్వస్థితి - తిష్ఠన్ (నిలబడిన స్థితి)", "సుప్తావస్థ (శయనించిన స్థితి)"];
+    const avasthaEn = ["Sitting (Nivishta)", "Sitting (Nivishta)", "Standing (Tishthan / Urdhva)", "Sleeping (Supta)", "Sitting (Nivishta)", "Sitting (Nivishta)", "Sitting (Nivishta)", "Standing (Tishthan / Urdhva)", "Sleeping (Supta)", "Standing (Tishthan / Urdhva)", "Sleeping (Supta)"];
+
+    const purushaName = isTe ? varaNamesTe[dow] : varaNamesEn[dow];
+    const snana = isTe ? snanaTe[dow] : snanaEn[dow];
+    const varaImpact = isTe ? varaImpactTe[dow] : varaImpactEn[dow];
+    const karanaName = isTe ? karanaNamesTe[k11] : karanaNamesEn[k11];
+    const vastra = isTe ? vastraTe[k11] : vastraEn[k11];
+    const gandha = isTe ? gandhaTe[k11] : gandhaEn[k11];
+    const pushpa = isTe ? pushpaTe[k11] : pushpaEn[k11];
+    const abharana = isTe ? abharanaTe[k11] : abharanaEn[k11];
+    const patra = isTe ? patraTe[k11] : patraEn[k11];
+    const ahara = isTe ? aharaTe[k11] : aharaEn[k11];
+    const phala = isTe ? phalaTe[k11] : phalaEn[k11];
+    const vehicle = isTe ? vahanaTe[k11] : vahanaEn[k11];
+    const chatra = isTe ? chatraTe[k11] : chatraEn[k11];
+    const weapon = isTe ? ayudhaTe[k11] : ayudhaEn[k11];
+    const gamana = isTe ? gamanaTe[k11] : gamanaEn[k11];
+    const chesta = isTe ? chestaTe[k11] : chestaEn[k11];
+    const avastha = isTe ? avasthaTe[k11] : avasthaEn[k11];
 
     return `
-        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); gap:12px; font-size:0.95rem;">
-            <div><strong>${isTe ? 'పురుష నామం (Name):' : 'Purusha Name:'}</strong> <span style="color:var(--text-crimson); font-weight:bold;">${purushaName}</span></div>
-            <div><strong>${isTe ? 'వాహనం (Vehicle):' : 'Vehicle:'}</strong> <span style="font-weight:bold;">${vehicle}</span></div>
-            <div><strong>${isTe ? 'వస్త్రం (Attire):' : 'Clothing:'}</strong> <span>${cloth}</span></div>
-            <div><strong>${isTe ? 'ధరించిన ఆయుధం (Weapon):' : 'Weapon:'}</strong> <span>${weapon}</span></div>
-            <div><strong>${isTe ? 'భుజించిన ఆహారం (Food):' : 'Food Consumed:'}</strong> <span>${food}</span></div>
-            <div><strong>${isTe ? 'సంచార దిశ (Direction):' : 'Direction of Motion:'}</strong> <span>${isTe ? 'ఉత్తరం నుండి దక్షిణం (North to South)' : 'North to South'}</span></div>
+        <!-- Classical Moola Shlokas Box -->
+        <div class="shloka-box" style="margin-bottom:14px; background:#fffcf2; border-left:4px solid var(--border-gold);">
+            <div style="font-weight:bold; font-size:0.85rem; color:var(--text-royal); margin-bottom:4px;">
+                📜 ${isTe ? 'సంక్రాంతి పురుష స్వరూప ప్రామాణిక శ్లోకము:' : 'Classical Sankranti Purusha Roopam Shloka:'}
+            </div>
+            <div class="shloka-sanskrit ${isTe ? 'font-telugu' : 'font-iast'}">
+                ${isTe 
+                    ? `ద్విముఖం కృష్ణవర్ణంచ సురూపం చ త్రినేత్రకమ్ |<br>
+                సప్తబాహుం ద్విపాదం చ త్రిశీర్షం రథవాహనమ్ |<br>
+                సప్తాయుధధరం పూజ్యం రూపం సాంక్రమణం స్మృతమ్ ||`
+                    : `dvimukhaṃ kṛṣṇavarṇañca surūpaṃ ca trinetrakam |<br>
+                saptabāhuṃ dvipādaṃ ca triśīrṣaṃ rathavāhanam |<br>
+                saptāyudhadharaṃ pūjyaṃ rūpaṃ sāṅkramaṇaṃ smṛtam ||`}
+            </div>
+            <div class="shloka-meaning">
+                <strong>${isTe ? 'స్వరూప భావము:' : 'Divine Form:'}</strong>
+                ${isTe 
+                    ? 'రెండు ముఖములు, నల్లని కాంతివంతమైన వర్ణము, సురూపము, మూడు నేత్రములు, ఏడు బాహువులు, రెండు పాదములు, మూడు శిరస్సులు, రథవాహనము మరియు ఏడు ఆయుధములను ధరించిన దివ్య స్వరూపముతో సంక్రాంతి పురుషుడు ఆవిర్భవించును.'
+                    : 'Endowed with two faces, dark radiant complexion, three eyes, seven hands, two feet, three heads, riding a celestial chariot, and bearing seven divine weapons.'}
+            </div>
+            <div style="margin-top:8px; font-weight:bold; font-size:0.85rem; color:var(--text-royal);">
+                📜 ${isTe ? 'వారవశాత్ నామ నిర్ణయ శ్లోకము:' : 'Weekday Ingress Name Shloka:'}
+            </div>
+            <div class="shloka-sanskrit ${isTe ? 'font-telugu' : 'font-iast'}">
+                ${isTe 
+                    ? `ఘోరధ్వాంక్షౌ మహోదర మందో మందాకినీ తథా |<br>
+                మిశ్రో రాక్షస ఇత్యేవనామాని రవివారతః ||`
+                    : `ghoradhvāṅkṣau mahodara mando mandākinī tathā |<br>
+                miśro rākṣasa ityevanāmāni ravivārataḥ ||`}
+            </div>
         </div>
-        <div style="margin-top:14px; padding:12px; background:#fdf6e3; border:1px solid var(--border-gold); border-radius:6px; font-size:0.9rem; line-height:1.6;">
-            <strong>${isTe ? 'వార్షిక సంక్రాంతి ఫలితం:' : 'Annual Sankranti Prediction:'}</strong>
-            ${isTe 
-                ? `సంక్రాంతి పురుషుడు <strong>${vehicle}</strong> వాహనంపై, <strong>${cloth}</strong> వస్త్రాలను ధరించి <strong>${weapon}</strong> ఆయుధంతో సంచరిస్తున్నారు. దీనివల్ల దేశంలో రక్షణ రంగం బలపడును, వాహన మరియు లోహ పరిశ్రమలు విస్తరించును. పాలకులలో కఠిన నిర్ణయాలు మరియు ప్రజలకు సుఖ సంతోషాలు కలుగును.`
-                : `Sankranti Purusha arrives on a <strong>${vehicle}</strong> wearing <strong>${cloth}</strong> attire with <strong>${weapon}</strong>. Indicates strong national security, expansion of automotive and metal industries, and steady socio-economic progress.`}
+
+        <!-- 16 Shastric Ingress Attributes Grid -->
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(240px, 1fr)); gap:10px; font-size:0.92rem; background:#fff; padding:12px; border-radius:8px; border:1px solid #e0d0b0;">
+            <div><strong>${isTe ? 'వార నామము (Purusha Name):' : 'Purusha Name (by Day):'}</strong> <span style="color:var(--text-crimson); font-weight:bold;">${purushaName}</span></div>
+            <div><strong>${isTe ? 'ప్రవేశ కరణము (Ingress Karana):' : 'Ingress Karana:'}</strong> <span style="font-weight:bold; color:#4a0e0e;">${karanaName}</span></div>
+            <div><strong>${isTe ? 'స్నాన ద్రవ్యము (Holy Bath):' : 'Sacred Ingress Bath:'}</strong> <span>${snana}</span></div>
+            <div><strong>${isTe ? 'వాహనము (Conveyance):' : 'Vehicle (Vahana):'}</strong> <span style="font-weight:bold;">${vehicle}</span></div>
+            <div><strong>${isTe ? 'ధరించిన వస్త్రము (Attire):' : 'Garment (Vastra):'}</strong> <span>${vastra}</span></div>
+            <div><strong>${isTe ? 'మైపూత గంధము (Fragrance):' : 'Sandal / Fragrance:'}</strong> <span>${gandha}</span></div>
+            <div><strong>${isTe ? 'పుష్ప మాలిక (Flower):' : 'Garland Flower:'}</strong> <span>${pushpa}</span></div>
+            <div><strong>${isTe ? 'ఆభరణము (Ornament):' : 'Adorned Ornament:'}</strong> <span>${abharana}</span></div>
+            <div><strong>${isTe ? 'భోజన పాత్ర (Dining Vessel):' : 'Dining Vessel:'}</strong> <span>${patra}</span></div>
+            <div><strong>${isTe ? 'భుజించిన ఆహారము (Food):' : 'Consumed Food:'}</strong> <span>${ahara}</span></div>
+            <div><strong>${isTe ? 'స్వీకరించిన ఫలము (Fruit):' : 'Consumed Fruit:'}</strong> <span>${phala}</span></div>
+            <div><strong>${isTe ? 'ఛత్రము (Umbrella):' : 'Ceremonial Umbrella:'}</strong> <span>${chatra}</span></div>
+            <div><strong>${isTe ? 'ధరించిన ఆయుధము (Weapon):' : 'Weapon (Ayudha):'}</strong> <span>${weapon}</span></div>
+            <div><strong>${isTe ? 'సంచార / గమన దిశ (Travel Direction):' : 'Direction of Travel:'}</strong> <span style="font-weight:bold;">${gamana}</span></div>
+            <div><strong>${isTe ? 'ముఖ చేష్ట (Expression):' : 'Facial Gesture:'}</strong> <span>${chesta}</span></div>
+            <div><strong>${isTe ? 'అవస్థ / స్థితి (Posture):' : 'Postural State:'}</strong> <span>${avastha}</span></div>
+        </div>
+
+        <!-- Synthesized Shastric Ingress Prediction -->
+        <div style="margin-top:14px; padding:14px; background:#fdf6e3; border:1px solid var(--border-gold); border-radius:6px; font-size:0.9rem; line-height:1.6;">
+            <div style="font-weight:bold; color:var(--text-crimson); margin-bottom:6px; font-size:0.95rem;">
+                🔮 ${isTe ? 'గ్రంథోక్త వార్షిక సంక్రాంతి సమగ్ర ఫలితము (Synthesized Annual Prediction):' : 'Canonical Annual Makara Sankranti Prediction:'}
+            </div>
+            <div>
+                ${isTe 
+                    ? `మకర సంక్రమణ వేళ సంక్రాంతి పురుషుడు <strong>${purushaName}</strong> నామముతో, <strong>${karanaName}</strong> కరణములో <strong>${vehicle}</strong> వాహనంపై ఆవిర్భవించి, <strong>${vastra}</strong> ధరించి, <strong>${weapon}</strong> ఆయుధముతో <strong>${gamana}</strong> వైపునకు ప్రయాణించుచున్నారు.<br>
+                       • <strong>వార ఫలము:</strong> ${varaImpact}<br>
+                       • <strong>సంచార & ఆయుధ ఫలితము:</strong> సంక్రాంతి పురుషుడు సంచరించిన దిశలో మరియు ఆయుధ ప్రభావముచే దేశ సరిహద్దులలో రక్షణ బలపడును, వాహన మరియు రవాణా పరిశ్రమలు వృద్ధిచెందును, ప్రజలు శుభకార్యములతో ఆనందింతురు.`
+                    : `At the exact moment of Makara Ingress, Sankranti Purusha manifests as <strong>${purushaName}</strong> during <strong>${karanaName}</strong> Karana, arriving on a <strong>${vehicle}</strong>, clad in <strong>${vastra}</strong>, armed with <strong>${weapon}</strong>, and journeying toward <strong>${gamana}</strong>.<br>
+                       • <strong>Weekday Ingress Effect:</strong> ${varaImpact}<br>
+                       • <strong>Movement & Weapon Effect:</strong> Regions along the direction of travel receive strong administrative attention; automotive, metallurgical, and transport industries witness energetic expansion; societal religious harmony prevails.`}
+            </div>
         </div>
     `;
 }
-
 /* ═════════════════════════════════════════════════════════════════════════════════
    ANNUAL VRATA & ASTRONOMICAL HIGHLIGHTS WITH DATES ENGINE
    ═════════════════════════════════════════════════════════════════════════════════ */
@@ -1632,6 +2525,451 @@ function renderVrataSchedule(searchQuery = '') {
     }).join('');
 }
 
+// ═════════════════════════════════════════════════════════════════════════════════
+// ANNUAL SHODASHA SAMSKARA (PANCHADASHA KARMAS) MUHURTAM ENGINE
+// ═════════════════════════════════════════════════════════════════════════════════
+let CURRENT_MUHURTA_SCHEDULE = [];
+let ACTIVE_MUHURTA_FILTER = 'all';
+let CURRENT_MUHURTA_HIGHLIGHTS_DATA = [];
+
+function getAuspiciousLagnaStr(sunRi, prefSigns, srHrs, isTe) {
+    const RASHI_TE = ['మేష', 'వృషభ', 'మిథున', 'కర్కాటక', 'సింహ', 'కన్య', 'తుల', 'వృశ్చిక', 'ధనుస్సు', 'మకర', 'కుంభ', 'మీన'];
+    const RASHI_EN = ['Mesha', 'Vrishabha', 'Mithuna', 'Karkataka', 'Simha', 'Kanya', 'Tula', 'Vrishchika', 'Dhanus', 'Makara', 'Kumbha', 'Meena'];
+    
+    let res = [];
+    for (let pref of prefSigns) {
+        let diff = (pref - sunRi + 12) % 12;
+        let startH = (srHrs + diff * 2.0) % 24;
+        let endH = (startH + 2.0) % 24;
+        
+        if (startH >= 6 && startH <= 20) {
+            let fmt = h => {
+                let totalMins = Math.round(h * 60) % (24 * 60);
+                let hh = Math.floor(totalMins / 60);
+                let mm = totalMins % 60;
+                let ampm = hh >= 12 ? (isTe ? 'మధ్యాహ్నం' : 'PM') : (isTe ? 'ఉదయం' : 'AM');
+                let h12 = hh % 12 || 12;
+                return isTe ? `${ampm} ${h12}:${String(mm).padStart(2, '0')}` : `${h12}:${String(mm).padStart(2, '0')} ${ampm}`;
+            };
+            let signName = isTe ? (RASHI_TE[pref] + ' లగ్నం') : (RASHI_EN[pref] + ' Lagna');
+            res.push(`${signName} (${fmt(startH)} - ${fmt(endH)})`);
+            if (res.length >= 2) break;
+        }
+    }
+    return res.join(' / ') || (isTe ? 'అనుకూల శుభ లగ్నం' : 'Auspicious Lagna');
+}
+
+function buildAnnualMuhurtaSchedule(ugadiDate, nextUgadi, year, lat, lon, tz) {
+    const totalDays = Math.round((nextUgadi - ugadiDate) / 86400000);
+    const MONTHS_TE = ['జనవరి', 'ఫిబ్రవరి', 'మార్చి', 'ఏప్రిల్', 'మే', 'జూన్', 'జులై', 'ఆగస్టు', 'సెప్టెంబర్', 'అక్టోబర్', 'నవంబర్', 'డిసెంబర్'];
+    const MONTHS_EN = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const DAYS_TE = ['ఆదివారం', 'సోమవారం', 'మంగళవారం', 'బుధవారం', 'గురువారం', 'శుక్రవారం', 'శనివారం'];
+    const DAYS_EN = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    let all = [];
+
+    for (let i = 0; i < totalDays; i++) {
+        const dt = new Date(ugadiDate.getFullYear(), ugadiDate.getMonth(), ugadiDate.getDate() + i);
+        const y = dt.getFullYear(), m = dt.getMonth() + 1, d = dt.getDate();
+        const st = computeSunTimes(y, m, d, lat, lon, tz);
+        if (!st) continue;
+        const jdMid = dateToJD(y, m, d) - (tz / 24);
+        const srJD = jdMid + (st.sunrise / 24);
+        const dow = dt.getDay();
+        const tithiSr = getTithiIdx(srJD);
+        const nakSr = getNakIdx(srJD);
+        const lunar = getLunarCalendar(srJD);
+        const isAdhika = lunar.isAdhika || lunar.masam.includes('Adhika');
+        const cleanMasam = lunar.masam.replace(' (Adhika)', '').trim();
+        let teMasam = TELUGU_MASAM_NAMES_MAP[cleanMasam] || cleanMasam;
+        if (isAdhika) teMasam = 'అధిక ' + teMasam;
+        const masamDisplayEn = isAdhika ? 'Adhika ' + cleanMasam : cleanMasam;
+
+        const isShukla = (tithiSr < 15);
+        const pakshaStrTe = isShukla ? 'శుక్ల' : 'బహుళ';
+        const pakshaStrEn = isShukla ? 'Shukla' : 'Krishna';
+        const tithiNum = (tithiSr % 15) + 1;
+        const tithiNameTe = TITHI_TE[tithiSr] || (pakshaStrTe + ' తిథి ' + tithiNum);
+        const tithiNameEn = TITHI[tithiSr] || (pakshaStrEn + ' Tithi ' + tithiNum);
+
+        const dateDisplayTe = d + ' ' + MONTHS_TE[m-1] + ' ' + y + ', ' + DAYS_TE[dow];
+        const dateDisplayEn = d + ' ' + MONTHS_EN[m-1] + ' ' + y + ', ' + DAYS_EN[dow];
+
+        const nakNameTe = NAK_LIST_TELUGU[nakSr] || ('నక్షత్రం ' + (nakSr + 1));
+        const nakNameEn = NAK_LIST_EN[nakSr] || ('Nakshatra ' + (nakSr + 1));
+
+        // Planetary check: Guru/Shukra Maudhyam
+        const p = getPlanetaryPositionsAnalytical(srJD);
+        const dG = angDiff(p.Sun, p.Jupiter);
+        const dV = angDiff(p.Sun, p.Venus);
+        const isMaudhya = (dG < 11 || dV < 9);
+        const sunRi = Math.floor(p.Sun / 30);
+
+        // 1. Vivaha Muhurtam (Weddings)
+        const isVivahaNak = [3, 4, 9, 11, 12, 14, 16, 18, 20, 25, 26].includes(nakSr);
+        const isVivahaTithi = ![4, 9, 14, 15, 30].includes(tithiNum) && tithiSr !== 29;
+        const isVivahaDow = [0, 1, 3, 4, 5].includes(dow);
+        const isVivahaMonth = !isAdhika && !['Ashadha', 'Shravana', 'Bhadrapada', 'Ashvina'].includes(cleanMasam) && ![8, 11].includes(sunRi);
+
+        if (!isMaudhya && isVivahaNak && isVivahaTithi && isVivahaDow && isVivahaMonth) {
+            all.push({
+                cat: 'vivaham',
+                icon: '💍',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'వివాహ శుభ ముహూర్తం (Vivaha Muhurtam)',
+                name_en: 'Vivaha (Wedding) Auspicious Muhurtam',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [2, 5, 6, 8, 10, 1], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [2, 5, 6, 8, 10, 1], st.sunrise, false),
+                desc_te: 'గురు-శుక్ర బల సంపన్నం, రిక్త దోష రాహిత్యం, దంపతులకు సౌభాగ్య, ఆయురారోగ్య వృద్ధి ప్రదం.',
+                desc_en: 'Benefic Jupiter & Venus strength, free from Rikta dosha, auspicious for lifelong marital harmony and prosperity.'
+            });
+        }
+
+        // 2. Upanayana Muhurtam (Sacred Thread)
+        const isUpanayanaSun = [9, 10, 11, 0, 1, 2].includes(sunRi);
+        const isUpanayanaNak = [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 21, 22, 23, 25, 26].includes(nakSr);
+        const isUpanayanaTithi = isShukla && [2, 3, 5, 7, 10, 11, 12].includes(tithiNum);
+        const isUpanayanaDow = [0, 1, 3, 4, 5].includes(dow);
+
+        if (!isMaudhya && !isAdhika && isUpanayanaSun && isUpanayanaNak && isUpanayanaTithi && isUpanayanaDow) {
+            // Determine Veda-specific applicability per classical Muhurta Siddhanta
+            const forRug = [3, 4, 6, 7, 11, 12, 21, 25, 26].includes(nakSr);
+            const forYaju = [3, 4, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26].includes(nakSr);
+            const forSama = [0, 3, 4, 7, 12, 21, 22].includes(nakSr) && tithiNum !== 7;
+            const forAtharva = [0, 3, 13, 14, 22, 23, 26].includes(nakSr);
+
+            const vedaLabelsEn = [];
+            const vedaLabelsTe = [];
+            if (forRug) { vedaLabelsEn.push('Rug'); vedaLabelsTe.push('ఋక్'); }
+            if (forYaju) { vedaLabelsEn.push('Yaju'); vedaLabelsTe.push('యజుర్'); }
+            if (forSama) { vedaLabelsEn.push('Sama'); vedaLabelsTe.push('సామ'); }
+            if (forAtharva) { vedaLabelsEn.push('Atharva'); vedaLabelsTe.push('అథర్వ'); }
+
+            const vedaSuffixEn = vedaLabelsEn.length > 0 ? ` [${vedaLabelsEn.join(', ')}]` : '';
+            const vedaSuffixTe = vedaLabelsTe.length > 0 ? ` [${vedaLabelsTe.join(', ')}]` : '';
+
+            all.push({
+                cat: 'upanayanam',
+                icon: '🧵',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: `ఉపనయన శుభ ముహూర్తం${vedaSuffixTe}`,
+                name_en: `Upanayanam (Sacred Thread) Muhurtam${vedaSuffixEn}`,
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [0, 1, 2, 5, 8, 10], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [0, 1, 2, 5, 8, 10], st.sunrise, false),
+                desc_te: 'ఉత్తరాయణ పుణ్యకాలం, గురు-సూర్య బల సంపన్నం, గాయత్రీ మంత్రోపదేశానికి అత్యంత శ్రేష్ఠం.',
+                desc_en: 'Uttarayana period, strong Solar & Jupiter blessings, supreme for Gayatri Upadesha and Brahmacharya initiation.'
+            });
+        }
+
+        // 3. Gruhapravesha Muhurtam (Housewarming)
+        const isGruhaMonth = ['Vaishakha', 'Jyeshtha', 'Magha', 'Phalguna', 'Kartika'].includes(cleanMasam) && !isAdhika;
+        const isGruhaNak = [3, 4, 7, 11, 12, 13, 16, 20, 21, 22, 23, 25, 26].includes(nakSr);
+        const isGruhaTithi = (isShukla && [2, 3, 5, 7, 10, 11, 12, 13].includes(tithiNum)) || (!isShukla && [2, 3, 5].includes(tithiNum));
+        const isGruhaDow = [1, 3, 4, 5].includes(dow);
+
+        if (!isMaudhya && isGruhaMonth && isGruhaNak && isGruhaTithi && isGruhaDow) {
+            all.push({
+                cat: 'gruhapravesham',
+                icon: '🏡',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'గృహప్రవేశ శుభ ముహూర్తం (Gruhapravesham)',
+                name_en: 'Gruhapravesha (Housewarming) Muhurtam',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [1, 4, 7, 10], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [1, 4, 7, 10], st.sunrise, false),
+                desc_te: 'స్థిర లగ్న ప్రాశస్త్యం, వాస్తు పురుష పూజ, నూతన గృహంలో లక్ష్మీ నివాస సిద్ధి.',
+                desc_en: 'Fixed Lagna excellence, Vastu Purusha propitiation, blessed for enduring domestic peace and wealth.'
+            });
+        }
+
+        // 4. Gruharambham / Shanku Sthapana (Foundation Laying)
+        const isShankuMonth = ['Vaishakha', 'Shravana', 'Margashirsha', 'Phalguna'].includes(cleanMasam) && !isAdhika;
+        const isShankuNak = [3, 4, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26].includes(nakSr);
+        const isShankuTithi = isShukla && [2, 3, 5, 7, 10, 11, 13].includes(tithiNum);
+        const isShankuDow = [1, 3, 4, 5].includes(dow);
+
+        if (!isMaudhya && isShankuMonth && isShankuNak && isShankuTithi && isShankuDow) {
+            all.push({
+                cat: 'gruharambham',
+                icon: '🏗️',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'గృహారంభం / శంకుస్థాపన (Foundation Stone Laying)',
+                name_en: 'Gruharambha (Foundation Stone Laying) Muhurtam',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [1, 4, 7, 10], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [1, 4, 7, 10], st.sunrise, false),
+                desc_te: 'భూమి పూజ, శంకుస్థాపన శుభ ముహూర్తం, నిరంతరాయ గృహ నిర్మాణ సిద్ధి.',
+                desc_en: 'Auspicious Bhumi Puja and foundation pillar laying, ensuring uninterrupted construction completion.'
+            });
+        }
+
+        // 5. Namakaranam (Naming Ceremony)
+        const isNamaNak = [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 20, 21, 22, 23, 25, 26].includes(nakSr);
+        const isNamaTithi = ![4, 9, 14, 30].includes(tithiNum) && tithiSr !== 29 && [1, 2, 3, 5, 7, 10, 11, 12, 13].includes(tithiNum);
+        const isNamaDow = [0, 1, 3, 4, 5].includes(dow);
+
+        if (isNamaNak && isNamaTithi && isNamaDow && (i % 3 === 0)) {
+            all.push({
+                cat: 'namakaranam',
+                icon: '👶',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'నామకరణ శుభ ముహూర్తం (Namakaranam)',
+                name_en: 'Namakarana (Naming Ceremony) Muhurtam',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [1, 2, 5, 8, 10], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [1, 2, 5, 8, 10], st.sunrise, false),
+                desc_te: 'బాలారిష్ట నివారణ, దీర్ఘాయుష్షు, కీర్తి ప్రతిష్ఠల వృద్ధికి శుభ ముహూర్తం.',
+                desc_en: 'Auspicious naming rite blessing the infant with health, longevity, and luminous character.'
+            });
+        }
+
+        // 6. Annaprasana (First Feeding)
+        const isAnnaNak = [0, 3, 4, 6, 7, 11, 12, 13, 14, 16, 21, 22, 23, 25, 26].includes(nakSr);
+        const isAnnaTithi = [2, 3, 5, 7, 10, 12, 13].includes(tithiNum);
+        const isAnnaDow = [1, 3, 4, 5].includes(dow);
+
+        if (isAnnaNak && isAnnaTithi && isAnnaDow && (i % 2 === 0)) {
+            all.push({
+                cat: 'annaprasana',
+                icon: '🥣',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'అన్నప్రాశన శుభ ముహూర్తం (Annaprasana)',
+                name_en: 'Annaprasana (First Feeding) Muhurtam',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [1, 2, 5, 8, 10], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [1, 2, 5, 8, 10], st.sunrise, false),
+                desc_te: 'శిశువుకు ప్రథమ అన్నప్రాశన, జీర్ణశక్తి, దేహ పుష్టి, ఆరోగ్య వర్ధనం.',
+                desc_en: 'Sacred first grain feeding ceremony promoting vitality, sharp digestion, and physical strength.'
+            });
+        }
+
+        // 7. Aksharabhyasa & Vidyarambha (Education)
+        const isAksharaNak = [0, 3, 4, 5, 6, 7, 12, 13, 14, 16, 21, 22, 23, 26].includes(nakSr);
+        const isAksharaTithi = isShukla && [2, 3, 5, 7, 10, 11, 12, 13].includes(tithiNum);
+        const isAksharaDow = [0, 3, 4, 5].includes(dow);
+
+        if (isAksharaNak && isAksharaTithi && isAksharaDow) {
+            all.push({
+                cat: 'aksharabhyasa',
+                icon: '📚',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'అక్షరాభ్యాసం & విద్యారంభం (Aksharabhyasa)',
+                name_en: 'Aksharabhyasa (Learning Initiation) Muhurtam',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [2, 5, 8, 11], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [2, 5, 8, 11], st.sunrise, false),
+                desc_te: 'శ్రీ సరస్వతీ-గణపతి-హయగ్రీవ ఆరాధన, మేధాశక్తి, విద్యా విజ్ఞాన వర్ధనం.',
+                desc_en: 'Goddess Saraswati & Hayagriva invocation, sharpening intellect and memory for educational mastery.'
+            });
+        }
+
+        // 8. Karnavedha & Chudakarana (Ear Piercing & Tonsure)
+        const isKarnaNak = [0, 3, 4, 6, 7, 12, 13, 14, 16, 21, 22, 26].includes(nakSr);
+        const isKarnaTithi = isShukla && [2, 3, 5, 7, 10, 11, 12, 13].includes(tithiNum);
+        const isKarnaDow = [1, 3, 4, 5].includes(dow);
+
+        if (isKarnaNak && isKarnaTithi && isKarnaDow) {
+            all.push({
+                cat: 'karnavedha',
+                icon: '👂',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'కర్ణవేధ & చౌల కర్మ (Karnavedha & Chaulam)',
+                name_en: 'Karnavedha & Chudakarana (Ear Piercing & Tonsure)',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [1, 2, 5, 8, 10], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [1, 2, 5, 8, 10], st.sunrise, false),
+                desc_te: 'కర్ణవేధ సంస్కారం, శరీర కాంతి రక్షణ, దృష్టి దోష నివారణ ప్రదం.',
+                desc_en: 'Sacred piercing and tonsure rite protecting bodily aura, warding off ailments and evil eye.'
+            });
+        }
+
+        // 9. Seemantham & Pumsavana (Baby Shower)
+        const isSeemanthaNak = [3, 4, 6, 7, 11, 12, 16, 18, 20, 21, 25, 26].includes(nakSr);
+        const isSeemanthaTithi = [2, 3, 5, 7, 10, 13].includes(tithiNum);
+        const isSeemanthaDow = [0, 1, 3, 4, 5].includes(dow);
+
+        if (isSeemanthaNak && isSeemanthaTithi && isSeemanthaDow) {
+            all.push({
+                cat: 'seemantham',
+                icon: '🌸',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'సీమంతోన్నయనం & పుంసవనం (Seemantham)',
+                name_en: 'Seemantham & Pumsavana (Maternal Blessing)',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [1, 2, 4, 8, 10], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [1, 2, 4, 8, 10], st.sunrise, false),
+                desc_te: 'గర్భిణీ స్త్రీకి రక్షా బంధనం, సుఖ ప్రసవం, సత్సంతాన ప్రాప్తికి శ్రేష్ఠమైన ముహూర్తం.',
+                desc_en: 'Prenatal blessing for expectant mother, securing safe delivery, mental calm, and healthy progeny.'
+            });
+        }
+
+        // 10. Vahana & Vyapararambha (Vehicle & Business)
+        const isVahanaNak = [0, 3, 6, 7, 12, 14, 21, 22, 23, 26].includes(nakSr);
+        const isVahanaTithi = [2, 3, 5, 7, 10, 11, 13].includes(tithiNum);
+        const isVahanaDow = [0, 3, 4, 5].includes(dow);
+
+        if (isVahanaNak && isVahanaTithi && isVahanaDow) {
+            all.push({
+                cat: 'vahanavyapara',
+                icon: '🚗',
+                rawDate: dt.getTime(),
+                dateStr: dateDisplayTe,
+                dateStrEn: dateDisplayEn,
+                name_te: 'వాహన కొనుగోలు & వ్యాపారారంభం (Vahana & Vyapara)',
+                name_en: 'Vahana Purchase & Business Launch Muhurtam',
+                tithi_te: `${teMasam} ${tithiNameTe}`,
+                tithi_en: `${masamDisplayEn} ${tithiNameEn}`,
+                nak_lagna_te: `${nakNameTe} • ` + getAuspiciousLagnaStr(sunRi, [2, 5, 6, 10], st.sunrise, true),
+                nak_lagna_en: `${nakNameEn} • ` + getAuspiciousLagnaStr(sunRi, [2, 5, 6, 10], st.sunrise, false),
+                desc_te: 'నూతన వాహన కొనుగోలు, యంత్ర పూజ, వ్యాపార సంస్థల ప్రారంభానికి సర్వతోముఖ లాభ ప్రదం.',
+                desc_en: 'Auspicious for vehicle purchase, Yantra puja, commercial contracts, and enterprise launches.'
+            });
+        }
+    }
+
+    all.sort((a, b) => a.rawDate - b.rawDate);
+
+    const counts = {
+        vivaham: all.filter(it => it.cat === 'vivaham').length,
+        upanayanam: all.filter(it => it.cat === 'upanayanam').length,
+        gruhapravesham: all.filter(it => it.cat === 'gruhapravesham').length,
+        gruharambham: all.filter(it => it.cat === 'gruharambham').length,
+        namakaranam: all.filter(it => it.cat === 'namakaranam').length,
+        annaprasana: all.filter(it => it.cat === 'annaprasana').length,
+        aksharabhyasa: all.filter(it => it.cat === 'aksharabhyasa').length,
+        karnavedha: all.filter(it => it.cat === 'karnavedha').length,
+        seemantham: all.filter(it => it.cat === 'seemantham').length,
+        vahanavyapara: all.filter(it => it.cat === 'vahanavyapara').length
+    };
+
+    return { schedule: all, counts };
+}
+
+function selectMuhurtaCategory(catKey) {
+    ACTIVE_MUHURTA_FILTER = catKey;
+    document.querySelectorAll('#shodashaHighlightsGrid .highlight-item').forEach(el => {
+        if (el.dataset.key === catKey) el.classList.add('active');
+        else el.classList.remove('active');
+    });
+    renderMuhurtaSchedule();
+    const target = document.getElementById('muhurtaActiveCategoryTitle');
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function showAllMuhurtaDates() {
+    ACTIVE_MUHURTA_FILTER = 'all';
+    document.querySelectorAll('#shodashaHighlightsGrid .highlight-item').forEach(el => el.classList.remove('active'));
+    const sInput = document.getElementById('muhurtaSearchInput');
+    if (sInput) sInput.value = '';
+    renderMuhurtaSchedule();
+}
+
+function filterMuhurtaSchedule(query) {
+    renderMuhurtaSchedule(query);
+}
+
+function renderMuhurtaSchedule(searchQuery = '') {
+    const tbody = document.getElementById('muhurtaScheduleBody');
+    const titleEl = document.getElementById('muhurtaActiveCategoryTitle');
+    if (!tbody) return;
+
+    const isTe = (CURRENT_UGADI_LANG === 'te');
+    let filtered = CURRENT_MUHURTA_SCHEDULE;
+
+    if (ACTIVE_MUHURTA_FILTER && ACTIVE_MUHURTA_FILTER !== 'all') {
+        filtered = filtered.filter(it => it.cat === ACTIVE_MUHURTA_FILTER);
+    }
+
+    if (searchQuery && searchQuery.trim() !== '') {
+        const q = searchQuery.toLowerCase().trim();
+        filtered = filtered.filter(it => {
+            return (it.name_te && it.name_te.toLowerCase().includes(q)) ||
+                   (it.name_en && it.name_en.toLowerCase().includes(q)) ||
+                   (it.tithi_te && it.tithi_te.toLowerCase().includes(q)) ||
+                   (it.tithi_en && it.tithi_en.toLowerCase().includes(q)) ||
+                   (it.dateStr && it.dateStr.toLowerCase().includes(q)) ||
+                   (it.dateStrEn && it.dateStrEn.toLowerCase().includes(q)) ||
+                   (it.nak_lagna_te && it.nak_lagna_te.toLowerCase().includes(q)) ||
+                   (it.nak_lagna_en && it.nak_lagna_en.toLowerCase().includes(q)) ||
+                   (it.desc_te && it.desc_te.toLowerCase().includes(q)) ||
+                   (it.desc_en && it.desc_en.toLowerCase().includes(q));
+        });
+    }
+
+    if (titleEl) {
+        if (ACTIVE_MUHURTA_FILTER === 'all') {
+            titleEl.textContent = isTe ? 
+                `📅 సమగ్ర వార్షిక శుభ ముహూర్తాల పట్టిక (${filtered.length} ముహూర్తాలు)` : 
+                `📅 Annual Auspicious Muhurtams Schedule (${filtered.length} Dates)`;
+        } else {
+            const catObj = (CURRENT_MUHURTA_HIGHLIGHTS_DATA || []).find(c => c.key === ACTIVE_MUHURTA_FILTER);
+            const catName = catObj ? (isTe ? catObj.te : catObj.en) : ACTIVE_MUHURTA_FILTER;
+            const catIcon = catObj ? catObj.icon : '📅';
+            titleEl.textContent = `${catIcon} ${catName} (${filtered.length} ${isTe ? 'ముహూర్తాలు' : 'Dates'})`;
+        }
+    }
+
+    if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align:center; padding:24px; color:#888;">${isTe ? 'ఎటువంటి ముహూర్తాలు కనుగొనబడలేదు (No Muhurtam dates found).' : 'No Muhurtam dates found.'}</td></tr>`;
+        return;
+    }
+
+    tbody.innerHTML = filtered.map((item, idx) => {
+        const name = isTe ? item.name_te : item.name_en;
+        const tithi = isTe ? item.tithi_te : item.tithi_en;
+        const dateStr = isTe ? item.dateStr : item.dateStrEn;
+        const nakLagna = isTe ? item.nak_lagna_te : item.nak_lagna_en;
+        return `
+            <tr>
+                <td style="text-align:center; font-weight:bold; color:var(--text-muted); font-size:0.85rem;">${idx + 1}</td>
+                <td>
+                    <div style="font-weight:700; color:var(--text-royal); font-size:0.95rem;">
+                        <span style="font-size:1.1rem; margin-right:4px;">${item.icon || '🪔'}</span> ${escapeHtml(name)}
+                    </div>
+                </td>
+                <td style="color:#7b1113; font-weight:600; font-size:0.9rem;">
+                    ${escapeHtml(tithi)}
+                </td>
+                <td style="font-weight:700; color:#222; font-size:0.9rem; white-space:nowrap;">
+                    ${escapeHtml(dateStr)}
+                </td>
+                <td style="font-size:0.85rem; color:#854d0e; font-weight:600;">
+                    ${escapeHtml(nakLagna)}
+                </td>
+            </tr>
+        `;
+    }).join('');
+}
+
 function getTzOffsetFromTimezoneString(tzString, dateStr) {
     if (!tzString) return 5.5;
     try {
@@ -1663,7 +3001,7 @@ function getUgadiSrJD(y, m, d, lat = 14.6778, lon = 77.6081, tz = 5.5) {
 }
 
 function findUgadiForYear(yTarget, lat = 14.6778, lon = 77.6081, tz = 5.5) {
-    for (let d = 0; d < 70; d++) {
+    for (let d = 0; d < 90; d++) {
         let testDate = new Date(yTarget, 1, 20); // Feb 20
         testDate.setDate(testDate.getDate() + d);
         let y = testDate.getFullYear(), m = testDate.getMonth() + 1, day = testDate.getDate();
@@ -1674,13 +3012,14 @@ function findUgadiForYear(yTarget, lat = 14.6778, lon = 77.6081, tz = 5.5) {
         let sunNir = getSunNirayana(res.srJD);
         let sunRi = Math.floor(sunNir / 30); // 11 is Meena
 
-        // Standard case: Chaitra month and Pratipada (0) at sunrise
-        if (lunar.masam.indexOf('Chaitra') !== -1 && tithiAtSr === 0) {
+        // Standard case: Nija Chaitra month and Pratipada (0) at sunrise
+        // Per Shastras (Dharma Sindhu / Nirnaya Sindhu): Ugadi festival is celebrated on Nija Chaitra
+        if (lunar.masam.indexOf('Chaitra') !== -1 && !lunar.isAdhika && tithiAtSr === 0) {
             return { date: testDate, srJD: res.srJD };
         }
 
-        // Kshaya Pratipada case: Sun in Meena, today is Amavasya (29), tomorrow is Dvitiya (1)
-        if (tithiAtSr === 29 && (sunRi === 11 || sunRi === 0)) {
+        // Kshaya Pratipada case: Sun in Meena, today is Amavasya (29), tomorrow is Dvitiya (1) in Nija Chaitra
+        if (tithiAtSr === 29 && (sunRi === 11 || sunRi === 0) && !lunar.isAdhika) {
             let nextDate = new Date(testDate);
             nextDate.setDate(nextDate.getDate() + 1);
             let nextRes = getUgadiSrJD(nextDate.getFullYear(), nextDate.getMonth() + 1, nextDate.getDate(), lat, lon, tz);
@@ -1743,6 +3082,51 @@ function calculateUgadiPhalalu() {
     document.getElementById('uDate').textContent = dateStr;
     document.getElementById('uDay').textContent = isTe ? WEEKDAYS_TE[dow] : WEEKDAYS_EN[dow];
     document.getElementById('uDuration').textContent = `${dateStr} to ${nextDateStr}`;
+    window.CURRENT_SAMVATSARAM_EN = SAMVATSARA_NAMES_EN[samvatsaraIdx];
+    window.CURRENT_SAMVATSARAM_TE = SAMVATSARA_NAMES_TE[samvatsaraIdx];
+    updateFooterNoteText();
+
+    // Populate Samvatsara Classical Shloka & Bhavamu (Panchanga Pithika pp. 69-90)
+    const samvatData = SAMVATSARA_SHLOKAS_DATA[samvatsaraIdx];
+    if (samvatData) {
+        const sTitleEl = document.getElementById('uSamvatsaraTitle');
+        const sShlokaEl = document.getElementById('uSamvatsaraShloka');
+        const sMeaningEl = document.getElementById('uSamvatsaraMeaning');
+        if (sTitleEl) {
+            sTitleEl.textContent = `🪐 ${isTe ? samvatData.name_te + ' నామ సంవత్సర ఫలితము' : samvatData.name_en + ' Samvatsara Classical Prediction'}`;
+        }
+        if (sShlokaEl) {
+            const rawShloka = isTe ? samvatData.shloka : teluguToIAST(samvatData.shloka);
+            sShlokaEl.className = 'shloka-sanskrit ' + (isTe ? 'font-telugu' : 'font-iast');
+            sShlokaEl.innerHTML = rawShloka.replace(/\|\|/g, '||<br><br>').replace(/\|(?=[^|])/g, '|<br>');
+        }
+        if (sMeaningEl) {
+            sMeaningEl.innerHTML = `<strong>${isTe ? 'సంవత్సర ఫలిత భావము:' : 'Classical Interpretation:'}</strong> ${isTe ? samvatData.meaning_te : samvatData.meaning_en}`;
+        }
+    }
+
+    const adhikaNoteEl = document.getElementById('uAdhikaNote');
+    if (adhikaNoteEl) {
+        if (year === 2029) {
+            adhikaNoteEl.style.display = 'block';
+            adhikaNoteEl.innerHTML = `
+                <div style="background:#fffcf5; border:1.5px solid #d4af37; border-radius:8px; padding:14px; font-size:0.9rem; line-height:1.6; color:#4a0808; margin-top:12px;">
+                    <div style="font-weight:bold; font-size:1rem; margin-bottom:6px; color:#8b0000; font-family:'Cinzel', serif;">
+                        📜 Shastric Resolution for Adhika Chaitra 2029 (Nirnaya Sindhu &amp; Panchanga Pithika)
+                    </div>
+                    <div>
+                        • <strong>Astronomical Ingress &amp; Kalaganana (March 15, 2029):</strong> Per <em>Brahma Purana / Surya Siddhanta</em> cited in <em>Nirnaya Sindhu</em> and <em>Panchanga Pithika Lekhana Prakriya</em> (<em>"Chaitramasi Jagadbrahma Sasarja Prathamehani"</em>), the unbroken astronomical flow of time (Kalaganana), Samvatsara change, and the 9 Annual Planetary Rulers (Navanayakas) commence on <strong>Adhika Chaitra Shukla Pratipada (Thursday, March 15, 2029)</strong>.<br>
+                        • <strong>Ugadi Religious Festival &amp; Nimba Bhakshana (April 14, 2029):</strong> Per <em>Dharma Sindhu</em> and <em>Nirnaya Sindhu</em> (<em>"Varjayenmalamasam tu sarvakarmasu sarvada... nijakhyachaitra eva karyam"</em>), all religious festivities, consuming Ugadi Pachadi (Nimba Kusuma Bhakshana), holy oil bath, and temple celebrations are strictly observed on <strong>Nija Chaitra Shukla Pratipada (Saturday, April 14, 2029)</strong>.
+                    </div>
+                    <div style="margin-top:8px;">
+                        <a href="dharmavichara.html#adhika-chaitra-2029" style="color:#b45309; font-weight:bold; text-decoration:underline; font-size:0.85rem;">📖 Read Full Shastric Discussion &amp; Verbatim Shlokas in Dharma Vichara &rarr;</a>
+                    </div>
+                </div>
+            `;
+        } else {
+            adhikaNoteEl.style.display = 'none';
+        }
+    }
 
     // ══════ ANNUAL HIGHLIGHTS & VRATA SCHEDULE WITH DATES ══════
     const annualData = buildAnnualVrataSchedule(ugadiDate, nextUgadi, year, lat, lon, tz);
@@ -1785,25 +3169,72 @@ function calculateUgadiPhalalu() {
 
     renderVrataSchedule();
 
+    // ══════ ANNUAL SHODASHA SAMSKARA MUHURTAMS WITH DATES ══════
+    const muhurtaData = buildAnnualMuhurtaSchedule(ugadiDate, nextUgadi, year, lat, lon, tz);
+    CURRENT_MUHURTA_SCHEDULE = muhurtaData.schedule;
+
+    CURRENT_MUHURTA_HIGHLIGHTS_DATA = [
+        { key: 'vivaham', icon: '💍', te: 'వివాహ ముహూర్తాలు', en: 'Vivaha (Wedding)', count: muhurtaData.counts.vivaham },
+        { key: 'upanayanam', icon: '🧵', te: 'ఉపనయన ముహూర్తాలు', en: 'Upanayana (Sacred Thread)', count: muhurtaData.counts.upanayanam },
+        { key: 'gruhapravesham', icon: '🏡', te: 'గృహప్రవేశ ముహూర్తాలు', en: 'Gruhapravesha (Housewarming)', count: muhurtaData.counts.gruhapravesham },
+        { key: 'gruharambham', icon: '🏗️', te: 'గృహారంభం / శంకుస్థాపన', en: 'Gruharambha (Foundation)', count: muhurtaData.counts.gruharambham },
+        { key: 'namakaranam', icon: '👶', te: 'నామకరణ ముహూర్తాలు', en: 'Namakarana (Naming)', count: muhurtaData.counts.namakaranam },
+        { key: 'annaprasana', icon: '🥣', te: 'అన్నప్రాశన ముహూర్తాలు', en: 'Annaprasana (First Feeding)', count: muhurtaData.counts.annaprasana },
+        { key: 'aksharabhyasa', icon: '📚', te: 'అక్షరాభ్యాస ముహూర్తాలు', en: 'Aksharabhyasa (Learning)', count: muhurtaData.counts.aksharabhyasa },
+        { key: 'karnavedha', icon: '👂', te: 'కర్ణవేధ & చౌల కర్మ', en: 'Karnavedha & Chudakarana', count: muhurtaData.counts.karnavedha },
+        { key: 'seemantham', icon: '🌸', te: 'సీమంతం & పుంసవనం', en: 'Seemantha (Prenatal Blessing)', count: muhurtaData.counts.seemantham },
+        { key: 'vahanavyapara', icon: '🚗', te: 'వాహన / వ్యాపారారంభం', en: 'Vahana & Vyapararambha', count: muhurtaData.counts.vahanavyapara }
+    ];
+
+    const smGrid = document.getElementById('shodashaHighlightsGrid');
+    if (smGrid) {
+        smGrid.innerHTML = CURRENT_MUHURTA_HIGHLIGHTS_DATA.map(item => `
+            <div class="highlight-item ${ACTIVE_MUHURTA_FILTER === item.key ? 'active' : ''}" data-key="${item.key}" onclick="selectMuhurtaCategory('${item.key}')" title="${isTe ? 'తేదీలను చూడటానికి క్లిక్ చేయండి' : 'Click to view exact dates'}">
+                <div class="highlight-title">
+                    <span style="font-size:1.2rem;">${item.icon}</span>
+                    <span>${isTe ? item.te : item.en}</span>
+                </div>
+                <div class="highlight-count-badge">
+                    ${item.count}
+                </div>
+            </div>
+        `).join('');
+    }
+
+    const smTotalBadge = document.getElementById('muhurtaTotalCountBadge');
+    if (smTotalBadge) {
+        smTotalBadge.textContent = isTe ? `మొత్తం: ${CURRENT_MUHURTA_SCHEDULE.length} శుభ ముహూర్తాలు` : `Total: ${CURRENT_MUHURTA_SCHEDULE.length} Auspicious Dates`;
+    }
+
+    renderMuhurtaSchedule();
+
     // ══════ CALCULATE ALL 9 NAYAKAS DYNAMICALLY ══════
-    const meshaIngress = findSunIngressDeg(0, year, 4, tz);          // Mantri
-    const simhaIngress = findSunIngressDeg(120, year, 8, tz);        // Senadhipati
-    const karkIngress = findSunIngressDeg(90, year, 7, tz);          // Sasyadhipati
-    const dhanusIngress = findSunIngressDeg(240, year, 12, tz);      // Dhanyadhipati
-    const tulaIngress = findSunIngressDeg(180, year, 10, tz);        // Rasadhipati
-    const makaraIngress = findSunIngressDeg(270, year + 1, 1, tz);   // Neerasadhipati
-    const ardraIngress = findSunIngressDeg(66.6667, year, 6, tz);    // Meghadhipati
-    const rohiniIngress = findSunIngressDeg(40.0, year, 5, tz);      // Pashupalaka
+    // Canonical Vedic Siddhanta meridian for annual planetary governance (Ujjain / IST = 5.5)
+    const canTz = 5.5;
+    const meshaIngress = findSunIngressDeg(0, year, 4, canTz);          // Mantri
+    const simhaIngress = findSunIngressDeg(120, year, 8, canTz);        // Senadhipati
+    const karkIngress = findSunIngressDeg(90, year, 7, canTz);          // Sasyadhipati
+    const dhanusIngress = findSunIngressDeg(240, year, 12, canTz);      // Dhanyadhipati
+    const mithunaIngress = findSunIngressDeg(60.0, year, 6, canTz);     // Arghadhipati
+    const ardraIngress = findSunIngressDeg(66.6667, year, 6, canTz);    // Meghadhipati
+    const tulaIngress = findSunIngressDeg(180, year, 10, canTz);        // Rasadhipati
+    const makaraIngress = findSunIngressDeg(270, year + 1, 1, canTz);   // Neerasadhipati
+    const rohiniIngress = findSunIngressDeg(40.0, year, 5, canTz);      // Pashupalaka
+
+    // Canonical King is determined by Ugadi Pratipada in India / canonical meridian
+    const canUgadiInfo = findUgadiForYear(year, 14.6778, 77.6081, canTz);
+    const canDow = Math.floor(canUgadiInfo.srJD + canTz/24 + 1.5) % 7;
 
     const nayakaAssignments = [
-        { roleKey: 'Raja', dow: dow, ingressDate: dateStr },
+        { roleKey: 'Raja', dow: canDow, ingressDate: dateStr },
         { roleKey: 'Mantri', dow: meshaIngress.dow, ingressDate: `${meshaIngress.date.year}-${meshaIngress.date.month}-${meshaIngress.date.day}` },
         { roleKey: 'Senadhipati', dow: simhaIngress.dow, ingressDate: `${simhaIngress.date.year}-${simhaIngress.date.month}-${simhaIngress.date.day}` },
         { roleKey: 'Sasyadhipati', dow: karkIngress.dow, ingressDate: `${karkIngress.date.year}-${karkIngress.date.month}-${karkIngress.date.day}` },
         { roleKey: 'Dhanyadhipati', dow: dhanusIngress.dow, ingressDate: `${dhanusIngress.date.year}-${dhanusIngress.date.month}-${dhanusIngress.date.day}` },
+        { roleKey: 'Arghadhipati', dow: mithunaIngress.dow, ingressDate: `${mithunaIngress.date.year}-${mithunaIngress.date.month}-${mithunaIngress.date.day}` },
+        { roleKey: 'Meghadhipati', dow: ardraIngress.dow, ingressDate: `${ardraIngress.date.year}-${ardraIngress.date.month}-${ardraIngress.date.day}` },
         { roleKey: 'Rasadhipati', dow: tulaIngress.dow, ingressDate: `${tulaIngress.date.year}-${tulaIngress.date.month}-${tulaIngress.date.day}` },
         { roleKey: 'Neerasadhipati', dow: makaraIngress.dow, ingressDate: `${makaraIngress.date.year}-${makaraIngress.date.month}-${makaraIngress.date.day}` },
-        { roleKey: 'Meghadhipati', dow: ardraIngress.dow, ingressDate: `${ardraIngress.date.year}-${ardraIngress.date.month}-${ardraIngress.date.day}` },
         { roleKey: 'Pashupalaka', dow: rohiniIngress.dow, ingressDate: `${rohiniIngress.date.year}-${rohiniIngress.date.month}-${rohiniIngress.date.day}` }
     ];
 
@@ -1822,15 +3253,42 @@ function calculateUgadiPhalalu() {
                     <div class="nayaka-header">
                         <div class="nayaka-role">${roleTitle}</div>
                         <div class="nayaka-planet">👑 ${planetName}</div>
-                        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">${roleDesc} (${item.ingressDate})</div>
                     </div>
                     <div class="shloka-box">
-                        <div class="shloka-sanskrit">${pInfo.shloka}</div>
+                        <div class="shloka-sanskrit ${isTe ? 'font-telugu' : 'font-iast'}">${(isTe ? pInfo.shloka : teluguToIAST(pInfo.shloka)).replace(/\|\|/g, '||<br>').replace(/\|(?=[^|])/g, '|<br>')}</div>
                         <div class="shloka-meaning"><strong>${isTe ? 'ఫలితం:' : 'Phalitam:'}</strong> ${meaning}</div>
                     </div>
                 </div>
             `;
         }).join('');
+
+        // Canonical Shloka when King and Minister are the Same Planet
+        if (canDow === meshaIngress.dow) {
+            const samePlanetName = isTe ? PLANET_NAMES_TE[canDow] : PLANET_NAMES_EN[canDow];
+            const samePlanetShlokaHtml = `
+                <div class="nayaka-card" style="grid-column: 1 / -1; border-left: 4px solid #8b0000; background: #fff8e7;">
+                    <div class="nayaka-header">
+                        <div class="nayaka-role">👑 ${isTe ? 'రాజా మరియు మంత్రి ఒక్కరే అయినచో విశేష నిర్ణయము' : 'Special Shastric Principle: When King & Minister are the Same Planet'}</div>
+                        <div class="nayaka-planet">${samePlanetName}</div>
+                        <div style="font-size:0.75rem; color:var(--text-muted); margin-top:2px;">(${isTe ? 'ప్రామాణిక శాస్త్ర వచనము' : 'Classical Shastric Principle'})</div>
+                    </div>
+                    <div class="shloka-box" style="margin-top:8px;">
+                        <div class="shloka-sanskrit ${isTe ? 'font-telugu' : 'font-iast'}">
+                            ${isTe 
+                                ? `యదా భవేత్తదేకశ్చ రాజా మంత్రి చ వత్సరే |<br>నద్యస్సర్వాః ప్రవర్ధంతే రణభూమిశ్చ వర్ధతే ||`
+                                : `yadā bhavettadekaśca rājā mantrī ca vatsare |<br>nadyassarvāḥ pravardhante raṇabhūmiśca vardhate ||`}
+                        </div>
+                        <div class="shloka-meaning">
+                            <strong>${isTe ? 'విశేష ఫలితము:' : 'Special Prediction:'}</strong>
+                            ${isTe 
+                                ? `రాజాధిపతి మరియు మంత్రధిపతి ఇద్దరూ ఒకే గ్రహమైనందున నదులన్నియు నిండుగా ప్రవహించును, వర్షములు పుష్కలముగా కురియును, రణభూమి విస్తరించును (పాలకులలో రక్షణ సంసిద్ధత మరియు సైనిక ప్రాబల్యము పెరుగును).`
+                                : `When both King and Minister are governed by the identical planet, all rivers flow copiously, rainfall is generous, while defense forces and statecraft witness heightened readiness and strategic strength.`}
+                        </div>
+                    </div>
+                </div>
+            `;
+            nayakaContainer.innerHTML += samePlanetShlokaHtml;
+        }
     }
 
     // ══════ MAKARA SANKRANTI PURUSHA LAKSHANAM ══════
@@ -1842,7 +3300,7 @@ function calculateUgadiPhalalu() {
     // ══════ RENDER UGADI SOUTH KUNDALI CHART ══════
     renderUgadiChart(ugadiSrJD);
 
-    // ══════ KANDAYA PHALAM ══════
+    // ══════ KANDAYA PHALAM (27 NAKSHATRAS) ══════
     const ugadiTithi = getTithiIdx(ugadiSrJD) + 1;
     const ugadiVara = dow + 1;
     const ugadiNak = getNakIdx(ugadiSrJD) + 1;
@@ -1869,10 +3327,12 @@ function calculateUgadiPhalalu() {
         <table class="ugadi-table">
             <thead>
                 <tr>
-                    <th>${isTe ? 'జన్మ నక్షత్రం' : 'Janma Nakshatra'}</th>
-                    <th style="text-align:center;">${isTe ? 'మొదటి త్రైమాసికం (Phase 1)' : 'Phase 1'}</th>
-                    <th style="text-align:center;">${isTe ? 'రెండవ త్రైమాసికం (Phase 2)' : 'Phase 2'}</th>
-                    <th style="text-align:center;">${isTe ? 'మూడవ త్రైమాసికం (Phase 3)' : 'Phase 3'}</th>
+                    <th style="width:6%; text-align:center;">#</th>
+                    <th style="width:28%;">${isTe ? 'జన్మ నక్షత్రం' : 'Janma Nakshatra'}</th>
+                    <th style="text-align:center; width:22%;">${isTe ? '1వ భాగం (చైత్ర-ఆషాఢ)' : 'Phase 1 (Chaitra–Ashadha)'}</th>
+                    <th style="text-align:center; width:22%;">${isTe ? '2వ భాగం (శ్రావణ-కార్తీక)' : 'Phase 2 (Shravana–Kartika)'}</th>
+                    <th style="text-align:center; width:22%;">${isTe ? '3వ భాగం (మార్గశిర-ఫాల్గుణ)' : 'Phase 3 (Margashira–Phalguna)'}</th>
+                    <th style="text-align:center; width:20%;">${isTe ? 'ఫలిత సూచన' : 'Outlook'}</th>
                 </tr>
             </thead>
             <tbody>
@@ -1881,12 +3341,25 @@ function calculateUgadiPhalalu() {
                     const r1 = (total * 3) % 8;
                     const r2 = (total * 7) % 3;
                     const r3 = (total * 3) % 5;
+                    const q1 = r1 >= 5 ? (isTe ? 'ఉత్తమం' : 'High') : (r1 >= 3 ? (isTe ? 'అనుకూలం' : 'Good') : (isTe ? 'సాధారణం' : 'Normal'));
+                    const q2 = r2 === 2 ? (isTe ? 'ఉత్తమం' : 'High') : (r2 === 1 ? (isTe ? 'అనుకూలం' : 'Good') : (isTe ? 'సాధారణం' : 'Normal'));
+                    const q3 = r3 >= 3 ? (isTe ? 'ఉత్తమం' : 'High') : (r3 >= 2 ? (isTe ? 'అనుకూలం' : 'Good') : (isTe ? 'సాధారణం' : 'Normal'));
+                    let noteEn = (r1 >= 4 && r2 >= 1 && r3 >= 2) ? 'Highly Auspicious' :
+                                 ((r1 >= 4 && r2 >= 1) || (r2 >= 1 && r3 >= 2) ? 'Favorable' :
+                                 (r1 >= 4 || r3 >= 2 ? 'Moderate' : 'Mixed / Precaution'));
+                    let noteTe = (r1 >= 4 && r2 >= 1 && r3 >= 2) ? 'అత్యంత శుభప్రదం' :
+                                 ((r1 >= 4 && r2 >= 1) || (r2 >= 1 && r3 >= 2) ? 'అనుకూలం' :
+                                 (r1 >= 4 || r3 >= 2 ? 'మధ్యమం' : 'మిశ్రమం / జాగ్రత్త'));
+                    let note = isTe ? noteTe : noteEn;
+                    let noteColor = (r1 >= 4 && r2 >= 1) ? 'var(--green-accent)' : ((r1 >= 4 || r3 >= 2) ? 'var(--gold-accent)' : 'var(--red-accent)');
                     return `
                         <tr>
+                            <td style="text-align:center; color:var(--text-muted); font-size:0.85rem;">${jan + 1}</td>
                             <td><strong>${NAK_NAMES_ARR[jan]}</strong></td>
-                            <td style="text-align:center; font-weight:bold; color:var(--text-royal);">${r1}</td>
-                            <td style="text-align:center; font-weight:bold; color:var(--text-crimson);">${r2}</td>
-                            <td style="text-align:center; font-weight:bold; color:var(--green-accent);">${r3}</td>
+                            <td style="text-align:center;"><strong style="font-size:1.05rem; color:var(--text-royal);">${r1}</strong> <span style="font-size:0.8rem; color:var(--text-muted); font-weight:500;">(${q1})</span></td>
+                            <td style="text-align:center;"><strong style="font-size:1.05rem; color:var(--text-royal);">${r2}</strong> <span style="font-size:0.8rem; color:var(--text-muted); font-weight:500;">(${q2})</span></td>
+                            <td style="text-align:center;"><strong style="font-size:1.05rem; color:var(--text-royal);">${r3}</strong> <span style="font-size:0.8rem; color:var(--text-muted); font-weight:500;">(${q3})</span></td>
+                            <td style="text-align:center; font-weight:600; font-size:0.85rem; color:${noteColor};">${note}</td>
                         </tr>
                     `;
                 }).join('')}
@@ -2030,25 +3503,88 @@ function renderUgadiChart(jd) {
 
 function toggleLanguage() {
     CURRENT_UGADI_LANG = (CURRENT_UGADI_LANG === 'te') ? 'en' : 'te';
-    try { localStorage.setItem('VS_LANG', CURRENT_UGADI_LANG); } catch(e) {}
+    try { localStorage.setItem('VS_UGADI_LANG', CURRENT_UGADI_LANG); } catch(e) {}
     document.getElementById('langBtnText').textContent = (CURRENT_UGADI_LANG === 'te') ? 'English' : 'తెలుగు';
     
     // Update headers
     const isTe = (CURRENT_UGADI_LANG === 'te');
-    document.getElementById('pageTitle').textContent = isTe ? 'ఉగాది పంచాంగ ఫలితాలు' : 'Ugadi Panchangam Predictions';
-    document.getElementById('pageSubTitle').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం & వార్షిక ఫలాలు' : 'Rajadi Navanayaka Nirnayam & Annual Predictions';
+    const navUg = document.getElementById('navUgadiText');
+    if (navUg) navUg.textContent = isTe ? 'ఉగాది పంచాంగం' : 'Ugadi Panchangam';
+    document.getElementById('pageTitle').textContent = isTe ? 'శ్రీ ఉగాది పంచాంగ శ్రవణామృతమ్' : 'Sri Ugadi Panchanga Shravanamrutam';
+    document.getElementById('pageSubTitle').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం • జగల్లగ్న విచారణ • ద్వాదశ రాశి ఆదాయ-వ్యయాలు' : 'Rajadi Navanayaka Nirnayam • Jagallagna Ingress • 12 Rashis Adaya-Vyaya';
     document.getElementById('hdrUgadiDetails').textContent = isTe ? 'ఉగాది సమగ్ర వివరాలు' : 'Ugadi Comprehensive Details';
+    const hdrSam = document.getElementById('hdrSamvatsaraPhalam');
+    if (hdrSam) hdrSam.textContent = isTe ? 'సంవత్సర ఫలితం & ప్రామాణిక శ్లోకం (Samvatsara Phalam)' : 'Samvatsara Phalam & Classical Shloka';
+    const subSam = document.getElementById('subSamvatsaraPhalam');
+    if (subSam) subSam.textContent = isTe ? 'సంవత్సర ప్రామాణిక సంస్కృత శ్లోకము మరియు వార్షిక ఫలితములు.' : 'Classical Sanskrit Shloka and annual predictions for the year.';
     const hdrHl = document.getElementById('hdrUgadiHighlights');
     if (hdrHl) hdrHl.textContent = isTe ? 'సాంవత్సరిక విశేష దినాలు & వ్రతాల పట్టిక (Annual Vrata & Special Days with Dates)' : 'Annual Vrata & Special Days (Complete Schedule)';
     const subHl = document.getElementById('subUgadiHighlights');
     if (subHl) subHl.textContent = isTe ? 'ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ తేదీల సమగ్ర పట్టిక (క్రింది వర్గాన్ని ఎంచుకోండి).' : 'Comprehensive schedule of all sacred vratas, eclipses, and auspicious dates throughout this Ugadi year (Select category below).';
+    const hdrSm = document.getElementById('hdrShodashaMuhurta');
+    if (hdrSm) hdrSm.textContent = isTe ? 'వార్షిక శుభ ముహూర్తములు' : 'Annual Muhurtams';
+    const subSm = document.getElementById('subShodashaMuhurta');
+    if (subSm) subSm.textContent = isTe ? 'ఈ ఉగాది సంవత్సరంలో వివిధ శుభకార్యాలకు ప్రామాణిక శుభ ముహూర్తాల సమగ్ర పట్టిక (క్రింది వర్గాన్ని ఎంచుకోండి).' : 'Comprehensive annual schedule of auspicious Muhurtams throughout this Ugadi year (Click any category below to filter).';
     document.getElementById('hdrJagallagnam').textContent = isTe ? 'జగల్లగ్నం & ఉగాది జన్మ కుండలి (Ugadi Planetary Chart)' : 'Jagallagnam & Ugadi Ingress Chart';
     document.getElementById('hdrNavanayaka').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం (9 Planetary Rulers & Shlokas)' : 'Rajadi Navanayaka Nirnayam (9 Planetary Rulers)';
     document.getElementById('hdrSankranti').textContent = isTe ? 'మకర సంక్రాంతి పురుష లక్షణాలు (Makara Sankranti Purusha)' : 'Makara Sankranti Purusha Features';
     document.getElementById('hdrKandaya').textContent = isTe ? '27 నక్షత్రాల కందాయ ఫలాలు (Kandaya Phalam)' : '27 Nakshatras Kandaya Phalam';
     document.getElementById('hdrAdayaVyaya').textContent = isTe ? '12 రాశుల ఆదాయ - వ్యయాలు & రాజపూజ్య - అవమానాలు' : '12 Rashis Adaya-Vyaya & Rajapujya-Avamana';
 
+    updateTableHeadersLang(isTe);
     calculateUgadiPhalalu();
+}
+
+function updateTableHeadersLang(isTe) {
+    // Vratas table
+    const thVE = document.getElementById('thVrataEvent');
+    if (thVE) thVE.textContent = isTe ? 'వ్రతం / పండుగ విశేషం' : 'Sacred Vrata / Festival Event';
+    const thVT = document.getElementById('thVrataTithi');
+    if (thVT) thVT.textContent = isTe ? 'చాంద్రమానం & తిథి' : 'Lunar Month & Tithi';
+    const thVD = document.getElementById('thVrataDate');
+    if (thVD) thVD.textContent = isTe ? 'గ్రెగోరియన్ తేదీ & వారం' : 'Gregorian Date & Day';
+    const thVDe = document.getElementById('thVrataDesc');
+    if (thVDe) thVDe.textContent = isTe ? 'విశిష్టత & శుభ ఘడియలు' : 'Significance & Auspicious Timings';
+    const btnSV = document.getElementById('btnShowAllVratas');
+    if (btnSV) btnSV.textContent = isTe ? 'అన్నీ చూపించు' : 'Show All';
+    const sInputV = document.getElementById('vrataSearchInput');
+    if (sInputV) sInputV.placeholder = isTe ? 'వ్రతం, మాసం, తేదీతో శోధించండి...' : 'Search month, vrata, date...';
+
+    // Muhurtams table
+    const thMC = document.getElementById('thMuhurtaCeremony');
+    if (thMC) thMC.textContent = isTe ? 'సంస్కార కర్మ / శుభకార్యం' : 'Samskara / Sacred Ceremony';
+    const thMT = document.getElementById('thMuhurtaTithi');
+    if (thMT) thMT.textContent = isTe ? 'చాంద్రమానం & తిథి' : 'Lunar Month & Tithi';
+    const thMD = document.getElementById('thMuhurtaDate');
+    if (thMD) thMD.textContent = isTe ? 'గ్రెగోరియన్ తేదీ & వారం' : 'Gregorian Date & Day';
+    const thMNL = document.getElementById('thMuhurtaNakLagna');
+    if (thMNL) thMNL.textContent = isTe ? 'శుభ నక్షత్రం & లగ్నం' : 'Auspicious Nakshatra & Lagna';
+    const btnSM = document.getElementById('btnShowAllMuhurtas');
+    if (btnSM) btnSM.textContent = isTe ? 'అన్నీ చూపించు' : 'Show All';
+    const sInputM = document.getElementById('muhurtaSearchInput');
+    if (sInputM) sInputM.placeholder = isTe ? 'సంస్కారం, మాసం, తేదీతో శోధించండి...' : 'Search Samskara, month, date...';
+
+    const noteSm = document.getElementById('noteShodashaMuhurtaText');
+    if (noteSm) {
+        noteSm.innerHTML = isTe
+            ? '<strong>📜 శాస్త్రీయ గమనిక &amp; సలహా:</strong> ఇక్కడ అందించబడినవి ప్రామాణిక జ్యోతిష గ్రంథాల (ముహూర్త చింతామణి, కాలామృతం, ధర్మసింధు) ఖగోళ సూత్రాల ఆధారంగా లెక్కించబడిన సాధారణ శుభ దినాలు. వివాహాది సంస్కారాల తుది ముహూర్త నిర్ణయం అనేది సంబంధిత వ్యక్తుల వ్యక్తిగత జాతకము (జన్మ కుండలి, జన్మ నక్షత్రం, తారాబలం, చంద్రబలం మరియు లగ్న శుద్ధి) పై ఆధారపడి ఉండును. కావున శుభకార్యాలు నిశ్చయించుకునే ముందు అనుభవజ్ఞులైన సిద్ధాంతకర్తలు లేదా వేద పండితులను సంప్రదించి, జాతక రీత్యా పరిశీలించి తుది నిర్ణయం తీసుకోగలరు.'
+            : '<strong>📜 Shastric Guidance &amp; Personalization Advisory:</strong> The dates provided below represent general canonical Muhurta windows calculated per classical astronomical Siddhantas (Muhurta Chintamani, Kalamrita, and Dharma Sindhu). Because final auspiciousness (Shubhatva) depends strictly upon the native\'s individual birth chart — including Janma Kundali, Janma Nakshatra, Tarabalam, Chandrabalam, and personalized Lagna Shuddhi — devotees and families are advised to consult experienced Siddhanta Kartas or qualified Vedic Pandits for custom horoscope verification before finalizing sacred ceremonies.';
+    }
+
+    updateFooterNoteText();
+}
+
+function updateFooterNoteText() {
+    const fnEl = document.getElementById('ugadiFooterNoteText');
+    if (!fnEl) return;
+    const isTe = (CURRENT_UGADI_LANG === 'te');
+    const samvatEn = window.CURRENT_SAMVATSARAM_EN || 'Parabhava';
+    const samvatTe = window.CURRENT_SAMVATSARAM_TE || 'పరాభవ';
+    if (isTe) {
+        fnEl.innerHTML = `<strong>గమనిక:</strong> ఈ ఫలితాలు శ్రీ ${samvatTe} నామ సంవత్సర చైత్ర శుక్ల పాడ్యమి నుండి ఫాల్గుణ కృష్ణ అమావాస్య వరకు వర్తించును.<br>ప్రామాణిక వేద సంహిత ఖగోళ సిద్ధాంత గణితం ప్రకారం లెక్కించబడినవి.`;
+    } else {
+        fnEl.innerHTML = `<strong>NOTE:</strong> These predictions apply from Sri ${samvatEn} Nama Samvatsara Chaitra Shukla Padyami to Phalguna Krishna Amavasya.<br>Calculated according to authentic Vedic Samhita astronomical Siddhanta mathematics.`;
+    }
 }
 
 function toggleCustomLocation() {
@@ -2121,18 +3657,34 @@ window.onload = function() {
         if (cityInput) cityInput.value = window._selectedCity.name;
     }
 
-    CURRENT_UGADI_LANG = 'en';
-    const isTe = false;
-    document.getElementById('langBtnText').textContent = 'English';
-    document.getElementById('pageTitle').textContent = 'Ugadi Panchangam Predictions';
-    document.getElementById('pageSubTitle').textContent = 'Rajadi Navanayaka Nirnayam & Annual Predictions';
-    document.getElementById('hdrUgadiDetails').textContent = 'Ugadi Comprehensive Details';
-    document.getElementById('hdrJagallagnam').textContent = 'Jagallagnam & Ugadi Ingress Chart';
-    document.getElementById('hdrNavanayaka').textContent = 'Rajadi Navanayaka Nirnayam (9 Planetary Rulers)';
-    document.getElementById('hdrSankranti').textContent = 'Makara Sankranti Purusha Features';
-    document.getElementById('hdrKandaya').textContent = '27 Nakshatras Kandaya Phalam';
-    document.getElementById('hdrAdayaVyaya').textContent = '12 Rashis Adaya-Vyaya & Rajapujya-Avamana';
+    try {
+        const savedL = localStorage.getItem('VS_UGADI_LANG');
+        if (savedL) CURRENT_UGADI_LANG = savedL;
+        else CURRENT_UGADI_LANG = 'en';
+    } catch(e) {
+        CURRENT_UGADI_LANG = 'en';
+    }
 
+    const isTe = (CURRENT_UGADI_LANG === 'te');
+    document.getElementById('langBtnText').textContent = isTe ? 'English' : 'తెలుగు';
+    document.getElementById('pageTitle').textContent = isTe ? 'శ్రీ ఉగాది పంచాంగ శ్రవణామృతమ్' : 'Sri Ugadi Panchanga Shravanamrutam';
+    document.getElementById('pageSubTitle').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం • జగల్లగ్న విచారణ • ద్వాదశ రాశి ఆదాయ-వ్యయాలు' : 'Rajadi Navanayaka Nirnayam • Jagallagna Ingress • 12 Rashis Adaya-Vyaya';
+    document.getElementById('hdrUgadiDetails').textContent = isTe ? 'ఉగాది సమగ్ర వివరాలు' : 'Ugadi Comprehensive Details';
+    const hdrHl = document.getElementById('hdrUgadiHighlights');
+    if (hdrHl) hdrHl.textContent = isTe ? 'సాంవత్సరిక విశేష దినాలు & వ్రతాల పట్టిక (Annual Vrata & Special Days with Dates)' : 'Annual Vrata & Special Days (Complete Schedule)';
+    const subHl = document.getElementById('subUgadiHighlights');
+    if (subHl) subHl.textContent = isTe ? 'ఈ ఉగాది సంవత్సరంలో సంభవించే ముఖ్య వ్రతాలు, గ్రహణాలు మరియు విశేష పుణ్య దినాల శాస్త్రీయ తేదీల సమగ్ర పట్టిక (క్రింది వర్గాన్ని ఎంచుకోండి).' : 'Comprehensive schedule of all sacred vratas, eclipses, and auspicious dates throughout this Ugadi year (Select category below).';
+    const hdrSm = document.getElementById('hdrShodashaMuhurta');
+    if (hdrSm) hdrSm.textContent = isTe ? 'వార్షిక శుభ ముహూర్తములు' : 'Annual Muhurtams';
+    const subSm = document.getElementById('subShodashaMuhurta');
+    if (subSm) subSm.textContent = isTe ? 'ఈ ఉగాది సంవత్సరంలో వివిధ శుభకార్యాలకు ప్రామాణిక శుభ ముహూర్తాల సమగ్ర పట్టిక (క్రింది వర్గాన్ని ఎంచుకోండి).' : 'Comprehensive annual schedule of auspicious Muhurtams throughout this Ugadi year (Click any category below to filter).';
+    document.getElementById('hdrJagallagnam').textContent = isTe ? 'జగల్లగ్నం & ఉగాది జన్మ కుండలి (Ugadi Planetary Chart)' : 'Jagallagnam & Ugadi Ingress Chart';
+    document.getElementById('hdrNavanayaka').textContent = isTe ? 'రాజాది నవనాయక నిర్ణయం (9 Planetary Rulers & Shlokas)' : 'Rajadi Navanayaka Nirnayam (9 Planetary Rulers)';
+    document.getElementById('hdrSankranti').textContent = isTe ? 'మకర సంక్రాంతి పురుష లక్షణాలు (Makara Sankranti Purusha)' : 'Makara Sankranti Purusha Features';
+    document.getElementById('hdrKandaya').textContent = isTe ? '27 నక్షత్రాల కందాయ ఫలాలు (Kandaya Phalam)' : '27 Nakshatras Kandaya Phalam';
+    document.getElementById('hdrAdayaVyaya').textContent = isTe ? '12 రాశుల ఆదాయ - వ్యయాలు & రాజపూజ్య - అవమానాలు' : '12 Rashis Adaya-Vyaya & Rajapujya-Avamana';
+
+    updateTableHeadersLang(isTe);
     calculateUgadiPhalalu();
 };
     </script>

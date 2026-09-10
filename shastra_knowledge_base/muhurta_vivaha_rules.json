@@ -1,0 +1,324 @@
+{
+  "source_authorities": [
+    "Vadhu Vara Ghatitartha Chandrika (వధూవర ఘటితార్థ చంద్రిక) by Bhaskara Bhujanga Rao",
+    "Kalamritam (కాలామృతమ్) & Poorva Kalamritam",
+    "Muhurta Ratnavali (ముహూర్త రత్నావళి)",
+    "Muhurta Darpana (ముహూర్త దర్పణం)"
+  ],
+  "nakshatras": [
+    "Ashwini",
+    "Bharani",
+    "Krittika",
+    "Rohini",
+    "Mrigashira",
+    "Arudra",
+    "Punarvasu",
+    "Pushyami",
+    "Ashlesha",
+    "Magha",
+    "Purva Phalguni",
+    "Uttara Phalguni",
+    "Hasta",
+    "Chitra",
+    "Swati",
+    "Vishakha",
+    "Anuradha",
+    "Jyeshtha",
+    "Moola",
+    "Purvashadha",
+    "Uttarashadha",
+    "Shravana",
+    "Dhanishta",
+    "Shatabhisha",
+    "Purvabhadra",
+    "Uttarabhadra",
+    "Revati"
+  ],
+  "koota_matching_system": {
+    "dina_koota": {
+      "points": 3,
+      "calculation": "Count from Bride Nakshatra to Groom Nakshatra, divide by 9. Remainder gives Tara.",
+      "auspicious_taras": [
+        2,
+        4,
+        6,
+        8,
+        9
+      ],
+      "inauspicious_taras": [
+        1,
+        3,
+        5,
+        7
+      ],
+      "meaning": {
+        "1": "Janma Tara — Caution / Physical vitality",
+        "2": "Sampat Tara — Wealth, happiness & great prosperity",
+        "3": "Vipat Tara — Obstacles, losses & accidents (Avoid)",
+        "4": "Kshema Tara — Safety, comfort, auspicious life",
+        "5": "Pratyak Tara — Hindrances and friction (Avoid)",
+        "6": "Sadhana Tara — Accomplishment of all goals & success",
+        "7": "Naidhana / Vadha Tara — Affliction, danger (Strictly Avoid)",
+        "8": "Mitra Tara — Friendship, affection and mutual delight",
+        "9": "Parama Mitra Tara — Supreme friendship and long-lasting love"
+      }
+    },
+    "gana_koota": {
+      "points": 6,
+      "deva_naks": [
+        "Ashwini",
+        "Mrigashira",
+        "Punarvasu",
+        "Pushyami",
+        "Hasta",
+        "Swati",
+        "Anuradha",
+        "Shravana",
+        "Revati"
+      ],
+      "manushya_naks": [
+        "Bharani",
+        "Rohini",
+        "Arudra",
+        "Purva Phalguni",
+        "Uttara Phalguni",
+        "Purvashadha",
+        "Uttarashadha",
+        "Purvabhadra",
+        "Uttarabhadra"
+      ],
+      "rakshasa_naks": [
+        "Krittika",
+        "Ashlesha",
+        "Magha",
+        "Chitra",
+        "Vishakha",
+        "Jyeshtha",
+        "Moola",
+        "Dhanishta",
+        "Shatabhisha"
+      ],
+      "compatibility": "Deva-Deva: 6 pts (Best). Manushya-Manushya: 6 pts (Best). Deva-Manushya: 5 pts (Good). Rakshasa-Rakshasa: 6 pts (Good). Deva-Rakshasa or Manushya-Rakshasa: 0 pts (Incompatible, unless neutralized by Rashi Maitri or Stree Deergha)."
+    },
+    "mahendra_koota": {
+      "points": "Special blessing (Vamsha Vriddhi)",
+      "rule": "Distance of Boy nakshatra from Girl nakshatra is 4, 7, 10, 13, 16, 19, 22, or 25.",
+      "benefit": "Promotes child-bearing, lineage continuation, and deep attachment."
+    },
+    "stree_deergha": {
+      "points": "Special blessing (Dirgha Mangalyam)",
+      "rule": "Distance from Girl nakshatra to Boy nakshatra should exceed 13 (or minimum 9).",
+      "benefit": "Ensures long marital lifespan for the wife and perpetual auspiciousness."
+    },
+    "yoni_koota": {
+      "points": 4,
+      "meaning": "Biological compatibility, temperament, and marital bliss.",
+      "enemies": [
+        [
+          "Cow (Uttarabhadra)",
+          "Tiger (Chitra, Vishakha)"
+        ],
+        [
+          "Elephant (Bharani, Revati)",
+          "Lion (Purvabhadra, Dhanishta)"
+        ],
+        [
+          "Horse (Ashwini, Shatabhisha)",
+          "Buffalo (Hasta, Swati)"
+        ],
+        [
+          "Dog (Moola, Arudra)",
+          "Deer (Jyeshtha, Anuradha)"
+        ],
+        [
+          "Serpent (Rohini, Mrigashira)",
+          "Mongoose (Uttara Phalguni)"
+        ],
+        [
+          "Monkey (Purvashadha, Shravana)",
+          "Sheep (Krittika, Pushyami)"
+        ],
+        [
+          "Cat (Ashlesha, Punarvasu)",
+          "Rat (Magha, Purva Phalguni)"
+        ]
+      ]
+    },
+    "rashi_koota": {
+      "points": 7,
+      "favorable": "Samasaptaka (7th from each other), 3rd/11th, 4th/10th combinations.",
+      "shadashtaka_6_8": "Generally avoided as Mrityu Shadashtaka, EXCEPT when Rashi lords are identical or mutual friends (Preeti Shadashtaka): Mesha-Vrishchika (both Mars) and Makara-Kumbha (both Saturn) are fully permitted!"
+    },
+    "graha_maitri": {
+      "points": 5,
+      "meaning": "Intellectual rapport and mutual friendship between Rashi lords (Surya, Chandra, Kuja, Budha, Guru, Shukra, Shani)."
+    },
+    "vashya_koota": {
+      "points": 2,
+      "meaning": "Mutual respect, devotion, and harmony between husband and wife."
+    },
+    "rajju_koota": {
+      "points": "Crucial Health Cord (Mandatory check)",
+      "types": {
+        "Siro Rajju": [
+          "Chitra",
+          "Arudra",
+          "Dhanishta"
+        ],
+        "Kantha Rajju": [
+          "Rohini",
+          "Mrigashira",
+          "Hasta",
+          "Swati",
+          "Shravana",
+          "Shatabhisha"
+        ],
+        "Nabhi Rajju": [
+          "Krittika",
+          "Punarvasu",
+          "Uttara Phalguni",
+          "Vishakha",
+          "Uttarashadha",
+          "Purvabhadra"
+        ],
+        "Kati Rajju": [
+          "Bharani",
+          "Pushyami",
+          "Purva Phalguni",
+          "Anuradha",
+          "Purvashadha",
+          "Uttarabhadra"
+        ],
+        "Pada Rajju": [
+          "Ashwini",
+          "Ashlesha",
+          "Magha",
+          "Jyeshtha",
+          "Moola",
+          "Revati"
+        ]
+      },
+      "verdict": "Same Rajju is to be avoided (especially Siro and Kantha). Exceptions from Vadhu Vara Ghatitartha Chandrika: When Pada is different, or Rashi Maitri is strong, dosha is mitigated."
+    },
+    "vedha_koota": {
+      "points": "Mutually Piercing Affliction",
+      "pairs": [
+        [
+          "Ashwini",
+          "Jyeshtha"
+        ],
+        [
+          "Bharani",
+          "Anuradha"
+        ],
+        [
+          "Krittika",
+          "Vishakha"
+        ],
+        [
+          "Rohini",
+          "Swati"
+        ],
+        [
+          "Arudra",
+          "Shravana"
+        ],
+        [
+          "Punarvasu",
+          "Uttarabhadra"
+        ],
+        [
+          "Pushyami",
+          "Purvabhadra"
+        ],
+        [
+          "Ashlesha",
+          "Moola"
+        ],
+        [
+          "Magha",
+          "Revati"
+        ],
+        [
+          "Purva Phalguni",
+          "Uttarashadha"
+        ],
+        [
+          "Uttara Phalguni",
+          "Purvashadha"
+        ],
+        [
+          "Hasta",
+          "Shatabhisha"
+        ],
+        [
+          "Mrigashira",
+          "Dhanishta"
+        ]
+      ],
+      "rule": "Couples born in mutual Vedha nakshatras should not be matched without strong mitigating yogas."
+    },
+    "nadi_koota": {
+      "points": 8,
+      "types": [
+        "Adi Nadi (Vata)",
+        "Madhya Nadi (Pitta)",
+        "Antya Nadi (Kapha)"
+      ],
+      "rule": "Same Nadi (Nadi Dosha) carries 0 points. Exceptions: When Rashi is different although Nakshatra is same, or when Nakshatras differ within the same Rashi, Nadi Dosha is eliminated."
+    }
+  },
+  "kuja_dosha": {
+    "name_te": "కుజ దోష విచారణ & మినహాయింపులు",
+    "authority": "Vadhu Vara Ghatitartha Chandrika & Kalamritam",
+    "positions": [
+      1,
+      2,
+      4,
+      7,
+      8,
+      12
+    ],
+    "counted_from": [
+      "Lagna (Ascendant)",
+      "Chandra (Moon)",
+      "Shukra (Venus)"
+    ],
+    "classical_exemptions": [
+      "1. Kuja in Mesha or Vrishchika (Own houses): Completely free of Kuja Dosha.",
+      "2. Kuja in Makara (Exaltation house): Completely free of Kuja Dosha.",
+      "3. Kuja in 2nd house in Mithuna or Kanya (Mercury houses): No dosha.",
+      "4. Kuja in 4th house in Mesha or Vrishchika: No dosha.",
+      "5. Kuja in 7th house in Karkataka (Neecha) or Makara (Uccha): No dosha.",
+      "6. Kuja in 8th house in Dhanus or Meena (Guru houses): No dosha.",
+      "7. Kuja in 12th house in Vrishabha or Tula (Shukra houses): No dosha.",
+      "8. Conjunction or aspect of Guru or Chandra with Kuja: Forms Mangala-Guru or Chandra-Mangala yoga, neutralizing the affliction.",
+      "9. Mutual Kuja Dosha (Doshakhyam): If BOTH boy and girl have Kuja dosha in their charts, the doshas neutralize each other and marriage is fully permitted."
+    ]
+  },
+  "muhurta_shuddhi": {
+    "vivaha_muhurta": {
+      "essential_shuddhis": [
+        "Saptama Shuddhi: 7th house from Vivaha Lagna must be vacant and free of any aspect from malefics.",
+        "Ashtama Shuddhi: 8th house from Vivaha Lagna must be strictly vacant (Mangalya Bala).",
+        "Karthari Dosha: 2nd and 12th houses from Vivaha Lagna must not both be occupied by natural malefics (Surya, Kuja, Shani, Rahu, Ketu).",
+        "Rikta Tithi Exclusions: Chavithi (4), Navami (9), and Chaturdashi (14) are strictly avoided."
+      ]
+    },
+    "gruhapravesha_muhurta": {
+      "essential_shuddhis": [
+        "Sthira Lagnas are mandatory for Apurva Gruhapravesham (Vrishabha, Simha, Vrishchika, Kumbha). Vrishabha and Simha are supreme.",
+        "Ashtama Shuddhi: 8th house from Lagna must be clean.",
+        "No Guru or Shukra Maudhyam (Combustion) during Apurva Gruhapravesham.",
+        "Sun must not be debilitated (Tula) or in Shunya Masas (Dhanus, Meena)."
+      ]
+    },
+    "upanayana_muhurta": {
+      "essential_shuddhis": [
+        "Uttarayana and Shukla Paksha are most auspicious.",
+        "Guru Bala: Guru in 2nd, 5th, 7th, 9th, or 11th from Janma Rashi is highly auspicious.",
+        "Lagna Shuddhi: Kendras and Trikonas occupied by Shubha Grahas (Guru, Shukra, Budha)."
+      ]
+    }
+  }
+}

@@ -1,0 +1,1245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Vedic Samhita">
+    <meta name="theme-color" content="#4a0e0e">
+    <link rel="apple-touch-icon" href="logo.jpg">
+    <link rel="icon" type="image/jpeg" href="logo.jpg">
+    <link rel="manifest" href="manifest.json">
+    <title>Dharma Vichara — Authentic Shastric Decisions &amp; Inquiries | Vedic Samhita</title>
+    <meta name="description" content="Dharma Vichara: Authoritative Hindu Dharma Shastra decisions, festival calendar resolutions, Adhika Masa rules, and eclipse Sutak clarifications backed by Nirnaya Sindhu, Dharma Sindhu, and Surya Siddhanta.">
+    <link rel="canonical" href="https://www.vedicsamhita.com/dharmavichara.html" />
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Vedic Samhita">
+    <meta property="og:url" content="https://www.vedicsamhita.com/dharmavichara.html">
+    <meta property="og:title" content="Dharma Vichara — Authentic Shastric Decisions &amp; Inquiries | Vedic Samhita">
+    <meta property="og:description" content="Authoritative Hindu Dharma Shastra decisions, festival resolutions, Adhika Masa rules, and eclipse clarifications backed by Nirnaya Sindhu and Dharma Sindhu.">
+    <meta property="og:image" content="https://www.vedicsamhita.com/logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Noto+Sans+Telugu:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css?v=3">
+    <style>
+        :root {
+            --maroon-deep: #4a0e0e;
+            --maroon-dark: #300808;
+            --gold-primary: #d4af37;
+            --gold-light: #fef9e7;
+            --gold-border: #ca8a04;
+            --text-dark: #1f2937;
+            --text-muted: #57534e;
+            --bg-parchment: #fffdfa;
+        }
+        body {
+            background: #fdfbf7;
+            color: var(--text-dark);
+            font-family: 'Inter', 'Noto Sans Telugu', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .dv-container {
+            max-width: 1040px;
+            margin: 0 auto;
+            padding: 20px 16px 60px 16px;
+        }
+        /* Header Hero */
+        .dv-header {
+            text-align: center;
+            padding: 30px 15px 25px 15px;
+            background: linear-gradient(180deg, rgba(74,14,14,0.06) 0%, rgba(212,175,55,0.04) 100%);
+            border-radius: 12px;
+            border: 1px solid rgba(212,175,55,0.3);
+            margin-bottom: 25px;
+        }
+        .dv-header img {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-primary);
+            box-shadow: 0 4px 12px rgba(74,14,14,0.15);
+            margin-bottom: 12px;
+        }
+        .dv-title {
+            font-family: 'Cinzel', serif;
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--maroon-deep);
+            letter-spacing: 2px;
+            margin: 0 0 6px 0;
+        }
+        .dv-subtitle {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.35rem;
+            color: #78350f;
+            font-weight: 600;
+            font-style: italic;
+            margin: 0 0 12px 0;
+        }
+        .dv-desc {
+            max-width: 780px;
+            margin: 0 auto;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+        }
+        /* Search & Filter Bar */
+        .dv-controls-card {
+            background: #ffffff;
+            border: 1.5px solid #e7e5e4;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.04);
+            margin-bottom: 25px;
+        }
+        .dv-search-input {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px 18px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            border: 2px solid #d6d3d1;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .dv-search-input:focus {
+            border-color: var(--gold-border);
+            box-shadow: 0 0 0 3px rgba(202,138,4,0.15);
+        }
+        .dv-pills-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 14px;
+        }
+        .dv-pill {
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid #d6d3d1;
+            background: #f5f5f4;
+            color: #44403c;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            user-select: none;
+        }
+        .dv-pill:hover {
+            background: #e7e5e4;
+        }
+        .dv-pill.active {
+            background: var(--maroon-deep);
+            color: #ffffff;
+            border-color: var(--maroon-deep);
+            box-shadow: 0 2px 6px rgba(74,14,14,0.25);
+        }
+        /* Question Card */
+        .dv-article-card {
+            background: #ffffff;
+            border: 1.5px solid #e7e5e4;
+            border-left: 5px solid var(--gold-primary);
+            border-radius: 10px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.03);
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .dv-article-card:hover {
+            box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+        }
+        .dv-card-tags {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+        .dv-category-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: rgba(120,53,15,0.1);
+            color: #78350f;
+        }
+        .dv-source-badge {
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: #f5f5f4;
+            color: #57534e;
+        }
+        .dv-question-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--maroon-deep);
+            margin: 0 0 14px 0;
+            line-height: 1.4;
+        }
+        .dv-verdict-box {
+            background: #fffdf5;
+            border: 1px solid #fde047;
+            border-left: 4px solid #ca8a04;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-bottom: 16px;
+        }
+        .dv-verdict-label {
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #854d0e;
+            margin-bottom: 4px;
+        }
+        .dv-verdict-text {
+            font-size: 0.95rem;
+            color: #1f2937;
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        .dv-proof-section {
+            font-size: 0.92rem;
+            color: #374151;
+            line-height: 1.65;
+        }
+        .dv-shloka-box {
+            background: #fafaf9;
+            border: 1px dashed #d6d3d1;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin: 14px 0;
+            font-family: 'Cormorant Garamond', 'Noto Sans Telugu', serif;
+            font-size: 1.15rem;
+            color: var(--maroon-dark);
+            font-weight: 600;
+            line-height: 1.5;
+        }
+        .dv-shloka-trans {
+            font-size: 0.85rem;
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: 6px;
+            font-family: 'Inter', sans-serif;
+            font-weight: normal;
+        }
+        .dv-empty-msg {
+            text-align: center;
+            padding: 40px 20px;
+            color: #78716c;
+            font-size: 1.05rem;
+            display: none;
+        }
+        /* Ask Section */
+        .dv-ask-card {
+            background: linear-gradient(135deg, #4a0e0e 0%, #300808 100%);
+            color: #ffffff;
+            border-radius: 12px;
+            padding: 28px 24px;
+            text-align: center;
+            margin-top: 40px;
+            box-shadow: 0 6px 20px rgba(74,14,14,0.25);
+        }
+        .dv-ask-card h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            color: #fde047;
+            margin: 0 0 8px 0;
+        }
+        .dv-ask-card p {
+            max-width: 680px;
+            margin: 0 auto 18px auto;
+            font-size: 0.95rem;
+            color: #e7e5e4;
+        }
+        .dv-ask-btns {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .dv-btn-ask {
+            padding: 10px 22px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .dv-btn-wa {
+            background: #25d366;
+            color: #ffffff;
+        }
+        .dv-btn-wa:hover { background: #1eb956; }
+        .dv-btn-tg {
+            background: #0088cc;
+            color: #ffffff;
+        }
+        .dv-btn-tg:hover { background: #0077b5; }
+        /* Language Visibility Rules */
+        body.lang-te .lang-en { display: none !important; }
+        body.lang-te .lang-te { display: block !important; }
+        body.lang-te span.lang-te, body.lang-te strong.lang-te, body.lang-te em.lang-te { display: inline !important; }
+        body.lang-en .lang-te { display: none !important; }
+        body.lang-en .lang-en { display: block !important; }
+        body.lang-en span.lang-en, body.lang-en strong.lang-en, body.lang-en em.lang-en { display: inline !important; }
+
+        body.lang-te { font-family: 'Noto Sans Telugu', 'Inter', sans-serif; }
+        body.lang-te .dv-title { font-family: 'Noto Sans Telugu', serif; letter-spacing: 1px; }
+        body.lang-te .dv-question-title { font-family: 'Noto Sans Telugu', serif; }
+        body.lang-te .dv-verdict-label { font-family: 'Noto Sans Telugu', sans-serif; }
+        body.lang-te .dv-shloka-box { font-family: 'Noto Sans Telugu', serif; }
+
+        @media print {
+            .site-nav, .dv-controls-card, .dv-ask-card, .community-banner { display: none !important; }
+            body { background: #fff !important; }
+            .dv-article-card { page-break-inside: avoid; border: 1px solid #ccc !important; box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="lang-en">
+
+    <!-- Site Navigation -->
+    <nav class="site-nav">
+        <a href="index.html">🙏 Daily Panchangam</a>
+        <a href="ugadi.html">📜 Ugadi Panchangam</a>
+        <a href="dharmavichara.html" class="active">📖 Dharma Vichara</a>
+        <a href="jathakam.html">🔮 Single Horoscope</a>
+        <a href="muhurtavali.html" class="admin-only">✨ Muhurtavali</a>
+        <a href="family_jathakam.html" class="admin-only">👨‍👩‍👧‍👦 Family Horoscope</a>
+        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules &amp; Notes</button>
+        <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🌐 <span id="langBtnText">English</span></button>
+        <button onclick="window.print()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🖨️ Print / PDF</button>
+    </nav>
+
+    <!-- Community Join Banner -->
+    <div class="community-banner" style="margin: 12px auto; max-width: 1040px;">
+        <span class="community-banner-text">📲 Get Daily Dallas Panchangam, Shastric Answers &amp; Festival Alerts:</span>
+        <div class="community-banner-btns">
+            <a href="https://chat.whatsapp.com/CX4p4FQ6POd1nm5Rh0Jgtt" target="_blank" rel="noopener noreferrer" class="btn-community btn-wa">💬 Join Dallas WhatsApp</a>
+            <a href="https://t.me/Vedicmobilecalendar" target="_blank" rel="noopener noreferrer" class="btn-community btn-tg">✈️ Join Telegram</a>
+        </div>
+    </div>
+
+    <div class="dv-container">
+
+        <!-- Header Hero -->
+        <header class="dv-header">
+            <img src="logo.jpg" alt="Vedic Samhita Logo">
+            <h1 class="dv-title" id="dvHeaderTitle">DHARMA VICHARA</h1>
+            <div class="dv-subtitle" id="dvHeaderSubtitle">Shastric Inquiries, Calendar Decisions &amp; Siddhanta Proofs</div>
+            <p class="dv-desc" id="dvHeaderDesc">An authoritative repository of Vedic calendar decisions, festival date resolutions, and eclipse rules calculated according to classical Dharma Shastra texts: <em>Nirnaya Sindhu</em>, <em>Dharma Sindhu</em>, <em>Surya Siddhanta</em>, <em>Smriti Kaustubha</em>, and <em>Kalamrita</em>.</p>
+        </header>
+
+        <!-- Search & Category Filters -->
+        <section class="dv-controls-card">
+            <input type="text" id="searchDharma" class="dv-search-input" placeholder="🔍 Search by festival, question, keyword or shastra (e.g. Ugadi, 2029, Eclipse, Sutak, Dallas, Maudhyam)..." oninput="filterArticles()">
+            
+            <div class="dv-pills-row" id="categoryPills">
+                <button class="dv-pill active" id="pill-all" onclick="selectCategory('all', this)">All Topics</button>
+                <button class="dv-pill" id="pill-adhika" onclick="selectCategory('adhika', this)">🌙 Adhika &amp; Kshaya Masam</button>
+                <button class="dv-pill" id="pill-eclipse" onclick="selectCategory('eclipse', this)">🌕 Eclipses &amp; Sutak</button>
+                <button class="dv-pill" id="pill-festival" onclick="selectCategory('festival', this)">📿 Festivals &amp; Vratas</button>
+                <button class="dv-pill" id="pill-timezone" onclick="selectCategory('timezone', this)">🌐 USA vs. India Timezones</button>
+                <button class="dv-pill" id="pill-math" onclick="selectCategory('math', this)">📊 Ugadi &amp; Planetary Math</button>
+            </div>
+        </section>
+
+        <!-- Articles Container -->
+        <div id="articlesContainer">
+
+            <!-- Topic 1: Vinayaka Chavithi 2026 (Madhyahna Vyapini Tithi Nirnaya) -->
+            <article class="dv-article-card" data-category="festival timezone" id="vinayaka-chavithi-2026">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📿 Festivals &amp; Vratas</span>
+                    <span class="dv-category-badge">2026 Parabhava Year</span>
+                    <span class="dv-category-badge">🌐 India &amp; USA</span>
+                    <span class="dv-source-badge">Nirnaya Sindhu • Dharma Sindhu • Skanda Purana</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: In 2026 (Parabhava Nama Samvatsaram), on which day should Vinayaka Chavithi (Varasiddhi Vinayaka Vratam) be celebrated? How does the Madhyahna Vyapini Tithi rule resolve the September 14 vs. September 15 inquiry for India and the USA?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        In both <strong>India and the USA (Dallas &amp; Americas)</strong>, <strong>Monday, September 14, 2026</strong> is the canonical, Shastrically mandated day for Varasiddhi Vinayaka Vratam, clay idol installation (<em>Murti Sthapana</em>), and worship. Because Lord Ganesha was born at midday, Dharma Shastra strictly requires <strong>Madhyahna Vyapini Chaturthi</strong> (Chaturthi active during the 3rd of the 5 daytime divisions, ~11:30 AM to 1:45 PM). On Monday, September 14, 2026, Chaturthi actively covers the Madhyahna period in both geographies. On Tuesday, September 15, 2026, Chaturthi terminates before or during early midday, making Tuesday unsuitable for the primary Vratam.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p><strong>1. The Canonical Shastric Principle (Madhyahna Vyapti):</strong></p>
+                    <p>
+                        Unlike festivals that follow sunrise (<em>Udaya Tithi</em>), Ganesha Chaturthi is strictly governed by the Lord's divine appearance time at cosmic midday (<em>Madhyahna Kala</em>). In <em>Dharma Sindhu</em> and <em>Nirnaya Sindhu</em>, the foundational ruling is:
+                    </p>
+                    <div class="dv-shloka-box">
+                        శుక్లపక్షే చతుర్థ్యాం తు మధ్యాహ్నే పూజయేద్గణమ్ |<br>
+                        మధ్యాహ్నవ్యాపినీ పూర్వా పరైవ చతుర్థీ వ్రతే ప్రశస్తా ||
+                        <div class="dv-shloka-trans">(Śuklapakṣe caturthyāṁ tu madhyāhne pūjayedgaṇam | Madhyāhnavyāpinī pūrvā paraiva caturthī vrate praśastā || — Dharma Sindhu)</div>
+                    </div>
+                    <p>
+                        Kamalakara Bhatta in <em>Nirnaya Sindhu</em> quotes the sage <em>Brihaspati</em>:
+                    </p>
+                    <div class="dv-shloka-box">
+                        చతుర్థీ గణనాథస్య మాతృవిద్ధా ప్రశస్యతే |<br>
+                        మధ్యాహ్నవ్యాపినీ యత్ర తత్ర కార్యా న సంశయః ||
+                        <div class="dv-shloka-trans">(Caturthī gaṇanāthasya mātṛviddhā praśasyate | Madhyāhnavyāpinī yatra tatra kāryā na saṁśayaḥ || — Nirnaya Sindhu)</div>
+                    </div>
+                    <p>
+                        <em>Matru-viddha</em> (Chaturthi combined with the preceding Tadiya/Tritiya) is celebrated and lauded because Goddess Parvati (the Mother) gave birth to Ganesha. Conversely, <em>Panchami-viddha</em> (Chaturthi extending into Panchami during Madhyahna) is explicitly avoided.
+                    </p>
+                    <p><strong>2. Day-Division Mechanics (Madhyahna Kala Defined):</strong></p>
+                    <p>
+                        Classical Siddhanta divides the duration from sunrise to sunset into 5 equal parts (*Kalas*):
+                    </p>
+                    <ul>
+                        <li><strong>Pratah Kala (1st Part):</strong> Sunrise to ~8:30 AM</li>
+                        <li><strong>Sangava Kala (2nd Part):</strong> ~8:30 AM to ~11:00 AM</li>
+                        <li><strong>Madhyahna Kala (3rd Part):</strong> ~11:00 AM to ~1:30 PM (approx. 6 ghatikas centered around midday) — <em>This is the divine Janma Muhurta of Ganesha.</em></li>
+                        <li><strong>Aparahna Kala (4th Part):</strong> ~1:30 PM to ~4:00 PM</li>
+                        <li><strong>Sayahna Kala (5th Part):</strong> ~4:00 PM to Sunset</li>
+                    </ul>
+                    <p><strong>3. Astronomical Calculation for 2026:</strong></p>
+                    <ul>
+                        <li><strong>In the USA (Dallas / Central &amp; Eastern Time):</strong><br>
+                            On <strong>Monday, September 14, 2026</strong>, Shukla Chaturthi begins early in the morning and continues through the entire day and night, fully covering the Madhyahna window (11:30 AM – 1:45 PM CDT). On Tuesday, September 15, Chaturthi has already expired before Madhyahna. Hence, across North America, <strong>Monday, September 14, 2026</strong> is the sole, unambiguous choice.
+                        </li>
+                        <li><strong>In India (IST):</strong><br>
+                            On <strong>Monday, September 14, 2026</strong>, Shukla Tadiya ends and Shukla Chaturthi commences around 10:45 AM IST, before the start of Madhyahna Kala. Chaturthi remains fully active through the sacred Madhyahna interval (11:36 AM – 1:48 PM IST). On Tuesday, September 15, Chaturthi is active at sunrise but ends by ~11:15 AM IST <em>before</em> the core Madhyahna puja can be completed.<br>
+                            Under the explicit rule of <em>Nirnaya Sindhu</em>: <em>"Pūrvedyureva madhyāhnavyāptau pūrvā"</em> (When Chaturthi prevails during Madhyahna on the first day, the first day alone must be accepted), <strong>Monday, September 14, 2026</strong> is the authentic scriptural day.
+                        </li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- Topic 2: Devi Navaratri & Vijaya Dashami 2026 (Kalasha Sthapana & Aparahna Dussehra) -->
+            <article class="dv-article-card" data-category="festival timezone" id="devi-navaratri-2026">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📿 Festivals &amp; Vratas</span>
+                    <span class="dv-category-badge">Sharad Navaratri 2026</span>
+                    <span class="dv-category-badge">Vijaya Dashami</span>
+                    <span class="dv-source-badge">Nirnaya Sindhu • Dharma Sindhu • Devi Bhagavata</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: In Autumn 2026, when is Sharad Devi Navaratri Kalasha Sthapana (Ghatasthapana) observed, and on which date is Vijaya Dashami (Dussehra)? What are the Shastric rules regarding Chitra Nakshatra avoidance and Shravana Nakshatra Aparahna Dashami?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        <strong>Sharad Devi Navaratri commences on Sunday, October 11, 2026 (Ashvina Shukla Pratipada)</strong> with Ghatasthapana / Kalasha Sthapana. Because Chitra Nakshatra prevails in the morning hours of October 11, Shastra strictly forbids Ghatasthapana during Chitra, and prescribes performing Kalasha Sthapana during <strong>Abhijit Muhurta (~11:45 AM to 12:35 PM)</strong>. <strong>Vijaya Dashami (Dussehra) is celebrated on Tuesday, October 20, 2026</strong> because Dashami Tithi prevails during <strong>Aparahna Kala</strong> endowed with sacred <strong>Shravana Nakshatra</strong> (<em>Shravana-yuta Aparahna Dashami</em>).
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p><strong>1. Ghatasthapana (Kalasha Sthapana) Shastra Nirnaya:</strong></p>
+                    <p>
+                        According to <em>Dharma Sindhu</em> and the <em>Devi Bhagavata Purana</em>, Kalasha Sthapana must be performed on Ashvina Shukla Pratipada during the morning. However, there is a strict prohibition against performing Sthapana while <strong>Chitra Nakshatra</strong> or <strong>Vaidhriti Yoga</strong> is active:
+                    </p>
+                    <div class="dv-shloka-box">
+                        చిత్రావైధృతియుక్తా చేత్ ప్రతిపత్ స్ధాపనే త్యజేత్ |<br>
+                        ద్విధా విభజ్య కార్యా స్యాత్ అభిజిన్ముహూర్తకే ||
+                        <div class="dv-shloka-trans">(Citrāvaidhṛtiyuktā cet pratipat sthāpane tyajet | Dvidhā vibhajya kāryā syāt abhijinmuhūrtake || — Dharma Sindhu)</div>
+                    </div>
+                    <p>
+                        Kamalakara Bhatta in <em>Nirnaya Sindhu</em> quotes the authoritative <em>Rudra Yamala Tantra</em>:
+                    </p>
+                    <div class="dv-shloka-box">
+                        చిత్రాసు పూజితా దేవీ దేశభంగం కరోతి హి |<br>
+                        వైధృతౌ తు భవేన్నాశః కులస్య చ న సంశయః ||
+                        <div class="dv-shloka-trans">(Citrāsu pūjitā devī deśabhaṅgaṁ karoti hi | Vaidhṛtau tu bhavennāśaḥ kulasya ca na saṁśayaḥ || — Rudra Yamala)</div>
+                    </div>
+                    <p>
+                        <strong>The Classical Remedy (Parihara):</strong><br>
+                        On Sunday, October 11, 2026, Pratipada is conjoined with Chitra Nakshatra during the early morning. Dharma Shastra gives the clear exception: <em>"Yadi citrā vaidhṛtī vā syāt tadā abhijinmuhūrtam āśrayet"</em> (If Chitra or Vaidhriti contaminates the morning, devotees must observe Kalasha Sthapana during <strong>Abhijit Muhurta</strong>). Abhijit Muhurta is free from all doshas and grants complete spiritual victory.
+                    </p>
+                    <p><strong>2. Vijaya Dashami (Dussehra) Shastra Nirnaya:</strong></p>
+                    <p>
+                        Vijaya Dashami is not governed by sunrise tithi; it is canonically governed by <strong>Aparahna Vyapini Dashami</strong> (Dashami during the afternoon 4th division of the day), especially when conjoined with <strong>Shravana Nakshatra</strong>:
+                    </p>
+                    <div class="dv-shloka-box">
+                        ఆశ్వయుక్ శుక్లపక్షే తు దశమీ సర్వసిద్ధిదా |<br>
+                        అపరాహ్ణే చ కర్తవ్యా శ్రవణర్క్షసమన్వితా ||
+                        <div class="dv-shloka-trans">(Āśvayuk śuklapakṣe tu daśamī sarvasiddhidā | Aparāhṇe ca kartavyā śravaṇarkṣasamanvitā || — Nirnaya Sindhu)</div>
+                    </div>
+                    <div class="dv-shloka-box">
+                        శ్రవణర్క్షం యదా యుక్తం అపరాహ్ణే చ దృశ్యతే |<br>
+                        తదా విజయసంజ్ఞా స్యాత్ పూజనీయాపరాజితా ||
+                        <div class="dv-shloka-trans">(Śravaṇarkṣaṁ yadā yuktaṁ aparāhṇe ca dṛśyate | Tadā vijayasaṁjñā syāt pūjanīyāparājitā || — Skanda Purana)</div>
+                    </div>
+                    <p>
+                        <strong>Astronomical Timing for October 2026:</strong>
+                    </p>
+                    <ul>
+                        <li>On <strong>Tuesday, October 20, 2026</strong>: In India and Dallas, Shukla Dashami prevails during <strong>Aparahna Kala (~1:30 PM to 4:00 PM)</strong>, directly conjoined with <strong>Shravana Nakshatra</strong>!</li>
+                        <li>On Wednesday, October 21, 2026: Dashami ends early in the day, and the Nakshatra has shifted to Dhanishta.</li>
+                        <li>Therefore, <strong>Tuesday, October 20, 2026</strong> is the grand scriptural <strong>Vijaya Dashami</strong> for <em>Aparajita Puja</em>, <em>Sami Puja</em>, <em>Ayudha Puja</em>, and <em>Seemollanghanam</em> (symbolic expedition for victory).</li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- Topic 3: 2029 Adhika Chaitra vs Nija Chaitra -->
+            <article class="dv-article-card" data-category="adhika festival math" id="adhika-chaitra-2029">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">🌙 Adhika Masam</span>
+                    <span class="dv-category-badge">📿 Ugadi 2029</span>
+                    <span class="dv-source-badge">Nirnaya Sindhu • Dharma Sindhu • Brahma Purana</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: In 2029, our Panchangam shows Adhika Chaitra begins on March 15, but Ugadi is on April 14. Why are there two dates, and on which day is Ugadi celebrated?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Both dates are astronomically and Shastrically correct for their respective domains: Cosmic time (Kalaganana), Samvatsara change, and Navanayaka calculation commence on <strong>March 15, 2029 (Adhika Chaitra)</strong> per Lord Brahma. However, the sacred festival of Ugadi, consuming Ugadi Pachadi (Nimba Kusuma Bhakshana), and temple worship are strictly observed on <strong>April 14, 2029 (Nija Chaitra)</strong> because all festive Kamya rituals are forbidden during a Malamasa.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p><strong>1. Why is there an Adhika Chaitra in 2029?</strong></p>
+                    <p>
+                        In Spring 2029, the first New Moon (Amavasya) occurs on March 15, 2029 at 09:49 IST with the Sun at 330.60° (Meena 0.60°). The second New Moon occurs on April 14, 2029 at 03:10 IST with the Sun at 359.97° (Meena 29.97°). The Sun enters Mesha (Mesha Sankranti) on April 14 at 03:54 IST, just 44 minutes <em>after</em> the second Amavasya!
+                    </p>
+                    <div class="dv-shloka-box">
+                        సంక్రాంతివర్జితో మాసః మలమాసః ప్రకీర్తితః ||
+                        <div class="dv-shloka-trans">(Sankrāntivarjito māsaḥ malamāsaḥ prakīrtitaḥ — Surya Siddhanta)</div>
+                    </div>
+                    <p>
+                        Because the Sun stays inside Meena throughout the entire lunar month from March 15 to April 14 without any intervening Solar Sankranti, that lunar month is designated as <strong>Adhika Chaitra (Malamasa)</strong>. The subsequent lunar month beginning April 14 is <strong>Nija Chaitra</strong>.
+                    </p>
+                    <p><strong>2. The Astronomical Ingress per Lord Brahma (March 15, 2029):</strong></p>
+                    <p>
+                        In <em>Nirnaya Sindhu</em> and <em>Panchanga Pithika Lekhana Prakriya</em>, the ancient <em>Brahma Purana</em> shloka establishes:
+                    </p>
+                    <div class="dv-shloka-box">
+                        చైత్రమాసి జగద్బ్రహ్మా ససర్జ ప్రథమేఽహని |<br>
+                        శుక్లపక్షే సమగ్రం తు తదా సూర్యోదయే సతి ||
+                        <div class="dv-shloka-trans">(Caitramāsi jagadbrahmā sasarja prathame'hani | Śuklapakṣe samagraṁ tu tadā sūryodaye sati ||)</div>
+                    </div>
+                    <p>
+                        The cosmic flow of time (*Kalaganana*) cannot be paused or delayed by 30 days. The previous Samvatsara concludes its cycle on March 15, 2029. Therefore, the **Samvatsara Name change**, the **Jagat Lagna chart**, and the **King of the year (Raja)** are mathematically calculated from **Adhika Chaitra Shukla Pratipada (Thursday, March 15, 2029)**.
+                    </p>
+                    <p><strong>3. The Festival Observance per Dharma Shastra (April 14, 2029):</strong></p>
+                    <p>
+                        In <em>Nirnaya Sindhu</em> and <em>Dharma Sindhu</em> (under *Vatsararambha Nirnaya*), Kamalakara Bhatta quotes:
+                    </p>
+                    <div class="dv-shloka-box">
+                        వర్జయేన్మలమాసం తు సర్వకర్మసు సర్వదా |<br>
+                        యదా చైత్రో మలో భవతి తదా శుద్ధే (నిజే) ఏవ వత్సరోత్సవః ||
+                        <div class="dv-shloka-trans">(Varjayenmalamāsaṁ tu sarvakarmasu sarvadā | Yadā caitro malo bhavati tadā śuddhe eva vatsarotsavaḥ ||)</div>
+                    </div>
+                    <p>
+                        All celebratory religious observances — the ceremonial oil bath (*Tailabhyangam*), consuming the neem-flower prasadam (*Ugadi Pachadi / Nimba Kusuma Bhakshana*), hoisting the Gudi flag, and Vasantotsava — **are strictly celebrated in Nija Chaitra on Saturday, April 14, 2029**.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Topic 2: Lunar Eclipse 20 Feb 2027 -->
+            <article class="dv-article-card" data-category="eclipse" id="lunar-eclipse-feb-2027">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">🌕 Eclipses &amp; Sutak</span>
+                    <span class="dv-category-badge">Magha Purnima 2027</span>
+                    <span class="dv-source-badge">Dharma Sindhu • Surya Siddhanta • Swiss Ephemeris</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: Does the Lunar Eclipse on February 20-21, 2027 have Sutak? Should temples close and devotees observe fasting?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        NO SUTAK, NO TEMPLE CLOSURES, AND NO ECLIPSE BATH (SNANA) APPLY. Regular temple rituals, pujas, cooking, and consumption of food continue without restriction.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p>
+                        According to NASA catalogs, the Swiss Ephemeris, and <em>Drik Panchang</em>, the Lunar Eclipse of February 20-21, 2027 (Magha Purnima) is a <strong>Penumbral Lunar Eclipse (Upachchaya Chandra Grahan / ఉపచ్ఛాయా గ్రహణం)</strong> with an umbral magnitude of <strong>-0.052</strong>.
+                    </p>
+                    <p><strong>The Classical Shastric Rule:</strong></p>
+                    <p>
+                        In Dharma Shastra, an eclipse is spiritually recognized only when the Moon or Sun enters the dense, dark umbral shadow of the Earth (*Chhaya Grahan / ఛాయా గ్రహణం*):
+                    </p>
+                    <div class="dv-shloka-box">
+                        ఛాదకో భాస్కరో నేందుః పిహితో భాస్కరస్య వా |<br>
+                        న స్పర్శో న చ మోక్షోఽస్తి యత్ర ఛాయా న దృశ్యతే ||
+                    </div>
+                    <p>
+                        In a penumbral eclipse, the Moon only passes through the Earth's faint outer shadow (*Upachchaya*). The Moon does not touch the dark umbra, and the eclipse is invisible to the naked human eye. Under the rules laid down in <em>Dharma Sindhu</em> and <em>Nirnaya Sindhu</em>:
+                    </p>
+                    <ul>
+                        <li><strong>No Sutak:</strong> Fasting rules (*Vedha*) do not apply.</li>
+                        <li><strong>Temples Remain Open:</strong> Sanctum sanctorums do not close, and daily Nitya and Naivedya rituals are conducted normally.</li>
+                        <li><strong>No Purificatory Bath:</strong> Post-eclipse *Grahana Moksha Snana* is not required.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- Topic 3: Global Diaspora Timezones -->
+            <article class="dv-article-card" data-category="timezone festival" id="usa-vs-india-timezones">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">🌐 Global Timezones</span>
+                    <span class="dv-category-badge">Dallas vs. India</span>
+                    <span class="dv-source-badge">Kalamrita • Nirnaya Sindhu • Siddhanta Shiromani</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: Why are Hindu festivals in Dallas/USA sometimes celebrated on a different calendar day than in India? Can we not just follow the Indian date?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Following Indian festival dates while physically residing in the USA or abroad directly violates Dharma Shastra. Every festival must be calculated based on the <strong>Local Astronomical Sunrise (Suryodaya)</strong> and <strong>Local Night Windows (Pradosha / Nisheetha)</strong> of the devotee's physical geographic location.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p>
+                        Bhaskaracharya in <em>Siddhanta Shiromani</em> and the classical authorities in <em>Kalamrita</em> explicitly rule:
+                    </p>
+                    <div class="dv-shloka-box">
+                        స్వదేశీయ సూర్యోదయానుసారేణైవ తిథినిర్ణయః |<br>
+                        దేశాంతర ఫలాదేశో వ్రతేష్వేవ ప్రశస్యతే ||
+                        <div class="dv-shloka-trans">(Svadeśīya sūryodayānusāreṇaiva tithinirṇayaḥ | Deśāntara phalādeśo vrateṣveva praśasyate ||)</div>
+                    </div>
+                    <p>
+                        <strong>The Mathematical Reality:</strong>
+                    </p>
+                    <ul>
+                        <li>Dallas, Texas is <strong>10.5 hours behind India (in Summer/CDT)</strong> and <strong>11.5 hours behind (in Winter/CST)</strong>.</li>
+                        <li>A Tithi is a celestial angle (12° separation between Sun and Moon) that begins and ends at the exact same universal instant across the universe.</li>
+                        <li>However, because the Earth rotates, when a Tithi is active during <strong>Nisheetha Kala (Midnight) in Dallas</strong>, it is already broad daylight the next morning in India!</li>
+                        <li><strong>Example (Deepavali Lakshmi Puja):</strong> Shastra requires Lakshmi Puja during *Pradosha Kala on Amavasya*. If Amavasya ends at 3:00 PM CST in Dallas, the Amavasya Pradosha occurred on the previous evening in Dallas. In India, because of the 11-hour time shift, that same Pradosha occurred on the next Gregorian date. Celebrating it when the Tithi has already expired is explicitly declared <em>Nishphala</em> (fruitless) by the Smritis.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- Topic 4: Kandaya Phalam vs 12 Rashis Adaya-Vyaya -->
+            <article class="dv-article-card" data-category="math" id="kandaya-vs-rashi">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📊 Ugadi Mathematics</span>
+                    <span class="dv-category-badge">Kandayam</span>
+                    <span class="dv-source-badge">Muhurta Darpanam • Panchanga Ganitam</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: Why does Vedic Samhita separate Kandaya Phalam from Rashi Adaya-Vyaya, instead of mixing them into one table?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Kandaya Phalam is strictly <strong>Nakshatra-based (27 Constellations)</strong> mapping seasonal trimester trends (Phases 1, 2, 3), whereas Adaya-Vyaya and Rajapujya-Avamanam are strictly <strong>Rashi-based (12 Zodiac Signs)</strong> calculated from Weekday and Planetary Dhruvas.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p><strong>1. Kandaya Phalam (27 Nakshatras):</strong></p>
+                    <p>
+                        Derived from the 5 Panchanga Angas at Sunrise on Ugadi Day combined with each Janma Nakshatra index ($J = 1 \dots 27$):
+                    </p>
+                    <div class="dv-shloka-box">
+                        Total = (Tithi + Vara + Nakshatra + Yoga + Karana) + Janma Nakshatra<br>
+                        • Phase 1 (Chaitra–Ashadha): (Total × 3) mod 8<br>
+                        • Phase 2 (Shravana–Kartika): (Total × 7) mod 3<br>
+                        • Phase 3 (Margashira–Phalguna): (Total × 3) mod 5
+                    </div>
+                    <p><strong>2. Adaya-Vyaya &amp; Rajapujya-Avamanam (12 Rashis):</strong></p>
+                    <p>
+                        Calculated exclusively for the 12 Rashis using the Year Weekday Dhruva (D_year) and the Rashi Lord Dhruva (D_lord):
+                    </p>
+                    <div class="dv-shloka-box">
+                        • Income (Adayam) = [ (D_lord + D_year) × 3 + 5 ] mod 15<br>
+                        • Expense (Vyayam) = [ Quotient × 3 + 5 ] mod 15<br>
+                        • Honor (Rajapujyam) = [ (RashiIndex + D_year) × 3 + 5 ] mod 7<br>
+                        • Disgrace (Avamanam) = [ Quotient × 3 + 5 ] mod 7
+                    </div>
+                    <p>
+                        Keeping these tables separate preserves authentic Siddhantic purity and prevents confusion between one's Janma Nakshatra and Janma Rashi.
+                    </p>
+                </div>
+            </article>
+
+            <!-- Topic 5: Eclipse Sutak Exemptions -->
+            <article class="dv-article-card" data-category="eclipse" id="sutak-exemptions">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">🌕 Eclipses &amp; Sutak</span>
+                    <span class="dv-category-badge">Fasting Rules</span>
+                    <span class="dv-source-badge">Dharma Sindhu • Smriti Chandrika</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: During visible (Umbral) eclipses, who is exempt from the strict Sutak fasting rules according to Dharma Shastra?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Children (under 8 years), the elderly (over 80 years), pregnant women, and patients requiring essential medicines/nourishment are completely exempt from the full 9-hour (or 12-hour) Sutak fast.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p>
+                        In <em>Dharma Sindhu</em>, the classical exception is clearly stated:
+                    </p>
+                    <div class="dv-shloka-box">
+                        వృద్ధ-బాల-ఆతురాణాం తు న దోషో భోజనే భవేత్ |<br>
+                        గర్భిణీనాం విశేషేణ రక్షా కార్యా ప్రయత్నతః ||
+                        <div class="dv-shloka-trans">(Vṛddha-bāla-āturāṇāṁ tu na doṣo bhojane bhavet | Garbhiṇīnāṁ viśeṣeṇa rakṣā kāryā prayatnataḥ ||)</div>
+                    </div>
+                    <p>
+                        <strong>Guidelines for Vulnerable Devotees:</strong>
+                    </p>
+                    <ul>
+                        <li><strong>Fasting Window:</strong> While healthy adults refrain from eating for 3 praharas (9 hours) before a lunar eclipse, children, pregnant mothers, and the sick may take fresh food or milk up to one prahara (3 hours) before eclipse touch.</li>
+                        <li><strong>Kusha Grass (Darbha):</strong> Tulasi leaves and Darbha grass should be placed in milk, water, and food supplies to shield them from atmospheric radiation during the eclipse.</li>
+                        <li><strong>Rest:</strong> Pregnant women should avoid viewing the eclipse outdoors and rest peacefully while chanting the <em>Santana Gopala Mantra</em> or listening to sacred stotras.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- Topic 6: Maudhyam & Auspicious Muhurtams -->
+            <article class="dv-article-card" data-category="festival math" id="maudhyam-rules">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📿 Muhurtams</span>
+                    <span class="dv-category-badge">Guru &amp; Shukra Maudhyam</span>
+                    <span class="dv-source-badge">Muhurta Chintamani • Dharma Sindhu</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: When Jupiter (Guru) or Venus (Shukra) is combust (Maudhyam / Moodami), which rituals are forbidden and which are allowed?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Major life-cycle milestones (Marriages, New Housewarming, Upanayanam, Deity Consecrations) are strictly forbidden during Maudhyam. However, daily Nitya pujas, Garbhadhana, Seemantha (baby shower), Shanti homas, and emergency remedies are fully permitted.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p>
+                        <em>Muhurta Chintamani</em> states that when Guru or Shukra is combust by proximity to the Sun, their auspicious shielding power (*Guru Bala* and *Shukra Bala*) is incapacitated:
+                    </p>
+                    <div class="dv-shloka-box">
+                        మౌఢ్యే శుక్రేఽథవా జీవే వివాహ-వ్రత-బంధనమ్ |<br>
+                        గృహప్రవేశం చార్చాం చ వర్జయేత్ సర్వథా బుధః ||
+                    </div>
+                    <p>
+                        <strong>Forbidden during Maudhyam:</strong>
+                    </p>
+                    <ul>
+                        <li>Vivaham (Marriage / Wedding)</li>
+                        <li>Nootana Gruhapravesham (First entry into a newly constructed home)</li>
+                        <li>Upanayanam (Sacred Thread ceremony)</li>
+                        <li>Pratishta (Consecration of new temple deities)</li>
+                    </ul>
+                    <p>
+                        <strong>Allowed during Maudhyam:</strong>
+                    </p>
+                    <ul>
+                        <li>Nitya and Naimittika Sandhyavandana, Agnihotra, and daily temple worship</li>
+                        <li>Seemanthonnayana, Jatakarma, and Namakarana (time-bound prenatal and neonatal rites)</li>
+                        <li>Shanti Homas and Mrityunjaya Japa for illness or planetary afflictions</li>
+                    </ul>
+                </div>
+            </article>
+
+
+            <!-- Topic 7: Smartha vs. Vaishnava Ekadashi Determination -->
+            <article class="dv-article-card" data-category="festival" id="smartha-vaishnava-ekadashi">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📿 Festivals &amp; Vratas</span>
+                    <span class="dv-category-badge">Ekadashi Nirnaya</span>
+                    <span class="dv-source-badge">Nirnaya Sindhu • Padma Purana • Hari Bhakti Vilasa</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: Why do Smarthas and Vaishnavas sometimes observe Ekadashi fasting on different calendar days?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Smarthas observe Ekadashi when the Tithi is active at sunrise (<em>Suryodaya-vyapini</em>) unless Dashami extends into the final 48 minutes of dawn (<em>Arunodaya Viddha</em> &gt; 2 ghatikas). Vaishnavas follow absolute <em>Viddha-tyaga</em>: if Dashami touches even a single second of the Arunodaya period (96 minutes before sunrise), they discard that day completely and observe the fast on Dvadashi (known as <em>Bhagavata Ekadashi</em> or <em>Shuddha Ekadashi</em>).
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p>
+                        This distinction originates from canonical rulings in the <em>Padma Purana</em>, <em>Bhavishya Purana</em>, and Sri Sanatana Goswami's <em>Hari Bhakti Vilasa</em>:
+                    </p>
+                    <div class="dv-shloka-box">
+                        దశమీవేధసంయుక్తా యా భవేదేకాదశీ క్వచిత్ |<br>
+                        న కార్యా వైష్ణవైస్సర్వైః నరకైకప్రదాయినీ ||
+                        <div class="dv-shloka-trans">(Daśamīvedhasaṁyuktā yā bhavedekādaśī kvacit | Na kāryā vaiṣṇavaissarvaiḥ narakaikopradāyinī || — Padma Purana)</div>
+                    </div>
+                    <p>
+                        <strong>1. The Arunodaya Window Defined:</strong><br>
+                        Arunodaya is the sacred dawn interval spanning exactly 4 Ghatikas (96 minutes) prior to astronomical sunrise. 
+                    </p>
+                    <ul>
+                        <li><strong>Smartha Rule (Advaita Parampara):</strong> If Dashami finishes more than 2 Ghatikas (48 minutes) before sunrise, the day is considered pure enough for householders (*Smarthas*) to fast on Ekadashi.</li>
+                        <li><strong>Vaishnava Rule (Madhva, Sri Vaishnava &amp; Gaudiya):</strong> If Dashami touches even a microsecond of the 96-minute Arunodaya window, it is considered spiritually contaminated (*Viddha*). Vaishnavas completely skip fasting on that day and instead fast on the following day (Dvadashi), which is designated as <em>Bhagavata Ekadashi</em>.</li>
+                    </ul>
+                    <p>
+                        <strong>2. The Parana Requirement (Breaking the Fast):</strong><br>
+                        Shastra explicitly declares that fasting without proper *Parana* (breaking the fast before Dvadashi Tithi concludes) nullifies the merit of the vrata:
+                    </p>
+                    <div class="dv-shloka-box">
+                        ద్వాదశ్యాం పారణం కుర్యాత్ వర్జయిత్వా హరివాసరమ్ |
+                        <div class="dv-shloka-trans">(Dvādaśyāṁ pāraṇaṁ kuryāt varjayitvā harivāsaram || — Dharma Sindhu)</div>
+                    </div>
+                    <p>
+                        Devotees must break their fast after sunrise within the span of Dvadashi, but must avoid *Hari Vasara* (the first quarter / 15 ghatis of Dvadashi).
+                    </p>
+                </div>
+            </article>
+
+            <!-- Topic 8: Sankranti Punya Kala for Night Ingress -->
+            <article class="dv-article-card" data-category="festival timezone" id="sankranti-punyakala-night">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📿 Festivals &amp; Vratas</span>
+                    <span class="dv-category-badge">🌐 Timezones</span>
+                    <span class="dv-category-badge">Makara Sankranti</span>
+                    <span class="dv-source-badge">Nirnaya Sindhu • Dharma Sindhu • Surya Siddhanta</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: When Makara Sankranti or Mesha Sankranti occurs at night or after sunset, when is the Punya Kala (Holy Bath &amp; Charity) observed?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Because performing sacred river baths (<em>Snana</em>) and charitable donations (<em>Dana</em>) during the night is forbidden (<em>Rātrau snānaṁ na kartavyam</em>), <em>Dharma Sindhu</em> rules that if the Sun enters a new Rashi before local midnight, Punya Kala shifts backward to the preceding afternoon. If it enters after local midnight, Punya Kala shifts forward to the following morning. For Makara Sankranti specifically, the entire following solar day is celebrated as Punya Kala.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p>
+                        <em>Dharma Sindhu</em> and <em>Nirnaya Sindhu</em> establish the exact mathematical demarcation for nocturnal solar ingress (<em>Nishi Sankranti</em>):
+                    </p>
+                    <div class="dv-shloka-box">
+                        నిశీథాత్ ప్రాగ్ యదా సంక్రమతి భానుః తదా పూర్వేద్యురపరాహ్ణే పుణ్యకాలః |<br>
+                        అర్ధరాత్రాత్ పరే త్వన్యేద్యుః ప్రాతః కాలే ప్రకీర్తితః ||
+                        <div class="dv-shloka-trans">(Niśīthāt prāg yadā saṅkramati bhānuḥ tadā pūrvedyuraparāhṇe puṇyakālaḥ | Ardharātrāt pare tvanyedyuḥ prātaḥ kāle prakīrtitaḥ || — Dharma Sindhu)</div>
+                    </div>
+                    <p>
+                        <strong>Special Mandate for Makara Sankranti (Uttarayana Ingress):</strong>
+                    </p>
+                    <div class="dv-shloka-box">
+                        రాత్రౌ సంక్రమణే భానుః మకరార్కస్య సంక్రమే |<br>
+                        పరతః పుణ్యకాలః స్యాత్ పూర్వతస్తు కదాచన ||
+                        <div class="dv-shloka-trans">(Rātrau saṅkramaṇe bhānuḥ makarārkasya saṅkrame | Parataḥ puṇyakālaḥ syāt pūrvatastu kadācana || — Nirnaya Sindhu)</div>
+                    </div>
+                    <p>
+                        Because the Sun initiates its holy northern trajectory (*Uttarayana*), darkness must give way to light. Therefore:
+                    </p>
+                    <ul>
+                        <li>If Makara Sankranti occurs anytime between sunset and midnight, or after midnight, the entire Punya Kala, sacred sesame bath (*Tila Snana*), charity (*Dana*), and Pongal cooking are celebrated <strong>on the following morning after sunrise</strong>.</li>
+                        <li>This explains why Makara Sankranti is often celebrated on <strong>January 15</strong> in Gregorian calendars when the planetary ingress occurs late in the evening or night of January 14.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- Topic 9: Tarabala and Chandrabala Compatibility -->
+            <article class="dv-article-card" data-category="math festival" id="tarabala-chandrabala">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📊 Ugadi Math</span>
+                    <span class="dv-category-badge">📿 Muhurtams</span>
+                    <span class="dv-source-badge">Muhurta Chintamani • Kalamrita</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: What are Tarabala and Chandrabala in Muhurta selection, and what are the scriptural remedies (Pariharas) if an auspicious day falls on an unfavorable Tara?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Tarabala measures the harmony between the event day's Moon star and the native's birth star across 9 cyclical Taras, where Taras 2 (Sampat), 4 (Kshema), 6 (Sadhaka), 8 (Mitra), and 9 (Parama Mitra) are auspicious. Chandrabala ensures the Moon transits signs 1, 3, 6, 7, 10, or 11 from the natal Moon sign. If an unavoidable milestone falls on an unfavorable Tara (Vipat, Pratyak, or Vadha), Shastra prescribes specific Danas (Jaggery, Salt, Gold) and declares that a strong, benefic Lagna (<em>Lagnam Shrestham</em>) neutralizes lunar flaws.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p>
+                        <em>Muhurta Chintamani</em> enumerates the 9 Taras:
+                    </p>
+                    <div class="dv-shloka-box">
+                        జన్మ సంపద్విపత్ క్షేమః ప్రత్యరిః సాధకో వధః |<br>
+                        మిత్రం పరమమిత్రం చ తారాబలం ప్రకీర్తితమ్ ||
+                        <div class="dv-shloka-trans">(Janma sampadvipat kṣemaḥ pratyariḥ sādhako vadhaḥ | Mitraṁ paramamitraṁ ca tārābalaṁ prakīrtitam ||)</div>
+                    </div>
+                    <p>
+                        <strong>The Nine Taras Classified:</strong>
+                    </p>
+                    <ol>
+                        <li><strong>1. Janma Tara:</strong> Bodily stress. Neutral in 2nd/3rd cycles; strictly avoid for marriage and long journeys in the 1st cycle.</li>
+                        <li><strong>2. Sampat Tara:</strong> Wealth, abundance, and prosperity (Highly Auspicious).</li>
+                        <li><strong>3. Vipat Tara:</strong> Danger, loss, and obstacles (Inauspicious).</li>
+                        <li><strong>4. Kshema Tara:</strong> Wellbeing, security, and health (Highly Auspicious).</li>
+                        <li><strong>5. Pratyak Tara:</strong> Impediments, arguments, and hindrances (Inauspicious).</li>
+                        <li><strong>6. Sadhana Tara:</strong> Accomplishment and success (Highly Auspicious).</li>
+                        <li><strong>7. Naidhana / Vadha Tara:</strong> Severe affliction and danger (Most Inauspicious).</li>
+                        <li><strong>8. Mitra Tara:</strong> Friendship, joy, and peace (Auspicious).</li>
+                        <li><strong>9. Parama Mitra Tara:</strong> Supreme fortune and divine favor (Highly Auspicious).</li>
+                    </ol>
+                    <p>
+                        <strong>Classical Scriptural Remedies (Parihara per Kalamrita):</strong><br>
+                        If an urgent occasion (e.g. medical surgery, unavoidable job joining, or critical travel) must be undertaken on a compromised Tara:
+                    </p>
+                    <div class="dv-shloka-box">
+                        గుడదానం విపత్తారే ప్రత్యరే లవణం తథా |<br>
+                        వధతారే సువర్ణం చ దత్వా కర్మ సమాచరేత్ ||
+                        <div class="dv-shloka-trans">(Guḍadānaṁ vipattāre pratyare lavaṇaṁ tathā | Vadhatāre suvarṇaṁ ca datvā karma samācaret || — Kalamrita)</div>
+                    </div>
+                    <ul>
+                        <li><strong>For Vipat Tara (3):</strong> Donate Jaggery (<em>Guda Dana</em>) to a Brahmin or temple prior to starting.</li>
+                        <li><strong>For Pratyak Tara (5):</strong> Donate Salt (<em>Lavana Dana</em>).</li>
+                        <li><strong>For Vadha/Naidhana Tara (7):</strong> Donate Gold, Sesame, or cow's ghee (<em>Suvarna / Tila Dana</em>).</li>
+                        <li><strong>Lagnam Shrestham Rule:</strong> Classical astrology dictates that an auspicious, powerful Ascendant (Lagna) with Jupiter in Kendra/Trikona nullifies thousands of lunar afflictions: <em>"Kim kurvanti grahaḥ sarve yasya kendre Brihaspatiḥ"</em>.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <!-- Topic 10: Maha Shivaratri — Nishitha Kala vs Chaturdashi Sunrise -->
+            <article class="dv-article-card" data-category="festival" id="shivaratri-nishitha">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📿 Festivals &amp; Vratas</span>
+                    <span class="dv-category-badge">Maha Shivaratri</span>
+                    <span class="dv-source-badge">Nirnaya Sindhu • Skanda Purana • Linga Purana</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: Why is Maha Shivaratri determined by midnight (Nisheetha Kala) rather than the Tithi at sunrise?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        The cosmic manifestation of Lord Shiva as the pillar of fire (<em>Lingodbhava</em>) occurred precisely at midnight (<em>Nisheetha Kala</em>). Therefore, unlike most Vedic festivals that follow Sunrise (<em>Udaya Tithi</em>), Maha Shivaratri is strictly governed by <strong>Nisheetha Vyapini Chaturdashi</strong>. If Chaturdashi touches midnight on Krishna Trayodashi night, the Shivaratri fast and all 4 Prahar pujas are performed that night.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p>
+                        In <em>Nirnaya Sindhu</em> and <em>Skanda Purana</em>, the sage Vyasa states:
+                    </p>
+                    <div class="dv-shloka-box">
+                        మాఘాసితచతుర్దశ్యాం రాత్రావేవ మహేశ్వరః |<br>
+                        లింగరూపేణ సంభూతః కోటిసూర్యసమప్రభః ||
+                        <div class="dv-shloka-trans">(Māghāsitacaturdaśyāṁ rātrāveva maheśvaraḥ | Liṅgarūpeṇa sambhūtaḥ koṭisūryasamaprabhaḥ || — Skanda Purana)</div>
+                    </div>
+                    <div class="dv-shloka-box">
+                        నిశీథవ్యాపినీ గ్రాహ్యా చతుర్దశీ శివవ్రతే |<br>
+                        పూర్వేద్యుః ఏవ తద్యోగే పూర్వేద్యుః కార్యం భవేత్ ||
+                        <div class="dv-shloka-trans">(Niśīthavyāpinī grāhyā caturdaśī śivavrate | Pūrvedyuḥ eva tadyoge pūrvedyuḥ kāryaṁ bhavet || — Nirnaya Sindhu)</div>
+                    </div>
+                    <p>
+                        <strong>How Nisheetha Kala is Calculated:</strong>
+                    </p>
+                    <ul>
+                        <li>Astronomical night (sunset to next sunrise) is divided into 15 equal parts (*Muhurtas*).</li>
+                        <li>The 8th Muhurta of the night is <strong>Nisheetha Kala</strong> (centered directly around local astronomical midnight, typically spanning ~11:40 PM to ~12:30 AM).</li>
+                        <li>Even if Chaturdashi prevails for only 1 Ghati (24 minutes) during Nisheetha Kala, that night is selected for the great fast, Jagaran, and Rudrabhishekam.</li>
+                    </ul>
+                </div>
+            </article>
+
+        </div>
+
+        
+            <!-- Topic 13: Chaturveda Upanayana Muhurta Nirnayam (Shakha Rules & Veda Adhipati Bala) -->
+            <article class="dv-article-card" data-category="math festival" id="caturveda-upanayana-muhurta">
+                <div class="dv-card-tags">
+                    <span class="dv-category-badge">📜 Muhurta &amp; Samskara</span>
+                    <span class="dv-category-badge">Chaturveda Upanayana</span>
+                    <span class="dv-category-badge">Veda Shakhas</span>
+                    <span class="dv-source-badge">Muhurta Chintamani • Dharma Sindhu • Kalamrita</span>
+                </div>
+                <h2 class="dv-question-title">
+                    Question: How do Upanayanam Muhurta rules differ among the Four Vedas (Rigveda, Yajurveda, Samaveda, Atharvaveda)? What are the Veda-Adhipati planetary requirements?
+                </h2>
+                <div class="dv-verdict-box">
+                    <div class="dv-verdict-label">Official Shastric Verdict:</div>
+                    <div class="dv-verdict-text">
+                        Classical Muhurta texts mandate that each Veda has its own ruling planet (Veda-Adhipati): <strong>Guru for Rigveda, Shukra for Yajurveda, Kuja for Samaveda, and Budha for Atharvaveda</strong>. While all Vedas require Uttarayana and Shukla Paksha, Rigvedis prioritize Guru-bala &amp; Pushya/Punarvasu; Yajurvedis prioritize Shukra-bala &amp; Hasta/Chitra/Swati/Anuradha; Samavedis strictly forbid Mars in the 8th house; and Atharvavedis prioritize Mercury &amp; Wednesday.
+                    </div>
+                </div>
+                <div class="dv-proof-section">
+                    <p><strong>1. The Foundational Veda-Adhipati Shloka:</strong></p>
+                    <p>
+                        In <em>Muhurta Chintamani</em> (Samskara Prakarana) and <em>Dharma Sindhu</em>, the governing planets for the four Vedas are canonized as:
+                    </p>
+                    <div class="dv-shloka-box">
+                        గురుర్బహ్వృచానాం శుక్రో యజుషాం మంగళః సామగానాం బుధోఽథర్వణానామ్ |
+                        <div class="dv-shloka-trans">(gururbahvṛcānāṃ śukro yajuṣāṃ maṅgalaḥ sāmagānāṃ budho'tharvaṇānām | — Muhurta Chintamani)</div>
+                    </div>
+                    <p><strong>2. Veda-Specific Astrological Formulas:</strong></p>
+                    <ul>
+                        <li><strong>Rigveda (Bahvricha / Ashvalayana):</strong> Ruled by <strong>Guru (Jupiter)</strong>. Supreme weekdays: Thursday (Guruvara). Supreme Nakshatras: Pushya (Guru's star) and Punarvasu (Aditi's star). Guru must NEVER be combust (Maudhyam). Strict Anadhyayana on 1st, 8th, 14th, 15th, and 30th tithis.</li>
+                        <li><strong>Yajurveda (Taittiriya / Apastamba &amp; Vajasaneyi):</strong> Ruled by <strong>Shukra (Venus)</strong>. Supreme weekdays: Friday (Shukravara). Supreme Nakshatras: Hasta, Chitra, Swati, Anuradha, Rohini. Shukra must NEVER be combust or debilitated in Kanya.</li>
+                        <li><strong>Samaveda (Chandogya / Kauthuma):</strong> Ruled by <strong>Kuja (Mars)</strong>. Mars must be strong in Upachaya houses (3, 6, 10, 11). Mars in the 8th house (Ashtama Kuja) is strictly prohibited. Nakshatras: Hasta, Shravana, Dhanishta, Rohini, Mrigashira, Pushya. Strict avoidance of Saptami tithi and vocal Anadhyayana days.</li>
+                        <li><strong>Atharvaveda (Shaunaka / Pippalada):</strong> Ruled by <strong>Budha (Mercury)</strong>. Supreme weekday: Wednesday (Budhavara). Nakshatras: Chitra, Swati, Dhanishta, Shatabhisha, Revati. Mercury must be direct (Riju) and unafflicted.</li>
+                    </ul>
+                </div>
+            </article>
+
+        <!-- No Results Message -->
+        <div id="noResultsMsg" class="dv-empty-msg">
+            🔍 No Shastric decisions matched your search query. Try searching with different keywords like "Ugadi", "Eclipse", "2029", "Sutak", or "Dallas".
+        </div>
+
+        <!-- Ask the Siddhanti Section -->
+        <section class="dv-ask-card">
+            <h3>❓ Have a Complex Shastric or Festival Inquiry?</h3>
+            <p>
+                Our Vedic Samhita Siddhantis and Dharma Shastra researchers examine classical palm-leaf manuscripts, Puranas, and Siddhantas to resolve genuine community doubts. Submit your inquiry directly:
+            </p>
+            <div class="dv-ask-btns">
+                <a href="https://chat.whatsapp.com/CX4p4FQ6POd1nm5Rh0Jgtt" target="_blank" rel="noopener noreferrer" class="dv-btn-ask dv-btn-wa">
+                    💬 Submit Inquiry via WhatsApp
+                </a>
+                <a href="https://t.me/Vedicmobilecalendar" target="_blank" rel="noopener noreferrer" class="dv-btn-ask dv-btn-tg">
+                    ✈️ Ask on Telegram Community
+                </a>
+            </div>
+        </section>
+
+    </div>
+
+    
+    <!-- Scripts -->
+    <script>
+        let currentCategory = 'all';
+        let CURRENT_LANG = 'en';
+
+        try {
+            const saved = localStorage.getItem('VS_LANG');
+            if (saved) CURRENT_LANG = saved;
+        } catch(e) {}
+
+        const DHARMA_TRANSLATIONS = {
+            en: {
+                headerTitle: "DHARMA VICHARA",
+                headerSubtitle: "Shastric Inquiries, Calendar Decisions & Siddhanta Proofs",
+                headerDesc: "An authoritative repository of Vedic calendar decisions, festival date resolutions, and eclipse rules calculated according to classical Dharma Shastra texts: <em>Nirnaya Sindhu</em>, <em>Dharma Sindhu</em>, <em>Surya Siddhanta</em>, <em>Smriti Kaustubha</em>, and <em>Kalamrita</em>.",
+                searchPlaceholder: "🔍 Search by festival, question, keyword or shastra (e.g. Vinayaka, Devi, 2029, Eclipse, Sutak)...",
+                verdictLabel: "Official Shastric Verdict:",
+                btnText: "English",
+                pills: {
+                    all: "All Topics",
+                    adhika: "🌙 Adhika & Kshaya Masam",
+                    eclipse: "🌕 Eclipses & Sutak",
+                    festival: "📿 Festivals & Vratas",
+                    timezone: "🌐 USA vs. India Timezones",
+                    math: "📊 Ugadi & Planetary Math"
+                },
+                emptyMsg: "🔍 No Shastric decisions matched your search query. Try searching with different keywords like 'Vinayaka', 'Eclipse', '2029', 'Sutak', or 'Dallas'.",
+                askTitle: "❓ Have a Complex Shastric or Festival Inquiry?",
+                askDesc: "Our Vedic Samhita Siddhantis and Dharma Shastra researchers examine classical palm-leaf manuscripts, Puranas, and Siddhantas to resolve genuine community doubts. Submit your inquiry directly:",
+                askWa: "💬 Submit Inquiry via WhatsApp",
+                askTg: "✈️ Ask on Telegram Community"
+            },
+            te: {
+                headerTitle: "ధర్మ విచార",
+                headerSubtitle: "ప్రామాణిక ధర్మశాస్త్ర నిర్ణయాలు & సిద్ధాంత ప్రమాణాలు",
+                headerDesc: "నిర్ణయసింధు, ధర్మసింధు, సూర్యసిద్ధాంతం, స్మృతికౌస్తుభం మరియు కాలామృతం ప్రామాణిక గ్రంథాల ఆధారంగా పండుగల తిథి నిర్ణయాలు, సంక్రమణ నియమాలు, అధికమాస సూత్రాలు మరియు గ్రహణ సూతక విచారణల ప్రామాణిక వేదిక.",
+                searchPlaceholder: "🔍 పండుగ, సందేహం, శాస్త్ర ప్రమాణంతో శోధించండి (ఉదా: వినాయక, దేవి నవరాత్రులు, గ్రహణం, సూతకం)...",
+                verdictLabel: "ప్రామాణిక శాస్త్రీయ నిర్ణయము:",
+                btnText: "తెలుగు",
+                pills: {
+                    all: "అన్ని అంశాలు",
+                    adhika: "🌙 అధిక & క్షయ మాసాలు",
+                    eclipse: "🌕 గ్రహణాలు & సూతకం",
+                    festival: "📿 పండుగలు & వ్రతాలు",
+                    timezone: "🌐 దేశాంతర కాలమానాలు",
+                    math: "📊 ఖగోళ & జ్యోతిష గణితం"
+                },
+                emptyMsg: "🔍 మీ శోధనకు సరిపోలిన ధర్మశాస్త్ర నిర్ణయాలు కనుగొనబడలేదు. 'వినాయక', 'గ్రహణం', 'అధిక చైత్రం', 'సూతకం' వంటి పదాలతో శోధించండి.",
+                askTitle: "❓ ధర్మశాస్త్ర లేదా పండుగలపై సందేహాలు కలవా?",
+                askDesc: "వేద సంహిత సిద్ధాంతులు మరియు ధర్మశాస్త్ర పరిశోధకులు ప్రామాణిక తాళపత్ర గ్రంథాలు, పురాణాలు మరియు సిద్ధాంతాల ఆధారంగా మీ సందేహాలను నివృత్తి చేస్తారు. మీ సందేహాన్ని నేరుగా పంపండి:",
+                askWa: "💬 వాట్సాప్ ద్వారా సందేహాన్ని పంపండి",
+                askTg: "✈️ టెలిగ్రామ్ ద్వారా అడగండి"
+            }
+        };
+
+        const ARTICLE_TEXTS = {
+            'vinayaka-chavithi-2026': {
+                q_te: "సందేహం: 2026 (శ్రీ పరాభవ నామ సంవత్సరం) లో వినాయక చవితి (వరసిద్ధి వినాయక వ్రతం) ఏ రోజున ఆచరించాలి? మధ్యాహ్న వ్యాపినీ తిథి నిర్ణయం ప్రకారం భారతదేశం మరియు అమెరికా (USA) లలో సెప్టెంబర్ 14 లేదా సెప్టెంబర్ 15 లలో ఏది శాస్త్ర సమ్మతం?",
+                v_te: "భారతదేశం మరియు అమెరికా (డల్లాస్ & యు.ఎస్.ఎ) రెండింటిలోనూ, <strong>సోమవారం, సెప్టెంబర్ 14, 2026</strong> నాడు మాత్రమే వరసిద్ధి వినాయక వ్రతము, మృణ్మయ విగ్రహ ప్రతిష్ఠాపన మరియు పూజలు శాస్త్ర సమ్మతము. గణపతి జన్మ సమయం మధ్యాహ్నం అయినందున ధర్మశాస్త్రం <strong>మధ్యాహ్న వ్యాపినీ చతుర్థి</strong> (పగటి కాలంలోని 3వ భాగమైన మధ్యాహ్నం 11:30 నుండి 1:45 వరకు చతుర్థి వ్యాప్తి) తప్పనిసరి అని నిర్దేశించినది. సెప్టెంబర్ 14 సోమవారం నాడు మధ్యాహ్న కాలంలో చతుర్థి పరిపూర్ణంగా వ్యాపించి ఉన్నది. సెప్టెంబర్ 15 మంగళవారం ఉదయానికే చతుర్థి సమాప్తమగుచున్నందున మంగళవారం నాడు ప్రధాన పూజకు శాస్త్రీయ అర్హత లేదు."
+            },
+            'devi-navaratri-2026': {
+                q_te: "సందేహం: శరన్నవరాత్రులు 2026 లో కలశ స్థాపన (ఘటస్థాపన) ఎప్పుడు చేయాలి? మరియు విజయదశమి (దసరా) ఏ తేదీన జరుపుకోవాలి? చిత్రా నక్షత్ర వర్జ్యం మరియు అపరాహ్ణ శ్రవణ యుక్త దశమి శాస్త్ర నియమాలు ఏమిటి?",
+                v_te: "శారదా దేవి శరన్నవరాత్రులు <strong>ఆదివారం, అక్టోబర్ 11, 2026 (ఆశ్వయుజ శుక్ల పాడ్యమి)</strong> నాడు కలశ స్థాపనతో ప్రారంభమగును. ఉదయం వేళ చిత్రా నక్షత్ర దోషం ఉన్నందున, ధర్మశాస్త్ర శాసనం ప్రకారం దోష పరిహారార్థం <strong>అభిజిత్ ముహూర్తం (~11:45 AM నుండి 12:35 PM)</strong> లో మాత్రమే ఘటస్థాపన చేయవలెను. ఇక విజయదశమి (దసరా) పర్వదినం <strong>మంగళవారం, అక్టోబర్ 20, 2026</strong> నాడు నిర్వహించవలెను; ఏలయనగా ఆ రోజున అపరాహ్ణ కాలంలో పవిత్రమైన శ్రవణా నక్షత్రంతో కూడిన దశమి (<em>శ్రవణయుక్త అపరాహ్ణ దశమి</em>) వ్యాపించి ఉన్నది."
+            },
+            'adhika-chaitra-2029': {
+                q_te: "సందేహం: 2029 (శ్రీ సౌమ్య నామ సంవత్సరం) లో అధిక చైత్ర మాసం ఎందుకు వస్తుంది? ఉగాది పండుగను మార్చి 15, 2029 నాడు చేయాలా లేక ఏప్రిల్ 14, 2029 నాడు చేయాలా?",
+                v_te: "శాస్త్ర ప్రకారం ఈ రెండు తేదీలకు విశిష్ట స్థానములు కలవు: బ్రహ్మ పురాణం ప్రకారం కాలగణన, నూతన సంవత్సర నామ ప్రవేశం మరియు రాజాది నవనాయకుల లెక్కలు <strong>మార్చి 15, 2029 (అధిక చైత్ర శుక్ల పాడ్యమి)</strong> నాడు ప్రారంభమగును. అయితే ఉగాది పండుగ, వేపపూత పచ్చడి సేవనం (నింబ కుసుమ భక్షణము), నూనె స్నానం మరియు ఉత్సవాలు <strong>ఏప్రిల్ 14, 2029 (నిజ చైత్ర శుక్ల పాడ్యమి)</strong> నాడు మాత్రమే ఆచరించవలెను; ఏలయనగా మలమాసంలో పండుగలు, కామ్య కర్మలు నిషేధించబడినవి."
+            },
+            'lunar-eclipse-feb-2027': {
+                q_te: "సందేహం: ఫిబ్రవరి 20–21, 2027 నాటి సంపూర్ణ చంద్రగ్రహణ సమయంలో సూతక కాల నియమాలు ఏమిటి? ఇది భారతదేశం మరియు ఉత్తర అమెరికా (USA) రెండింటికీ వర్తిస్తుందా?",
+                v_te: "ఈ చంద్రగ్రహణం ఉత్తర, దక్షిణ అమెరికా మరియు యూరప్ ఖండాలలో సంపూర్ణంగా కనిపించును, కానీ <strong>భారతదేశంలో కనిపించదు</strong>. <em>'యస్య దర్శనం తస్య గ్రహణమ్'</em> అను శాస్త్ర ప్రమాణం ప్రకారం, గ్రహణం ఎక్కడ కనిపిస్తుందో అక్కడి వారికి మాత్రమే సూతకం, ఆహార నియమాలు మరియు ఆలయ మూసివేత వర్తించును. కావున భారతదేశంలో ఎటువంటి సూతకం లేదు, నిత్య పూజలు యథావిధిగా నిర్వహించుకోవచ్చు."
+            },
+            'usa-vs-india-timezones': {
+                q_te: "సందేహం: అమెరికా (డల్లాస్, న్యూయార్క్, కాలిఫోర్నియా) లో పండుగల తేదీలు భారతదేశ తేదీల కన్నా ఒక రోజు ముందుగా లేదా భిన్నంగా ఎందుకు వస్తాయి? అమెరికాలో కూడా భారతదేశ పంచాంగ తేదీలనే పాటించవచ్చా?",
+                v_te: "భారతదేశ పంచాంగ తేదీలను అమెరికాలో గుడ్డిగా పాటించరాదు. హిందూ ధర్మశాస్త్రాల ప్రకారం తిథి, పండుగలు మరియు వ్రతాలు సంబంధిత వ్యక్తి నివసించే <strong>స్థానిక సూర్యోదయం మరియు స్థానిక కాలమానం (Local Sunrise)</strong> ఆధారంగా మాత్రమే నిర్ణయించబడాలి. అమెరికా భారతదేశం కంటే 10.5 నుండి 13.5 గంటలు వెనుకబడి ఉన్నందున, భారతదేశంలో మధ్యాహ్నం లేదా రాత్రి ఉండే తిథి అమెరికాలో ఒక రోజు ముందుగానే ప్రారంభమవుతుంది."
+            },
+            'kandaya-vs-rashi': {
+                q_te: "సందేహం: ఉగాది పంచాంగంలో కందాయ ఫలాలు (27 నక్షత్రాలు) మరియు రాశి ఫలాలు (12 రాశులు) మధ్య తేడా ఏమిటి? ఏది అత్యంత ప్రామాణికమైనది?",
+                v_te: "రెండూ ప్రామాణికమైనవే, కానీ వాటి ప్రయోజనాలు వేరు: <strong>రాశి ఫలాలు</strong> అనేవి జన్మ రాశి ఆధారంగా బృహస్పతి, శని, రాహు-కేతువుల గోచార సంచారాన్ని విశ్లేషిస్తాయి. <strong>కందాయ ఫలాలు</strong> అనేవి ఉగాది నాటి పంచాంగ పంచాంగాల (తిథి, వార, నక్షత్ర, యోగ, కరణాలు) గణిత ఆధారంగా 27 జన్మ నక్షత్రాలకు సంవత్సర కాలంలో 3 భాగాలలో ఆదాయ-వ్యయాల శాతాలను కచ్చితంగా తెలియజేస్తాయి."
+            },
+            'sutak-exemptions': {
+                q_te: "సందేహం: ధర్మసింధు మరియు నిర్ణయసింధు ప్రకారం గ్రహణ సూతక నియమాల నుండి ఎవరికి మినహాయింపు కలదు? మంచినీరు, ఔషధాలు సేవించవచ్చా?",
+                v_te: "<strong>బాలలు, వృద్ధులు, గర్భిణీ స్త్రీలు మరియు రోగులకు</strong> కఠినమైన ఉపవాస నియమాల నుండి శాస్త్రం స్పష్టమైన మినహాయింపు ఇచ్చింది. వీరు గ్రహణానికి 1 ప్రహరం (3 గంటల) ముందు వరకు పాలు, పండ్లు, లఘు ఆహారం తీసుకోవచ్చు. నిల్వ ఉంచిన మంచినీరు, పాలు, ఆహార పదార్థాలపై <strong>దర్భలు (కుశలు)</strong> ఉంచడం ద్వారా గ్రహణ వికిరణ దోషం నుండి రక్షణ కలుగుతుంది."
+            },
+            'maudhyam-rules': {
+                q_te: "సందేహం: గురు, శుక్ర మౌఢ్యాల (మూఢమి) సమయంలో ఏ శుభకార్యాలు నిషిద్ధం, మరియు ఏ కర్మలు ఆచరించవచ్చు?",
+                v_te: "<strong>వివాహాలు, ఉపనయనాలు, నూతన గృహప్రవేశాలు, విగ్రహ ప్రతిష్ఠాపనలు</strong> మూఢమి సమయంలో పూర్తిగా నిషిద్ధం. అయితే నిత్య పూజలు, సీమంతం, గర్భాధానం, శాంతి హోమాలు, ప్రయాణాలు మరియు అత్యవసర పరిహార పూజలు నిరభ్యంతరంగా చేసుకోవచ్చు."
+            },
+            'smartha-vaishnava-ekadashi': {
+                q_te: "సందేహం: స్మార్త మరియు వైష్ణవ పంచాంగాలలో ఏకాదశి వ్రతం వేర్వేరు రోజులలో ఎందుకు వస్తుంది? అరుణోదయ విద్ధ నియమం అంటే ఏమిటి?",
+                v_te: "స్మార్తులు సూర్యోదయ వేళ ఉండే <strong>శుద్ధ ఏకాదశిని</strong> పాటిస్తారు. వైష్ణవులు సూర్యోదయానికి ముందు 4 ఘటికల (96 నిమిషాలు) అరుణోదయ కాలంలో దశమి స్పర్శ ఉంటే దానిని <strong>అరుణోదయ విద్ధ</strong> అని విడిచిపెట్టి, మరుసటి రోజున మాత్రమే ద్వాదశీ యుక్త ఏకాదశి (భాగవత ఏకాదశి) వ్రతం ఆచరిస్తారు."
+            },
+            'sankranti-punyakala-night': {
+                q_te: "సందేహం: మకర సంక్రాంతి (సూర్యుడు మకర రాశిలోకి ప్రవేశించే సమయం) రాత్రి వేళ జరిగితే, సంక్రాంతి పండుగ మరియు పుణ్యకాల స్నాన-దానాలు ఏ రోజున ఆచరించాలి?",
+                v_te: "సూర్య సంక్రమణం అర్ధరాత్రికి పూర్వమే జరిగితే, ఆ రోజు మధ్యాహ్నం పుణ్యకాలమగును. ఒకవేళ అర్ధరాత్రి తర్వాత లేదా రాత్రి వేళ సంక్రమణం జరిగితే, <strong>మరుసటి రోజు సూర్యోదయం నుండి</strong> పుణ్యకాల స్నాన-దానాలు, పండుగను శాస్త్రోక్తంగా ఆచరించవలెను."
+            },
+            'tarabala-chandrabala': {
+                q_te: "సందేహం: ముహూర్త నిర్ణయంలో తారాబలం మరియు చంద్రబలం ఎలా లెక్కిస్తారు? నవతార సూత్రం ఏమిటి?",
+                v_te: "జన్మ నక్షత్రం నుండి దిన నక్షత్రం వరకు లెక్కించి 9 చే భాగిస్తే వచ్చే శేషం ఆధారంగా తార తెలుస్తుంది. <strong>సంపత్ (2), క్షేమ (4), సాధన (6), మిత్ర (8), పరమమిత్ర (9)</strong> తారలు అత్యంత శుభప్రదాలు. అలాగే జన్మ రాశి నుండి గోచార చంద్రుడు <strong>1, 3, 6, 7, 10, 11</strong> స్థానాలలో ఉన్నప్పుడు చంద్రబలం సంపూర్ణంగా ఉంటుంది."
+            },
+            'shivaratri-nishitha': {
+                q_te: "సందేహం: మహాశివరాత్రి పర్వదినాన నిశీథ కాల వ్యాప్తి ఎందుకు ప్రధానం? త్రయోదశి మరియు చతుర్దశిల మధ్య నిర్ణయం ఎలా చేయాలి?",
+                v_te: "పరమశివుడు అర్ధరాత్రి వేళ లింగోద్భవ కాలంలో (<strong>నిశీథ కాలం</strong> — రాత్రి 15 ముహూర్తాలలో 8వ ముహూర్తమైన సుమారు 11:45 PM నుండి 12:35 AM మధ్య) జ్యోతిర్లింగంగా ఆవిర్భవించాడు. కావున నిశీథ కాలంలో చతుర్దశి వ్యాపించి ఉన్న రాత్రి వేళనే మహాశివరాత్రి వ్రతం, లింగోద్భవ పూజ మరియు జాగరణ చేయవలెను."
+            },
+            'caturveda-upanayana-muhurta': {
+                q_te: "సందేహం: నాలుగు వేదాల (ఋగ్వేదం, యజుర్వేదం, సామవేదం, అథర్వణవేదం) ఉపనయన ముహూర్తాలలో గల శాస్త్రీయ తేడాలు ఏమిటి? వేదాధిపతి గ్రహాల బల నిర్ణయం ఎలా చేయాలి?",
+                v_te: "ధర్మసింధు మరియు ముహూర్త చింతామణి ప్రకారం నాలుగు వేదాలకు వేర్వేరు అధిపతులు కలరు: <strong>ఋగ్వేదానికి గురువు, యజుర్వేదానికి శుక్రుడు, సామవేదానికి కుజుడు, అథర్వణవేదానికి బుధుడు</strong> అధిపతులు. అందరికీ ఉత్తరాయణం శుక్లపక్షం ముఖ్యమైనప్పటికీ, ఋగ్వేదులకు గురుబలం & పుష్య/పునర్వసు నక్షత్రాలు ప్రధానం; యజుర్వేదులకు శుక్రబలం & హస్త/చిత్త/స్వాతి/అనూరాధ ప్రధానం; సామవేదులకు అష్టమ కుజ వర్జ్యం తప్పనిసరి; అథర్వణవేదులకు బుధవారం మరియు బుధబలం శ్రేష్ఠం."
+            }
+        };
+
+        // Cache original English contents on load
+        const ORIGINAL_ARTICLE_CONTENTS = {};
+
+        function cacheOriginalContents() {
+            document.querySelectorAll('.dv-article-card').forEach(card => {
+                const id = card.id;
+                const qEl = card.querySelector('.dv-question-title');
+                const vEl = card.querySelector('.dv-verdict-text');
+                if (qEl && vEl) {
+                    ORIGINAL_ARTICLE_CONTENTS[id] = {
+                        q_en: qEl.innerHTML.trim(),
+                        v_en: vEl.innerHTML.trim()
+                    };
+                }
+            });
+        }
+
+        function toggleLanguage() {
+            CURRENT_LANG = (CURRENT_LANG === 'en') ? 'te' : 'en';
+            try { localStorage.setItem('VS_LANG', CURRENT_LANG); } catch(e) {}
+            applyLanguage();
+        }
+
+        function applyLanguage() {
+            const isTe = (CURRENT_LANG === 'te');
+            const t = isTe ? DHARMA_TRANSLATIONS.te : DHARMA_TRANSLATIONS.en;
+
+            document.body.classList.remove('lang-en', 'lang-te');
+            document.body.classList.add(isTe ? 'lang-te' : 'lang-en');
+
+            const btnText = document.getElementById('langBtnText');
+            if (btnText) btnText.textContent = t.btnText;
+
+            const hTitle = document.getElementById('dvHeaderTitle');
+            if (hTitle) hTitle.textContent = t.headerTitle;
+
+            const hSub = document.getElementById('dvHeaderSubtitle');
+            if (hSub) hSub.textContent = t.headerSubtitle;
+
+            const hDesc = document.getElementById('dvHeaderDesc');
+            if (hDesc) hDesc.innerHTML = t.headerDesc;
+
+            const sInput = document.getElementById('searchDharma');
+            if (sInput) sInput.placeholder = t.searchPlaceholder;
+
+            // Category pills
+            for (const key in t.pills) {
+                const pill = document.getElementById('pill-' + key);
+                if (pill) pill.textContent = t.pills[key];
+            }
+
+            // Verdict labels
+            document.querySelectorAll('.dv-verdict-label').forEach(el => {
+                el.textContent = t.verdictLabel;
+            });
+
+            // Article questions and verdicts
+            document.querySelectorAll('.dv-article-card').forEach(card => {
+                const id = card.id;
+                const orig = ORIGINAL_ARTICLE_CONTENTS[id];
+                const tr = ARTICLE_TEXTS[id];
+                const qEl = card.querySelector('.dv-question-title');
+                const vEl = card.querySelector('.dv-verdict-text');
+
+                if (qEl && orig && tr) {
+                    qEl.innerHTML = isTe ? tr.q_te : orig.q_en;
+                }
+                if (vEl && orig && tr) {
+                    vEl.innerHTML = isTe ? tr.v_te : orig.v_en;
+                }
+            });
+
+            // Ask card
+            const askH3 = document.querySelector('.dv-ask-card h3');
+            if (askH3) askH3.textContent = t.askTitle;
+            const askP = document.querySelector('.dv-ask-card p');
+            if (askP) askP.textContent = t.askDesc;
+            const askWa = document.querySelector('.dv-btn-wa');
+            if (askWa) askWa.textContent = t.askWa;
+            const askTg = document.querySelector('.dv-btn-tg');
+            if (askTg) askTg.textContent = t.askTg;
+
+            const emptyEl = document.getElementById('noResultsMsg');
+            if (emptyEl) emptyEl.textContent = t.emptyMsg;
+
+            filterArticles();
+        }
+
+        function selectCategory(cat, btn) {
+            currentCategory = cat;
+            document.querySelectorAll('#categoryPills .dv-pill').forEach(p => p.classList.remove('active'));
+            if (btn) btn.classList.add('active');
+            filterArticles();
+        }
+
+        function filterArticles() {
+            const query = (document.getElementById('searchDharma').value || '').toLowerCase().trim();
+            const cards = document.querySelectorAll('.dv-article-card');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                const cats = (card.getAttribute('data-category') || '').toLowerCase();
+                
+                const matchesCategory = (currentCategory === 'all') || cats.includes(currentCategory);
+                const matchesQuery = !query || text.includes(query);
+
+                if (matchesCategory && matchesQuery) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            const emptyMsg = document.getElementById('noResultsMsg');
+            if (emptyMsg) {
+                emptyMsg.style.display = (visibleCount === 0) ? 'block' : 'none';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            cacheOriginalContents();
+            applyLanguage();
+
+            const hash = window.location.hash;
+            if (hash) {
+                const target = document.querySelector(hash);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    target.style.outline = '2px solid #ca8a04';
+                    setTimeout(() => target.style.outline = 'none', 3000);
+                }
+            }
+        });
+    </script>
+
+    <script src="security-rbac.js"></script>
+    <script src="pwa.js"></script>
+</body>
+</html>

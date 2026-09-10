@@ -14,10 +14,12 @@
   flawlessly to fit any device screen (mobile, tablet, or desktop) without 
   losing visual quality.
 
-• Session-Based Localization:
-  English is the default language. Users can toggle to Telugu instantly; 
-  this choice dynamically translates the interface for that specific user’s 
-  session without affecting anyone else.
+• Mandatory English for Standard Users & Multi-Lingual Admin Controls:
+  English is mandatory and the exclusive default language for all standard users 
+  across the entire website and web app.
+  Multi-lingual capabilities (Telugu, Sanskrit, etc.) are strictly reserved for 
+  the Super Admin. The Super Admin can select Telugu or Sanskrit for admin panels, 
+  analysis, and the Shastra Devotee Q&A Chat Box to compose authentic replies for devotees.
 
 
 2. Geolocation & Data Privacy
@@ -75,4 +77,29 @@
   Super Admin receives automated 10-day advance Kaala Vyapini festival alerts
   directly at 1vedasamhita@gmail.com.
 
+
+5. Astrological Nomenclature & Sanskrit Standards
+-------------------------------------------------------------------------------
+• Pure Sanskrit Navagraha Names:
+  Graha names across all screens, charts, and outputs must strictly be in pure 
+  Sanskrit only:
+  - Surya (not Sun)
+  - Chandra (not Moon)
+  - Kuja / Mangala (not Mars)
+  - Budha (not Mercury)
+  - Guru / Brihaspati (not Jupiter)
+  - Shukra (not Venus)
+  - Shani (not Saturn)
+  - Rahu
+  - Ketu
+
+• Pure Sanskrit Rashi Names:
+  Rashi names in Lagna Kundali / Chakra, Panchangam, and charts must strictly be 
+  in pure Sanskrit without English translations or "rashi" suffixes:
+  Mesha, Vrishabha, Mithuna, Karkataka, Simha, Kanya, Tula, Vrishchika, 
+  Dhanus, Makara, Kumbha, Meena.
+  (e.g., "Mesha", not "Aries", not "Mesham", not "Mesha Rashi"; 
+   "Mithuna", not "Gemini", not "Mithunam", not "Mithuna Rashi").
+
 ═══════════════════════════════════════════════════════════════════════════════
+

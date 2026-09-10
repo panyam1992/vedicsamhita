@@ -65,7 +65,7 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+Telugu:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css?v=2">
 
 <style>
@@ -95,11 +95,12 @@
 <!-- Site Navigation -->
 <div style="text-align:center; padding:10px 14px; background:#4a0e0e; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:12px;">
     <a href="index.html" id="navDaily" style="color:#ffffff; background:rgba(212,168,83,0.3); border-radius:4px; padding:4px 8px; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; font-weight:bold;">🙏 Daily Panchangam</a>
-    <a href="ugadi.html" id="navUgadi" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Phalalu</a>
+    <a href="ugadi.html" id="navUgadi" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Panchangam</a>
+    <a href="dharmavichara.html" id="navDharma" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📖 Dharma Vichara</a>
     <a href="jathakam.html" id="navJathakam" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🔮 Single Jathakam</a>
     <a href="muhurtavali.html" id="navMuhurta" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
     <a href="family_jathakam.html" id="navFamily" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
-    <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Mandali',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
+    <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
     <button class="lang-toggle-btn" style="display:none;" onclick="toggleLanguage()">🌐 <span id="langBtnText">English</span></button>
 </div>
 
@@ -143,8 +144,8 @@
 
 
 <div class="panchang-doc" id="resultsSection" style="display:none;">
-    <div class="floating-btns admin-only">
-        <button style="display:none;" onclick="exportICal()">📅 iCal</button>
+    <div class="floating-btns">
+        <button type="button" class="btn-floating-download" onclick="openDownloadModal()">📥 Download iCal & PDF</button>
     </div>
     <div style="text-align:center; margin-bottom: 10px;">
         <img src="logo.jpg" alt="Vedic Samhita Logo" style="max-width: 250px; height: auto; display: block; margin: 0 auto; border-radius: 10px;">
@@ -181,10 +182,6 @@
     <div class="pitem"><span class="plabel" id="lblVasara">Vasara</span> <span class="pval" id="valVasara"></span></div>
     <div class="plist-label" id="lblNakshatram">Nakshatram</div>
     <ol class="plist" id="valNakshatra"></ol>
-    <div class="plist-label" id="lblPadam">Nakshatra Padam</div>
-    <ol class="plist" id="valPadam"></ol>
-    <div class="plist-label" id="lblAnandadiYoga">Anandadi Yoga</div>
-    <ol class="plist" id="valAnandadiYoga"></ol>
     <div class="plist-label" id="lblYogam">Yogam</div>
     <ol class="plist" id="valYoga"></ol>
     <div class="plist-label" id="lblKaranam">Karanam</div>
@@ -193,6 +190,10 @@
         <div class="plist-label" id="lblMaudhyam">Maudhyam</div>
         <ol class="plist" id="valMaudhyam"></ol>
     </div>
+    <div class="plist-label" id="lblPadam">Nakshatra Padam</div>
+    <ol class="plist" id="valPadam"></ol>
+    <div class="plist-label" id="lblAnandadiYoga">Anandadi Yoga</div>
+    <ol class="plist" id="valAnandadiYoga"></ol>
 
     <div class="divider-ornament">⟡ ⟡ ⟡</div>
 
@@ -323,6 +324,24 @@
 
     <hr class="divider">
 
+    <!-- Dedicated Downloads Section -->
+    <div class="download-card-section" style="margin: 25px 0; background: #fffcf5; border: 2px solid #ca8a04; border-radius: 10px; padding: 20px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+        <div style="font-family: 'Cinzel', serif; font-size: 16pt; font-weight: bold; color: #4a0808; letter-spacing: 2px;">
+            📥 VEDICSAMHITA PANCHANGAM DOWNLOADS
+        </div>
+        <div style="font-size: 10pt; color: #78350f; margin-top: 4px;">
+            Get accurate iCal &amp; PDF for your current location (<span id="inpageCityDisplay" style="font-weight:bold;">Dallas, TX</span>)
+        </div>
+        <div style="margin-top: 14px; display: flex; justify-content: center; gap: 12px; flex-wrap: wrap;">
+            <button type="button" class="btn-dl-action" onclick="openDownloadModal('ical')" style="padding: 10px 20px; background: #1e40af; color: #fff; border: none; border-radius: 6px; font-family: inherit; font-size: 11pt; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(30,64,175,0.3);">
+                📅 Download iCal (.ics)
+            </button>
+            <button type="button" class="btn-dl-action" onclick="openDownloadModal('pdf')" style="padding: 10px 20px; background: #4a0808; color: #fde047; border: none; border-radius: 6px; font-family: inherit; font-size: 11pt; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 8px; box-shadow: 0 2px 8px rgba(74,8,8,0.3);">
+                📖 Download Panchangam PDF
+            </button>
+        </div>
+    </div>
+
     <!-- Community Join Banner (Bottom) -->
     <div class="community-banner" style="margin-top: 20px; margin-bottom: 25px;">
         <span class="community-banner-text">📲 Get Daily Dallas Panchangam & Sacred Artwork on Your Phone:</span>
@@ -367,8 +386,143 @@
   </div>
 </div>
 
+<!-- Universal Panchangam Download Modal (iCal & PDF) -->
+<div id="downloadModal" class="vs-modal" style="display:none;">
+  <div class="vs-modal-backdrop" onclick="closeDownloadModal()"></div>
+  <div class="vs-modal-dialog">
+    <button type="button" class="vs-modal-close" onclick="closeDownloadModal()">&times;</button>
+    
+    <div class="vs-modal-header">
+      <div class="vs-modal-icon">📥</div>
+      <div>
+        <h2 class="vs-modal-title">VEDICSAMHITA DOWNLOAD CENTER</h2>
+        <p class="vs-modal-subtitle">Download Vedic Panchangam iCal (.ics) Calendar &amp; High-Precision PDF</p>
+      </div>
+    </div>
+
+    <div class="vs-modal-body">
+      <!-- Active Location Banner -->
+      <div class="modal-location-banner">
+        <span class="loc-pin">📍</span>
+        <div>
+          <span class="loc-label">Active Base Location:</span>
+          <strong id="modalCityName" class="loc-val">Dallas, TX (USA)</strong>
+          <span id="modalCityCoords" class="loc-coords"></span>
+        </div>
+      </div>
+
+      <!-- Year & Mana Selectors -->
+      <div class="modal-form-grid">
+        <div class="modal-form-group">
+          <label class="modal-field-label" for="modalYearSelect">📅 Year &amp; Samvatsaram:</label>
+          <select id="modalYearSelect" class="modal-select">
+            <option value="2026" selected>2026 – 2027 (Sri Parabhava Nama Samvatsaram)</option>
+            <option value="2027">2027 – 2028 (Sri Plavanga Nama Samvatsaram)</option>
+          </select>
+        </div>
+
+        <div class="modal-form-group">
+          <label class="modal-field-label">✨ Reckoning System (Mana):</label>
+          <div class="mana-options-grid">
+            <label class="mana-card active" id="manaCard_chandramana">
+              <input type="radio" name="modalMana" value="chandramana" checked onchange="onManaRadioChange('chandramana')">
+              <div class="mana-card-content">
+                <span class="mana-icon">🌙</span>
+                <div class="mana-text">
+                  <div class="mana-title">Chandramana (Lunar)</div>
+                  <div class="mana-desc">Lunar month &amp; tithi cycle (Ugadi to Ugadi). Default for Telugu, Kannada &amp; Vedic traditions.</div>
+                </div>
+              </div>
+            </label>
+            
+            <label class="mana-card" id="manaCard_sauramana">
+              <input type="radio" name="modalMana" value="sauramana" onchange="onManaRadioChange('sauramana')">
+              <div class="mana-card-content">
+                <span class="mana-icon">☀️</span>
+                <div class="mana-text">
+                  <div class="mana-title">Sauramana (Solar)</div>
+                  <div class="mana-desc">Solar ingress (Sankranti) &amp; solar month transit reckoning.</div>
+                </div>
+              </div>
+            </label>
+
+            <label class="mana-card" id="manaCard_barhaspatyamana">
+              <input type="radio" name="modalMana" value="barhaspatyamana" onchange="onManaRadioChange('barhaspatyamana')">
+              <div class="mana-card-content">
+                <span class="mana-icon">🪐</span>
+                <div class="mana-text">
+                  <div class="mana-title">Barhaspatyamana (Jovian)</div>
+                  <div class="mana-desc">60-year Jovian (Jupiter / Guru Rashi) cyclic reckoning.</div>
+                </div>
+              </div>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Containers -->
+      <div class="download-options-container">
+        <!-- iCal Option -->
+        <div class="download-action-box ical-box">
+          <div class="box-header">
+            <span class="box-badge">Apple • Google • Outlook</span>
+            <h3>📅 Smart iCal (.ics) Calendar</h3>
+            <p>Sync all 384 days directly to your smartphone &amp; laptop calendar.</p>
+          </div>
+          <ul class="box-specs">
+            <li>✔️ <strong>Strict Clean Titles:</strong> <code>{Year} {Month} {Paksha} {Tithi}</code> (No festival names in title)</li>
+            <li>✔️ <strong>Event Body:</strong> Sunrise, Sunset, Moonrise, Moonset, Tithi, Nakshatra with Pada, Yoga, Karana</li>
+            <li>✔️ <strong>Kala:</strong> Rahu Kalam, Yamaganda, Gulika, Durmuhuratam, Varjyam, Amrita Kalam, Abhijit</li>
+            <li>✔️ <strong>Credits:</strong> Ramachandra shastry Munimadugu • Vedic Samhita</li>
+          </ul>
+          <button type="button" class="btn-primary-download btn-ical" onclick="executeICalDownload()">
+            📥 Download iCal Calendar (.ics)
+          </button>
+        </div>
+
+        <!-- PDF Option -->
+        <div class="download-action-box pdf-box">
+          <div class="box-header">
+            <span class="box-badge">High-Resolution Printable PDF</span>
+            <h3>📖 Panchangam Publication Book</h3>
+            <p>Complete official printed panchangam book with artwork &amp; full predictions.</p>
+          </div>
+          <ul class="box-specs">
+            <li>✔️ <strong>Page 1 Cover:</strong> Traditional Subrahmanya Swamy Temple Watercolor</li>
+            <li>✔️ <strong>Front Matter:</strong> Ugadi Phalitālu, Navanāyaka Shlokas, Ādāya-Vyaya, Kandāya &amp; Makara Sankrānti</li>
+            <li>✔️ <strong>Subsequent Pages:</strong> 8-column monthly landscape panchangam tables</li>
+          </ul>
+          <div class="pdf-btn-group">
+            <button type="button" class="btn-primary-download btn-pdf-book" onclick="executePublicationPdfDownload()">
+              📖 40-Page Publication Book (Ugadi–Ugadi)
+            </button>
+            <button type="button" class="btn-secondary-download btn-pdf-grid" onclick="executeCalendarGridDownload()">
+              🗓️ Monthly Wall-Calendar Grid (Jan–Dec)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Download Progress Overlay -->
+      <div id="modalDownloadProgress" style="display:none; margin-top:15px; text-align:center; background:#fdf6e2; padding:15px; border-radius:8px; border:1px solid #d4af37;">
+        <div style="font-weight:bold; color:#4a0e0e; margin-bottom:8px;" id="modalProgressTitle">Computing Astronomical Data...</div>
+        <div style="background:#e5e7eb; border-radius:6px; height:18px; overflow:hidden; width:100%; max-width:400px; margin:0 auto;">
+          <div id="modalProgressBar" style="background:#4a0e0e; height:100%; width:0%; transition:width 0.2s;"></div>
+        </div>
+        <div id="modalProgressText" style="font-size:0.85rem; color:#666; margin-top:6px;">Processing...</div>
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="modal-credits-footer">
+        <strong>VEDICSAMHITA</strong> • Siddhanta Karta: <em>Ramachandra shastry Munimadugu</em><br>
+        Vedic Astronomy &amp; Dharma Shastra Computation System • Lahiri Drik Ganita • <a href="https://www.vedicsamhita.com" target="_blank" rel="noopener">www.vedicsamhita.com</a>
+      </div>
+    </div>
+  </div>
+</div>
+
     <script src="festival_rules.js"></script>
-    <script src="panchangam-v18.js?v=8"></script>
+    <script src="panchangam-v18.js?v=9"></script>
     <script src="https://cdn.jsdelivr.net/npm/@indic-transliteration/sanscript@1.2.8/sanscript.js"></script>
     <script src="security-rbac.js"></script>
     <script src="pwa.js"></script>

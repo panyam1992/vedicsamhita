@@ -1,0 +1,307 @@
+{
+  "source_authorities": [
+    "Dharma Sindhu (ధర్మసింధు) by Kashinatha Upadhyaya",
+    "Nirnaya Sindhu (నిర్ణయ సింధు) by Kamalakara Bhatta",
+    "Purohitha Darshani (పురోహిత దర్శిని)"
+  ],
+  "nomenclature": {
+    "grahas": [
+      "Surya",
+      "Chandra",
+      "Kuja",
+      "Budha",
+      "Guru",
+      "Shukra",
+      "Shani",
+      "Rahu",
+      "Ketu"
+    ],
+    "rashis": [
+      "Mesha",
+      "Vrishabha",
+      "Mithuna",
+      "Karkataka",
+      "Simha",
+      "Kanya",
+      "Tula",
+      "Vrishchika",
+      "Dhanus",
+      "Makara",
+      "Kumbha",
+      "Meena"
+    ]
+  },
+  "kaala_vyapti": {
+    "description": "Division of daylight and night into 5 parts (Kalas) and 15 Muhurtas to determine ritual tithi",
+    "day_parts": [
+      {
+        "part": "Prathama Kaala / Pratah Kaala",
+        "range": "1st of 5 daytime parts (0/5 to 1/5 of day)",
+        "usage": "Snanam, Sandhyavandanam, Devata Aradhana"
+      },
+      {
+        "part": "Sangava Kaala",
+        "range": "2nd of 5 daytime parts (1/5 to 2/5 of day)",
+        "usage": "Nitya Pujas, Japa, Adhyayana"
+      },
+      {
+        "part": "Madhyahna Kaala",
+        "range": "3rd of 5 daytime parts (2/5 to 3/5 of day)",
+        "usage": "Abhijit Muhurta, Vaisvadeva, Brahma Yajna, Madhyahnika Sandhya, Ganesha / Rama Puja"
+      },
+      {
+        "part": "Aparahna Kaala",
+        "range": "4th of 5 daytime parts (3/5 to 4/5 of day)",
+        "usage": "Shraaddha karma (Kutapa and Rauhina muhurtas), Pitru tarpanam"
+      },
+      {
+        "part": "Sayahna Kaala",
+        "range": "5th of 5 daytime parts (4/5 to 5/5 of day)",
+        "usage": "Sandhya Vandanam, Pradosha Vrata aarambham, Deepa darsanam"
+      }
+    ],
+    "night_parts": [
+      {
+        "part": "Pradosha Kaala",
+        "range": "First 2 ghatikas (approx 48-72 minutes) after Sunset",
+        "usage": "Pradosha Vrata, Shiva Puja, Deeparadhana"
+      },
+      {
+        "part": "Nisitha Kaala",
+        "range": "8th Muhurta of night (centered exactly around midnight)",
+        "usage": "Maha Shivaratri Lingodbhava Puja, Krishna Janmashtami, Devi Puja"
+      },
+      {
+        "part": "Usha Kaala / Brahma Muhurta",
+        "range": "Last 2 ghatikas before Sunrise (approx 48-96 minutes before Sunrise)",
+        "usage": "Brahma Muhurtam: Dhyana, Yoga, Gayatri Japa, Prabodha"
+      }
+    ]
+  },
+  "vrata_upavasa_rules": {
+    "ekadashi": {
+      "name_te": "ఏకాదశి వ్రత నిర్ణయం & ఉపవాస నియమాలు",
+      "authority": "Dharma Sindhu Pariccheda 1, Nirnaya Sindhu",
+      "core_principles": [
+        "Ekadashi must be observed on Shuddha Ekadashi (free of Dashami viddha).",
+        "Dashami Viddha Rejection: If Dashami tithi extends into Suryodaya by even 1 pala (Aruna Kirana Viddha / Suryodaya Viddha), it is considered Viddha and rejected by Smarthas and Vaishnavas.",
+        "Smartha vs Vaishnava: When Ekadashi is present on both days, Smarthas observe the first day if Dashami is clear; Bhagavatas/Vaishnavas observe on the second day (Dvadashi Viddha / Bhagavata Ekadashi).",
+        "Harivasara Rule: Harivasara comprises the last 1/4th (one quarter) of Ekadashi tithi AND the first 1/4th of Dvadashi tithi. Strict prohibition: No Parana (breaking fast) must EVER be done during Harivasara.",
+        "Parana Timing: If Dvadashi tithi expires before midday, Parana must be completed within the morning before Dvadashi ends. If Dvadashi is long, Parana is done in Pratah Kaala after regular morning worship.",
+        "Parana with Water / Tulasi: If Dvadashi is expiring rapidly during Harivasara, Shastra allows taking holy water (Tulasi Tirtha) to conclude the fast lawfully, followed by food after Harivasara concludes."
+      ],
+      "diet_restrictions": [
+        "Strict prohibition of rice, wheat, grains, pulses, and beans on Ekadashi.",
+        "Permitted for elders/infirm (Phalahara): Fruits, milk, nuts, water, sago, root vegetables.",
+        "No sleeping during daytime (Diva-svapna varjanam) on Ekadashi day."
+      ]
+    },
+    "maha_shivaratri": {
+      "name_te": "మహాశివరాత్రి నిర్ణయం & నిశీథ పూజ",
+      "authority": "Dharma Sindhu & Nirnaya Sindhu",
+      "rules": [
+        "Maha Shivaratri is observed on Magha Bahula Chaturdashi when Chaturdashi prevails during Nisitha Kaala (midnight).",
+        "If Chaturdashi touches Nisitha on both days, the day with greater Nisitha vyapti or preceding Trayodashi combination is preferred.",
+        "Chaturyama Puja: 4-period abhishekam and archana throughout the night.",
+        "Jagaram: Devotees maintain complete vigil through the night with Rudrabhishekam and Bilvarchana.",
+        "Parana: Observed the following morning after Sunrise and Shiva darshanam."
+      ]
+    },
+    "sankranti": {
+      "name_te": "సంక్రాంతి పుణ్యకాల నిర్ణయం & దాన నియమాలు",
+      "authority": "Dharma Sindhu Pariccheda 1",
+      "types": {
+        "makara_sankranti": {
+          "desc": "Surya enters Makara (Capricorn) — Uttarayana Arambham",
+          "punyakalam": "40 ghatikas (approx 16 hours) following the exact ingress (Sankramana) moment. If entry occurs after sunset, Punyakalam is observed on the next days sunrise.",
+          "recommended_danas": [
+            {
+              "dana": "Tila Dana (నువ్వుల దానం)",
+              "benefit": "Destroys chronic illnesses and planetary afflictions of Shani."
+            },
+            {
+              "dana": "Vastra Dana (నూతన వస్త్ర దానం)",
+              "benefit": "Brings prosperity, dignity, and longevity."
+            },
+            {
+              "dana": "Godana or Dhanya Dana (గోదానం / ధాన్య దానం)",
+              "benefit": "Cleanses ancestral sins (Pitru mukti)."
+            },
+            {
+              "dana": "Deepa Dana (దీప దానం)",
+              "benefit": "Bestows enlightenment and removal of darkness."
+            }
+          ]
+        },
+        "karkataka_sankranti": {
+          "desc": "Surya enters Karkataka (Cancer) — Dakshinayana Arambham",
+          "punyakalam": "30 ghatikas preceding the ingress."
+        },
+        "vishuva_sankranti": {
+          "desc": "Mesha and Tula Sankranti (Equinoxes)",
+          "punyakalam": "15 ghatikas before and 15 ghatikas after."
+        }
+      }
+    },
+    "grahanam": {
+      "name_te": "గ్రహణ వేధ, ఆహార, మరియు గర్భిణీ నియమాలు",
+      "authority": "Dharma Sindhu & Nirnaya Sindhu",
+      "vedha_timings": {
+        "surya_grahanam": "Vedha commences 4 praharas (12 hours) prior to Sparsha (contact). Cooking and eating stopped.",
+        "chandra_grahanam": "Vedha commences 3 praharas (9 hours) prior to Sparsha (contact). Cooking and eating stopped.",
+        "exemptions": "Children (Baala), aged (Vriddha), patients/infirm (Aatura), and pregnant women (Garbhini) need to stop eating only 1 prahara (approx 3 hours) before eclipse touch."
+      },
+      "garbhini_rules": [
+        "Must remain indoors in a safe, tranquil room away from direct eclipse rays.",
+        "Strict prohibition of cutting objects (vegetables, fruits), stitching with needles, or knife handling during eclipse.",
+        "Chant Santana Gopala Mantra, Gayatri, or listen to Vishnu Sahasranama to maintain peace.",
+        "No sleeping during the active eclipse duration; sitting comfortably or reclining without distress is permitted."
+      ],
+      "graha_protection": [
+        "Place Darbha (Kusha grass) blades on drinking water, milk, curd, pickles, and cooked grains to prevent negative cosmic radiation.",
+        "Discard any remaining unprotected cooked foods after the eclipse."
+      ],
+      "moksha_vidhi": [
+        "Moksha Snanam: Immediate sacred bath as soon as the eclipse ends (with clothes worn during eclipse).",
+        "Change Yajnopavita (sacred thread) after eclipse snanam.",
+        "Tarpanam and Dana: Perform Pitru Tarpanam and donate coins, sesame, grains, or metals to the needy."
+      ]
+    },
+    "ashaucha": {
+      "name_te": "అశౌచ (సూతక) నిర్ణయం & పూజా నియమాలు",
+      "authority": "Dharma Sindhu Pariccheda 3",
+      "types": {
+        "janana_ashaucha": {
+          "name": "Purudu (పురుడు) - Birth Impurity",
+          "duration": "10 days for parents and Sapindas. Father becomes pure for performing Jatakarma immediately after birth snanam.",
+          "rules": "No Vedic rites or temple visits during 10 days. From 11th day onwards, after Shuddhi Snanam, normal worship resumes."
+        },
+        "mrita_ashaucha": {
+          "name": "Pedda Sutakam (పెద్ద సూతకం) - Death Impurity",
+          "duration": "10 days for Sapindas (within 7 generations). 3 days for Samanodakas (up to 14 generations). Snana matram for Sagotras.",
+          "rules": "Temple entry, Sandhyavandanam with Arghya/Gayatri chanting prohibited (only Manasika Gayatri is permitted). Fasting on first day, Tarpanas on 10 days."
+        }
+      }
+    },
+    "vinayaka_chaturthi": {
+      "name_te": "శ్రీ వినాయక చవితి వ్రత కల్పము & శమంతకోపాఖ్యాన కథ",
+      "name_en": "Sri Vinayaka Chaturthi Vrata Vidhanam & Shamantakopakhyanam Story",
+      "authority": "Dharma Sindhu Pariccheda 2, Nirnaya Sindhu, Skanda Purana",
+      "tithi_nirnayam": {
+        "rule": "Bhadrapada Shukla Chaturthi prevailing during Madhyahna (midday, approx 11:30 AM - 1:45 PM).",
+        "shloka": "चतुर्थी गणनाथस्य मातृविद्धा प्रशस्यते । मध्याह्नव्यापिनी चेत्स्यात्परतश्चेत्परेऽहनि ॥",
+        "te": "భాద్రపద శుక్ల చతుర్థి మధ్యాహ్న కాలం (సుమారు ఉదయం 11:30 నుండి 1:45 వరకు) వ్యాపించి ఉన్న రోజే వినాయక చవితి పూజ ఆచరించాలి. రెండు రోజులలో మధ్యాహ్నం ఉన్నచో పరవిద్ధ (పంచమి కలిసిన) రోజే శ్రేష్ఠం."
+      },
+      "samagri_patri": [
+        "మాచిపత్రం",
+        "బృహతీపత్రం (వాకుడు)",
+        "బిల్వపత్రం (మారేడు)",
+        "దూర్వాయుగ్మం (గరిక)",
+        "దత్తూరపత్రం (ఉమ్మెత్త)",
+        "బదరీపత్రం (రేగు)",
+        "అపామార్గపత్రం (ఉత్తరేణి)",
+        "తులసీపత్రం (వినాయక చవితి నాడు మాత్రమే పూజార్హం)",
+        "చూతపత్రం (మామిడి)",
+        "కరవీరపత్రం (గన్నేరు)",
+        "విష్ణుక్రాంతపత్రం",
+        "దాడిమీపత్రం (దానిమ్మ)",
+        "దేవదారుపత్రం",
+        "మరువకపత్రం (మరువం)",
+        "సింధువారపత్రం (వావిలి)",
+        "జాజీపత్రం",
+        "గండకీపత్రం",
+        "శమీపత్రం (జమ్మి)",
+        "అశ్వత్థపత్రం (రావి)",
+        "అర్జునపత్రం (మద్ది)",
+        "అర్కపత్రం (జిల్లేడు)"
+      ],
+      "chandra_dosha_shlokam": {
+        "shloka": "सिंहः प्रसेनमवधीत् सिंहो जाम्बवता हतः ।\nसुकुमारक मा रोदीस्तव ह्येष स्यमन्तकः ॥",
+        "te": "సింహః ప్రసేనమవధీత్ సింహో జాంబవతా హతః । సుకుమారక మా రోదీస్తవ హ్యేష శమంతకః ॥\n\nఈ శ్లోకాన్ని పఠించి అక్షింతలు శిరస్సున ధరించినచో భాద్రపద చతుర్థి చంద్ర దర్శన నిష్ఠ్యూత (నీలాపనిందల) దోషం సమసిపోవును."
+      },
+      "vrata_katha_summary_te": "ద్వాపర యుగంలో సత్రాజిత్తు సూర్యుని ఉపాసించి శమంతకమణిని పొందాడు. ఆ మణి రోజుకు ఎనిమిది బారువుల బంగారాన్ని ఇచ్చేది. ఒకనాడు సత్రాజిత్తు తమ్ముడు ప్రసేనుడు ఆ మణిని మెడలో ధరించి వేటకు వెళ్లి సింహం చేతిలో మరణించాడు. ఆ సింహాన్ని జాంబవంతుడు సంహరించి మణిని తన కుమార్తె జాంబవతికి ఆటవస్తువుగా ఇచ్చాడు. ప్రసేనుడు తిరిగి రాకపోవడంతో, శ్రీకృష్ణుడే మణి కోసం ప్రసేనుడిని చంపించాడని ద్వారకలో అపవాదు వ్యాపించింది. భాద్రపద శుద్ధ చతుర్థినాడు పాలగిన్నెలో ప్రతిబింబించిన చంద్రుడిని చూడడం వలనే తనకు ఈ నీలాపనింద కలిగిందని గ్రహించిన శ్రీకృష్ణుడు జాంబవంతుని గుహకు వెళ్లి 28 రోజులు భీకర యుద్ధం చేశాడు. శ్రీకృష్ణుడిని సాక్షాత్ శ్రీరాముడిగా గుర్తించిన జాంబవంతుడు శమంతకమణితో పాటు తన కుమార్తె జాంబవతిని శ్రీకృష్ణునికిచ్చి వివాహం చేశాడు. శ్రీకృష్ణుడు మణిని తెచ్చి సత్రాజిత్తుకు ఇచ్చి నిందను బాపుకున్నాడు. సత్రాజిత్తు పశ్చాత్తాపంతో సత్యభామను మణితో సహా శ్రీకృష్ణునికి సమర్పించాడు. ఈ కథను విని అక్షింతలు వేసుకున్న వారికి ఎటువంటి అపనిందలు కలుగవు.",
+      "naivedyam": [
+        "మోదకాలు (కుడుములు)",
+        "ఉండ్రాళ్ళు",
+        "చలిమిడి",
+        "వడపప్పు",
+        "పాయసం",
+        "నువ్వుల లడ్డు",
+        "పళ్ళు (వెలగపండు, నేరేడు, జామ)"
+      ]
+    },
+    "rishi_panchami": {
+      "name_te": "ఋషి పంచమి వ్రత విధానము & సప్తర్షి పూజా మహత్మ్యం",
+      "name_en": "Rishi Panchami Vrata Vidhanam & Saptarshi Puja Significance",
+      "authority": "Dharma Sindhu Pariccheda 2, Nirnaya Sindhu, Bhavishyottara Purana",
+      "tithi_nirnayam": {
+        "rule": "Bhadrapada Shukla Panchami prevailing in Madhyahna Kaala.",
+        "te": "భాద్రపద శుద్ధ పంచమి నాడు ఋషి పంచమి వ్రతం ఆచరించాలి. ఇది ముఖ్యంగా మహిళలకు రజస్వలా దోష నివారణకు శాస్త్రోక్తమైన అత్యున్నత వ్రతం."
+      },
+      "sapta_rishis": [
+        "కాశ్యప (Kashyapa)",
+        "అత్రి (Atri)",
+        "భరద్వాజ (Bharadvaja)",
+        "విశ్వామిత్ర (Vishvamitra)",
+        "గౌతమ (Gautama)",
+        "జమదగ్ని (Jamadagni)",
+        "వశిష్ట (Vashishtha)",
+        "అరుంధతీ దేవి (Arundhati Devi)"
+      ],
+      "vidhanam_te": "1. ఉదయమే నదీస్నానం లేదా గృహస్నానం చేస్తూ అపామార్గ (ఉత్తరేణి) కొమ్మతో 108 సార్లు లేదా 7 సార్లు దంతధావనం చేయాలి.\n2. మధ్యాహ్న సమయాన కలశం లేదా దర్భలతో సప్తర్షుల మరియు అరుంధతీ దేవిని ఆవాహన చేయాలి.\n3. షోడశోపచార పూజ, శ్వేత పుష్పాలు, గంధం, ధూపదీప నైవేద్యాలు సమర్పించాలి.\n4. ఆహార నియమం: నాగలితో దున్నని భూమిలో పండిన కాయగూరలు, కందమూలాలు, పండ్లు, పాలు మాత్రమే భుజించాలి (ఏకభుక్త వ్రతం). ధాన్యాలు నిషిద్ధం.",
+      "phalam_te": "స్త్రీలు తమ పూర్వజన్మలో లేదా ప్రస్తుత జన్మలో తెలియక చేసిన రజస్వలా సమయ అస్పృశ్యతా దోషాలు, గృహకార్య దోషాలు సప్తర్షుల అనుగ్రహంతో సమూలంగా నశించి సౌభాగ్యం, సత్సంతానం, ఆయురారోగ్యాలు సిద్ధిస్తాయి."
+    },
+    "varalakshmi_vratam": {
+      "name_te": "శ్రీ వరలక్ష్మీ వ్రత కల్పము & తోర పూజ",
+      "name_en": "Sri Varalakshmi Vrata Kalpam & Toram Puja",
+      "authority": "Dharma Sindhu, Skanda Purana",
+      "tithi_nirnayam": {
+        "rule": "Shravana Shukla Shukravara preceding the Full Moon (Purnima). If afflicted, the subsequent Friday can be taken.",
+        "te": "శ్రావణ మాసంలో పూర్ణిమకు ముందు వచ్చే శుక్రవారం నాడు వరలక్ష్మీ వ్రతం ఆచరించాలి. ఆ రోజున ఏదైనా అశౌచం లేదా ఆటంకం కలిగితే శ్రావణ బహుళ శుక్రవారం నాడు కూడా ఆచరించవచ్చును."
+      },
+      "toram_rules": "తోరంలో 9 దారపు పోగులు, 9 ముడులు (గ్రంథులు) వేసి, ప్రతి ముడికి ఒక్కొక్క దేవతా నామంతో పూజించి కుడిచేతికి ధరించాలి.",
+      "phalam_te": "అష్టలక్ష్మీ కటాక్షం, అఖండ సౌభాగ్యం, భర్తకు దీర్ఘాయుష్షు, సత్సంతానం సిద్ధించును."
+    },
+    "satyanarayana_vratam": {
+      "name_te": "శ్రీ సత్యనారాయణ స్వామి వ్రత కథ & విధానం",
+      "name_en": "Sri Satyanarayana Swamy Vrata Katha & Vidhanam",
+      "authority": "Reva Khanda, Skanda Purana",
+      "timings": "పూర్ణిమ, సంక్రాంతి, ఏకాదశి లేదా ఏ శుభదినమైనా సాయంకాల ప్రదోష సమయంలో ఆచరించడం ఉత్తమం.",
+      "katha_chapters": [
+        "1వ అధ్యాయం: నారద మహర్షికి శ్రీమహావిష్ణువు వ్రత మహిమను ఉపదేశించుట.",
+        "2వ అధ్యాయం: కాశీ నగరంలో దరిద్ర బ్రాహ్మణుడికి మరియు కట్టెలమ్మే సదానందుడికి దారిద్ర్య నివారణ.",
+        "3వ అధ్యాయం: సాధు శంఖపతి అనే వైశ్యుడికి సంతాన ప్రాప్తి, ప్రసాదాన్ని ఉపేక్షించినందున కలిగిన ఆపదలు.",
+        "4వ అధ్యాయం: సాధు వైశ్యుడు, అల్లుడు బంధనాల నుండి విముక్తి, రత్నావలీ నౌక మునుగుట-తేలుట.",
+        "5వ అధ్యాయం: తుంగధ్వజ మహారాజు ప్రసాదాన్ని నిరాకరించి పుత్రశోకం పొందుట, పశ్చాత్తాపంతో తిరిగి పూజించి పూర్వ వైభవం పొందుట."
+      ],
+      "prasadam": "సపాద భక్ష్యం (గోధుమ రవ్వ లేదా బియ్యపు పిండి, ఆవు నెయ్యి, బెల్లం/చక్కెర, ఆవు పాలు, అరటిపండ్లు సమపాళ్లలో కలిపి చేసిన ప్రసాదం)."
+    },
+    "kedara_gowri_vratam": {
+      "name_te": "శ్రీ కేదార గౌరీ వ్రతము (దీపావళి అమావాస్య)",
+      "name_en": "Sri Kedara Gowri Vratam (Deepavali Amavasya)",
+      "authority": "Skanda Purana, Dharma Sindhu",
+      "tithi_nirnayam": "ఆశ్వయుజ బహుళ అమావాస్య నాడు సాయంకాలం లేదా ప్రదోష వేళ ఆచరించాలి.",
+      "toram_rules": "21 పోగుల దారానికి 21 ముడులు వేసి శివపార్వతులను ఆవాహన చేసి పూజించాలి. 21 పిండివంటలు లేదా పండ్లు నైవేద్యం సమర్పించాలి.",
+      "phalam_te": "గౌరీదేవి ఈ వ్రతం ఆచరించి శివుని అర్ధ శరీరాన్ని పొంది అర్ధనారీశ్వరుడైనట్లు పురాణ ప్రసిద్ధి. దాంపత్య సమైక్యత, సర్వ సంపదలు కలుగుతాయి."
+    },
+    "kartika_masam": {
+      "name_te": "కార్తీక మాస ధర్మాలు, దీపారాధన & క్షీరాబ్ధి ద్వాదశి",
+      "name_en": "Kartika Masam Observances, Deeparadhana & Ksheerabdhi Dvadashi",
+      "authority": "Padma Purana, Dharma Sindhu Pariccheda 2",
+      "key_observances": [
+        "నదీ స్నానం: అరుణోదయ వేళ నదీస్నానం లేదా గృహంలో గంగా స్మరణతో స్నానం.",
+        "నక్త భోజనం / ఏకభుక్తం: రోజంతా ఉపవాసం ఉండి సాయంత్రం నక్షత్ర దర్శనం తర్వాత భోజనం.",
+        "దీపారాధన: శివాలయాల్లో లేదా తులసి కోట వద్ద ఆవునెయ్యి లేదా నువ్వుల నూనెతో దీపాలు వెలిగించుట. కార్తీక పౌర్ణమి నాడు 365 వత్తులతో దీపారాధన.",
+        "క్షీరాబ్ధి ద్వాదశి (చిలుక ద్వాదశి): కార్తీక శుక్ల ద్వాదశి నాడు తులసీ-ధాత్రీ (ఉసిరి) వృక్షాల కల్యాణం, క్షీరసాగర మథన లక్ష్మీ-నారాయణ పూజ."
+      ]
+    },
+    "subrahmanya_shashti": {
+      "name_te": "శ్రీ సుబ్రహ్మణ్య షష్ఠి (స్కంద షష్ఠి) వ్రత నియమాలు",
+      "name_en": "Sri Subrahmanya Shashti Vrata Rules",
+      "authority": "Dharma Sindhu, Skanda Purana",
+      "tithi_nirnayam": "మార్గశిర శుద్ధ షష్ఠి నాడు సుబ్రహ్మణ్య షష్ఠి ఆచరించాలి.",
+      "vidhanam": "సుబ్రహ్మణ్య స్వామికి పంచామృతాభిషేకం, పాలు, తేనె, పళ్ళు, పుట్టలో పాలు పోయుట, స్కంద గాయత్రి/సుబ్రహ్మణ్య అష్టకం పఠనం.",
+      "phalam_te": "సర్పదోష, నాగదోష, కుజదోష నివారణ, పుత్ర సంతాన ప్రాప్తి, చర్మవ్యాధుల నివారణ."
+    }
+  }
+}

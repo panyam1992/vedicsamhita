@@ -1,0 +1,220 @@
+{
+  "source_authorities": [
+    "Uttara Kalamritam (ఉత్తర కాలామృతం) by Mahakavi Kalidasa",
+    "Jataka Parijata (జాతక పారిజాతం) by Vaidyanatha Dikshita",
+    "Jatakabharana (జాతకాభరణం)",
+    "Brihat Parashara Hora Shastra (బృహత్ పరాశర హోరా శాస్త్రం)",
+    "Dharma Sindhu (ధర్మ సింధు) & Nirnaya Sindhu (నిర్ణయ సింధు)"
+  ],
+  "bhavas_12": [
+    {
+      "bhava": 1,
+      "name": "Tanu Bhava (లగ్న భావం)",
+      "karaka": "Surya",
+      "significations": "Body, vitality, character, constitution, appearance, life longevity."
+    },
+    {
+      "bhava": 2,
+      "name": "Dhana Bhava (ధన భావం)",
+      "karaka": "Guru",
+      "significations": "Wealth, speech, eyes, family, accumulated assets, primary education."
+    },
+    {
+      "bhava": 3,
+      "name": "Bhratru / Sahaja Bhava (భ్రాతృ భావం)",
+      "karaka": "Kuja",
+      "significations": "Younger siblings, courage, valour, short journeys, communication skills."
+    },
+    {
+      "bhava": 4,
+      "name": "Matru / Sukha Bhava (మాతృ/సుఖ భావం)",
+      "karaka": "Chandra",
+      "significations": "Mother, home, real estate, vehicles, peace of mind, formal education."
+    },
+    {
+      "bhava": 5,
+      "name": "Putra / Poorvapunya Bhava (పుత్ర/పూర్వపుణ్య భావం)",
+      "karaka": "Guru",
+      "significations": "Children, intellect, mantra siddhi, speculative gains, spiritual merit."
+    },
+    {
+      "bhava": 6,
+      "name": "Shatru / Roga Bhava (శత్రు/రోగ భావం)",
+      "karaka": "Kuja, Shani",
+      "significations": "Enemies, debts, diseases, litigation, service, maternal uncles."
+    },
+    {
+      "bhava": 7,
+      "name": "Kalatra Bhava (కళత్ర భావం)",
+      "karaka": "Shukra",
+      "significations": "Spouse, marriage, partnerships, public relations, foreign travels."
+    },
+    {
+      "bhava": 8,
+      "name": "Ayur / Randhra Bhava (ఆయుర్ భావం)",
+      "karaka": "Shani",
+      "significations": "Longevity, sudden unexpected events, hidden knowledge, transformation, legacies."
+    },
+    {
+      "bhava": 9,
+      "name": "Bhagya / Dharma Bhava (భాగ్య/ధర్మ భావం)",
+      "karaka": "Guru, Surya",
+      "significations": "Father, guru, fortune, spirituality, pilgrimages, higher knowledge."
+    },
+    {
+      "bhava": 10,
+      "name": "Karma Bhava (కర్మ భావం)",
+      "karaka": "Surya, Budha, Guru, Shani",
+      "significations": "Profession, authority, reputation, achievements, social status."
+    },
+    {
+      "bhava": 11,
+      "name": "Labha Bhava (లాభ భావం)",
+      "karaka": "Guru",
+      "significations": "Gains, elder siblings, fulfillment of desires, friends, network."
+    },
+    {
+      "bhava": 12,
+      "name": "Vyaya / Moksha Bhava (వ్యయ/మోక్ష భావం)",
+      "karaka": "Shani, Ketu",
+      "significations": "Expenditures, foreign settlements, spiritual liberation, sleep, hospitalizations."
+    }
+  ],
+  "rajayogas": [
+    {
+      "name": "Gajakesari Yoga",
+      "rule": "Guru in Kendra (1, 4, 7, 10) from Chandra or Lagna.",
+      "effect": "Virtuous character, high fame, eloquence, lasting prosperity."
+    },
+    {
+      "name": "Budhaditya Yoga",
+      "rule": "Surya and Budha in the same rashi (not combust within tight degrees).",
+      "effect": "Keen intellect, administrative competence, royal or executive favor."
+    },
+    {
+      "name": "Pancha Mahapurusha Yogas",
+      "types": [
+        {
+          "yoga": "Ruchaka Yoga",
+          "planet": "Kuja",
+          "rule": "Kuja in Kendra in Mesha, Vrishchika, or Makara.",
+          "effect": "Supreme physical bravery, leadership, commander."
+        },
+        {
+          "yoga": "Bhadra Yoga",
+          "planet": "Budha",
+          "rule": "Budha in Kendra in Mithuna or Kanya.",
+          "effect": "Scholarly acumen, business mastery, long life."
+        },
+        {
+          "yoga": "Hamsa Yoga",
+          "planet": "Guru",
+          "rule": "Guru in Kendra in Dhanus, Meena, or Karkataka.",
+          "effect": "Saintly righteousness, respect from kings, religious wisdom."
+        },
+        {
+          "yoga": "Malavya Yoga",
+          "planet": "Shukra",
+          "rule": "Shukra in Kendra in Vrishabha, Tula, or Meena.",
+          "effect": "Sensory luxury, artistic brilliance, wealthy spouse, graceful lifestyle."
+        },
+        {
+          "yoga": "Sasha Yoga",
+          "planet": "Shani",
+          "rule": "Shani in Kendra in Makara, Kumbha, or Tula.",
+          "effect": "Leadership of masses, organizational discipline, enduring power."
+        }
+      ]
+    },
+    {
+      "name": "Vipareeta Rajayoga (Uttara Kalamritam Chapter 4)",
+      "rule": "Lords of dusthanas (6, 8, 12) placed in other dusthanas without association with Kendra/Trikona lords: Harsha (6th in 6,8,12), Sarala (8th in 6,8,12), Vimala (12th in 6,8,12).",
+      "effect": "Sudden elevation through adversity, inheritance of wealth, triumph over rivals."
+    }
+  ],
+  "namaksharas_27": {
+    "Ashwini": { "padas": ["Chu (చు)", "Che (చే)", "Cho (చో)", "La (లా)"] },
+    "Bharani": { "padas": ["Lee (లీ)", "Lu (లూ)", "Le (లే)", "Lo (లో)"] },
+    "Krittika": { "padas": ["Aa (ఆ)", "Ee (ఈ)", "Oo (ఊ)", "Ae (ఏ)"] },
+    "Rohini": { "padas": ["O (ఓ)", "Va (వా)", "Vi (వీ)", "Vu (వూ)"] },
+    "Mrigashira": { "padas": ["Ve (వే)", "Vo (వో)", "Ka (కా)", "Kee (కీ)"] },
+    "Arudra": { "padas": ["Ku (కూ)", "Gha (ఘ)", "Nga (ఙ)", "Chha (ఛ)"] },
+    "Punarvasu": { "padas": ["Ke (కే)", "Ko (కో)", "Ha (హా)", "Hee (హీ)"] },
+    "Pushyami": { "padas": ["Hu (హూ)", "He (హే)", "Ho (హో)", "Da (డా)"] },
+    "Ashlesha": { "padas": ["Dee (డీ)", "Doo (డూ)", "De (డే)", "Do (డో)"] },
+    "Magha": { "padas": ["Ma (మా)", "Mee (మీ)", "Moo (మూ)", "Me (మే)"] },
+    "Purva Phalguni": { "padas": ["Mo (మో)", "Ta (టా)", "Tee (టీ)", "Too (టూ)"] },
+    "Uttara Phalguni": { "padas": ["Te (టే)", "To (టో)", "Pa (పా)", "Pee (పీ)"] },
+    "Hasta": { "padas": ["Pu (పూ)", "Sha (ష)", "Na (ణ)", "Dha (ఢ)"] },
+    "Chitra": { "padas": ["Pe (పే)", "Po (పో)", "Ra (రా)", "Ree (రీ)"] },
+    "Swati": { "padas": ["Roo (రూ)", "Re (రే)", "Ro (రో)", "Taa (తా)"] },
+    "Vishakha": { "padas": ["Tee (తీ)", "Too (తూ)", "Te (తే)", "To (తో)"] },
+    "Anuradha": { "padas": ["Na (నా)", "Nee (నీ)", "Noo (నూ)", "Ne (నే)"] },
+    "Jyeshtha": { "padas": ["No (నో)", "Ya (యా)", "Yee (యీ)", "Yoo (యూ)"] },
+    "Moola": { "padas": ["Ye (యే)", "Yo (యో)", "Bha (భా)", "Bhee (భీ)"] },
+    "Purvashadha": { "padas": ["Bhoo (భూ)", "Dha (ధా)", "Pha (ఫా)", "Dhad (ఢా)"] },
+    "Uttarashadha": { "padas": ["Bhe (భే)", "Bho (భో)", "Ja (జా)", "Jee (జీ)"] },
+    "Shravana": { "padas": ["Ju (జూ)", "Je (జే)", "Jo (జో)", "Gha (ఘా)"] },
+    "Dhanishta": { "padas": ["Ga (గా)", "Gee (గీ)", "Gu (గూ)", "Ge (గే)"] },
+    "Shatabhisha": { "padas": ["Go (గో)", "Sa (సా)", "See (సీ)", "Soo (సూ)"] },
+    "Purvabhadra": { "padas": ["Se (సే)", "So (సో)", "Daa (దా)", "Dee (దీ)"] },
+    "Uttarabhadra": { "padas": ["Doo (దూ)", "Tha (థా)", "Jha (ఝా)", "Jna (ఞ)"] },
+    "Revati": { "padas": ["De (దే)", "Do (దో)", "Cha (చా)", "Chee (చీ)"] }
+  },
+  "doshas_and_shantis": {
+    "kala_sarpa_dosha": {
+      "rule": "All 7 planets situated between Rahu and Ketu in the chart.",
+      "types": [
+        "Ananta (1st house)",
+        "Kulika (2nd)",
+        "Vasuki (3rd)",
+        "Shankhapala (4th)",
+        "Padma (5th)",
+        "Mahapadma (6th)",
+        "Takshaka (7th)",
+        "Karkotaka (8th)",
+        "Shankhachuda (9th)",
+        "Ghataka (10th)",
+        "Vishadhara (11th)",
+        "Shesha (12th)"
+      ],
+      "pariharam": "Sri Subrahmanya Swami Abhishekam on Tuesdays/Shashthi, Sarpa Shanti puja at Srikalahasti or Kukke Subrahmanya, chanting Maha Mrityunjaya mantra."
+    },
+    "pitru_dosha": {
+      "rule": "Surya or 9th lord afflicted by Rahu, Ketu, or Shani in 1st, 5th, or 9th house.",
+      "symptoms": "Obstacles in progeny, domestic distress, financial stagnation.",
+      "pariharam": "Perform Tila Tarpanam on Amavasya, donate sesame and food to Brahmins, Gaya or Rameswaram Shraddha, serve cows with grass."
+    },
+    "gandanta_dosha": {
+      "rule": "Birth in Nakshatra sandhi: Jyeshtha-Moola, Ashlesha-Magha, Revati-Ashwini (boundary of water & fire signs).",
+      "naks": ["Moola", "Ashlesha", "Jyeshtha", "Ashwini", "Magha", "Revati"],
+      "details": {
+        "Moola": "1st Pada affects father/family elders; 2nd/3rd/4th milder. Requires Moola Nakshatra Shanti on 27th day, Rudra Abhishekam, and Go-dana / Anna dana.",
+        "Ashlesha": "1st Pada auspicious, 2nd Pada causes expenditure, 3rd Pada affects mother, 4th Pada affects father. Shanti with Sarpa Sukta and Kalasha Snanam.",
+        "Jyeshtha": "1st Pada affects maternal uncle/elders, 4th Pada causes personal distress. Indra devata puja and Shanti on 27th day.",
+        "Revati": "4th Pada affects child or father; Shanti performed on Ashwini day.",
+        "Ashwini": "1st Pada affects father; Gold / Ashwa dana recommended.",
+        "Magha": "1st Pada affects mother or maternal lineage; Pitru tarpanam and Pitru Shanti."
+      },
+      "pariharam": "Gandanta Shanti Kalasha Snanam on 27th day when the same birth nakshatra recurs with 27-pot abhisheka and Nakshatra Gayatri japa."
+    },
+    "shraddha_tithi_nirnayam": {
+      "authority": "Dharma Sindhu & Nirnaya Sindhu",
+      "rule": "Aparahna Vyapini Tithi (4th of 5 daytime parts, approx 1:15 PM - 3:45 PM).",
+      "kutapa_kalam": "11:36 AM - 12:24 PM (8th Muhurta of daytime), supreme for Pitru aradhana.",
+      "rohina_kalam": "9th Muhurta of daytime, auspicious for Tarpanam completion.",
+      "guideline": "If tithi exists in Aparahna on two days, the day with greater Aparahna presence or the second day is taken according to Dharma Sindhu."
+    }
+  },
+  "graha_remedies": {
+    "Surya": { "deity": "Lord Shiva / Surya Narayana", "stotram": "Aditya Hridaya Stotram", "japa": "Om Hram Hreem Hroum Sah Suryaya Namah (7,000 times)", "dana": "Wheat, copper, ruby, red cloth, jaggery" },
+    "Chandra": { "deity": "Lord Shiva / Parvati Devi", "stotram": "Annapurna Stotram / Chandra Kavacham", "japa": "Om Shram Shreem Shroum Sah Chandraya Namah (11,000 times)", "dana": "Rice, silver, pearl, white cloth, milk, curd" },
+    "Kuja": { "deity": "Lord Subrahmanya (Kartikeya) / Sri Lakshmi Narasimha", "stotram": "Subrahmanya Ashtakam / Runa Vimochana Angaraka Stotram", "japa": "Om Kram Kreem Kroum Sah Bhaumaya Namah (10,000 times)", "dana": "Red lentils (Masoor dal), coral, copper, red sandalwood" },
+    "Budha": { "deity": "Lord Maha Vishnu", "stotram": "Vishnu Sahasranama Stotram", "japa": "Om Bram Breem Broum Sah Budhaya Namah (9,000 times)", "dana": "Green gram (Moong dal), emerald, green cloth, bronze" },
+    "Guru": { "deity": "Lord Dakshinamurthy / Sri Dattatreya", "stotram": "Dakshinamurthy Stotram / Guru Stotram", "japa": "Om Gram Greem Groum Sah Gurave Namah (19,000 times)", "dana": "Bengal gram (Chana dal), yellow sapphire, gold, yellow cloth, turmeric" },
+    "Shukra": { "deity": "Goddess Mahalakshmi", "stotram": "Sri Suktam / Kanakadhara Stotram", "japa": "Om Dram Dreem Droum Sah Shukraya Namah (16,000 times)", "dana": "White beans (Rajma/Kabuli chana), diamond, silver, white silk, ghee" },
+    "Shani": { "deity": "Lord Shiva / Lord Hanuman", "stotram": "Hanuman Chalisa / Dasharatha Shani Stotram", "japa": "Om Pram Preem Proum Sah Shanaishcharaya Namah (23,000 times)", "dana": "Black sesame seeds (Tila), sesame oil, iron, blue sapphire, black cloth" },
+    "Rahu": { "deity": "Goddess Durga / Sri Bhairava", "stotram": "Durga Kavacham / Rahu Stotram", "japa": "Om Bhram Bhreem Bhroum Sah Rahave Namah (18,000 times)", "dana": "Black gram (Urad dal), hessonite (Gomedha), lead, multi-colored blanket" },
+    "Ketu": { "deity": "Lord Ganesha", "stotram": "Ganesha Pancharatnam / Ketu Kavacham", "japa": "Om Stram Streem Stroum Sah Ketave Namah (17,000 times)", "dana": "Horse gram (Ulavalu), cat's eye (Vaidoorya), seven grains (Sapta Dhanya)" }
+  }
+}

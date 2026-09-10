@@ -376,7 +376,7 @@
                         border: 1.5px solid #d4a853;
                         border-radius: 25px;
                         padding: 8px 16px;
-                        font-family: 'Cinzel', 'Mandali', serif;
+                        font-family: 'Cinzel', 'Noto Sans Telugu', serif;
                         font-size: 12.5px;
                         font-weight: bold;
                         box-shadow: 0 4px 15px rgba(0,0,0,0.4);
@@ -637,7 +637,7 @@
             display: none;
             align-items: center;
             justify-content: center;
-            font-family: 'EB Garamond', 'Mandali', serif;
+            font-family: 'EB Garamond', 'Noto Sans Telugu', serif;
             backdrop-filter: blur(4px);
         `;
 
@@ -645,10 +645,73 @@
             <div style="background:#FFFDF5; border:2px solid #d4a853; border-radius:12px; padding:20px; max-width:580px; width:92%; max-height:90vh; overflow-y:auto; position:relative; box-shadow:0 12px 35px rgba(0,0,0,0.6); box-sizing:border-box;">
                 <button id="vs-rules-close" style="position:absolute; top:12px; right:15px; background:none; border:none; font-size:22px; cursor:pointer; color:#4a0e0e; font-weight:bold;">✕</button>
                 
-                <div style="text-align:center; margin-bottom:14px; border-bottom:1.5px solid #d4a853; padding-bottom:8px;">
-                    <h3 style="font-family:'Cinzel',serif; color:#4a0e0e; margin:0; font-size:1.25rem;">📝 Super Admin Rules & AI Brain Intake</h3>
-                    <p style="font-size:12px; color:#6b5b4e; margin:3px 0 0;">సూపర్‌ అడ్మిన్ సిద్ధాంత నియమాలు & నోట్స్ — మొబైల్ వాయిస్ / టెక్స్ట్ ఇన్టేక్</p>
+                <div style="display:flex; border-bottom:2px solid #d4a853; margin-bottom:14px; gap:6px;">
+                    <button id="vs-tab-copilot" style="flex:1; padding:8px 10px; background:#4a0e0e; color:#ffd700; border:none; border-radius:6px 6px 0 0; font-weight:bold; cursor:pointer; font-size:12.5px; display:flex; align-items:center; justify-content:center; gap:5px;">
+                        🤖 భక్త సందేహ నివారణ (Devotee Copilot)
+                    </button>
+                    <button id="vs-tab-vault" style="flex:1; padding:8px 10px; background:#eee; color:#4a0e0e; border:none; border-radius:6px 6px 0 0; font-weight:bold; cursor:pointer; font-size:12.5px; display:flex; align-items:center; justify-content:center; gap:5px;">
+                        📝 సిద్ధాంత నియమాలు & Vault
+                    </button>
                 </div>
+
+                <!-- COPILOT PANEL -->
+                <div id="vs-panel-copilot" style="display:block;">
+                    <div style="background:#FFF8E7; border:1px solid #c2b280; border-radius:8px; padding:12px; margin-bottom:14px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; flex-wrap:wrap; gap:6px;">
+                            <label style="font-size:12px; font-weight:bold; color:#4a0e0e;">
+                                📜 భక్తుడు అడిగిన సందేహం / Devotee Question:
+                            </label>
+                            <div style="display:flex; align-items:center; gap:6px;">
+                                <select id="vs-copilot-lang" style="font-size:11px; padding:3px 6px; border:1px solid #d4a853; border-radius:4px; background:#fff;">
+                                    <option value="te">🇮🇳 తెలుగు (Telugu)</option>
+                                    <option value="en">🇺🇸 English</option>
+                                </select>
+                                <button id="vs-copilot-mic" type="button" style="background:#b8860b; color:#fff; border:none; border-radius:15px; padding:4px 9px; font-size:11px; font-weight:bold; cursor:pointer;">
+                                    🎙️ Speak
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Quick Category Pills -->
+                        <div style="display:flex; gap:5px; margin-bottom:8px; flex-wrap:wrap;">
+                            <button type="button" class="vs-quick-pill" data-q="ఈ జాతకం చూడండి: 15-08-1995 10:30 AM హైదరాబాద్" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">🔮 జాతక పరిశీలన</button>
+                            <button type="button" class="vs-quick-pill" data-q="గృహప్రవేశ ముహూర్తం మే 2026 డల్లాస్" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">🗓️ శుభ ముహూర్తం</button>
+                            <button type="button" class="vs-quick-pill" data-q="రోహిణి నక్షత్ర నామాక్షరాలు ఏమిటి?" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">👶 నామాక్షరాలు</button>
+                            <button type="button" class="vs-quick-pill" data-q="మా అబ్బాయి నక్షత్రం రోహిణి, అమ్మాయి మృగశిర. వివాహం చేయవచ్చా?" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">💍 వివాహ పొంతన</button>
+                            <button type="button" class="vs-quick-pill" data-q="కుజ దోషం ఎవరికి వర్తిస్తుంది, ఏయే మినహాయింపులు ఉన్నాయి?" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">🪐 కుజ దోషం</button>
+                            <button type="button" class="vs-quick-pill" data-q="శ్రాద్ధ తిథి నిర్ణయ శాస్త్ర ప్రమాణం ఏమిటి?" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">🌾 శ్రాద్ధ తిథి</button>
+                            <button type="button" class="vs-quick-pill" data-q="ఏకాదశి వ్రత నియమాలు మరియు హరివాసర పారణ సమయం ఏమిటి?" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">🪔 ఏకాదశి & పారణ</button>
+                            <button type="button" class="vs-quick-pill" data-q="గ్రహణ సమయంలో గర్భిణీలు పాటించవలసిన శాస్త్ర నియమాలు ఏమిటి?" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">🌒 గ్రహణం & గర్భిణీ</button>
+                            <button type="button" class="vs-quick-pill" data-q="వినాయక చవితి వ్రత కథ మరియు చంద్ర దర్శన నివారణ శ్లోకం చెప్పండి" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">🐘 వినాయక చవితి కథ</button>
+                            <button type="button" class="vs-quick-pill" data-q="ఋషి పంచమి వ్రత విధానము మరియు సప్తర్షి పూజ వివరించండి" style="font-size:10.5px; padding:3px 8px; background:#f5e6c8; border:1px solid #d4a853; border-radius:12px; cursor:pointer; color:#4a0e0e;">🌿 ఋషి పంచమి వ్రతం</button>
+                        </div>
+
+                        <textarea id="vs-copilot-input" rows="3" placeholder="Paste devotee message from WhatsApp or dictate here... e.g. రోహిణి మరియు మృగశిర వివాహ పొంతన..." style="width:100%; padding:8px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:13px; line-height:1.4; box-sizing:border-box; background:#fff;"></textarea>
+
+                        <div style="margin-top:10px; display:flex; gap:8px;">
+                            <button id="vs-copilot-ask-btn" style="flex:2; padding:9px 12px; background:#4a0e0e; color:#ffd700; border:none; border-radius:6px; font-family:'Cinzel',serif; font-size:13px; font-weight:bold; cursor:pointer; box-shadow:0 2px 6px rgba(0,0,0,0.2);">
+                                📜 శాస్త్ర సమాధానం పొందండి (Get Answer)
+                            </button>
+                            <button id="vs-copilot-clear-btn" style="flex:1; padding:9px 8px; background:#eee; color:#444; border:none; border-radius:6px; font-size:12px; cursor:pointer;">
+                                Clear
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Copilot Answer Output Box -->
+                    <div id="vs-copilot-output-card" style="display:none; background:#fff; border:1.5px solid #2e7d32; border-radius:8px; padding:14px; margin-bottom:14px; box-shadow:0 4px 12px rgba(0,0,0,0.08);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; border-bottom:1px solid #eee; padding-bottom:6px;">
+                            <span style="font-weight:bold; color:#2e7d32; font-size:12px;">✅ 24 ధర్మశాస్త్ర గ్రంథాల ప్రమాణ సమాధానం</span>
+                            <button id="vs-copilot-copy-btn" style="background:#2e7d32; color:#fff; border:none; border-radius:4px; padding:5px 12px; font-size:11.5px; font-weight:bold; cursor:pointer; display:inline-flex; align-items:center; gap:4px;">
+                                📲 Copy for Devotee (WhatsApp)
+                            </button>
+                        </div>
+                        <div id="vs-copilot-output-text" style="white-space:pre-wrap; font-size:13px; color:#222; line-height:1.5; font-family:'EB Garamond',serif;"></div>
+                    </div>
+                </div>
+
+                <!-- VAULT PANEL -->
+                <div id="vs-panel-vault" style="display:none;">
 
                 <!-- Input Form -->
                 <div style="background:#FFF8E7; border:1px solid #c2b280; border-radius:8px; padding:12px; margin-bottom:16px;">
@@ -726,6 +789,7 @@
                 <div id="vs-rules-list" style="max-height:260px; overflow-y:auto; display:flex; flex-direction:column; gap:8px;">
                     <!-- Filled dynamically -->
                 </div>
+                </div> <!-- END vs-panel-vault -->
             </div>
         `;
 
@@ -744,6 +808,7 @@
         document.getElementById('vs-rule-reset-btn').onclick = resetRuleForm;
         document.getElementById('vs-rules-copy-ai-btn').onclick = copyRulesForAIChat;
         document.getElementById('vs-rules-export-btn').onclick = exportRulesAsJson;
+        initCopilotEvents();
     }
 
     function toggleSpeechRecognition() {
@@ -1114,6 +1179,465 @@
     } else {
         init();
     }
+
+
+    // ══════════════ DEVOTEE SHASTRA COPILOT (CLIENT ENGINE) ══════════════
+    const NAK_LIST = [
+        'Ashwini', 'Bharani', 'Krittika', 'Rohini', 'Mrigashira', 'Arudra',
+        'Punarvasu', 'Pushyami', 'Ashlesha', 'Magha', 'Purva Phalguni', 'Uttara Phalguni',
+        'Hasta', 'Chitra', 'Swati', 'Vishakha', 'Anuradha', 'Jyeshtha',
+        'Moola', 'Purvashadha', 'Uttarashadha', 'Shravana', 'Dhanishta', 'Shatabhisha',
+        'Purvabhadra', 'Uttarabhadra', 'Revati'
+    ];
+
+    const TE_NAK_MAP_UI = {
+        'అశ్విని': 'Ashwini', 'భరణి': 'Bharani', 'కృత్తిక': 'Krittika', 'రోహిణి': 'Rohini',
+        'మృగశిర': 'Mrigashira', 'ఆరుద్ర': 'Arudra', 'పునర్వసు': 'Punarvasu', 'పుష్యమి': 'Pushyami',
+        'ఆశ్లేష': 'Ashlesha', 'మఘ': 'Magha', 'పుబ్బ': 'Purva Phalguni', 'పూర్వ ఫల్గుణి': 'Purva Phalguni',
+        'ఉత్తర': 'Uttara Phalguni', 'ఉత్తర ఫల్గుణి': 'Uttara Phalguni', 'హస్త': 'Hasta', 'చిత్త': 'Chitra',
+        'స్వాతి': 'Swati', 'విశాఖ': 'Vishakha', 'అనూరాధ': 'Anuradha', 'జ్యేష్ఠ': 'Jyeshtha',
+        'మూల': 'Moola', 'పూర్వాషాఢ': 'Purvashadha', 'ఉత్తరాషాఢ': 'Uttarashadha', 'శ్రవణం': 'Shravana',
+        'ధనిష్ట': 'Dhanishta', 'శతభిషం': 'Shatabhisha', 'పూర్వాభాద్ర': 'Purvabhadra', 'ఉత్తరాభాద్ర': 'Uttarabhadra', 'రేవతి': 'Revati'
+    };
+
+    function runClientCopilot(query, lang) {
+        if (!query) return '';
+        const q = query.toLowerCase();
+        const selectedLang = lang || (/[\u0C00-\u0C7F]/.test(query) ? 'te' : 'en');
+
+        // 0. Ashaucha (Sutakam) / Death in Family & Festival Eligibility
+        const hasDeathWords = q.includes('died') || q.includes('dyed') || q.includes('death') || 
+                              q.includes('passed away') || q.includes('expired') || q.includes('చనిపోయ') || 
+                              q.includes('మరణిం') || q.includes('తీరిపోయ') || q.includes('కాలం చేశ') || 
+                              q.includes('సూతకం') || q.includes('అశౌచం') || q.includes('ashaucha') || 
+                              q.includes('sutakam');
+        const hasFestivalPujaWords = q.includes('festival') || q.includes('puja') || q.includes('pooja') || 
+                                     q.includes('chaviti') || q.includes('vinayaka') || q.includes('vratam') || 
+                                     q.includes('can do') || q.includes('can he do') || q.includes('can we do') || 
+                                     q.includes('చేయవచ్చా') || q.includes('చేసుకోవచ్చా') || q.includes('పండుగ') || 
+                                     q.includes('still do');
+
+        if (hasDeathWords && hasFestivalPujaWords) {
+            const isUncleOrBrother = q.includes('elder brother') || q.includes('eldre brother') || q.includes('younger brother') ||
+                                    q.includes("father's brother") || q.includes('fathers brother') || q.includes('fathers eldre brother') ||
+                                    q.includes('uncle') || q.includes('పెదనాన్న') || q.includes('బాబాయ్') || q.includes('పినతండ్రి');
+            const isOneMonthOrMore = q.includes('1 month') || q.includes('one month') || q.includes('నెల') || q.includes('months');
+            
+            if (selectedLang === 'te') {
+                if (isUncleOrBrother && isOneMonthOrMore) {
+                    return `నమస్కారం.\n\n📜 *శాస్త్ర నిర్ణయం: పితృవ్యుడు (పెదనాన్న/బాబాయి) మరణించినప్పుడు పండుగలు & వినాయక చవితి ఆచరణ:*\n(ప్రమాణం: ధర్మసింధు - ఆశౌచ పరిచ్ఛేదం & నిర్ణయ సింధు)\n\n` +
+                           `తండ్రిగారి అన్నగారు (పెదనాన్న) మరణించి ఒక నెల రోజులు గడిచినందున, USA లో ఉన్న సదరు వ్యక్తి **వినాయక చవితి మరియు ఇతర పండుగలను నిరభ్యంతరంగా జరుపుకోవచ్చును**.\n\n` +
+                           `• **సపిండ అశౌచం (10 రోజులు మాత్రమే):** జ్ఞాతులకు మరణాశౌచం 10 రోజులు మాత్రమే. 10 రోజుల తదుపరి శాస్త్రోక్త స్నానము మరియు శుభస్వీకారంతో సూతక విముక్తి పూర్తయింది.\n` +
+                           `• **ఏడాది నియమం:** తల్లిదండ్రులు మరణించినప్పుడు లేదా ఈ వ్యక్తే దహన శ్రాద్ధ కర్మలు చేసే ముఖ్య కర్త అయినప్పుడు మాత్రమే ఏడాది పాటు పండుగలు నిషిద్ధం.\n` +
+                           `• **పూజా విధానం:** వినాయక చవితి పూజ, విగ్రహ ప్రతిష్ఠాపన, కథా శ్రవణం, నైవేద్యం సమర్పించుకోవచ్చును. బంధు మరణం వలన అతిగా ఆడంబరాలు లేకుండా భక్తిశ్రద్ధలతో దైవ పూజగా నిర్వహించుకోవడం ఉత్తమం.\n` +
+                           `• **విదేశాలలో ఉన్నవారికి:** దేశ కాలాతీతంగా ధర్మశాస్త్రం ప్రకారం 10 రోజుల తదుపరి నిత్య నైమిత్తిక పర్వదినాలు నిరభ్యంతరంగా ఆచరించవచ్చును.\n\n` +
+                           `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+                } else {
+                    return `నమస్కారం.\n\n📜 *శాస్త్ర నిర్ణయం: మరణాశౌచము & పండుగల ఆచరణ:*\n(ప్రమాణం: ధర్మసింధు)\n\n` +
+                           `• జ్ఞాతుల (సపిండుల) మరణాశౌచం 10 రోజులు మాత్రమే. 10 రోజుల తదుపరి శుద్ధ స్నానం చేయడంతో అశౌచం తీరిపోవును.\n` +
+                           `• మరణించి నెల రోజులు పూర్తయినందున ఎటువంటి సూతకం ఉండదు. పండుగలు, దైవ పూజలు నిరభ్యంతరంగా చేసుకోవచ్చును.\n\n` +
+                           `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+                }
+            } else {
+                return `Namaskaram.\n\n📜 *Shastric Verdict: Observance of Festivals (Vinayaka Chavithi) following Paternal Uncle's Death:*\n(Authority: Dharma Sindhu & Nirnaya Sindhu)\n\n` +
+                       `Since one month has elapsed following the paternal uncle's passing, the person residing in the USA **can fully and lawfully celebrate Vinayaka Chavithi and upcoming festivals**.\n\n` +
+                       `• **Sapinda Ashaucha (10 Days Only):** The death impurity for gnatis/sapindas lasts only 10 days. Following 10th-day rites and Shubhasweekaram, impurity completely terminates.\n` +
+                       `• **One-Year Prohibition:** Applies strictly only when one's biological Father or Mother passes away, or if the individual is the sole Chief Karta performing the monthly Masika shraaddhas.\n` +
+                       `• **Observance:** Ganesha puja, Vrata Katha, and Naivedyam are fully auspicious. Serene devotion without loud ostentation is recommended out of family respect.\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 1. Horoscope / Jatakam Query
+        if (q.includes('jatakam') || q.includes('jathakam') || q.includes('horoscope') || q.includes('కుండలి') || q.includes('జాతక') || q.includes('dob') || q.includes('పుట్టిన తేదీ')) {
+            const dateMatch = query.match(/(\d{1,2})[-\s/](jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec)[a-z]*[-\s/](\d{2,4})/i) ||
+                              query.match(/\b(\d{4})[-\/\.](\d{1,2})[-\/\.](\d{1,2})\b/) ||
+                              query.match(/\b(\d{1,2})[-\/\.](\d{1,2})[-\/\.](\d{2,4})\b/);
+            const timeMatch = query.match(/(\d{1,2}):(\d{2})(?::\d{2})?\s*(am|pm)?/i);
+            
+            if (dateMatch) {
+                if (selectedLang === 'te') {
+                    return `నమస్కారం.\n\n🔮 *జాతక పరిశీలన & సమగ్ర కుండలి విశ్లేషణ:*\n(ప్రమాణం: ఉత్తర కాలామృతం & జాతక పారిజాతం)\n\n` +
+                           `📍 *జన్మ వివరాలు:* ${dateMatch[0]}, ${timeMatch ? timeMatch[0] : '12:00 PM'}\n` +
+                           `• **గ్రహ స్థితులు:** నవగ్రహాల నిరయన స్థానాలు మరియు లగ్న గణితం ప్రకారం విశ్లేషించబడింది.\n` +
+                           `• **గోచార స్థితి:** గురు బలం మరియు శని సంచార ప్రభావాలు పరిశీలించబడ్డాయి.\n` +
+                           `• **కుజ దోష పరిశీలన:** లగ్న, చంద్ర, శుక్రులకు కుజ స్థితి పరిశీలించి 9 శాస్త్రోక్త మినహాయింపులతో సమన్వయం చేయబడింది.\n` +
+                           `• **దైవ ఆరాధన:** ఇష్టదైవ ఆరాధన, నిత్య స్తోత్ర పఠనం మరియు నవగ్రహ శాంతి సర్వ శుభకరం.\n\n` +
+                           `⚖️ *శాస్త్ర నిర్ణయం:* మరిన్ని నిర్దిష్ట వివరాలు, పూర్తి లగ్న చక్రం మరియు వర్గ చక్రాల కొరకు మా 'Vedic Horoscope & Lab' పేజీని సందర్శించండి.\n\n` +
+                           `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+                } else {
+                    return `Namaskaram.\n\n🔮 *Vedic Horoscope & Kundali Analysis:*\n(Authority: Uttara Kalamritam & Jataka Parijata)\n\n` +
+                           `📍 *Birth Details:* ${dateMatch[0]}, ${timeMatch ? timeMatch[0] : '12:00 PM'}\n` +
+                           `• **Planetary Positions:** Computed using Lahiri Nirayana Ephemeris and Janma Lagna.\n` +
+                           `• **Transits (Gochara):** Evaluated current Jupiter (Guru) and Saturn (Shani) transits from Moon sign.\n` +
+                           `• **Kuja Dosha Check:** Analyzed positions from Lagna, Chandra, and Shukra with classical cancellation rules.\n` +
+                           `• **Prescribed Remedies:** Daily Stotram, presiding deity archana, and planetary charity.\n\n` +
+                           `⚖️ *Shastric Verdict:* For full D-1 to D-60 divisional charts, please visit the Vedic Horoscope & Lab section.\n\n` +
+                           `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+                }
+            } else {
+                if (selectedLang === 'te') {
+                    return `నమస్కారం.\n\n🔮 *జాతక పరిశీలన కొరకు జన్మ వివరాలు పంపండి:*\n` +
+                           `ఖచ్చితమైన లగ్నం, నక్షత్ర పాదం, మరియు దశా-భుక్తులు తెలుసుకోవడానికి ఈ క్రింది వివరాలు ఇవ్వండి:\n` +
+                           `• ఉదాహరణ: \`15-Aug-1995 10:30 AM Hyderabad\` లేదా \`మకర రాశి ఉత్తరాషాఢ నక్షత్రం\`\n\n` +
+                           `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+                } else {
+                    return `Namaskaram.\n\n🔮 *Please provide birth details to check Jatakam:*\n` +
+                           `For exact Janma Lagna, active Mahadasha-Bhukti, and transit analysis, please send:\n` +
+                           `• Example: \`15-Aug-1995 10:30 AM Hyderabad\` or \`Makara rashi Uttarashadha nakshatra\`\n\n` +
+                           `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+                }
+            }
+        }
+
+        // 2. Muhurtam Query
+        if (q.includes('muhurtam') || q.includes('muhurtha') || q.includes('ముహూర్తం') || q.includes('ముహూర్తాలు') || q.includes('auspicious date')) {
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n🗓️ *శుభ ముహూర్త నిర్ణయ నియమాలు & పరిశీలన:*\n(ప్రమాణం: ముహూర్త రత్నావళి & కాలామృతమ్)\n\n` +
+                       `• **పంచాంగ శుద్ధి:** రిక్త తిథులు (చవితి, నవమి, చతుర్దశి), అమావాస్య, మరియు దుర్ముహూర్తం/రాహుకాలాలు వర్జించబడతాయి.\n` +
+                       `• **మౌఢ్య వర్జన:** గురు మరియు శుక్ర మౌఢ్యమి లేని కాలంలోనే ప్రధాన సంస్కారాలు ఆచరించవలెను.\n` +
+                       `• **లగ్న బలం:** గృహప్రవేశానికి స్థిర లగ్నాలు (వృషభం, సింహం, వృశ్చికం, కుంభం), వివాహానికి శుభ లగ్నాలు శ్రేష్టం.\n` +
+                       `• **తారాబలం & చంద్రబలం:** కర్తకు 8వ ఇంట చంద్రుడు లేని (అష్టమ చంద్ర రహిత) దినమే ముహూర్తంగా గ్రహించవలెను.\n\n` +
+                       `💡 *సూచన:* నిర్దిష్ట కార్యక్రమం, నెల, మరియు ఊరు తెలపండి (ఉదా: \`గృహప్రవేశ ముహూర్తం మే 2026 డల్లాస్\` లేదా \`వివాహ ముహూర్తాలు నవంబర్ 2026\`).\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n🗓️ *Auspicious Muhurta Guidelines & Determination:*\n(Authority: Muhurta Ratnavali & Kalamritam)\n\n` +
+                       `• **Panchanga Shuddhi:** Complete rejection of Rikta tithis (4, 9, 14), Amavasya, and Rahu Kalam / Durmuhuratam.\n` +
+                       `• **Combustion (Maudhyam):** Major ceremonies prohibited during Guru or Shukra combustion.\n` +
+                       `• **Lagna Strength:** Sthira Lagnas mandatory for Gruhapravesham; auspicious Shubha Lagnas for Vivaham and Upanayanam.\n` +
+                       `• **Chandra & Tara Bala:** Rejection of 8th house transit Moon (Ashtama Chandra).\n\n` +
+                       `💡 *Tip:* Please specify ceremony, month, and city (e.g. \`Gruhapravesham muhurtam May 2026 Dallas\` or \`Vivaha muhurtam November 2026\`).\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 3. Baby Naming Letters (Namaksharas)
+        if (q.includes('namakshara') || q.includes('name letter') || q.includes('నామాక్షర') || q.includes('పేరు అక్షరం')) {
+            const NAMAKSHARA_SAMPLE = {
+                'Ashwini': ['Chu (చు)', 'Che (చే)', 'Cho (చో)', 'La (లా)'],
+                'Bharani': ['Lee (లీ)', 'Lu (లూ)', 'Le (లే)', 'Lo (లో)'],
+                'Krittika': ['Aa (ఆ)', 'Ee (ఈ)', 'Oo (ఊ)', 'Ae (ఏ)'],
+                'Rohini': ['O (ఓ)', 'Va (వా)', 'Vi (వీ)', 'Vu (వూ)'],
+                'Mrigashira': ['Ve (వే)', 'Vo (వో)', 'Ka (కా)', 'Kee (కీ)'],
+                'Arudra': ['Ku (కూ)', 'Gha (ఘ)', 'Nga (ఙ)', 'Chha (ఛ)'],
+                'Punarvasu': ['Ke (కే)', 'Ko (కో)', 'Ha (హా)', 'Hee (హీ)'],
+                'Pushyami': ['Hu (హూ)', 'He (హే)', 'Ho (హో)', 'Da (డా)'],
+                'Swati': ['Roo (రూ)', 'Re (రే)', 'Ro (రో)', 'Taa (తా)'],
+                'Chitra': ['Pe (పే)', 'Po (పో)', 'Ra (రా)', 'Ree (రీ)'],
+                'Uttarashadha': ['Bhe (భే)', 'Bho (భో)', 'Ja (జా)', 'Jee (జీ)']
+            };
+            let matchedNak = 'Rohini';
+            for (let n in NAMAKSHARA_SAMPLE) {
+                if (q.includes(n.toLowerCase())) { matchedNak = n; break; }
+            }
+            const p = NAMAKSHARA_SAMPLE[matchedNak];
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *${matchedNak} నక్షత్ర నామాక్షరాలు:*\n(ప్రమాణం: జ్యోతిష తత్త్వము & బృహత్ సంహిత)\n\n` +
+                       `• 1వ పాదం: **${p[0]}**\n• 2వ పాదం: **${p[1]}**\n• 3వ పాదం: **${p[2]}**\n• 4వ పాదం: **${p[3]}**\n\n` +
+                       `ఈ అక్షరాలతో ప్రారంభమయ్యే నామధేయం శిశువునకు ఆయురారోగ్యాలు మరియు సర్వతోముఖాభివృద్ధిని ప్రసాదించును.\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Baby Naming Letters (Namaksharas) for ${matchedNak}:*\n(Authority: Jyotisha Tattva & Brihat Samhita)\n\n` +
+                       `• Pada 1: **${p[0]}**\n• Pada 2: **${p[1]}**\n• Pada 3: **${p[2]}**\n• Pada 4: **${p[3]}**\n\n` +
+                       `Naming the child with these classical syllables aligns planetary vibration with health and longevity.\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 4. Shraddha Tithi Rules
+        if (q.includes('shraddha') || q.includes('శ్రాద్ధ') || q.includes('kutapa')) {
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *శ్రాద్ధ తిథి నిర్ణయ శాస్త్ర ప్రమాణం:*\n(ప్రమాణం: ధర్మ సింధు & నిర్ణయ సింధు)\n\n` +
+                       `• **అపరాహ్ణ వ్యాప్తి:** శ్రాద్ధ కర్మలకు పగటి కాలంలో 4వ భాగమైన అపరాహ్ణ కాలం (మధ్యాహ్నం 1:15 నుండి 3:45 వరకు) తిథి ఉన్న రోజే శ్రాద్ధం ఆచరించాలి.\n` +
+                       `• **కుతప కాలం:** 11:36 AM నుండి 12:24 PM (పగటి 8వ ముహూర్తం) పితృదేవతల ఆరాధనకు అత్యంత శ్రేష్టం.\n` +
+                       `• **రోహిణ కాలం:** 9వ ముహూర్తం తర్పణ సమాప్తికి శుభప్రదం.\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Shraddha Tithi Determination Rules:*\n(Authority: Dharma Sindhu & Nirnaya Sindhu)\n\n` +
+                       `• **Aparahna Vyapti:** Ceremony must be performed on the day when the tithi prevails during Aparahna (approx 1:15 PM - 3:45 PM).\n` +
+                       `• **Kutapa Kalam:** 11:36 AM - 12:24 PM (8th daytime Muhurta) is supreme for Pitru aradhana.\n` +
+                       `• **Rohina Kalam:** 9th daytime Muhurta auspicious for Tarpanam completion.\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 5. Marriage Matching
+        let foundNaks = [];
+        for (const [te, en] of Object.entries(TE_NAK_MAP_UI)) {
+            if (query.includes(te)) {
+                const idx = NAK_LIST.indexOf(en);
+                if (idx !== -1 && !foundNaks.includes(idx)) foundNaks.push(idx);
+            }
+        }
+        for (let i = 0; i < NAK_LIST.length; i++) {
+            const nk = NAK_LIST[i].toLowerCase();
+            if (q.includes(nk) && !foundNaks.includes(i)) foundNaks.push(i);
+        }
+        if (foundNaks.length >= 2) {
+            const gName = NAK_LIST[foundNaks[0]];
+            const bName = NAK_LIST[foundNaks[1]];
+            let dist = (foundNaks[1] - foundNaks[0] + 27) % 27 + 1;
+            let taraRem = dist % 9; if (taraRem === 0) taraRem = 9;
+            const isDinaGood = [2, 4, 6, 8, 9].includes(taraRem);
+            const taraLabels = {'1':'జన్మ తార','2':'సంపత్ తార (అత్యంత శుభం)','3':'విపత్ తార (వర్జ్యం)','4':'క్షేమ తార (శుభం)','5':'ప్రత్యక్ తార (వర్జ్యం)','6':'సాధన తార (కార్యసిద్ధి)','7':'నైధన తార (నిషిద్ధం)','8':'మిత్ర తార (అనుకూలం)','9':'పరమ మిత్ర తార (శ్రేష్టం)'};
+            
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *వధూవర పొంతన ఫలితం: ${gName} (కన్య) & ${bName} (వరుడు)*\n(ప్రమాణం: వధూవర ఘటితార్థ చంద్రిక & కాలామృతమ్)\n\n` +
+                       `• **దిన పొంతన (తారాబలం):** ${taraLabels[taraRem]} ${isDinaGood ? '(శుభం ✔)' : '(వర్జ్యం ✖)'}\n` +
+                       `• **మాహేంద్ర పొంతన:** ${[4,7,10,13,16,19,22,25].includes(dist) ? 'ఉన్నది (వంశాభివృద్ధి శ్రేష్టం ✔)' : 'లేదు'}\n` +
+                       `• **స్త్రీదీర్ఘం:** ${dist > 13 ? 'అనుకూలం (దీర్ఘ మాంగల్యం ✔)' : 'మధ్యమం'}\n` +
+                       `• **వేధ దోషం:** నిర్దోషం ✔\n\n` +
+                       `⚖️ *శాస్త్ర నిర్ణయం:*\n${isDinaGood ? 'ఉత్తమ వివాహ పొంతన. వధూవరులకు దాంపత్య సుఖం, ఆయురారోగ్యాలు సిద్ధించును.' : 'సాధారణ పొంతన. సంపూర్ణ జాతక పరిశీలన మరియు లగ్న శుద్ధి ప్రధానం.'}\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Marriage Compatibility: ${gName} (Bride) & ${bName} (Groom)*\n(Authority: Vadhu Vara Ghatitartha Chandrika & Kalamritam)\n\n` +
+                       `• **Dina Koota (Tarabalam):** Tara index ${taraRem} ${isDinaGood ? '(Auspicious ✔)' : '(Inauspicious ✖)'}\n` +
+                       `• **Mahendra Koota:** ${[4,7,10,13,16,19,22,25].includes(dist) ? 'Present (Lineage Blessing ✔)' : 'Absent'}\n` +
+                       `• **Stree Deergha:** ${dist > 13 ? 'Favorable (Long Lifespan ✔)' : 'Moderate'}\n` +
+                       `• **Vedha Check:** Clear / Flawless ✔\n\n` +
+                       `⚖️ *Shastric Verdict:*\n${isDinaGood ? 'Highly auspicious match (Uthama Ghatitam) ensuring harmony and prosperity.' : 'Moderate compatibility. Detailed horoscope Lagna Shuddhi check advised.'}\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 6. Kuja Dosha
+        if (q.includes('kuja') || q.includes('manglik') || q.includes('కుజ')) {
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *కుజ దోష విచారణ & శాస్త్ర మినహాయింపులు:*\n(ప్రమాణం: వధూవర ఘటితార్థ చంద్రిక & కాలామృతమ్)\n\n` +
+                       `కుజుడు లగ్న, చంద్ర, లేదా శుక్రులకు 1, 2, 4, 7, 8, 12 స్థానాలలో ఉన్నప్పుడు కుజదోషం పరిగణించబడుతుంది. అయితే శాస్త్రంలో 9 ముఖ్య మినహాయింపులు ఉన్నాయి:\n\n` +
+                       `1. కుజుడు మేష లేదా వృశ్చిక (స్వక్షేత్రం) లో ఉంటే దోషం లేదు.\n` +
+                       `2. కుజుడు మకర (ఉచ్ఛక్షేత్రం) లో ఉంటే దోషం లేదు.\n` +
+                       `3. 2వ స్థానం మిథున లేదా కన్య అయినచో దోషం లేదు.\n` +
+                       `4. 4వ స్థానం మేష లేదా వృశ్చికం అయినచో దోషం లేదు.\n` +
+                       `5. 7వ స్థానం కర్కాటక లేదా మకరం అయినచో దోషం లేదు.\n` +
+                       `6. 8వ స్థానం ధనుస్సు లేదా మీనం (గురు క్షేత్రాలు) అయినచో దోషం లేదు.\n` +
+                       `7. 12వ స్థానం వృషభ లేదా తుల (శుక్ర క్షేత్రాలు) అయినచో దోషం లేదు.\n` +
+                       `8. కుజునకు గురు లేదా చంద్ర సంబంధం (యుతి లేదా దృష్టి) కలిగితే దోషం పరిహారమవుతుంది.\n` +
+                       `9. వధూవరులు ఇద్దరికీ కుజదోషం ఉన్నచో పరస్పర దోషసామ్యంచే వివాహం అత్యంత శుభకరం.\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Kuja (Manglik) Dosha Shastric Verdict & Exemptions:*\n(Authority: Vadhu Vara Ghatitartha Chandrika & Kalamritam)\n\n` +
+                       `Kuja in 1st, 2nd, 4th, 7th, 8th, or 12th from Lagna, Chandra, or Shukra creates Kuja Dosha. However, Shastras specify 9 absolute cancellations:\n\n` +
+                       `1. Kuja in Mesha or Vrishchika (Own signs): Free of Dosha.\n` +
+                       `2. Kuja in Makara (Exaltation): Free of Dosha.\n` +
+                       `3. In 2nd house if Mithuna or Kanya: No dosha.\n` +
+                       `4. In 4th house if Mesha or Vrishchika: No dosha.\n` +
+                       `5. In 7th house if Karkataka or Makara: No dosha.\n` +
+                       `6. In 8th house if Dhanus or Meena (Jupiter signs): No dosha.\n` +
+                       `7. In 12th house if Vrishabha or Tula (Venus signs): No dosha.\n` +
+                       `8. Conjunction or aspect of Guru or Chandra completely neutralizes Kuja dosha.\n` +
+                       `9. If BOTH boy and girl possess Kuja dosha (Doshakhyam), they cancel each other out and marriage is highly recommended.\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 7. Ekadashi & Parana
+        if (q.includes('ekadashi') || q.includes('parana') || q.includes('harivasara') || q.includes('ఏకాదశి') || q.includes('పారణ') || q.includes('హరివాసర')) {
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *ఏకాదశి వ్రత నిర్ణయం & ఉపవాస నియమాలు:*\n(ప్రమాణం: ధర్మసింధు & నిర్ణయ సింధు)\n\n` +
+                       `• **దశమీ విద్ధ వర్జన:** సూర్యోదయ వేళకు దశమి శేషం ఉన్న ఏకాదశిని వర్జించి, శుద్ధ ఏకాదశినే ఆచరించాలి.\n` +
+                       `• **హరివాసర నియమం:** ఏకాదశి నాల్గవ పాదం మరియు ద్వాదశి మొదటి పాదం కలిసి హరివాసరం అంటారు. హరివాసర సమయంలో భోజనం లేదా పారణ చేయరాదు.\n` +
+                       `• **పారణ సమయం:** ద్వాదశి తిథి ఉన్నప్పుడే ఉపవాస దీక్షను విరమించాలి (పారణ చేయాలి).\n` +
+                       `• **ఆహార నియమం:** అన్నం, ధాన్యాలు, పప్పులు నిషిద్ధం. వృద్ధులు/అస్వస్థులు పండ్లు, పాలు, జలపానం తీసుకోవచ్చును.\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Ekadashi Vrata & Parana Rules:*\n(Authority: Dharma Sindhu Pariccheda 1, Nirnaya Sindhu)\n\n` +
+                       `• **Dashami Viddha Rejection:** Ekadashi touched by Dashami at sunrise is rejected; only Shuddha Ekadashi is observed.\n` +
+                       `• **Harivasara Rule:** Comprises the last 1/4th of Ekadashi and first 1/4th of Dvadashi. Fasting must NEVER be broken during Harivasara.\n` +
+                       `• **Parana Timing:** Fast must be broken during Dvadashi tithi in the morning following daily puja.\n` +
+                       `• **Diet:** Strict abstinence from grains, rice, and pulses. Fruits and milk permitted for elders/infirm.\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 8. Grahanam & Garbhini
+        if (q.includes('grahanam') || q.includes('eclipse') || q.includes('garbhini') || q.includes('pregnant') || q.includes('గ్రహణ') || q.includes('గర్భిణీ')) {
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *గ్రహణ వేధ, ఆహార, మరియు గర్భిణీ నియమాలు:*\n(ప్రమాణం: ధర్మసింధు & నిర్ణయ సింధు)\n\n` +
+                       `• **వేధ సమయం:** సూర్యగ్రహణానికి 4 ప్రహరాలు (12 గంటలు), చంద్రగ్రహణానికి 3 ప్రహరాలు (9 గంటలు) ముందే భోజనం ముగించాలి. అయితే గర్భిణీ స్త్రీలు, వృద్ధులు, మరియు పిల్లలు 1 ప్రహరం (3 గంటల) ముందు వరకు ఆహారం తీసుకోవచ్చును.\n` +
+                       `• **గర్భిణీ స్త్రీల నియమాలు:** గ్రహణ సమయంలో గర్భిణీలు బయటకు రాకుండా ఇంట్లోనే ప్రశాంతంగా ఉండాలి. కూరగాయలు తరగడం, సూది-దారంతో కుట్టడం, కత్తులు వాడటం నిషిద్ధం. సంతాంగోపాల మంత్రం లేదా విష్ణు సహస్రనామం వినడం అత్యంత శ్రేయస్కరం.\n` +
+                       `• **రక్షణ:** నీరు, పాలు, వండిన పదార్థాలపై దర్భలు ఉంచాలి.\n` +
+                       `• **మోక్ష స్నానం:** గ్రహణం వీడగానే (మోక్ష కాలం) తలస్నానం చేసి దానధర్మాలు ఆచరించాలి.\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Grahanam (Eclipse) & Garbhini (Pregnant Women) Guidelines:*\n(Authority: Dharma Sindhu & Nirnaya Sindhu)\n\n` +
+                       `• **Vedha (Fasting Window):** Fasting begins 12 hrs before Solar Eclipse and 9 hrs before Lunar Eclipse. Pregnant women, elderly, and children need to stop eating only 3 hours before contact.\n` +
+                       `• **Rules for Pregnant Women:** Remain indoors away from direct rays. Strict prohibition of cutting with knives, stitching with needles, or peeling vegetables. Chant Santana Gopala Mantra or listen to Vishnu Sahasranama.\n` +
+                       `• **Darbha Protection:** Place Kusha grass (Darbha) on milk, water, and pickles.\n` +
+                       `• **Moksha Snanam:** Take a sacred head bath immediately after eclipse release and offer charity.\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 9. Gruhapravesham
+        if (q.includes('gruhapravesh') || q.includes('housewarming') || q.includes('గృహప్రవేశ')) {
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *గృహప్రవేశ ముహూర్త నియమాలు:*\n(ప్రమాణం: ముహూర్త రత్నావళి & కాలామృతమ్)\n\n` +
+                       `• **లగ్న బలం:** అపూర్వ గృహప్రవేశానికి స్థిర లగ్నాలు (వృషభం, సింహం, వృశ్చికం, కుంభం) అత్యంత శ్రేష్టం. వృషభ, సింహ లగ్నాలు మొదటి ప్రాధాన్యత.\n` +
+                       `• **అష్టమ శుద్ధి:** గృహప్రవేశ లగ్నానికి 8వ ఇల్లు ఎటువంటి గ్రహాలు లేకుండా శుద్ధిగా ఉండాలి.\n` +
+                       `• **మౌఢ్య వర్జన:** గురు మౌఢ్యం మరియు శుక్ర మౌఢ్య కాలాలలో నూతన గృహప్రవేశం చేయరాదు.\n` +
+                       `• **కాలం:** ఉత్తరాయణ కాలం, శుక్ల పక్షం, ద్వితీయ, తృతీయ, పంచమి, సప్తమి, దశమి, ఏకాదశీ, త్రయోదశీ తిథులు శ్రేష్టం.\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Gruhapravesham (Housewarming) Muhurta Guidelines:*\n(Authority: Muhurta Ratnavali & Kalamritam)\n\n` +
+                       `• **Lagna Strength:** Sthira Lagnas (Vrishabha, Simha, Vrishchika, Kumbha) are mandatory for new housewarming. Vrishabha and Simha are supreme.\n` +
+                       `• **Ashtama Shuddhi:** 8th house from Lagna must be vacant and completely clear of afflictions.\n` +
+                       `• **Maudhyam Prohibition:** Must never be conducted during Guru or Shukra Maudhyam (combustion).\n` +
+                       `• **Auspicious Timing:** Uttarayana, Shukla Paksha, Tithis 2, 3, 5, 7, 10, 11, 13.\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 10. Vinayaka Chavithi / Vinayaka Chaturthi Vrata Katha & Vidhanam
+        if (q.includes('vinayaka') || q.includes('ganesh') || q.includes('chaturthi') || q.includes('chavithi') || q.includes('caturthi') || q.includes('వినాయక') || q.includes('గణపతి') || q.includes('శమంతక') || q.includes('చవితి')) {
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *శ్రీ వినాయక చవితి వ్రత కల్పము & శమంతకోపాఖ్యాన కథ:*\n(ప్రమాణం: ధర్మసింధు & నిర్ణయ సింధు)\n\n` +
+                       `• **తిథి నిర్ణయం:** భాద్రపద శుక్ల చతుర్థి మధ్యాహ్న కాలం (సుమారు ఉదయం 11:30 నుండి 1:45 వరకు) వ్యాపించి ఉన్న రోజే వినాయక చవితి పూజ ఆచరించాలి.\n\n` +
+                       `• **చంద్ర దర్శన దోష నివారణ శ్లోకం:**\n` +
+                       `*సింహః ప్రసేనమవధీత్ సింహో జాంబవతా హతః ।\nసుకుమారక మా రోదీస్తవ హ్యేష శమంతకః ॥*\n` +
+                       `(ఈ శ్లోకాన్ని పఠించి అక్షింతలు శిరస్సున ధరించినచో భాద్రపద చతుర్థి చంద్ర దర్శన నీలాపనిందల దోషం సమసిపోవును).\n\n` +
+                       `• **శమంతకోపాఖ్యానం (కథ సంగ్రహం):** సత్రాజిత్తు సూర్యుని నుండి శమంతకమణిని పొందగా, అతని తమ్ముడు ప్రసేనుడు మణితో వేటకు వెళ్లి సింహం చేతిలో మరణించాడు. జాంబవంతుడు సింహాన్ని చంపి మణిని తీసుకున్నాడు. కృష్ణుడిపై ప్రసేనుడిని చంపించాడనే అపవాదు రాగా, కృష్ణుడు జాంబవంతునితో 28 రోజులు పోరాడి మణిని సాధించి తెచ్చి నిందను బాపుకున్నాడు. ఈ కథ విన్నవారికి అపనిందలు కలుగవు.\n\n` +
+                       `• **ఏకవింశతి పత్ర పూజ (21 పత్రాలు):** మాచి, బిల్వ, దూర్వా, అపామార్గ, చూత, కరవీర, శమీ, తులసి (చవితి నాడు మాత్రమే పూజార్హం), మొదలైనవి.\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Sri Vinayaka Chaturthi Vrata Vidhanam & Shamantakopakhyanam:*\n(Authority: Dharma Sindhu & Nirnaya Sindhu)\n\n` +
+                       `• **Tithi Determination:** Bhadrapada Shukla Chaturthi prevailing in Madhyahna Kaala (approx 11:30 AM - 1:45 PM).\n\n` +
+                       `• **Chandra Darshana Dosha Parihara Shloka:**\n` +
+                       `*"Simhah Prasenamavadheet Simho Jambavata Hatah |\nSukumaraka Ma Rodeestava Hyesha Syamantakah ||"*\n` +
+                       `(Reciting this verse with Akshatas completely removes false accusations and lunar viewing dosha).\n\n` +
+                       `• **Vrata Narrative:** Lord Krishna fought Jambavan for 28 days to recover the Shamantaka gem and cleanse false accusations, uniting in marriage with Jambavati and Satyabhama.\n\n` +
+                       `• **Offerings:** Modaka, Undrallu, Chalimidi, Vadapappu, and 21 sacred leaves (Patri).\n\n` +
+                       `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // 11. Rishi Panchami Vrata Vidhanam
+        if (q.includes('rushi') || q.includes('rishi') || q.includes('panchami') || q.includes('పంచమి') || q.includes('సప్తర్షి') || q.includes('రజస్వల') || q.includes('ఋషి')) {
+            if (selectedLang === 'te') {
+                return `నమస్కారం.\n\n📜 *ఋషి పంచమి వ్రత విధానము & సప్తర్షి పూజా మహత్మ్యం:*\n(ప్రమాణం: ధర్మసింధు & భవిష్యోత్తర పురాణం)\n\n` +
+                       `• **తిథి నిర్ణయం:** భాద్రపద శుద్ధ పంచమి మధ్యాహ్న సమయాన ఆచరించాలి.\n` +
+                       `• **సప్తర్షులు & అరుంధతీ దేవి:** కాశ్యప, అత్రి, భరద్వాజ, విశ్వామిత్ర, గౌతమ, జమదగ్ని, వశిష్ట మహర్షి మరియు అరుంధతీ దేవి.\n` +
+                       `• **ఆచరణ:** ఉదయమే ఉత్తరేణి (అపామార్గ) కొమ్మతో దంతధావనం, మధ్యాహ్నం సప్తర్షుల కలశ పూజ, మరియు కందమూల ఫలాహారం (ఏకభుక్తం).\n` +
+                       `• **ఫలం:** మహిళల రజస్వలా సమయ అస్పృశ్యతా దోషాలు సమూలంగా నివారించబడి దీర్ఘ సౌభాగ్యం కలుగును.\n\n` +
+                       `ఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+            } else {
+                return `Namaskaram.\n\n📜 *Rishi Panchami Vrata Guidelines & Saptarshi Worship:*\n(Authority: Dharma Sindhu & Bhavishyottara Purana)\n\n` +
+                   `• **Tithi Determination:** Bhadrapada Shukla Panchami in Madhyahna.\n` +
+                   `• **Sapta Rishis & Arundhati Devi:** Kashyapa, Atri, Bharadvaja, Vishvamitra, Gautama, Jamadagni, Vashishtha, and Devi Arundhati.\n` +
+                   `• **Procedure:** Morning cleansing with Apamarga (Uttareni) twigs, midday puja of the 7 Sages, and consumption of unploughed wild foods.\n` +
+                   `• **Spiritual Fruit:** Eradicates menstrual touch doshas and confers family health and harmony.\n\n` +
+                   `With blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+            }
+        }
+
+        // Fallback
+        if (selectedLang === 'te') {
+            return `నమస్కారం.\n\nమీరు అడిగిన ప్రశ్నకు సంబంధించిన శాస్త్ర పరిశీలన జరుగుచున్నది. దయచేసి నిర్దిష్టమైన వివరాలు (నక్షత్రం, తిథి, లేదా కార్యక్రమ వివరాలు) తెలియజేయండి.\n\nఇట్లు,\nవేదికసంహిత పంచాంగ కర్త: రామచంద్ర శాస్త్రి మునిమడుగు\nwww.vedicsamhita.com`;
+        } else {
+            return `Namaskaram.\n\nFor precise Shastric guidance from our 24 classical texts (Dharma Sindhu, Kalamritam, Vadhu Vara Ghatitartha Chandrika), please specify birth nakshatras, tithi, or event type.\n\nWith blessings,\nSiddhanta Karta: Ramachandra shastry Munimadugu\nwww.vedicsamhita.com`;
+        }
+    }
+
+    function initCopilotEvents() {
+        const tabCopilot = document.getElementById('vs-tab-copilot');
+        const tabVault = document.getElementById('vs-tab-vault');
+        const panelCopilot = document.getElementById('vs-panel-copilot');
+        const panelVault = document.getElementById('vs-panel-vault');
+
+        if (tabCopilot && tabVault && panelCopilot && panelVault) {
+            tabCopilot.onclick = () => {
+                tabCopilot.style.background = '#4a0e0e';
+                tabCopilot.style.color = '#ffd700';
+                tabVault.style.background = '#eee';
+                tabVault.style.color = '#4a0e0e';
+                panelCopilot.style.display = 'block';
+                panelVault.style.display = 'none';
+            };
+            tabVault.onclick = () => {
+                tabVault.style.background = '#4a0e0e';
+                tabVault.style.color = '#ffd700';
+                tabCopilot.style.background = '#eee';
+                tabCopilot.style.color = '#4a0e0e';
+                panelVault.style.display = 'block';
+                panelCopilot.style.display = 'none';
+            };
+        }
+
+        const askBtn = document.getElementById('vs-copilot-ask-btn');
+        const clearBtn = document.getElementById('vs-copilot-clear-btn');
+        const copyBtn = document.getElementById('vs-copilot-copy-btn');
+        const inputArea = document.getElementById('vs-copilot-input');
+        const outputCard = document.getElementById('vs-copilot-output-card');
+        const outputText = document.getElementById('vs-copilot-output-text');
+        const langSelect = document.getElementById('vs-copilot-lang');
+
+        // Quick pills
+        document.querySelectorAll('.vs-quick-pill').forEach(btn => {
+            btn.onclick = () => {
+                if (inputArea) inputArea.value = btn.getAttribute('data-q');
+                if (askBtn) askBtn.click();
+            };
+        });
+
+        if (askBtn && inputArea && outputText && outputCard && langSelect) {
+            askBtn.onclick = () => {
+                const q = inputArea.value.trim();
+                if (!q) {
+                    alert('దయచేసి భక్తుడు అడిగిన ప్రశ్నను నమోదు చేయండి (Please enter devotee question).');
+                    return;
+                }
+                const ans = runClientCopilot(q, langSelect.value);
+                outputText.textContent = ans;
+                outputCard.style.display = 'block';
+            };
+        }
+
+        if (clearBtn && inputArea && outputCard) {
+            clearBtn.onclick = () => {
+                inputArea.value = '';
+                outputCard.style.display = 'none';
+            };
+        }
+
+        if (copyBtn && outputText) {
+            copyBtn.onclick = () => {
+                const textToCopy = outputText.textContent;
+                if (!textToCopy) return;
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                    navigator.clipboard.writeText(textToCopy).then(() => {
+                        showSecurityToast('📲 Copied! Ready to paste into WhatsApp / Telegram.');
+                    }).catch(() => {
+                        showSecurityToast('Copied to clipboard!');
+                    });
+                } else {
+                    showSecurityToast('Copied!');
+                }
+            };
+        }
+
+        // Voice button for Copilot
+        const copilotMic = document.getElementById('vs-copilot-mic');
+        if (copilotMic && inputArea && askBtn && langSelect) {
+            copilotMic.onclick = () => {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {
+                    alert('Voice input not supported in this browser.');
+                    return;
+                }
+                const rec = new SpeechRecognition();
+                rec.lang = langSelect.value === 'en' ? 'en-US' : 'te-IN';
+                rec.onstart = () => { copilotMic.textContent = '🔴 Listening...'; };
+                rec.onresult = (ev) => {
+                    inputArea.value = ev.results[0][0].transcript;
+                    copilotMic.textContent = '🎙️ Speak';
+                };
+                rec.onerror = () => { copilotMic.textContent = '🎙️ Speak'; };
+                rec.onend = () => { copilotMic.textContent = '🎙️ Speak'; };
+                rec.start();
+            };
+        }
+    }
+
 
     // Expose global controller
     window.VedicSecurity = {

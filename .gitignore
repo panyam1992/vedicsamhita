@@ -27,3 +27,11 @@ whatsapp_config.json
 *_run.js
 node_modules/
 *.log
+
+# Large References & Local Archives
+_archive/
+dharmashastra_reference/
+scratch/
+*.bak
+.pytest_cache/
+python_panchangam/

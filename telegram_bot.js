@@ -9,6 +9,13 @@
 
 const fs = require('fs');
 const path = require('path');
+const shastraEngine = require('./shastra_knowledge_base/shastra_engine.js');
+const geminiAI = require('./shastra_knowledge_base/gemini_shastra_ai.js');
+
+// Conversational Session State per Chat ID (remembers context of recent consultation)
+const userChatSessions = {
+    44714988: { topic: 'santana_gopala_japa', timestamp: Date.now() } // Pre-seeded with Sree Rama & Lalitha Santana consultation
+};
 
 const VAULT_PATH = path.join(__dirname, 'ADMIN_RULES_VAULT.json');
 const CONFIG_PATH = path.join(__dirname, 'telegram_config.json');
@@ -65,14 +72,42 @@ async function tgApi(token, method, params = {}) {
 }
 
 async function sendMessage(token, chatId, text, parseMode = 'Markdown') {
+    if (!text) return;
     try {
-        await tgApi(token, 'sendMessage', {
+        // Auto chunk if text > 4000 chars
+        const MAX_LEN = 3900;
+        if (text.length > MAX_LEN) {
+            let remaining = text;
+            while (remaining.length > 0) {
+                let chunk = remaining.substring(0, MAX_LEN);
+                let splitIdx = chunk.lastIndexOf('\n\n');
+                if (splitIdx > 2000) {
+                    chunk = remaining.substring(0, splitIdx);
+                    remaining = remaining.substring(splitIdx + 2);
+                } else {
+                    remaining = remaining.substring(MAX_LEN);
+                }
+                await sendMessage(token, chatId, chunk, parseMode);
+            }
+            return;
+        }
+
+        const params = {
             chat_id: chatId,
-            text: text,
-            parse_mode: parseMode
-        });
+            text: text
+        };
+        if (parseMode) params.parse_mode = parseMode;
+
+        const res = await tgApi(token, 'sendMessage', params);
+        if (!res.ok && parseMode) {
+            // Fallback plain text if markdown formatting failed
+            await tgApi(token, 'sendMessage', {
+                chat_id: chatId,
+                text: text
+            });
+        }
     } catch (e) {
-        console.error("❌ Failed to send Telegram message:", e);
+        console.error("❌ Failed to send Telegram message:", e.message);
     }
 }
 
@@ -104,16 +139,32 @@ async function handleMessage(token, config, msg) {
 
     if (text === '/start' || text === '/help') {
         const helpText = `🙏 *Namaste ${fromUser}!*\n\n` +
-            `Welcome to your private *Vedic Samhita AI Brain Bot* 🕉️\n\n` +
-            `Everything you send here is saved directly to your laptop repository in \`ADMIN_RULES_VAULT.json\`.\n\n` +
-            `*What you can send:*\n` +
-            `1️⃣ *Text message*: Dictate or type any rule, festival date, or correction.\n` +
-            `2️⃣ *Exported JSON file*: Send the JSON file downloaded from your app.\n` +
-            `3️⃣ *Voice note*: Record voice notes on the go.\n\n` +
-            `*Commands:*\n` +
-            `• \`/status\` — View total & pending rules in the vault.\n` +
-            `• \`/pending\` — List all rules waiting for AI implementation.\n` +
-            `• \`/help\` — Show this help message.`;
+            `Welcome to your private *Vedic Samhita Shastra Copilot & AI Brain Bot* 🕉️\n\n` +
+            `📚 *Devotee Q&A Assistant (24 Shastra Books Engine):*\n` +
+            `Ask ANY question devotees ask you, and receive an authentic, ready-to-forward answer signed by Siddhanti Ramachandra shastry Munimadugu:\n\n` +
+            `🔮 *Horoscope / Jatakam (జాతక పరిశీలన):*\n` +
+            `• "check this jatakam: 15-Aug-1995 10:30 AM Hyderabad"\n` +
+            `• "ఈ జాతకం చూడండి 20-10-1998 11:15 AM ప్రొద్దుటూరు"\n` +
+            `• "మకర రాశి ఉత్తరాషాఢ నక్షత్రం జాతక పరిశీలన"\n\n` +
+            `🗓️ *Auspicious Muhurtam (శుభ ముహూర్తాలు):*\n` +
+            `• "give muhurtam for Gruhapravesham in May 2026 Dallas"\n` +
+            `• "వివాహ ముహూర్తాలు నవంబర్ 2026 హైదరాబాద్"\n` +
+            `• "give muhurtam for vehicle purchase next month"\n\n` +
+            `👶 *Baby Names & Shantis (నామాక్షరాలు & శాంతి):*\n` +
+            `• "what is baby name letter for Rohini"\n` +
+            `• "Moola nakshatra dosha shanti"\n\n` +
+            `💍 *Marriage Matching (వివాహ పొంతన):*\n` +
+            `• "boy star uttarashadha and girl star chitta can do marrage"\n\n` +
+            `🌾 *Dharma Shastra Rules (ధర్మ శాస్త్రం):*\n` +
+            `• "Ekadashi parana rules", "Shraddha tithi rules", "Kuja dosha exemptions"\n\n` +
+            `*Language Controls:*\n` +
+            `• \`/te <question>\` — Force reply in Telugu (తెలుగు)\n` +
+            `• \`/en <question>\` — Force reply in English\n` +
+            `• Or simply ask directly in Telugu or English!\n\n` +
+            `*Vault Rules to Laptop:*\n` +
+            `• \`/note <rule>\` or \`/vault <rule>\` — Save custom rule note to laptop vault\n` +
+            `• \`/status\` — View vault rules status\n` +
+            `• \`/pending\` — List pending rules.`;
         await sendMessage(token, chatId, helpText);
         return;
     }
@@ -145,6 +196,67 @@ async function handleMessage(token, config, msg) {
         if (pending.length > 10) reply += `_...and ${pending.length - 10} more._`;
         await sendMessage(token, chatId, reply);
         return;
+    }
+
+    // ══════════════ DEVOTEE SHASTRA COPILOT ══════════════
+    if (!text.startsWith('/note') && !text.startsWith('/vault')) {
+        let cleanQuery = text;
+        let forcedLang = null;
+        if (text.startsWith('/ask')) cleanQuery = text.replace('/ask', '').trim();
+        else if (text.startsWith('/jatakam')) cleanQuery = text.replace('/jatakam', '').trim() || 'check this jatakam';
+        else if (text.startsWith('/muhurtam')) cleanQuery = text.replace('/muhurtam', '').trim() || 'give muhurtam';
+        else if (text.startsWith('/match')) cleanQuery = text.replace('/match', '').trim();
+        else if (text.startsWith('/te')) { cleanQuery = text.replace('/te', '').trim(); forcedLang = 'te'; }
+        else if (text.startsWith('/en')) { cleanQuery = text.replace('/en', '').trim(); forcedLang = 'en'; }
+        else if (text.startsWith('/shastra')) cleanQuery = text.replace('/shastra', '').trim();
+
+        // Immediate visual feedback on Telegram
+        await tgApi(token, 'sendChatAction', { chat_id: chatId, action: 'typing' }).catch(() => {});
+
+        const session = userChatSessions[chatId] || { topic: 'santana_gopala_japa' };
+
+        // 1. High-Precision Check: Does the local Shastra Engine have a specific astronomical calculation or verified rule?
+        // (E.g. Exact Japa Muhurtam dates with hours, Naga Pratishta, Marriage matching, Naming letters, Menses/Diet rules)
+        const specificLocalAnswer = shastraEngine.getSpecificAnswer(cleanQuery, forcedLang, session);
+        if (specificLocalAnswer) {
+            console.log(`🎯 Answering Devotee Query via Authoritative Shastra Engine for ${fromUser}: "${cleanQuery}"`);
+            
+            const qLower = cleanQuery.toLowerCase();
+            if (qLower.includes('pratishta') || qLower.includes('pratishtha') || qLower.includes('naga') || qLower.includes('sarpa') || specificLocalAnswer.includes('నాగ ప్రతిష్ఠ') || specificLocalAnswer.includes('ఆశ్లేష బలి') || specificLocalAnswer.includes('Naga Pratishta')) {
+                userChatSessions[chatId] = { topic: 'naga_pratishta', timestamp: Date.now() };
+            } else if (qLower.includes('japa') || qLower.includes('mantra') || specificLocalAnswer.includes('సంతాన గోపాల మహామంత్ర') || specificLocalAnswer.includes('Santana Gopala')) {
+                userChatSessions[chatId] = { topic: 'santana_gopala_japa', timestamp: Date.now() };
+            } else if (specificLocalAnswer.includes('సంతాన') || specificLocalAnswer.includes('గర్భ') || specificLocalAnswer.includes('Santana') || specificLocalAnswer.includes('Gopala')) {
+                userChatSessions[chatId] = { topic: 'santana_gopala_japa', timestamp: Date.now() };
+            } else if (specificLocalAnswer.includes('వివాహ') || specificLocalAnswer.includes('Marriage')) {
+                userChatSessions[chatId] = { topic: 'vivaha', timestamp: Date.now() };
+            } else if (specificLocalAnswer.includes('గృహప్రవేశ') || specificLocalAnswer.includes('Gruhapravesh')) {
+                userChatSessions[chatId] = { topic: 'gruhapravesh', timestamp: Date.now() };
+            }
+
+            await sendMessage(token, chatId, specificLocalAnswer, '');
+            return;
+        }
+
+        // 2. Google Gemini Shastra AI (For conversational, emotional, and complex unscripted astrological queries)
+        try {
+            console.log(`🤖 Consulting Gemini Shastra AI for ${fromUser}: "${cleanQuery}"`);
+            const geminiAnswer = await geminiAI.askGeminiShastra(chatId, cleanQuery, forcedLang);
+            if (geminiAnswer) {
+                console.log(`✨ Gemini Shastra AI replied for ${fromUser}`);
+                await sendMessage(token, chatId, geminiAnswer, '');
+                return;
+            }
+        } catch (e) {
+            console.warn(`⚠️ Gemini Shastra AI exception:`, e.message);
+        }
+
+        // 3. Fallback to Local Universal Shastra Engine
+        const fallbackAnswer = shastraEngine.answerDevoteeQuery(cleanQuery, forcedLang, session);
+        if (fallbackAnswer) {
+            await sendMessage(token, chatId, fallbackAnswer, '');
+            return;
+        }
     }
 
     // Case 1: JSON Document attached
@@ -219,16 +331,31 @@ async function handleMessage(token, config, msg) {
         return;
     }
 
-    // Case 3: Standard Text Message / Rule Note
-    if (text && text.trim().length > 0) {
+    // Case 3: Explicit Rule / Note Saving
+    const isExplicitRule = text.startsWith('/rule') || text.startsWith('/note') || 
+                           text.startsWith('/vault') || text.startsWith('/addrule') ||
+                           text.toLowerCase().startsWith('rule:') || text.toLowerCase().startsWith('note:') ||
+                           text.startsWith('సూత్రం:') || text.startsWith('నియమం:');
+
+    if (isExplicitRule && text && text.trim().length > 0) {
         const vault = loadVault();
 
-        const lines = text.trim().split('\n').map(l => l.trim()).filter(Boolean);
-        let title = lines[0];
+        let cleanText = text
+            .replace(/^\/rule\s*/i, '')
+            .replace(/^\/note\s*/i, '')
+            .replace(/^\/addrule\s*/i, '')
+            .replace(/^rule:\s*/i, '')
+            .replace(/^note:\s*/i, '')
+            .replace(/^సూత్రం:\s*/, '')
+            .replace(/^నియమం:\s*/, '')
+            .trim();
+
+        const lines = cleanText.split('\n').map(l => l.trim()).filter(Boolean);
+        let title = lines[0] || 'Custom Rule';
         if (title.length > 70) title = title.substring(0, 67) + '...';
         
         let category = 'custom';
-        const lower = text.toLowerCase();
+        const lower = cleanText.toLowerCase();
         if (lower.includes('వ్రతం') || lower.includes('పండుగ') || lower.includes('festival') || lower.includes('vrata')) {
             category = 'festival';
         } else if (lower.includes('మౌఢ్య') || lower.includes('గ్రహ') || lower.includes('maudhyam') || lower.includes('planet')) {
@@ -242,7 +369,7 @@ async function handleMessage(token, config, msg) {
             timestamp: new Date().toISOString(),
             category: category,
             title: title,
-            body: text.trim(),
+            body: cleanText,
             reference: 'Telegram Note',
             status: 'pending',
             source: 'telegram_chat'
@@ -261,6 +388,31 @@ async function handleMessage(token, config, msg) {
 
         await sendMessage(token, chatId, reply);
         console.log(`📥 Saved new rule from Telegram: "${title}"`);
+        return;
+    }
+
+    // Default Friendly Copilot Guidance if query wasn't matched
+    if (text && text.trim().length > 0) {
+        const isTe = /[\u0C00-\u0C7F]/.test(text);
+        let reply = '';
+        if (isTe) {
+            reply = `నమస్కారం! మీ సందేశం అందింది.\n\n` +
+                `📜 *వేదికసంహిత ధర్మశాస్త్ర & జ్యోతిష సహాయం:*\n\n` +
+                `• 🔮 *జాతక పరిశీలన:* "జాతకం: 15-Aug-1995 10:30 AM Hyderabad"\n` +
+                `• 🗓️ *ముహూర్తం:* "ముహూర్తం గృహప్రవేశం May 2026 Hyderabad"\n` +
+                `• 💍 *వివాహ పొంతన:* "వధూవర నక్షత్రాలు రోహిణి మరియు మృగశిర"\n` +
+                `• 🪔 *వ్రత కథలు:* "వినాయక చవితి వ్రత కథ", "ఋషి పంచమి", "వరలక్ష్మీ వ్రతం"\n\n` +
+                `💡 నూతన సిద్ధాంత సూత్రం సేవ్ చేయడానికి: \`/rule <సూత్రం>\` అని పంపండి.`;
+        } else {
+            reply = `Namaskaram! We received your message.\n\n` +
+                `📜 *Vedic Samhita Shastra & Jyotisha Copilot:*\n\n` +
+                `• 🔮 *Horoscope:* "check this jatakam: 15-Aug-1995 10:30 AM Hyderabad"\n` +
+                `• 🗓️ *Muhurtam:* "give muhurtam for Gruhapravesham in May 2026 Dallas"\n` +
+                `• 💍 *Matching:* "boy star uttarashadha and girl star chitta can do marrage"\n` +
+                `• 🪔 *Vratas:* "Vinayaka Chaturthi katha", "Rishi Panchami", "Varalakshmi Vratam"\n\n` +
+                `💡 To save a new Siddhanta rule to laptop vault: send \`/rule <your rule>\`.`;
+        }
+        await sendMessage(token, chatId, reply);
     }
 }
 
@@ -309,7 +461,16 @@ async function startBot() {
                 for (const update of updates.result) {
                     offset = update.update_id + 1;
                     if (update.message) {
-                        await handleMessage(token, config, update.message);
+                        try {
+                            const sender = update.message.from ? (update.message.from.first_name || update.message.from.username) : 'User';
+                            console.log(`📩 [${new Date().toLocaleTimeString()}] Incoming from ${sender}: "${update.message.text || update.message.caption || '[media]'}"`);
+                            await handleMessage(token, config, update.message);
+                        } catch (msgErr) {
+                            console.error("❌ Error in handleMessage:", msgErr);
+                            if (update.message.chat && update.message.chat.id) {
+                                await sendMessage(token, update.message.chat.id, "నమస్కారం. మీ సందేశాన్ని విశ్లేషించుటలో సమస్య ఏర్పడింది. దయచేసి మరలా పంపండి.");
+                            }
+                        }
                     }
                 }
             }

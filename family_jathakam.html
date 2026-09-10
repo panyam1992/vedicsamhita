@@ -19,7 +19,7 @@
     <meta property="og:title" content="Vedic Samhita - Family Astrologer Suite (Multi-Chart Synastry)">
     <meta property="og:description" content="Multi-chart family synastry, Santana and Vivaha harmony, karya siddhi analysis, and astrological guidance.">
     <meta property="og:image" content="https://www.vedicsamhita.com/logo.jpg">
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Mandali&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;900&family=Noto+Sans+Telugu:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #FFF8E7;
@@ -42,7 +42,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         
         body {
-            font-family: 'Mandali', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-family: 'Noto Sans Telugu', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             background: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%) fixed;
             color: var(--text-primary);
             min-height: 100vh;
@@ -623,7 +623,7 @@
         <a href="muhurtavali.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
         <a href="jathakam.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🔮 Single Jathakam</a>
         <a href="family_jathakam.html" class="admin-only" style="color:#ffffff; background:rgba(227,179,65,0.25); border:1px solid #e3b341; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; border-radius:4px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
-        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Mandali',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
+        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
     </nav>
 
     <!-- Community Join Banner -->
@@ -941,9 +941,9 @@
 /* ═════════════════════════════════════════════════════════════════════════════════
    ASTROLOGICAL CONSTANTS & SWISS-GRADE MEEUS FORMULAS
    ═════════════════════════════════════════════════════════════════════════════════ */
-const RASHI_NAMES = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+const RASHI_NAMES = ["Mesha", "Vrishabha", "Mithuna", "Karkataka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"];
 const RASHI_TELUGU = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తుల", "వృశ్చికం", "ధనుస్సు", "మకరం", "కుంభం", "మీనం"];
-const RASHI_LORDS = ["Mars", "Venus", "Mercury", "Moon", "Sun", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Saturn", "Jupiter"];
+const RASHI_LORDS = ["Kuja", "Shukra", "Budha", "Chandra", "Surya", "Budha", "Shukra", "Kuja", "Guru", "Shani", "Shani", "Guru"];
 const RASHI_LORDS_TELUGU = ["కుజుడు", "శుక్రుడు", "బుధుడు", "చంద్రుడు", "సూర్యుడు", "బుధుడు", "శుక్రుడు", "కుజుడు", "గురువు", "శని", "శని", "గురువు"];
 
 const NAKSHATRAS = [

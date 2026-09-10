@@ -21,7 +21,7 @@
     <meta property="og:image" content="https://www.vedicsamhita.com/logo.jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Mandali&family=Suranna&family=EB+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Noto+Sans+Telugu:wght@400;500;600;700;800&family=EB+Garamond:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-primary: #FFF8E7;
@@ -46,7 +46,7 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            font-family: 'Mandali', 'Plus Jakarta Sans', sans-serif;
+            font-family: 'Noto Sans Telugu', 'Plus Jakarta Sans', sans-serif;
             background: linear-gradient(160deg, #FFF8E7 0%, #FDE8C9 50%, #FCE0B5 100%) fixed;
             color: var(--text-primary);
             line-height: 1.6;
@@ -94,7 +94,7 @@
         }
 
         .lab-title h1 {
-            font-family: 'Cinzel', 'Suranna', serif;
+            font-family: 'Cinzel', 'Noto Sans Telugu', serif;
             font-size: 22px;
             color: var(--accent-gold);
             letter-spacing: 0.5px;
@@ -306,7 +306,7 @@
         }
 
         .panchangam-header-title {
-            font-family: 'Cinzel', 'Suranna', serif;
+            font-family: 'Cinzel', 'Noto Sans Telugu', serif;
             font-size: 18px;
             color: var(--accent-gold);
             margin-bottom: 10px;
@@ -798,11 +798,11 @@
 <!-- Top Navigation Bar -->
 <nav style="text-align:center; padding:10px 14px; background:#161b22; border-bottom:1px solid #30363d; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:10px; position:sticky; top:0; z-index:1000;">
     <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🙏 Daily Panchangam</a>
-    <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Predictions</a>
+    <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Panchangam</a>
     <a href="jathakam.html" style="color:#ffffff; background:rgba(227,179,65,0.25); border:1px solid #e3b341; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; border-radius:4px; font-weight:bold;">🔮 Single Horoscope</a>
     <a href="muhurtavali.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ Muhurtavali</a>
     <a href="family_jathakam.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Horoscope</a>
-        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Mandali',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
+        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
 </nav>
 
 <!-- Community Join Banner -->
@@ -1292,13 +1292,13 @@ const KARANA_EN = ["Bava", "Balava", "Kaulava", "Taitila", "Garaja", "Vanija", "
 const VARA_TE = ["ఆదివారం (Sunday)", "సోమవారం (Monday)", "మంగళవారం (Tuesday)", "బుధవారం (Wednesday)", "గురువారం (Thursday)", "శుక్రవారం (Friday)", "శనివారం (Saturday)"];
 const VARA_EN = ["Sunday (Ravivara)", "Monday (Somavara)", "Tuesday (Mangalavara)", "Wednesday (Budhavara)", "Thursday (Guruvara)", "Friday (Shukravara)", "Saturday (Shanivara)"];
 
-const RASHI_NAMES = ["Aries", "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius", "Capricorn", "Aquarius", "Pisces"];
+const RASHI_NAMES = ["Mesha", "Vrishabha", "Mithuna", "Karkataka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"];
 const RASHI_TELUGU = ["మేషం", "వృషభం", "మిథునం", "కర్కాటకం", "సింహం", "కన్య", "తుల", "వృశ్చికం", "ధనుస్సు", "మకరం", "కుంభం", "మీనం"];
 const RASHI_NAMES_TELUGU = RASHI_TELUGU;
-const RASHI_LORDS = ["Mars", "Venus", "Mercury", "Moon", "Sun", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Saturn", "Jupiter"];
+const RASHI_LORDS = ["Kuja", "Shukra", "Budha", "Chandra", "Surya", "Budha", "Shukra", "Kuja", "Guru", "Shani", "Shani", "Guru"];
 const RASHI_LORDS_TELUGU = ["కుజుడు", "శుక్రుడు", "బుధుడు", "చంద్రుడు", "సూర్యుడు", "బుధుడు", "శుక్రుడు", "కుజుడు", "గురువు", "శని", "శని", "గురువు"];
 
-const DASA_LORDS = ["Ketu", "Venus", "Sun", "Moon", "Mars", "Rahu", "Jupiter", "Saturn", "Mercury"];
+const DASA_LORDS = ["Ketu", "Shukra", "Surya", "Chandra", "Kuja", "Rahu", "Guru", "Shani", "Budha"];
 const DASA_LORDS_TELUGU = ["కేతువు", "శుక్రుడు", "సూర్యుడు", "చంద్రుడు", "కుజుడు", "రాహువు", "గురువు", "శని", "బుధుడు"];
 const DASA_YEARS = [7, 20, 6, 10, 7, 18, 16, 19, 17];
 

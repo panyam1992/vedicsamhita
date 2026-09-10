@@ -603,7 +603,7 @@ const YOGA = [
 const VARA = ["Bhanuvasaram (Sunday)", "Induvasaram (Monday)", "Bhaumavasaram (Tuesday)", "Saumyavasaram (Wednesday)", "Brihaspativasaram (Thursday)", "Bhriguvasaram (Friday)", "Sthiravasaram (Saturday)"];
 const MASAM = ["Chaitra", "Vaishakha", "Jyeshtha", "Ashadha", "Shravana", "Bhadrapada", "Ashwayuja", "Kartika", "Margashirsha", "Pushya", "Magha", "Phalguna"];
 const RUTU = ["Vasanta Rutu", "Grishma Rutu", "Varsha Rutu", "Sharad Rutu", "Hemanta Rutu", "Shishira Rutu"];
-const RASHI = ["Mesham", "Vrishabham", "Mithunam", "Karkatakam", "Simham", "Kanya", "Tula", "Vrishchikam", "Dhanussu", "Makaram", "Kumbham", "Meenam"];
+const RASHI = ["Mesha", "Vrishabha", "Mithuna", "Karkataka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"];
 const KARANA = ["Bava", "Balava", "Kaulava", "Taitila", "Garaja", "Vanija", "Vishti", "Shakuni", "Chatushpada", "Naga", "Kinstughna"];
 const MONTH_ABBR = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
 
@@ -1580,9 +1580,9 @@ function computeVarjyamAmrit(srJD, nextSrJD, tz) {
 
 /* ═══════════ LAGNA (ASCENDANT) ═══════════ */
 
-const RASHI_LORDS = ["Kuja (Mars)","Shukra (Venus)","Budha (Mercury)","Chandra (Moon)",
-                     "Surya (Sun)","Budha (Mercury)","Shukra (Venus)","Kuja (Mars)",
-                     "Guru (Jupiter)","Shani (Saturn)","Shani (Saturn)","Guru (Jupiter)"];
+const RASHI_LORDS = ["Kuja","Shukra","Budha","Chandra",
+                     "Surya","Budha","Shukra","Kuja",
+                     "Guru","Shani","Shani","Guru"];
 
 /* ═══════════ NAVAGRAHA PLANETARY POSITIONS ═══════════ */
 
@@ -2318,20 +2318,27 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
 
     const lunarMonth = getMasamNum(masam);
 
+    const isAdhikaMonth = masam.toLowerCase().includes('adhika');
+
     // 1. UGADI (Chaitra Shukla Padyami at Sunrise or Kshaya Pratipada)
     const nextSrTithi = getT(nextSrJD);
     if ((lunarMonth === 1 && tSr === 0) || (lunarMonth === 12 && tSr === 29 && dayTithis.includes(0) && nextSrTithi !== 0)) {
-        fests.push("Ugadi — Telugu & Kannada New Year / Gudi Padwa");
-        fests.push("Vasanta Navaratri Arambha");
+        if (isAdhikaMonth) {
+            fests.push("Astronomical New Year / Samvatsara Pravritti (Adhika Chaitra — Kalaganana Inception per Brahma Purana)");
+            fests.push("Adhika / Purushottama Masa Arambha (Sacred month for Japa & Dana)");
+        } else {
+            fests.push("Sri Ugadi Festival — Telugu & Kannada New Year / Gudi Padwa (Nija Chaitra — Nimba Kusuma Bhakshana & Vatsarotsava)");
+            fests.push("Vasanta Navaratri Arambha");
+        }
     }
 
-    // 2. MATSYA JAYANTI (Chaitra Shukla Tritiya)
-    if (lunarMonth === 1 && (tSr === 2 || dayTithis.includes(2))) {
+    // 2. MATSYA JAYANTI (Chaitra Shukla Tritiya - observed only in Nija Chaitra)
+    if (!isAdhikaMonth && lunarMonth === 1 && (tSr === 2 || dayTithis.includes(2))) {
         fests.push("Matsya Jayanti");
     }
 
-    // 3. SRI RAMA NAVAMI (Chaitra Shukla Navami at Madhyahna)
-    if (lunarMonth === 1 && (tMadh === 8 || (tSr === 8 && tMadh <= 8) || (dayTithis.includes(8) && tSr === 7))) {
+    // 3. SRI RAMA NAVAMI (Chaitra Shukla Navami - observed only in Nija Chaitra)
+    if (!isAdhikaMonth && lunarMonth === 1 && (tMadh === 8 || (tSr === 8 && tMadh <= 8) || (dayTithis.includes(8) && tSr === 7))) {
         if (nMadh === 6 || nSr === 6) {
             fests.push("Sri Rama Navami (Punarvasu Yukta)");
         } else {
@@ -2339,8 +2346,8 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         }
     }
 
-    // 4. HANUMAN JAYANTI (Chaitra Purnima in North/West; Vaishakha Krishna Dashami in AP/TS)
-    if (lunarMonth === 1 && (tSr === 14 || dayTithis.includes(14))) {
+    // 4. HANUMAN JAYANTI (Chaitra Purnima - observed only in Nija Chaitra)
+    if (!isAdhikaMonth && lunarMonth === 1 && (tSr === 14 || dayTithis.includes(14))) {
         fests.push("Hanuman Jayanti (Chaitra Purnima)");
     }
     if (lunarMonth === 2 && (tSr === 24 || dayTithis.includes(24))) {
@@ -2957,6 +2964,18 @@ function _calculatePanchangamInner() {
 
     document.getElementById('dateLocationBar').innerHTML = `${locName} &nbsp;|&nbsp; ${mStr} ${d}, ${y}`;
 
+    const inpageDisp = document.getElementById('inpageCityDisplay');
+    if (inpageDisp) inpageDisp.textContent = locName;
+    const modalCityDisp = document.getElementById('modalCityName');
+    if (modalCityDisp) modalCityDisp.textContent = locName;
+    const modalCoordsDisp = document.getElementById('modalCityCoords');
+    if (modalCoordsDisp) {
+        const latDir = lat >= 0 ? 'N' : 'S';
+        const lonDir = lon >= 0 ? 'E' : 'W';
+        const tzSign = tz >= 0 ? '+' : '';
+        modalCoordsDisp.textContent = `(${Math.abs(lat).toFixed(4)}° ${latDir}, ${Math.abs(lon).toFixed(4)}° ${lonDir} • UTC ${tzSign}${tz}h)`;
+    }
+
     setElText('valSunrise', fmtHMS(srHrs));
     setElText('valSunset', fmtHMS(ssHrs));
     setElText('valMoonrise', mt.moonrise);
@@ -3572,7 +3591,7 @@ function showGrahanamDetails() {
     if (!data) return;
 
     // Rashi & Nakshatra calculations
-        const rashis = ["Mesham", "Vrishabham", "Mithunam", "Karkatakam", "Simham", "Kanya", "Tula", "Vrishchikam", "Dhanussu", "Makaram", "Kumbham", "Meenam"];
+        const rashis = ["Mesha", "Vrishabha", "Mithuna", "Karkataka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"];
     const nakshatras = [
         "Ashwini", "Bharani", "Krittika", "Rohini", "Mrigashira", "Arudra",
         "Punarvasu", "Pushyami", "Ashlesha", "Magha", "Purva Phalguni", "Uttara Phalguni",
@@ -3841,6 +3860,10 @@ function generatePrintPage(data) {
     }
     let durmStr = data.durm.map(dd => fmtRange(dd.start, dd.end)).join(', ');
 
+    let festRows = (data.fests && data.fests.length > 0)
+        ? `<tr><td><strong>Festivals / Vratas</strong></td><td colspan="2" style="color:#8b0000; font-weight:bold;">${data.fests.join('<br>')}</td></tr>`
+        : '';
+
     return `
     <div class="print-day">
         <div class="print-watermark">VEDIC SAMHITA PANCHANGAM</div>
@@ -3852,6 +3875,7 @@ function generatePrintPage(data) {
         </div>
         <table class="print-table">
             <tr><td><strong>Vasara</strong></td><td colspan="2">${data.VARA_name}</td></tr>
+            ${festRows}
             ${tithiRows}
             ${nakRows}
             ${yogaRows}
@@ -3986,10 +4010,26 @@ async function exportICal() {
                 const nakName = data.naks[0] ? data.naks[0].name : '';
                 const yogaName = data.yogas[0] ? data.yogas[0].name : '';
                 const karanaName = data.karanas[0] ? data.karanas[0].name : '';
-                const varaShort = VARA[data.dow].split(' (')[0];
-                const summary = `${varaShort} | ${tithiName} | ${nakName}`;
+                let festTag = '';
+                if (data.fests && data.fests.length > 0) {
+                    const f0 = data.fests[0].split(' — ')[0].replace('✨ ', '').replace('🎉 ', '').trim();
+                    festTag = ` • ${f0}`;
+                }
+                const summary = `${varaShort} | ${tithiName} | ${nakName}${festTag}`;
                 let desc = `== VEDIC SAMHITA PANCHANGAM ==`;
                 desc += `\\n${data.samvatsaram} | ${data.masam} | ${data.paksham} | ${data.rutu}`;
+                if (data.fests && data.fests.length > 0) {
+                    desc += `\\n\\n-- Sacred Festivals & Vratas --`;
+                    data.fests.forEach(f => {
+                        desc += `\\n✨ ${f}`;
+                    });
+                }
+                if (data.masam && data.masam.toLowerCase().includes('adhika chaitra') && tithiName.toLowerCase().includes('padyami')) {
+                    desc += `\\n\\n📜 NOTE (Dharma Shastra): Cosmic Kalaganana & Navanayakas commence today per Brahma Purana (Chaitramasi Jagadbrahma Sasarja Prathamehani). Sacred festive Ugadi observances, Nimba Kusuma Bhakshanam (Ugadi Pachadi), and temple celebrations are observed in Nija Chaitra on April 14, 2029 per Nirnaya Sindhu.`;
+                }
+                if (data.masam && data.masam.toLowerCase().includes('chaitra') && !data.masam.toLowerCase().includes('adhika') && tithiName.toLowerCase().includes('padyami')) {
+                    desc += `\\n\\n🌿 NOTE: Sri Ugadi Festival Day (Nija Chaitra). Auspicious Nimba Kusuma Bhakshana (Ugadi Pachadi), holy oil bath (Tailabhyangam), and temple worship are observed today per Nirnaya Sindhu.`;
+                }
                 desc += `\\n`;
                 desc += `\\n-- Pancha Angam --`;
                 desc += `\\nVasara: ${data.VARA_name}`;
@@ -4529,4 +4569,333 @@ window.toggleMuhurtaGridDetails = function() {
             : (isTe ? '🔍 వివరాలు చూడండి (View Breakdown)' : '🔍 View Breakdown');
     }
 };
+
+/* ═══════════════════════════════════════════════════════════
+   VEDICSAMHITA UNIVERSAL DOWNLOAD SYSTEM (iCal & PDF)
+   ═══════════════════════════════════════════════════════════ */
+
+function getActiveUserLocation() {
+    let loc = window._selectedCity;
+    if (!loc) {
+        try {
+            const stored = localStorage.getItem('vedicsamhita_user_location');
+            if (stored) loc = JSON.parse(stored);
+        } catch(e) {}
+    }
+    const latEl = document.getElementById('latInput');
+    const lonEl = document.getElementById('lonInput');
+    const tzEl = document.getElementById('tzInput');
+    const cityEl = document.getElementById('citySearch');
+    
+    const lat = (latEl && !isNaN(parseFloat(latEl.value))) ? parseFloat(latEl.value) : (loc ? loc.lat : 32.7767);
+    const lon = (lonEl && !isNaN(parseFloat(lonEl.value))) ? parseFloat(lonEl.value) : (loc ? loc.lon : -96.7970);
+    const tz = (tzEl && !isNaN(parseFloat(tzEl.value))) ? parseFloat(tzEl.value) : -5.0;
+    const name = (cityEl && cityEl.value && cityEl.value.trim().length > 0) ? cityEl.value.trim() : (loc ? loc.name : "Dallas, TX (USA)");
+    
+    return { name, lat, lon, tz, tzName: (loc && loc.tzName) ? loc.tzName : "America/Chicago" };
+}
+
+window.openDownloadModal = function(initialFocus) {
+    const modal = document.getElementById('downloadModal');
+    if (!modal) return;
+    
+    const activeLoc = getActiveUserLocation();
+    const cityDisp = document.getElementById('modalCityName');
+    const coordsDisp = document.getElementById('modalCityCoords');
+    const inpageDisp = document.getElementById('inpageCityDisplay');
+    
+    if (cityDisp) cityDisp.textContent = activeLoc.name;
+    if (inpageDisp) inpageDisp.textContent = activeLoc.name;
+    if (coordsDisp) {
+        const latDir = activeLoc.lat >= 0 ? 'N' : 'S';
+        const lonDir = activeLoc.lon >= 0 ? 'E' : 'W';
+        const tzSign = activeLoc.tz >= 0 ? '+' : '';
+        coordsDisp.textContent = `(${Math.abs(activeLoc.lat).toFixed(4)}° ${latDir}, ${Math.abs(activeLoc.lon).toFixed(4)}° ${lonDir} • UTC ${tzSign}${activeLoc.tz}h)`;
+    }
+
+    modal.style.display = 'flex';
+};
+
+window.closeDownloadModal = function() {
+    const modal = document.getElementById('downloadModal');
+    if (modal) modal.style.display = 'none';
+};
+
+window.onManaRadioChange = function(selectedMana) {
+    ['chandramana', 'sauramana', 'barhaspatyamana'].forEach(m => {
+        const card = document.getElementById('manaCard_' + m);
+        if (card) {
+            if (m === selectedMana) {
+                card.classList.add('active');
+            } else {
+                card.classList.remove('active');
+            }
+        }
+    });
+};
+
+function getSelectedMana() {
+    const radios = document.getElementsByName('modalMana');
+    for (let i = 0; i < radios.length; i++) {
+        if (radios[i].checked) return radios[i].value;
+    }
+    return 'chandramana';
+}
+
+window.executePublicationPdfDownload = function() {
+    const yearSelect = document.getElementById('modalYearSelect');
+    const year = yearSelect ? parseInt(yearSelect.value, 10) : 2026;
+    const loc = getActiveUserLocation();
+    const locLower = (loc.name || '').toLowerCase();
+    const isSF = locLower.includes('san francisco') || locLower.includes('sf') || (Math.abs(loc.lat - 37.77) < 0.6 && Math.abs(loc.lon - -122.4) < 0.6);
+    
+    let fileName = '';
+    if (isSF) {
+        fileName = (year === 2026) 
+            ? 'Panyam_Panchangam_Parabhava_Sanfrancisco.pdf'
+            : 'Panyam_Panchangam_Plavanga_Sanfrancisco.pdf';
+    } else {
+        fileName = (year === 2026) 
+            ? 'Panyam_Panchangam_Parabhava_Dallas.pdf'
+            : 'Panyam_Panchangam_Plavanga_Dallas.pdf';
+    }
+    
+    const pdfUrl = `generated_panchangams/USA/${fileName}`;
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = fileName;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
+window.executeCalendarGridDownload = function() {
+    const yearSelect = document.getElementById('modalYearSelect');
+    const year = yearSelect ? parseInt(yearSelect.value, 10) : 2026;
+    const loc = getActiveUserLocation();
+    const locLower = (loc.name || '').toLowerCase();
+    const isSF = locLower.includes('san francisco') || locLower.includes('sf') || (Math.abs(loc.lat - 37.77) < 0.6 && Math.abs(loc.lon - -122.4) < 0.6);
+    const isFrisco = locLower.includes('frisco') || (Math.abs(loc.lat - 33.15) < 0.2 && Math.abs(loc.lon - -96.82) < 0.2);
+    
+    let fileName = '';
+    if (isFrisco) {
+        fileName = 'VedicSamhita_Wall_Calendar_2026_Frisco.pdf';
+    } else if (isSF) {
+        fileName = (year === 2026) 
+            ? 'VedicSamhita_Panchangam_Parabhava_Sanfrancisco_Daily_A4.pdf' 
+            : 'VedicSamhita_Panchangam_Plavanga_Sanfrancisco_Daily_A4.pdf';
+    } else {
+        fileName = 'VedicSamhita_Wall_Calendar_2026_Frisco.pdf';
+    }
+    
+    const pdfUrl = `generated_panchangams/USA/${fileName}`;
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.download = fileName;
+    link.target = '_blank';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+};
+
+window.executeICalDownload = async function() {
+    const yearSelect = document.getElementById('modalYearSelect');
+    const year = yearSelect ? parseInt(yearSelect.value, 10) : 2026;
+    const mana = getSelectedMana();
+    const loc = getActiveUserLocation();
+    const locLower = (loc.name || '').toLowerCase();
+    const isSF = locLower.includes('san francisco') || locLower.includes('sf') || (Math.abs(loc.lat - 37.77) < 0.6 && Math.abs(loc.lon - -122.4) < 0.6);
+    const isDallas = locLower.includes('dallas') || locLower.includes('frisco') || (Math.abs(loc.lat - 32.77) < 0.6 && Math.abs(loc.lon - -96.8) < 0.6);
+    
+    // Check if pre-compiled file is available
+    let presetFile = null;
+    if (isSF) {
+        if (year === 2026) {
+            if (mana === 'sauramana') presetFile = 'VedicSamhita_iCal_Parabhava_Sanfrancisco_Sauramana_2026.ics';
+            else if (mana === 'barhaspatyamana') presetFile = 'VedicSamhita_iCal_Parabhava_Sanfrancisco_Barhaspatyamana_2026.ics';
+            else presetFile = 'VedicSamhita_iCal_Parabhava_Sanfrancisco_2026.ics';
+        } else if (year === 2027) {
+            if (mana === 'sauramana') presetFile = 'VedicSamhita_iCal_Plavanga_Sanfrancisco_Sauramana_2027.ics';
+            else if (mana === 'barhaspatyamana') presetFile = 'VedicSamhita_iCal_Plavanga_Sanfrancisco_Barhaspatyamana_2027.ics';
+            else presetFile = 'VedicSamhita_iCal_Plavanga_Sanfrancisco_2027.ics';
+        }
+    } else if (isDallas || (!isSF && !loc.lat)) {
+        if (year === 2026) {
+            if (mana === 'sauramana') presetFile = 'VedicSamhita_iCal_Parabhava_Dallas_Sauramana_2026.ics';
+            else if (mana === 'barhaspatyamana') presetFile = 'VedicSamhita_iCal_Parabhava_Dallas_Barhaspatyamana_2026.ics';
+            else presetFile = 'VedicSamhita_iCal_Parabhava_Dallas_2026.ics';
+        } else if (year === 2027) {
+            if (mana === 'sauramana') presetFile = 'VedicSamhita_iCal_Plavanga_Dallas_Sauramana_2027.ics';
+            else if (mana === 'barhaspatyamana') presetFile = 'VedicSamhita_iCal_Plavanga_Dallas_Barhaspatyamana_2027.ics';
+            else presetFile = 'VedicSamhita_iCal_Plavanga_Dallas_2027.ics';
+        }
+    }
+    
+    if (presetFile) {
+        const link = document.createElement('a');
+        link.href = `generated_panchangams/USA/${presetFile}`;
+        link.download = presetFile;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        return;
+    }
+    
+    // Universal client-side generation for any custom location / mana
+    const progressBox = document.getElementById('modalDownloadProgress');
+    const progressBar = document.getElementById('modalProgressBar');
+    const progressText = document.getElementById('modalProgressText');
+    if (progressBox) progressBox.style.display = 'block';
+    
+    try {
+        const samvatName = (year === 2026) ? "Parabhava" : "Plavanga";
+        const startStr = (year === 2026) ? "2026-03-19" : "2027-04-07";
+        const endStr = (year === 2026) ? "2027-04-06" : "2028-03-25";
+        
+        const startD = new Date(startStr + "T12:00:00Z");
+        const endD = new Date(endStr + "T12:00:00Z");
+        const totalDays = Math.round((endD - startD) / (24 * 3600 * 1000)) + 1;
+        
+        let ics = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//VEDICSAMHITA//Universal Hindu Calendar//EN\r\nCALSCALE:GREGORIAN\r\n";
+        
+        const ORDINAL_NAMES = [
+            "Prathama", "Dvitiya", "Tritiya", "Chaturthi", "Panchami",
+            "Shashthi", "Saptami", "Ashtami", "Navami", "Dashami",
+            "Ekadashi", "Dvadashi", "Trayodashi", "Chaturdashi", "Purnima"
+        ];
+        const SOLAR_RASHIS = ["Mesha", "Vrishabha", "Mithuna", "Karkataka", "Simha", "Kanya", "Tula", "Vrishchika", "Dhanus", "Makara", "Kumbha", "Meena"];
+        
+        for (let i = 0; i < totalDays; i++) {
+            const curDate = new Date(startD.getTime() + i * 24 * 3600 * 1000);
+            const cy = curDate.getUTCFullYear();
+            const cm = curDate.getUTCMonth() + 1;
+            const cd = curDate.getUTCDate();
+            const dateStr = `${cy}${String(cm).padStart(2,'0')}${String(cd).padStart(2,'0')}`;
+            
+            const st = computeSunTimes(cy, cm, cd, loc.lat, loc.lon, loc.tz);
+            const srHrs = st ? st.sunrise : 6.0;
+            const ssHrs = st ? st.sunset : 18.0;
+            const srJD = localToJD(cy, cm, cd, srHrs, loc.tz);
+            const nextSrJD = localToJD(cy, cm, cd + 1, srHrs, loc.tz);
+            
+            const sunNir = getSunNirayana(srJD);
+            const mt = computeMoonTimes(cy, cm, cd, loc.lat, loc.lon, loc.tz);
+            
+            const tithiIdx = getTithiIdx(srJD); // 0 to 29
+            const paksha = (tithiIdx < 15) ? "Shukla" : "Krishna";
+            let tithiClean = "";
+            if (tithiIdx < 15) {
+                tithiClean = ORDINAL_NAMES[tithiIdx];
+            } else {
+                const kIdx = tithiIdx - 15;
+                tithiClean = (kIdx === 14) ? "Amavasya" : ORDINAL_NAMES[kIdx];
+            }
+            
+            const masamInfo = getMasamRutu(sunNir, srJD);
+            const masaClean = masamInfo ? (masamInfo.masam || "Chaitra").split(" ")[0] : "Chaitra";
+            
+            let summary = "";
+            if (mana === 'sauramana') {
+                const sRi = Math.floor(sunNir / 30);
+                const sDeg = Math.floor(sunNir % 30) + 1;
+                summary = `${samvatName} ${SOLAR_RASHIS[sRi]} ${sDeg}`;
+            } else if (mana === 'barhaspatyamana') {
+                const guruRashi = (year === 2026) ? "Mesha" : "Vrishabha";
+                summary = `${samvatName} (Guru ${guruRashi}) ${masaClean} ${paksha} ${tithiClean}`;
+            } else {
+                summary = `${samvatName} ${masaClean} ${paksha} ${tithiClean}`;
+            }
+            
+            const naks = getDayElements(srJD, nextSrJD, getNakIdx, idx => NAKSHATRA[idx], 3, 'nakshatra');
+            const primaryNak = naks[0] ? naks[0].name : "Ashwini";
+            const padaNum = (typeof getPadamInfo === 'function') ? getPadamInfo(srJD) : 1;
+            
+            const yogas = getDayElements(srJD, nextSrJD, getYogaIdx, idx => YOGA[idx], 3, 'yoga');
+            const primaryYoga = yogas[0] ? yogas[0].name : "Vishkambha";
+            
+            const karanas = getDayElements(srJD, nextSrJD, getKaranaIdx, idx => getKaranaName(idx), 4, 'karana');
+            const primaryKarana = karanas[0] ? karanas[0].name : "Bava";
+            
+            const dow = curDate.getUTCDay();
+            const rahu = getKalam(srHrs, ssHrs, RAHU_PARTS, dow);
+            const yama = getKalam(srHrs, ssHrs, YAMAGANDA_PARTS, dow);
+            const gulika = getKalam(srHrs, ssHrs, GULIKA_PARTS, dow);
+            const durm = getDurmuhuratam(srHrs, ssHrs, dow);
+            const durmStr = durm.map(d => fmtRange(d.start, d.end)).join(', ');
+            const abhijit = getAbhijitMuhurat(srHrs, ssHrs, dow);
+            const va = computeVarjyamAmrit(srJD, nextSrJD, loc.tz);
+            
+            let desc = `== VEDICSAMHITA PANCHANGAM ==\\n`;
+            desc += `${samvatName} Samvatsaram | ${masaClean} | ${paksha} Paksham\\n\\n`;
+            desc += `-- Sun & Moon --\\n`;
+            desc += `Sunrise: ${fmtHMS(srHrs)} | Sunset: ${fmtHMS(ssHrs)}\\n`;
+            desc += `Moonrise: ${mt ? mt.moonrise : '--'} | Moonset: ${mt ? mt.moonset : '--'}\\n\\n`;
+            desc += `-- Panchangam --\\n`;
+            desc += `Tithi: ${paksha} ${tithiClean}\\n`;
+            desc += `Vasara: ${VARA[dow]}\\n`;
+            desc += `Nakshatra: ${primaryNak} (Pada ${padaNum})\\n`;
+            desc += `Yoga: ${primaryYoga}\\n`;
+            desc += `Karana: ${primaryKarana}\\n\\n`;
+            desc += `-- Kala (Auspicious & Inauspicious) --\\n`;
+            desc += `Rahu Kalam: ${fmtRange(rahu.start, rahu.end)}\\n`;
+            desc += `Yamagandam: ${fmtRange(yama.start, yama.end)}\\n`;
+            desc += `Gulika Kalam: ${fmtRange(gulika.start, gulika.end)}\\n`;
+            desc += `Durmuhuratam: ${durmStr}\\n`;
+            if (va && va.varjyam) {
+                const vs = jdToLocal(va.varjyam.start, loc.tz), ve = jdToLocal(va.varjyam.end, loc.tz);
+                desc += `Varjyam: ${fmtDateTime(vs)} - ${fmtDateTime(ve)}\\n`;
+            } else {
+                desc += `Varjyam: None\\n`;
+            }
+            if (va && va.amrit) {
+                const as = jdToLocal(va.amrit.start, loc.tz), ae = jdToLocal(va.amrit.end, loc.tz);
+                desc += `Amrita Kalam: ${fmtDateTime(as)} - ${fmtDateTime(ae)}\\n`;
+            } else {
+                desc += `Amrita Kalam: None\\n`;
+            }
+            desc += `Abhijit Muhurtam: ${abhijit ? fmtRange(abhijit.start, abhijit.end) : 'None'}\\n\\n`;
+            desc += `-- Panchanga Credits --\\n`;
+            desc += `VEDICSAMHITA\\n`;
+            desc += `siddhanta karta/ panchanga karta: Ramachandra shastry Munimadugu\\n`;
+            desc += `Vedic Astronomy & Dharma Shastra Computation System • Lahiri Drik Ganita\\n`;
+            desc += `website name :- www.vedicsamhita.com`;
+            
+            ics += `BEGIN:VEVENT\r\n`;
+            ics += `DTSTART;VALUE=DATE:${dateStr}\r\n`;
+            ics += `DTEND;VALUE=DATE:${dateStr}\r\n`;
+            ics += `SUMMARY:${summary}\r\n`;
+            ics += `DESCRIPTION:${desc}\r\n`;
+            ics += `LOCATION:${loc.name}\r\n`;
+            ics += `END:VEVENT\r\n`;
+            
+            if (i % 25 === 0) {
+                const pct = Math.round(((i + 1) / totalDays) * 100);
+                if (progressBar) progressBar.style.width = pct + '%';
+                if (progressText) progressText.textContent = `Computing Day ${i + 1} of ${totalDays}...`;
+                await new Promise(r => setTimeout(r, 0));
+            }
+        }
+        
+        ics += "END:VCALENDAR\r\n";
+        
+        const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        const manaSuffix = (mana !== 'chandramana') ? `_${mana.charAt(0).toUpperCase() + mana.slice(1)}` : '';
+        const citySlug = loc.name.split(',')[0].replace(/[^a-zA-Z0-9]/g, '_');
+        a.download = `VedicSamhita_iCal_${samvatName}_${citySlug}${manaSuffix}_${year}.ics`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    } catch(err) {
+        console.error("iCal Generation Error:", err);
+        alert("Error generating iCal: " + err.message);
+    } finally {
+        if (progressBox) progressBox.style.display = 'none';
+    }
+};
+
 
