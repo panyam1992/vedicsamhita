@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VedicSamhita — Official Advertisement Flyer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700;800;900&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500;1,600&family=Noto+Sans+Telugu:wght@400;600;700;800&family=EB+Garamond:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: #1a0505;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 30px 15px;
+            font-family: 'Cormorant Garamond', 'EB Garamond', Georgia, serif;
+            color: #2b1111;
+        }
+
+        /* Flyer Canvas (A4 / High-Res Poster Aspect Ratio) */
+        .flyer-card {
+            width: 1000px;
+            background: #fffdf9 url('data:image/svg+xml;utf8,<svg width="60" height="60" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg"><g fill="%23d4af37" fill-opacity="0.04"><path d="M30 0L35 25L60 30L35 35L30 60L25 35L0 30L25 25Z"/></g></svg>') repeat;
+            border: 12px solid #4a0e0e;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), 0 0 0 3px #d4af37 inset, 0 0 0 7px #7a1515 inset, 0 0 0 9px #d4af37 inset;
+            border-radius: 8px;
+            padding: 36px 42px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Ornate Corner Elements */
+        .corner-ornament {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            font-size: 28px;
+            color: #d4af37;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .corner-tl { top: 14px; left: 14px; }
+        .corner-tr { top: 14px; right: 14px; }
+        .corner-bl { bottom: 14px; left: 14px; }
+        .corner-br { bottom: 14px; right: 14px; }
+
+        /* Auspicious Top Shloka Header */
+        .auspicious-shloka {
+            text-align: center;
+            font-family: 'Noto Sans Telugu', serif;
+            font-size: 13.5px;
+            font-weight: 600;
+            color: #7a1515;
+            letter-spacing: 1.5px;
+            margin-bottom: 12px;
+            border-bottom: 1px dashed #d4af37;
+            padding-bottom: 8px;
+        }
+
+        /* Brand Header */
+        .brand-header {
+            text-align: center;
+            margin-bottom: 18px;
+        }
+        .logo-wrap {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 8px;
+        }
+        .brand-logo {
+            width: 78px;
+            height: 78px;
+            border-radius: 50%;
+            border: 3px solid #d4af37;
+            box-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+            background: #fff;
+            object-fit: contain;
+        }
+        .brand-title {
+            font-family: 'Cinzel', Georgia, serif;
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 5px;
+            color: #4a0e0e;
+            text-shadow: 1px 2px 2px rgba(212, 175, 55, 0.3);
+            line-height: 1.05;
+        }
+        .brand-telugu {
+            font-family: 'Noto Sans Telugu', sans-serif;
+            font-size: 22px;
+            font-weight: 700;
+            color: #991b1b;
+            letter-spacing: 2px;
+            margin-top: 2px;
+        }
+        .brand-tagline {
+            font-size: 16px;
+            font-weight: 600;
+            color: #6b2121;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 4px;
+        }
+        .author-line {
+            font-size: 15px;
+            color: #555;
+            margin-top: 3px;
+        }
+        .author-line strong {
+            color: #4a0e0e;
+            font-weight: 700;
+        }
+
+        /* Hero Temple Artwork Showcase */
+        .hero-art-container {
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            background: linear-gradient(135deg, #fff9ee 0%, #fdf2dc 100%);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin-bottom: 22px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+        }
+        .hero-img-wrap {
+            flex: 0 0 260px;
+            height: 165px;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 2px solid #b45309;
+            box-shadow: 0 4px 10px rgba(74, 14, 14, 0.2);
+        }
+        .hero-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center 35%;
+        }
+        .hero-text-wrap {
+            flex: 1;
+        }
+        .hero-headline {
+            font-family: 'Cinzel', serif;
+            font-size: 21px;
+            font-weight: 800;
+            color: #4a0e0e;
+            line-height: 1.25;
+            margin-bottom: 6px;
+        }
+        .hero-subhead-te {
+            font-family: 'Noto Sans Telugu', sans-serif;
+            font-size: 14.5px;
+            color: #991b1b;
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 8px;
+        }
+        .hero-desc {
+            font-size: 14.5px;
+            color: #444;
+            line-height: 1.45;
+        }
+        .hero-badges {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            flex-wrap: wrap;
+        }
+        .hero-badge {
+            background: #4a0e0e;
+            color: #fdf2dc;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 3px 9px;
+            border-radius: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Section Title Banner */
+        .features-banner {
+            text-align: center;
+            position: relative;
+            margin-bottom: 16px;
+        }
+        .features-banner h3 {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: #fff;
+            background: linear-gradient(90deg, #4a0e0e 0%, #7a1515 50%, #4a0e0e 100%);
+            display: inline-block;
+            padding: 6px 28px;
+            border-radius: 20px;
+            border: 1.5px solid #d4af37;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+
+        /* 6 Key Features Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+        .feature-card {
+            background: #ffffff;
+            border: 1.5px solid #e5d5b5;
+            border-top: 3.5px solid #7a1515;
+            border-radius: 6px;
+            padding: 12px 14px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            transition: all 0.2s ease;
+        }
+        .feature-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+        .feature-title {
+            font-family: 'Cinzel', serif;
+            font-size: 14.5px;
+            font-weight: 700;
+            color: #4a0e0e;
+            line-height: 1.25;
+            margin-bottom: 4px;
+        }
+        .feature-telugu {
+            font-family: 'Noto Sans Telugu', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            color: #b45309;
+            margin-bottom: 4px;
+        }
+        .feature-text {
+            font-size: 13px;
+            line-height: 1.4;
+            color: #4b5563;
+        }
+
+        /* Download Publications Ribbon */
+        .publications-ribbon {
+            background: linear-gradient(135deg, #4a0e0e 0%, #2b0808 100%);
+            border: 2px solid #d4af37;
+            border-radius: 8px;
+            padding: 16px 22px;
+            color: #fdfbf7;
+            margin-bottom: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+        }
+        .pub-left {
+            flex: 1;
+        }
+        .pub-heading {
+            font-family: 'Cinzel', serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: #ffd700;
+            letter-spacing: 1px;
+            margin-bottom: 4px;
+        }
+        .pub-subhead {
+            font-size: 14px;
+            color: #fce7b2;
+            line-height: 1.4;
+        }
+        .pub-items {
+            display: flex;
+            gap: 12px;
+            margin-top: 8px;
+        }
+        .pub-pill {
+            background: rgba(212, 175, 55, 0.18);
+            border: 1px solid #d4af37;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #fff;
+        }
+        .pub-right {
+            text-align: right;
+            flex: 0 0 200px;
+        }
+        .free-badge {
+            display: inline-block;
+            background: #d4af37;
+            color: #3b0a0a;
+            font-family: 'Cinzel', serif;
+            font-weight: 900;
+            font-size: 15px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            box-shadow: 0 2px 8px rgba(255,215,0,0.4);
+        }
+        .free-note {
+            font-size: 12px;
+            color: #e5d5b5;
+            margin-top: 4px;
+        }
+
+        /* Locations Row */
+        .locations-row {
+            text-align: center;
+            margin-bottom: 18px;
+            font-size: 13.5px;
+            color: #666;
+            background: #faf6ee;
+            border: 1px dashed #d4af37;
+            padding: 8px 14px;
+            border-radius: 6px;
+        }
+        .locations-row strong {
+            color: #4a0e0e;
+        }
+
+        /* Footer & Call to Action */
+        .flyer-footer {
+            border-top: 2px solid #d4af37;
+            padding-top: 16px;
+            text-align: center;
+        }
+        .cta-box {
+            background: #fff;
+            border: 2px solid #7a1515;
+            border-radius: 30px;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 30px;
+            box-shadow: 0 4px 12px rgba(122, 21, 21, 0.15);
+            margin-bottom: 10px;
+        }
+        .cta-label {
+            font-family: 'Cinzel', serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #7a1515;
+            letter-spacing: 1px;
+        }
+        .cta-url {
+            font-family: 'Cinzel', serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: #4a0e0e;
+            letter-spacing: 1.5px;
+            text-decoration: none;
+        }
+        .shanti-mantra {
+            font-family: 'Noto Sans Telugu', serif;
+            font-size: 13px;
+            color: #7a1515;
+            font-weight: 600;
+            margin-top: 6px;
+        }
+        .dedication-tag {
+            font-size: 12px;
+            color: #777;
+            margin-top: 4px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Print Media Queries */
+        @media print {
+            body {
+                background: none;
+                padding: 0;
+            }
+            .flyer-card {
+                box-shadow: none;
+                width: 100%;
+                border-width: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flyer-card" id="flyerCanvas">
+        <!-- Corner Ornaments -->
+        <div class="corner-ornament corner-tl">❖</div>
+        <div class="corner-ornament corner-tr">❖</div>
+        <div class="corner-ornament corner-bl">❖</div>
+        <div class="corner-ornament corner-br">❖</div>
+
+        <!-- Top Auspicious Shloka -->
+        <div class="auspicious-shloka">
+            ॥ ॐ శ్రీ గురుభ్యో నమః • శ్రీ మాత్రే నమః • శ్రీ గణేశాయ నమః • శుభమస్తు ॥
+        </div>
+
+        <!-- Brand Header -->
+        <div class="brand-header">
+            <div class="logo-wrap">
+                <img src="logo.jpg" alt="VedicSamhita Logo" class="brand-logo">
+            </div>
+            <h1 class="brand-title">VEDICSAMHITA</h1>
+            <div class="brand-telugu">వేద సంహిత • దృక్సిద్ధాంత పంచాంగం</div>
+            <div class="brand-tagline">Vedic Astronomy & Authentic Dharma Shastra Computation System</div>
+            <div class="author-line">
+                Siddhanta Karta / Panchanga Karta: <strong>Ramachandra shastry Munimadugu</strong>
+            </div>
+        </div>
+
+        <!-- Hero Temple Artwork Showcase -->
+        <div class="hero-art-container">
+            <div class="hero-img-wrap">
+                <img src="subrahmanya_temple_watercolor.jpg" alt="Sacred Indian Temple Artwork" class="hero-img">
+            </div>
+            <div class="hero-text-wrap">
+                <div class="hero-headline">Ancient Vedic Shastric Wisdom • Modern High-Precision Astronomy</div>
+                <div class="hero-subhead-te">సనాతన ధర్మ రక్షణార్థం • ఖగోళ శాస్త్ర సమ్మతమైన దృగ్గణిత పంచాంగం</div>
+                <div class="hero-desc">
+                    Experience unmatched astronomical accuracy powered by NASA/Swiss Ephemeris algorithms calibrated strictly to classical <strong>Lahiri Ayanamsha (Chitra Paksha)</strong> and authoritative Shastric texts (<em>Nirnaya Sindhu, Dharma Sindhu, Kalamrita & Muhurta Chintamani</em>).
+                </div>
+                <div class="hero-badges">
+                    <span class="hero-badge">🌍 Multi-Location Diaspora</span>
+                    <span class="hero-badge">⚡ Instant 1-Click iCal</span>
+                    <span class="hero-badge">📜 Dharma Vichara</span>
+                    <span class="hero-badge">📖 350+ Page Books</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Banner -->
+        <div class="features-banner">
+            <h3>✦ Distinctive Canonical Features ✦</h3>
+        </div>
+
+        <!-- 6 Key Features Grid -->
+        <div class="features-grid">
+            <!-- Feature 1 -->
+            <div class="feature-card">
+                <div class="feature-icon">🪐</div>
+                <div class="feature-title">Micro-Precision Angas</div>
+                <div class="feature-telugu">పంచాంగ పంచాంగాలు</div>
+                <div class="feature-text">
+                    Minute-to-minute accurate Tithi, Vasara, Nakshatram (with <strong>1st-4th Padams</strong>), Yoga & Karana with classical Ghatika-Vighatika measurements.
+                </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card">
+                <div class="feature-icon">🏛️</div>
+                <div class="feature-title">4x4 Lagna Chakram</div>
+                <div class="feature-telugu">లగ్న / రాశి చక్రం & పుష్కరాంశ</div>
+                <div class="feature-text">
+                    Daily South Indian Sunrise Kundali showing 9 Grahas & Lagna. Full 24-hour timeline of 12 Lagnas with exact <strong>Pushkaramsha windows</strong>.
+                </div>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card">
+                <div class="feature-icon">🪔</div>
+                <div class="feature-title">Kala & Muhurtams</div>
+                <div class="feature-telugu">శుభాశుభ కాల నిర్ణయం</div>
+                <div class="feature-text">
+                    Exact local Rahu Kalam, Yamagandam, Gulika, <strong>Varjyam (Tyajyam)</strong>, Durmuhuratam, Abhijit Muhurat, Amrita Kalam, Sandhya & Brahma Muhurtam.
+                </div>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="feature-card">
+                <div class="feature-icon">🧵</div>
+                <div class="feature-title">Chaturveda Muhurtams</div>
+                <div class="feature-telugu">చతుర్వేద ఉపనయన & వివాహ ముహూర్తాలు</div>
+                <div class="feature-text">
+                    Pioneering Veda Shakha tagging: explicit dates for <strong>[ఋగ్వేదం, యజుర్వేదం, సామవేదం, అథర్వణవేదం]</strong> per Shastric Graha Balas.
+                </div>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="feature-card">
+                <div class="feature-icon">⚖️</div>
+                <div class="feature-title">Dharma Vichara Hub</div>
+                <div class="feature-telugu">ధర్మ విచార • శాస్త్రీయ సమాధానాలు</div>
+                <div class="feature-text">
+                    Dual-language shastric decisions: Vinayaka Chavithi Madhyahna Vyapti, Devi Navaratri Kalashasthapana, Tithi Dvaidha & Eclipse Sutak.
+                </div>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="feature-card">
+                <div class="feature-icon">📲</div>
+                <div class="feature-title">1-Click Mobile iCal</div>
+                <div class="feature-telugu">మొబైల్ క్యాలెండర్ ఇంటిగ్రేషన్</div>
+                <div class="feature-text">
+                    Sync all 365 days of sacred festivals into Apple, Google & Outlook calendars with <strong>bold festival styling</strong> and puja timings in your pocket.
+                </div>
+            </div>
+        </div>
+
+        <!-- Publications Download Banner -->
+        <div class="publications-ribbon">
+            <div class="pub-left">
+                <div class="pub-heading">📚 High-Resolution Printable Publications</div>
+                <div class="pub-subhead">
+                    Download complete annual publication editions generated specifically for your city:
+                </div>
+                <div class="pub-items">
+                    <span class="pub-pill">📖 Full Annual Book PDF (A4 396 Pages with Chakrams)</span>
+                    <span class="pub-pill">🗓️ 12-Month Wall Calendar PDF (12 Pages)</span>
+                </div>
+            </div>
+            <div class="pub-right">
+                <div class="free-badge">100% FREE ACCESS</div>
+                <div class="free-note">No Registration • No Ads</div>
+            </div>
+        </div>
+
+        <!-- Global Locations -->
+        <div class="locations-row">
+            📍 <strong>Tailored Global Editions:</strong> USA Diaspora (Dallas, Frisco, Bay Area, New York, Chicago, Atlanta, Austin, Houston, Seattle), India (Hyderabad, Bengaluru, Chennai, Mumbai, Delhi, Kashi, Tirupati), UK, Australia, UAE, Singapore & Custom Coordinates.
+        </div>
+
+        <!-- Footer & Call to Action -->
+        <div class="flyer-footer">
+            <div class="cta-box">
+                <span class="cta-label">🌐 VISIT OFFICIAL PORTAL:</span>
+                <a href="https://www.vedicsamhita.com" class="cta-url" target="_blank">www.vedicsamhita.com</a>
+            </div>
+            <div class="shanti-mantra">
+                ॥ ॐ సర్వే భవన్తు సుఖినః సర్వే సన్తు నిరామయాః | సర్వే భద్రాణి పశ్యన్తు మా కశ్చిద్దుఃఖభాగ్భవేత్ ॥ ॐ శాన్తిః శాన్తిః శాన్తిః ॥
+            </div>
+            <div class="dedication-tag">
+                VedicSamhita Research Foundation • Dedicated to the Global Sanatana Dharma Community
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
