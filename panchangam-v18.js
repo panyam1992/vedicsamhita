@@ -4010,65 +4010,117 @@ async function exportICal() {
                 const nakName = data.naks[0] ? data.naks[0].name : '';
                 const yogaName = data.yogas[0] ? data.yogas[0].name : '';
                 const karanaName = data.karanas[0] ? data.karanas[0].name : '';
-                let festTag = '';
+                const varaShort = data.VARA_name ? data.VARA_name.substring(0, 3) : '';
+                let primaryFest = '';
+                let otherFests = [];
                 if (data.fests && data.fests.length > 0) {
-                    const f0 = data.fests[0].split(' — ')[0].replace('✨ ', '').replace('🎉 ', '').trim();
-                    festTag = ` • ${f0}`;
+                    const religiousFests = data.fests.filter(f => !f.toLowerCase().includes('yoga') && !f.toLowerCase().includes('siddhi'));
+                    const sel = religiousFests.length > 0 ? religiousFests[0] : data.fests[0];
+                    primaryFest = sel.split(' — ')[0].replace('✨ ', '').replace('🎉 ', '').trim();
+                    otherFests = data.fests
+                        .map(f => f.split(' — ')[0].replace('✨ ', '').replace('🎉 ', '').trim())
+                        .filter(f => f !== primaryFest);
                 }
-                const summary = `${varaShort} | ${tithiName} | ${nakName}${festTag}`;
-                let desc = `== VEDIC SAMHITA PANCHANGAM ==`;
-                desc += `\\n${data.samvatsaram} | ${data.masam} | ${data.paksham} | ${data.rutu}`;
+
+                let summary = `${data.samvatsaram} ${data.masam} ${data.paksham} ${tithiName}`;
+                if (primaryFest) {
+                    summary += ` ★ [${primaryFest}]`;
+                }
+
+                let festPlainHeader = '';
+                let festHtmlHeader = '';
+                if (primaryFest) {
+                    festPlainHeader = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n🕉️ FESTIVAL: ═══ [ ${primaryFest.toUpperCase()} ] ═══\\n`;
+                    if (otherFests.length > 0) {
+                        festPlainHeader += `Special Observances: ${otherFests.join(', ')}\\n`;
+                    }
+                    festPlainHeader += `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\\n`;
+
+                    festHtmlHeader = `<div style="background:#fff9e6;border:1.5px solid #d4af37;padding:10px 14px;border-radius:6px;margin-bottom:14px;"><div style="font-size:16px;color:#78350f;margin-bottom:4px;">🕉️ Sacred Festival / Vratam:</div><div style="font-size:18px;color:#991b1b;"><b><u>${primaryFest}</u></b></div>`;
+                    if (otherFests.length > 0) {
+                        festHtmlHeader += `<div style="font-size:13px;color:#854d0e;margin-top:4px;">Also: <b><u>${otherFests.join(', ')}</u></b></div>`;
+                    }
+                    festHtmlHeader += `</div>`;
+                }
+
+                let desc = `${festPlainHeader}== VEDIC SAMHITA PANCHANGAM ==\\n`;
+                desc += `${data.samvatsaram} | ${data.masam} | ${data.paksham} | ${data.rutu}\\n\\n`;
+                
                 if (data.fests && data.fests.length > 0) {
-                    desc += `\\n\\n-- Sacred Festivals & Vratas --`;
+                    desc += `-- Sacred Festivals & Vratas --\\n`;
                     data.fests.forEach(f => {
-                        desc += `\\n✨ ${f}`;
+                        desc += `✨ ${f}\\n`;
                     });
+                    desc += `\\n`;
                 }
                 if (data.masam && data.masam.toLowerCase().includes('adhika chaitra') && tithiName.toLowerCase().includes('padyami')) {
-                    desc += `\\n\\n📜 NOTE (Dharma Shastra): Cosmic Kalaganana & Navanayakas commence today per Brahma Purana (Chaitramasi Jagadbrahma Sasarja Prathamehani). Sacred festive Ugadi observances, Nimba Kusuma Bhakshanam (Ugadi Pachadi), and temple celebrations are observed in Nija Chaitra on April 14, 2029 per Nirnaya Sindhu.`;
+                    desc += `📜 NOTE (Dharma Shastra): Cosmic Kalaganana & Navanayakas commence today per Brahma Purana (Chaitramasi Jagadbrahma Sasarja Prathamehani). Sacred festive Ugadi observances, Nimba Kusuma Bhakshanam (Ugadi Pachadi), and temple celebrations are observed in Nija Chaitra on April 14, 2029 per Nirnaya Sindhu.\\n\\n`;
                 }
                 if (data.masam && data.masam.toLowerCase().includes('chaitra') && !data.masam.toLowerCase().includes('adhika') && tithiName.toLowerCase().includes('padyami')) {
-                    desc += `\\n\\n🌿 NOTE: Sri Ugadi Festival Day (Nija Chaitra). Auspicious Nimba Kusuma Bhakshana (Ugadi Pachadi), holy oil bath (Tailabhyangam), and temple worship are observed today per Nirnaya Sindhu.`;
+                    desc += `🌿 NOTE: Sri Ugadi Festival Day (Nija Chaitra). Auspicious Nimba Kusuma Bhakshana (Ugadi Pachadi), holy oil bath (Tailabhyangam), and temple worship are observed today per Nirnaya Sindhu.\\n\\n`;
                 }
-                desc += `\\n`;
-                desc += `\\n-- Pancha Angam --`;
-                desc += `\\nVasara: ${data.VARA_name}`;
-                desc += `\\nTithi: ${tithiName}`;
-                desc += `\\nNakshatra: ${nakName}`;
-                desc += `\\nYoga: ${yogaName}`;
-                desc += `\\nKarana: ${karanaName}`;
-                desc += `\\n`;
-                desc += `\\n-- Sun & Moon --`;
-                desc += `\\nSunrise: ${fmtHMS(data.srHrs)} | Sunset: ${fmtHMS(data.ssHrs)}`;
-                desc += `\\nMoonrise: ${data.mt.moonrise} | Moonset: ${data.mt.moonset}`;
-                desc += `\\nSun Rashi: ${data.rashi} | Moon Rashi: ${data.moonRashi}`;
-                desc += `\\n`;
-                desc += `\\n-- Inauspicious --`;
+                desc += `-- Pancha Angam --\\n`;
+                desc += `Vasara (Weekday): ${data.VARA_name}\\n`;
+                desc += `Tithi: ${tithiName}\\n`;
+                desc += `Nakshatra: ${nakName}\\n`;
+                desc += `Yoga: ${yogaName}\\n`;
+                desc += `Karana: ${karanaName}\\n\\n`;
+
+                desc += `-- Sun & Moon --\\n`;
+                desc += `Sunrise: ${fmtHMS(data.srHrs)} | Sunset: ${fmtHMS(data.ssHrs)}\\n`;
+                desc += `Moonrise: ${data.mt.moonrise} | Moonset: ${data.mt.moonset}\\n`;
+                desc += `Sun Rashi: ${data.rashi} | Moon Rashi: ${data.moonRashi}\\n\\n`;
+
+                desc += `-- Kala (Auspicious & Inauspicious) --\\n`;
                 const durmStr = data.durm.map(dd => fmtRange(dd.start, dd.end)).join(', ');
-                desc += `\\nRahu Kalam: ${fmtRange(data.rahu.start, data.rahu.end)}`;
-                desc += `\\nYamaganda: ${fmtRange(data.yama.start, data.yama.end)}`;
-                desc += `\\nDurmuhuratam: ${durmStr}`;
-                desc += `\\n`;
-                desc += `\\n-- Auspicious --`;
-                desc += `\\nAbhijit: ${data.abhijit ? fmtRange(data.abhijit.start, data.abhijit.end) : 'None'}`;
+                desc += `Rahu Kalam: ${fmtRange(data.rahu.start, data.rahu.end)}\\n`;
+                desc += `Yamaganda: ${fmtRange(data.yama.start, data.yama.end)}\\n`;
+                desc += `Durmuhuratam: ${durmStr}\\n`;
+                desc += `Abhijit Muhurtam: ${data.abhijit ? fmtRange(data.abhijit.start, data.abhijit.end) : 'None'}\\n`;
+
+                let amritStr = 'None';
                 try {
                     if (data.va && data.va.amrit && data.va.amrit.start && data.va.amrit.end) {
                         const as2 = jdToLocal(data.va.amrit.start, data.tz);
                         const ae2 = jdToLocal(data.va.amrit.end, data.tz);
                         if (as2 && ae2 && typeof as2.getHours === "function") {
-                            desc += `\\\\nAmrit Kalam: ${fmtHMS(as2.getHours()+as2.getMinutes()/60+as2.getSeconds()/3600)} - ${fmtHMS(ae2.getHours()+ae2.getMinutes()/60+ae2.getSeconds()/3600)}`;
+                            amritStr = `${fmtHMS(as2.getHours()+as2.getMinutes()/60+as2.getSeconds()/3600)} - ${fmtHMS(ae2.getHours()+ae2.getMinutes()/60+ae2.getSeconds()/3600)}`;
                         }
                     }
                 } catch(ev) {}
+                desc += `Amrita Kalam: ${amritStr}\\n`;
+
+                let varjyamStr = 'None';
                 try {
                     if (data.va && data.va.varjyam && data.va.varjyam.start && data.va.varjyam.end) {
                         const vs2 = jdToLocal(data.va.varjyam.start, data.tz);
                         const ve2 = jdToLocal(data.va.varjyam.end, data.tz);
                         if (vs2 && ve2 && typeof vs2.getHours === "function") {
-                            desc += `\\\\nVarjyam: ${fmtHMS(vs2.getHours()+vs2.getMinutes()/60+vs2.getSeconds()/3600)} - ${fmtHMS(ve2.getHours()+ve2.getMinutes()/60+ve2.getSeconds()/3600)}`;
+                            varjyamStr = `${fmtHMS(vs2.getHours()+vs2.getMinutes()/60+vs2.getSeconds()/3600)} - ${fmtHMS(ve2.getHours()+ve2.getMinutes()/60+ve2.getSeconds()/3600)}`;
                         }
                     }
                 } catch(ev) {}
+                desc += `Varjyam: ${varjyamStr}\\n\\n`;
+
+                desc += `-- Panchanga Credits --\\n`;
+                desc += `VEDICSAMHITA\\n`;
+                desc += `siddhanta karta/ panchanga karta: Ramachandra shastry Munimadugu\\n`;
+                desc += `Vedic Astronomy & Dharma Shastra Computation System • Lahiri Drik Ganita\\n`;
+                desc += `website name :- www.vedicsamhita.com`;
+
+                // HTML Description for modern calendars
+                let htmlDesc = `<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 3.2//EN'><html><body>`;
+                htmlDesc += `${festHtmlHeader}`;
+                htmlDesc += `<h3 style='color:#5a0e0e;margin:0 0 6px 0;'>VEDICSAMHITA PANCHANGAM</h3>`;
+                htmlDesc += `<p style='color:#78350f;margin:0 0 10px 0;'><b>${data.samvatsaram}</b> | ${data.masam} | ${data.paksham}</p>`;
+                htmlDesc += `<p><b>☀️ Sun & Moon:</b><br>Sunrise: ${fmtHMS(data.srHrs)} | Sunset: ${fmtHMS(data.ssHrs)}<br>Moonrise: ${data.mt.moonrise} | Moonset: ${data.mt.moonset}</p>`;
+                htmlDesc += `<p><b>📜 Panchangam:</b><br><b>Vasara:</b> ${data.VARA_name}<br><b>Tithi:</b> ${tithiName}<br><b>Nakshatra:</b> ${nakName}<br><b>Yoga:</b> ${yogaName}<br><b>Karana:</b> ${karanaName}</p>`;
+                htmlDesc += `<p><b>⏳ Kala:</b><br>❌ Rahu Kalam: ${fmtRange(data.rahu.start, data.rahu.end)}<br>❌ Yamaganda: ${fmtRange(data.yama.start, data.yama.end)}<br>❌ Durmuhuratam: ${durmStr}<br>⚠️ Varjyam: ${varjyamStr}<br>✅ Amrita Kalam: ${amritStr}<br>✅ Abhijit Muhurtam: ${data.abhijit ? fmtRange(data.abhijit.start, data.abhijit.end) : 'None'}</p>`;
+                htmlDesc += `<hr style='border:none;border-top:1px solid #d4af37;margin:12px 0;'>`;
+                htmlDesc += `<p style='font-size:11px;color:#666;'><b>VEDICSAMHITA</b><br>Siddhanta Karta: <i>Ramachandra shastry Munimadugu</i><br>Vedic Astronomy & Dharma Shastra Computation System<br><a href='https://www.vedicsamhita.com'>www.vedicsamhita.com</a></p></body></html>`;
+
+                const cleanHtml = htmlDesc.replace(/\r?\n/g, ' ').replace(/"/g, "'");
+
                 const uid = `${dateStr}-vedicsamhita@vedicsamhita.com`;
                 ical += 'BEGIN:VEVENT\r\n';
                 ical += 'DTSTART;VALUE=DATE:' + dateStr + '\r\n';
@@ -4076,6 +4128,7 @@ async function exportICal() {
                 ical += 'UID:' + uid + '\r\n';
                 ical += 'SUMMARY:' + summary + '\r\n';
                 ical += 'DESCRIPTION:' + desc + '\r\n';
+                ical += 'X-ALT-DESC;FMTTYPE=text/html:' + cleanHtml + '\r\n';
                 ical += 'LOCATION:' + data.locName + '\r\n';
                 ical += 'END:VEVENT\r\n';
                 eventCount++;
@@ -4696,8 +4749,136 @@ window.executeCalendarGridDownload = function() {
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();
-    document.body.removeChild(link);
-};
+function detectFestivalForICal(cy, cm, cd, masaClean, paksha, tithiIdx, dow, primaryNak) {
+    const mLower = (masaClean || '').toLowerCase();
+    const isShukla = (paksha === 'Shukla');
+    const isKrishna = !isShukla;
+    const tNum = (tithiIdx < 15) ? tithiIdx : (tithiIdx - 15);
+
+    // Solar / Date-based
+    if (cm === 1 && cd === 1) return "English New Year";
+    if (cm === 1 && cd === 13) return "Bhogi Panduga";
+    if (cm === 1 && cd === 14) return "Makara Sankranti";
+    if (cm === 1 && cd === 15) return "Kanuma Panduga";
+
+    // Chaitra
+    if (mLower.includes('chaitra')) {
+        if (isShukla && tNum === 0) return "Sri Ugadi (Telugu New Year)";
+        if (isShukla && tNum === 2) return "Matsya Jayanti";
+        if (isShukla && tNum === 8) return "Sri Rama Navami";
+        if (isShukla && tNum === 10) return "Kamada Ekadashi";
+        if (isShukla && tNum === 14) return "Hanuman Jayanti / Chaitra Purnima";
+        if (isKrishna && tNum === 10) return "Varuthini Ekadashi";
+    }
+    // Vaishakha
+    if (mLower.includes('vaishakha') || mLower.includes('vaisakha')) {
+        if (isShukla && tNum === 2) return "Akshaya Tritiya";
+        if (isShukla && tNum === 4) return "Sri Shankara Jayanti";
+        if (isShukla && tNum === 6) return "Ganga Saptami";
+        if (isShukla && tNum === 10) return "Mohini Ekadashi";
+        if (isShukla && tNum === 13) return "Narasimha Jayanti";
+        if (isShukla && tNum === 14) return "Buddha Purnima / Kurma Jayanti";
+        if (isKrishna && tNum === 10) return "Apara Ekadashi";
+        if (isKrishna && tNum === 14) return "Vaishakha Amavasya / Shani Jayanti";
+    }
+    // Jyeshtha
+    if (mLower.includes('jyeshtha') || mLower.includes('jyeshta')) {
+        if (isShukla && tNum === 9) return "Ganga Dussehra";
+        if (isShukla && tNum === 10) return "Nirjala Ekadashi";
+        if (isShukla && tNum === 14) return "Vata Savitri Vratam";
+        if (isKrishna && tNum === 10) return "Yogini Ekadashi";
+    }
+    // Ashadha
+    if (mLower.includes('ashadha')) {
+        if (isShukla && tNum === 1) return "Puri Ratha Yatra";
+        if (isShukla && tNum === 10) return "Shayani Ekadashi / Chaturmasya Aarambham";
+        if (isShukla && tNum === 14) return "Guru Purnima / Vyasa Puja";
+        if (isKrishna && tNum === 10) return "Kamika Ekadashi";
+    }
+    // Shravana
+    if (mLower.includes('shravana') || mLower.includes('sravana')) {
+        if (isShukla && tNum === 4) return "Naga Panchami";
+        if (isShukla && dow === 5) return "Varalakshmi Vratam";
+        if (isShukla && tNum === 10) return "Shravana Putrada Ekadashi";
+        if (isShukla && tNum === 14) return "Raksha Bandhan / Gayatri Jayanti";
+        if (isKrishna && tNum === 7) return "Sri Krishna Janmashtami";
+        if (isKrishna && tNum === 10) return "Aja Ekadashi";
+    }
+    // Bhadrapada
+    if (mLower.includes('bhadrapada')) {
+        if (isShukla && tNum === 2) return "Varaha Jayanti";
+        if (isShukla && tNum === 3) return "Sri Vinayaka Chavithi (Ganesha Chaturthi)";
+        if (isShukla && tNum === 4) return "Rishi Panchami";
+        if (isShukla && tNum === 10) return "Parsva / Parivartini Ekadashi";
+        if (isShukla && tNum === 13) return "Anantha Padmanabha Vratam";
+        if (isKrishna && tNum === 10) return "Indira Ekadashi";
+        if (isKrishna && tNum === 14) return "Mahalaya Amavasya";
+    }
+    // Ashwayuja
+    if (mLower.includes('ashwayuja') || mLower.includes('asvina')) {
+        if (isShukla && tNum === 0) return "Devi Navaratri Kalashasthapana";
+        if (isShukla && tNum === 6) return "Saraswati Puja";
+        if (isShukla && tNum === 7) return "Durgashtami";
+        if (isShukla && tNum === 8) return "Mahanavami / Ayudha Puja";
+        if (isShukla && tNum === 9) return "Vijaya Dashami (Dussehra)";
+        if (isShukla && tNum === 10) return "Papankusha Ekadashi";
+        if (isShukla && tNum === 14) return "Sharad Purnima / Kojagari Vratam";
+        if (isKrishna && tNum === 10) return "Rama Ekadashi";
+        if (isKrishna && tNum === 12) return "Dhanteras / Dhantrayodashi";
+        if (isKrishna && tNum === 13) return "Naraka Chaturdashi";
+        if (isKrishna && tNum === 14) return "Deepavali (Diwali) / Lakshmi Puja";
+    }
+    // Karthika
+    if (mLower.includes('karthika') || mLower.includes('kartika')) {
+        if (isShukla && tNum === 0) return "Bali Padyami / Govardhan Puja";
+        if (isShukla && tNum === 1) return "Bhagini Hastha Bhojanam (Bhai Dooj)";
+        if (isShukla && tNum === 3) return "Nagula Chavithi";
+        if (isShukla && tNum === 10) return "Prabodhini / Devuthani Ekadashi";
+        if (isShukla && tNum === 11) return "Ksheerabdi Dvadashi / Tulasi Vivaham";
+        if (isShukla && tNum === 14) return "Karthika Pournami / Jwala Thoranam";
+        if (isKrishna && tNum === 10) return "Utpanna Ekadashi";
+    }
+    // Margashira
+    if (mLower.includes('margashira') || mLower.includes('margashirsha')) {
+        if (isShukla && tNum === 5) return "Subrahmanya Shashthi (Skanda Sashti)";
+        if (isShukla && tNum === 10) return "Mokshada Ekadashi / Gita Jayanti / Vaikuntha Ekadashi";
+        if (isShukla && tNum === 14) return "Dattatreya Jayanti";
+        if (isKrishna && tNum === 10) return "Saphala Ekadashi";
+    }
+    // Pushya
+    if (mLower.includes('pushya') || mLower.includes('pausha')) {
+        if (isShukla && tNum === 10) return "Pausha Putrada Ekadashi";
+        if (isKrishna && tNum === 10) return "Shattila Ekadashi";
+    }
+    // Magha
+    if (mLower.includes('magha')) {
+        if (isShukla && tNum === 4) return "Vasanta Panchami / Sri Panchami";
+        if (isShukla && tNum === 6) return "Ratha Saptami";
+        if (isShukla && tNum === 7) return "Bhishma Ashtami";
+        if (isShukla && tNum === 10) return "Jaya / Bhaimi Ekadashi";
+        if (isShukla && tNum === 14) return "Maha Maghi / Magha Purnima";
+        if (isKrishna && tNum === 10) return "Vijaya Ekadashi";
+        if (isKrishna && tNum === 13) return "Maha Shivaratri";
+    }
+    // Phalguna
+    if (mLower.includes('phalguna')) {
+        if (isShukla && tNum === 10) return "Amalaki Ekadashi";
+        if (isShukla && tNum === 14) return "Holika Dahan / Kamadahana / Holi";
+        if (isKrishna && tNum === 10) return "Papamochani Ekadashi";
+    }
+
+    // Generic Ekadashi fallback
+    if (tNum === 10) return `${paksha} Ekadashi`;
+    // Pradosham
+    if (tNum === 12) {
+        const pPrefix = (dow === 1) ? "Soma " : ((dow === 6) ? "Shani " : "");
+        return `${pPrefix}${paksha} Pradosham`;
+    }
+    // Sankashtahara Chaturthi
+    if (isKrishna && tNum === 3) return "Sankashtahara Chaturthi";
+
+    return "";
+}
 
 window.executeICalDownload = async function() {
     const yearSelect = document.getElementById('modalYearSelect');
@@ -4822,11 +5003,25 @@ window.executeICalDownload = async function() {
             const yama = getKalam(srHrs, ssHrs, YAMAGANDA_PARTS, dow);
             const gulika = getKalam(srHrs, ssHrs, GULIKA_PARTS, dow);
             const durm = getDurmuhuratam(srHrs, ssHrs, dow);
-            const durmStr = durm.map(d => fmtRange(d.start, d.end)).join(', ');
+            const durmStr = (durm && durm.length > 0) ? durm.map(dd => fmtRange(dd.start, dd.end)).join(', ') : 'None';
             const abhijit = getAbhijitMuhurat(srHrs, ssHrs, dow);
-            const va = computeVarjyamAmrit(srJD, nextSrJD, loc.tz);
+            let va = {};
+            try { va = computeVarjyamAmrit(srJD, nextSrJD, loc.tz); } catch(e) {}
             
-            let desc = `== VEDICSAMHITA PANCHANGAM ==\\n`;
+            // Festival & Vrata detection
+            const festName = detectFestivalForICal(cy, cm, cd, masaClean, paksha, tithiIdx, dow, primaryNak);
+            if (festName) {
+                summary += ` ★ [${festName}]`;
+            }
+
+            let festPlainHeader = "";
+            let festHtmlHeader = "";
+            if (festName) {
+                festPlainHeader = `━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n🕉️ FESTIVAL: ═══ [ ${festName.toUpperCase()} ] ═══\\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\\n\\n`;
+                festHtmlHeader = `<div style='background:#fff9e6;border:1.5px solid #d4af37;padding:10px 14px;border-radius:6px;margin-bottom:14px;'><div style='font-size:16px;color:#78350f;margin-bottom:4px;'>🕉️ Sacred Festival / Vratam:</div><div style='font-size:18px;color:#991b1b;'><b><u>${festName}</u></b></div></div>`;
+            }
+
+            let desc = `${festPlainHeader}== VEDICSAMHITA PANCHANGAM ==\\n`;
             desc += `${samvatName} Samvatsaram | ${masaClean} | ${paksha} Paksham\\n\\n`;
             desc += `-- Sun & Moon --\\n`;
             desc += `Sunrise: ${fmtHMS(srHrs)} | Sunset: ${fmtHMS(ssHrs)}\\n`;
@@ -4860,12 +5055,15 @@ window.executeICalDownload = async function() {
             desc += `siddhanta karta/ panchanga karta: Ramachandra shastry Munimadugu\\n`;
             desc += `Vedic Astronomy & Dharma Shastra Computation System • Lahiri Drik Ganita\\n`;
             desc += `website name :- www.vedicsamhita.com`;
+
+            const htmlDesc = `<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 3.2//EN'><html><body>${festHtmlHeader}<h3 style='color:#5a0e0e;margin:0 0 6px 0;'>VEDICSAMHITA PANCHANGAM</h3><p style='color:#78350f;margin:0 0 10px 0;'><b>${samvatName} Samvatsaram</b> | ${masaClean} | ${paksha} Paksham</p><p><b>☀️ Sun & Moon:</b><br>Sunrise: ${fmtHMS(srHrs)} | Sunset: ${fmtHMS(ssHrs)}<br>Moonrise: ${mt ? mt.moonrise : '--'} | Moonset: ${mt ? mt.moonset : '--'}</p><p><b>📜 Panchangam:</b><br><b>Tithi:</b> ${paksha} ${tithiClean}<br><b>Vasara:</b> ${VARA[dow]}<br><b>Nakshatra:</b> ${primaryNak} (Pada ${padaNum})<br><b>Yoga:</b> ${primaryYoga}<br><b>Karana:</b> ${primaryKarana}</p><p><b>⏳ Kala (Auspicious & Inauspicious):</b><br>❌ Rahu Kalam: ${fmtRange(rahu.start, rahu.end)}<br>❌ Yamagandam: ${fmtRange(yama.start, yama.end)}<br>❌ Gulika Kalam: ${fmtRange(gulika.start, gulika.end)}<br>❌ Durmuhuratam: ${durmStr}<br>⚠️ Varjyam: ${va && va.varjyam ? fmtDateTime(jdToLocal(va.varjyam.start, loc.tz)) + ' - ' + fmtDateTime(jdToLocal(va.varjyam.end, loc.tz)) : 'None'}<br>✅ Amrita Kalam: ${va && va.amrit ? fmtDateTime(jdToLocal(va.amrit.start, loc.tz)) + ' - ' + fmtDateTime(jdToLocal(va.amrit.end, loc.tz)) : 'None'}<br>✅ Abhijit Muhurtam: ${abhijit ? fmtRange(abhijit.start, abhijit.end) : 'None'}</p><hr style='border:none;border-top:1px solid #d4af37;margin:12px 0;'><p style='font-size:11px;color:#666;'>VEDICSAMHITA • Siddhanta Karta: <i>Ramachandra shastry Munimadugu</i><br><a href='https://www.vedicsamhita.com'>www.vedicsamhita.com</a></p></body></html>`;
             
             ics += `BEGIN:VEVENT\r\n`;
             ics += `DTSTART;VALUE=DATE:${dateStr}\r\n`;
             ics += `DTEND;VALUE=DATE:${dateStr}\r\n`;
             ics += `SUMMARY:${summary}\r\n`;
             ics += `DESCRIPTION:${desc}\r\n`;
+            ics += `X-ALT-DESC;FMTTYPE=text/html:${htmlDesc}\r\n`;
             ics += `LOCATION:${loc.name}\r\n`;
             ics += `END:VEVENT\r\n`;
             
