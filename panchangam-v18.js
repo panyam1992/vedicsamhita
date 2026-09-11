@@ -4749,6 +4749,9 @@ window.executeCalendarGridDownload = function() {
     link.target = '_blank';
     document.body.appendChild(link);
     link.click();
+    document.body.removeChild(link);
+};
+
 function detectFestivalForICal(cy, cm, cd, masaClean, paksha, tithiIdx, dow, primaryNak) {
     const mLower = (masaClean || '').toLowerCase();
     const isShukla = (paksha === 'Shukla');
