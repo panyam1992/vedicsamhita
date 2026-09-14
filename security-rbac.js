@@ -544,6 +544,14 @@
     }
 
     // 4. Global Broadcast Banner
+        function dismissBroadcast() {
+        try {
+            localStorage.removeItem(BROADCAST_STORAGE_KEY);
+            const banner = document.getElementById('vs-broadcast-banner');
+            if (banner) banner.remove();
+        } catch(e) {}
+    }
+
     function renderBroadcastBanner() {
         try {
             const raw = localStorage.getItem(BROADCAST_STORAGE_KEY);
@@ -570,7 +578,10 @@
                 `;
                 document.body.insertBefore(banner, document.body.firstChild);
             }
-            banner.innerHTML = `📢 <strong>Announcement:</strong> ${data.msg}`;
+            banner.innerHTML = `
+                <span>📢 <strong>Announcement:</strong> ${data.msg}</span>
+                <button onclick="window.VedicSecurity && window.VedicSecurity.dismissBroadcast()" title="Dismiss Announcement" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:#ffd700; font-size:16px; cursor:pointer; font-weight:bold; padding:2px 8px; line-height:1;">✕</button>
+            `;
         } catch (e) {}
     }
 
@@ -1798,6 +1809,7 @@
         decodeDeepLink,
         showToast: showSecurityToast,
         allowLegitimateDownload: allowLegitimateDownload,
+        dismissBroadcast: dismissBroadcast,
         isProtectedPage: isProtectedPage
     };
 

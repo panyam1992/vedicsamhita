@@ -72,7 +72,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+Telugu:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2">
+    <link rel="stylesheet" href="styles.css?v=2026.3">
 
 <style>
 @media print {
@@ -93,23 +93,67 @@
         box-shadow: none !important;
     }
 }
-</style>
+/* ═══ Top Site Navigation Bar (Universal Golden Theme) ═══ */
+.site-nav {
+    background: #4a0e0e !important;
+    text-align: center;
+    padding: 10px 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.25);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.site-nav a, .site-nav a:link, .site-nav a:visited {
+    color: #d4a853 !important;
+    text-decoration: none !important;
+    font-family: 'Cinzel', 'Noto Sans Telugu', serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    padding: 6px 12px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+.site-nav a:hover {
+    background: rgba(212, 168, 83, 0.25) !important;
+    color: #ffffff !important;
+    text-decoration: none !important;
+}
+.site-nav a.active, .site-nav a.active:link, .site-nav a.active:visited {
+    background: rgba(212, 168, 83, 0.35) !important;
+    color: #ffffff !important;
+    border: 1px solid #d4af37 !important;
+    text-decoration: none !important;
+    font-weight: 700;
+}
+.site-nav button {
+    cursor: pointer;
+}
+    </style>
 
 </head>
 <body>
 
-<!-- Site Navigation -->
-<nav class="site-nav" style="text-align:center; padding:10px 14px; background:#4a0e0e; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:12px;">
-    <a href="ugadi.html" id="navUgadi" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 <span class="nav-text" data-en="Ugadi Panchangam" data-te="ఉగాది పంచాంగం">Ugadi Panchangam</span></a>
-    <a href="index.html" id="navDaily" style="color:#ffffff; background:rgba(212,168,83,0.3); border-radius:4px; padding:4px 8px; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; font-weight:bold;">🙏 <span class="nav-text" data-en="Daily Panchangam" data-te="దిన పంచాంగం">Daily Panchangam</span></a>
-    <a href="vratanirnaya.html" id="navVrata" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📿 <span class="nav-text" data-en="Vrata Nirnaya" data-te="వ్రత నిర్ణయం">వ్రత నిర్ణయం</span></a>
-    <a href="dharmavichara.html" id="navDharma" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📖 <span class="nav-text" data-en="Dharma Vichara" data-te="ధర్మ విచార">ధర్మ విచార</span></a>
-    <a href="jathakam.html" id="navJathakam" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🔮 <span class="nav-text" data-en="Single Horoscope" data-te="జాతక చక్రం">Single Horoscope</span></a>
-    <a href="muhurtavali.html" id="navMuhurta" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ <span class="nav-text" data-en="Muhurtavali" data-te="ముహూర్తావళి">Muhurtavali</span></a>
-    <a href="family_jathakam.html" id="navFamily" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 <span class="nav-text" data-en="Family Horoscope" data-te="కుటుంబ జాతకం">Family Horoscope</span></a>
-    <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 <span class="nav-text" data-en="Rules &amp; Notes" data-te="నియమాలు &amp; సూచనలు">Rules &amp; Notes</span></button>
-    <button class="lang-toggle-btn" onclick="toggleLanguage()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🌐 <span id="langBtnText">English</span></button>
-</nav>
+    <!-- Site Navigation -->
+    <nav class="site-nav">
+        <a href="ugadi.html" id="navUgadi" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:6px 12px;">📜 <span class="nav-text" data-en="Ugadi Panchangam" data-te="ఉగాది పంచాంగం">Ugadi Panchangam</span></a>
+        <a href="index.html" id="navDaily" class="active" style="color:#ffffff; background:rgba(212,168,83,0.35); border:1px solid #d4af37; border-radius:4px; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:6px 12px; font-weight:bold;">🙏 <span class="nav-text" data-en="Daily Panchangam" data-te="దిన పంచాంగం">Daily Panchangam</span></a>
+        <a href="vratanirnaya.html" id="navVrata" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:6px 12px;">📿 <span class="nav-text" data-en="Vrata Nirnaya" data-te="వ్రత నిర్ణయం">Vrata Nirnaya</span></a>
+        <a href="dharmavichara.html" id="navDharma" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:6px 12px;">📖 <span class="nav-text" data-en="Dharma Vichara" data-te="ధర్మ విచార">Dharma Vichara</span></a>
+        <a href="jathakam.html" id="navJathakam" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:6px 12px;">🔮 <span class="nav-text" data-en="Single Horoscope" data-te="జాతక చక్రం">Single Horoscope</span></a>
+        <a href="muhurtavali.html" id="navMuhurta" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:6px 12px;">✨ <span class="nav-text" data-en="Muhurtavali" data-te="ముహూర్తావళి">Muhurtavali</span></a>
+        <a href="family_jathakam.html" id="navFamily" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:6px 12px;">👨‍👩‍👧‍👦 <span class="nav-text" data-en="Family Horoscope" data-te="కుటుంబ జాతకం">Family Horoscope</span></a>
+        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:6px 12px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 <span class="nav-text" data-en="Rules &amp; Notes" data-te="నియమాలు &amp; సూచనలు">Rules &amp; Notes</span></button>
+        <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:6px 12px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🌐 <span id="langBtnText">తెలుగు</span></button>
+        <button onclick="window.print()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:6px 12px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🖨️ <span id="printBtnText">Print / PDF</span></button>
+    </nav>
 
 <!-- Community Join Banner -->
 <div class="community-banner">
