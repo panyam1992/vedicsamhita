@@ -2690,10 +2690,8 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         }
         fests.push("Gokulashtami");
         fests.push("Santana Gopala Vratam");
-        fests.push("Kanchi Jagadguru Aradhana (50th Acharya Pujyasri Chandrachudendra Saraswati)");
         fests.push("Sri Krishnadevaraya Rajyabhishekam");
         sigs.push("Santana Gopala Vratam (Lord Sri Krishna Aradhana for progeny blessings)");
-        sigs.push("Kanchi Jagadguru Aradhana (50th Acharya Pujyasri Chandrachudendra Saraswati Swamigal Aradhana)");
         sigs.push("Sri Krishnadevaraya Rajyabhishekam (Coronation of Emperor Sri Krishnadevaraya on Janmashtami in 1509 CE)");
     }
 
