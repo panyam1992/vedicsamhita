@@ -192,6 +192,9 @@ const FESTIVALS_TE_MAP = {
     "Hanuman Jayanti (Telugu / Andhra tradition)": "శ్రీ హనుమాన్ జయంతి (తెలుగు సంప్రదాయం)",
     "Akshaya Tritiya (Maha Punya Kalam - Rohini Yukta)": "అక్షయ తృతీయ (రోహిణి యుక్త మహా పుణ్యకాలం)",
     "Akshaya Tritiya": "అక్షయ తృతీయ",
+    "Sri Adi Shankaracharya Jayanti": "శ్రీ ఆది శంకరాచార్య జయంతి",
+    "Sri Jayalakshmi Mata Jayanthi & Aradhana (Avadhoota Datta Peetham)": "శ్రీ జయలక్ష్మీ మాత జయంతి & ఆరాధన (అవధూత దత్తపీఠం)",
+    "Sri Adi Shankaracharya Jayanti / Sri Jayalakshmi Mata Jayanthi": "శ్రీ ఆది శంకరాచార్య జయంతి / శ్రీ జయలక్ష్మీ మాత జయంతి",
     "Parashurama Jayanti": "శ్రీ పరశురామ జయంతి",
     "Sri Narasimha Jayanti (Pradosha Vyapini)": "శ్రీ నరసింహ జయంతి (ప్రదోష కాలం)",
     "Buddha Purnima": "బుద్ధ పూర్ణిమ",
@@ -2608,6 +2611,12 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
             fests.push("Akshaya Tritiya");
         }
         fests.push("Parashurama Jayanti");
+    }
+
+    // 5B. SRI ADI SHANKARACHARYA JAYANTI & SRI JAYALAKSHMI MATA JAYANTHI (Vaishakha Shukla Panchami)
+    if (lunarMonth === 2 && (ownsMadhyahna(4) || ownsUdaya(4))) {
+        fests.push("Sri Adi Shankaracharya Jayanti");
+        fests.push("Sri Jayalakshmi Mata Jayanthi & Aradhana (Avadhoota Datta Peetham)");
     }
 
     // 6. SRI NARASIMHA JAYANTI (Vaishakha Shukla Chaturdashi at Sunset/Pradosha)
@@ -5195,7 +5204,7 @@ function detectFestivalForICal(cy, cm, cd, masaClean, paksha, tithiIdx, dow, pri
     // Vaishakha
     if (mLower.includes('vaishakha') || mLower.includes('vaisakha')) {
         if (isShukla && tNum === 2) return "Akshaya Tritiya";
-        if (isShukla && tNum === 4) return "Sri Shankara Jayanti";
+        if (isShukla && tNum === 4) return "Sri Adi Shankaracharya Jayanti / Sri Jayalakshmi Mata Jayanthi";
         if (isShukla && tNum === 6) return "Ganga Saptami";
         if (isShukla && tNum === 10) return "Mohini Ekadashi";
         if (isShukla && tNum === 13) return "Narasimha Jayanti";
