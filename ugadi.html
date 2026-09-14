@@ -479,14 +479,15 @@
 <body>
 
     <!-- Site Navigation -->
-    <nav class="site-nav">
-        <a href="index.html">🙏 Daily Panchangam</a>
-        <a href="ugadi.html" class="active" id="navUgadi">📜 <span id="navUgadiText">Ugadi Panchangam</span></a>
-        <a href="dharmavichara.html">📖 Dharma Vichara</a>
-        <a href="jathakam.html">🔮 Single Horoscope</a>
-        <a href="muhurtavali.html" class="admin-only">✨ Muhurtavali</a>
-        <a href="family_jathakam.html" class="admin-only">👨‍👩‍👧‍👦 Family Horoscope</a>
-        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
+        <nav class="site-nav">
+        <a href="ugadi.html" class="active" id="navUgadi">📜 <span class="nav-text" id="navUgadiText" data-en="Ugadi Panchangam" data-te="ఉగాది పంచాంగం">Ugadi Panchangam</span></a>
+        <a href="index.html" id="navDaily">🙏 <span class="nav-text" data-en="Daily Panchangam" data-te="దిన పంచాంగం">Daily Panchangam</span></a>
+        <a href="vratanirnaya.html" id="navVrata">📿 <span class="nav-text" data-en="Vrata Nirnaya" data-te="వ్రత నిర్ణయం">వ్రత నిర్ణయం</span></a>
+        <a href="dharmavichara.html" id="navDharma">📖 <span class="nav-text" data-en="Dharma Vichara" data-te="ధర్మ విచార">ధర్మ విచార</span></a>
+        <a href="jathakam.html" id="navJathakam">🔮 <span class="nav-text" data-en="Single Horoscope" data-te="జాతక చక్రం">Single Horoscope</span></a>
+        <a href="muhurtavali.html" id="navMuhurta" class="admin-only">✨ <span class="nav-text" data-en="Muhurtavali" data-te="ముహూర్తావళి">Muhurtavali</span></a>
+        <a href="family_jathakam.html" id="navFamily" class="admin-only">👨‍👩‍👧‍👦 <span class="nav-text" data-en="Family Horoscope" data-te="కుటుంబ జాతకం">Family Horoscope</span></a>
+        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 <span class="nav-text" data-en="Rules &amp; Notes" data-te="నియమాలు &amp; సూచనలు">Rules &amp; Notes</span></button>
         <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🌐 <span id="langBtnText">English</span></button>
         <button onclick="window.print()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🖨️ <span id="printBtnText">Print / PDF</span></button>
     </nav>
@@ -716,10 +717,10 @@
     <!-- Scripts -->
     <script src="panchangam-v18.js?v=8"></script>
     <script>
-let CURRENT_UGADI_LANG = 'en';
+let CURRENT_UGADI_LANG = 'te';
 try {
-    const savedL = localStorage.getItem('VS_UGADI_LANG');
-    if (savedL) CURRENT_UGADI_LANG = savedL;
+    const savedL = localStorage.getItem('vedic_samhita_lang') || localStorage.getItem('VS_LANG') || localStorage.getItem('VS_UGADI_LANG');
+    if (savedL === 'en' || savedL === 'te') CURRENT_UGADI_LANG = savedL;
 } catch(e) {}
 
 function teluguToIAST(text) {
@@ -3503,11 +3504,27 @@ function renderUgadiChart(jd) {
 
 function toggleLanguage() {
     CURRENT_UGADI_LANG = (CURRENT_UGADI_LANG === 'te') ? 'en' : 'te';
-    try { localStorage.setItem('VS_UGADI_LANG', CURRENT_UGADI_LANG); } catch(e) {}
-    document.getElementById('langBtnText').textContent = (CURRENT_UGADI_LANG === 'te') ? 'English' : 'తెలుగు';
+    try {
+        localStorage.setItem('vedic_samhita_lang', CURRENT_UGADI_LANG);
+        localStorage.setItem('VS_LANG', CURRENT_UGADI_LANG);
+        localStorage.setItem('VS_UGADI_LANG', CURRENT_UGADI_LANG);
+    } catch(e) {}
+    applyUgadiLanguageUI();
+}
+
+function applyUgadiLanguageUI() {
+    const isTe = (CURRENT_UGADI_LANG === 'te');
+    document.body.classList.remove('lang-en', 'lang-te');
+    document.body.classList.add(isTe ? 'lang-te' : 'lang-en');
+    
+    // Update nav links
+    document.querySelectorAll('.nav-text').forEach(el => {
+        const txt = isTe ? el.getAttribute('data-te') : el.getAttribute('data-en');
+        if (txt) el.textContent = txt;
+    });
+    const lBtn = document.getElementById('langBtnText'); if (lBtn) lBtn.textContent = (CURRENT_UGADI_LANG === 'te') ? 'English' : 'తెలుగు';
     
     // Update headers
-    const isTe = (CURRENT_UGADI_LANG === 'te');
     const navUg = document.getElementById('navUgadiText');
     if (navUg) navUg.textContent = isTe ? 'ఉగాది పంచాంగం' : 'Ugadi Panchangam';
     document.getElementById('pageTitle').textContent = isTe ? 'శ్రీ ఉగాది పంచాంగ శ్రవణామృతమ్' : 'Sri Ugadi Panchanga Shravanamrutam';

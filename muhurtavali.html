@@ -182,14 +182,16 @@
 <body>
 
 <!-- Site Navigation -->
-<div style="text-align:center; padding:10px 14px; background:#4a0e0e; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:12px;">
-    <a href="index.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🙏 Daily Panchangam</a>
-    <a href="ugadi.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 Ugadi Phalalu</a>
-    <a href="muhurtavali.html" class="admin-only" style="color:#ffffff; background:rgba(212,168,83,0.3); border-radius:4px; padding:4px 8px; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; font-weight:bold;">✨ Muhurtavali</a>
-    <a href="jathakam.html" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🔮 Single Jathakam</a>
-    <a href="family_jathakam.html" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 Family Jathakam</a>
-        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules & Notes</button>
-</div>
+<nav class="site-nav" style="text-align:center; padding:10px 14px; background:#4a0e0e; display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:12px;">
+        <a href="ugadi.html" id="navUgadi" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📜 <span class="nav-text" data-en="Ugadi Panchangam" data-te="ఉగాది పంచాంగం">Ugadi Panchangam</span></a>
+        <a href="index.html" id="navDaily" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🙏 <span class="nav-text" data-en="Daily Panchangam" data-te="దిన పంచాంగం">Daily Panchangam</span></a>
+        <a href="vratanirnaya.html" id="navVrata" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📿 <span class="nav-text" data-en="Vrata Nirnaya" data-te="వ్రత నిర్ణయం">వ్రత నిర్ణయం</span></a>
+        <a href="dharmavichara.html" id="navDharma" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">📖 <span class="nav-text" data-en="Dharma Vichara" data-te="ధర్మ విచార">ధర్మ విచార</span></a>
+        <a href="jathakam.html" id="navJathakam" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">🔮 <span class="nav-text" data-en="Single Horoscope" data-te="జాతక చక్రం">Single Horoscope</span></a>
+        <a href="muhurtavali.html" id="navMuhurta" class="admin-only class="active"" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px;">✨ <span class="nav-text" data-en="Muhurtavali" data-te="ముహూర్తావళి">Muhurtavali</span></a>
+        <a href="family_jathakam.html" id="navFamily" class="admin-only" style="color:#d4a853; text-decoration:none; font-family:'Cinzel',serif; font-size:0.85rem; padding:4px 8px; font-weight:bold;">👨‍👩‍👧‍👦 <span class="nav-text" data-en="Family Horoscope" data-te="కుటుంబ జాతకం">Family Horoscope</span></a>
+        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 <span class="nav-text" data-en="Rules &amp; Notes" data-te="నియమాలు &amp; సూచనలు">Rules &amp; Notes</span></button>
+    </nav>
 
 <!-- Community Join Banner -->
 <div class="community-banner" style="margin: 12px auto; max-width: 920px;">

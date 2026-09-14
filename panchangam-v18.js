@@ -45,9 +45,12 @@ const CITIES = {
 
 
 // ─── 100% English First Engine (Multilingual hooks preserved) ───
-let CURRENT_LANG = 'en';
+let CURRENT_LANG = 'te';
 try {
-    localStorage.setItem('VS_LANG', 'en');
+    const saved = localStorage.getItem('vedic_samhita_lang') || localStorage.getItem('VS_LANG') || localStorage.getItem('VS_UGADI_LANG');
+    if (saved === 'en' || saved === 'te') {
+        CURRENT_LANG = saved;
+    }
 } catch(e) {}
 
 const SAMVATSARAM_TE = [
@@ -355,10 +358,12 @@ const SIGNIFICANCE_TE_MAP = {
 
 const I18N_DICT = {
     en: {
+        navUgadi: "📜 Ugadi Panchangam",
         navDaily: "🙏 Daily Panchangam",
-        navUgadi: "📜 Ugadi Predictions",
+        navVrata: "📿 Vrata Nirnaya",
+        navDharma: "📖 Dharma Vichara",
         navJathakam: "🔮 Single Horoscope",
-        navMuhurta: "✨ Muhurtas",
+        navMuhurta: "✨ Muhurtavali",
         navFamily: "👨‍👩‍👧‍👦 Family Horoscope",
         langBtn: "🌐 తెలుగు",
         inputHeader: "🙏 Vedic Panchangam — Daily Calculator",
@@ -472,7 +477,9 @@ function setLanguage(lang) {
     if (lang !== 'en' && lang !== 'te') return;
     CURRENT_LANG = lang;
     try {
+        localStorage.setItem('vedic_samhita_lang', CURRENT_LANG);
         localStorage.setItem('VS_LANG', CURRENT_LANG);
+        localStorage.setItem('VS_UGADI_LANG', CURRENT_LANG);
     } catch(e) {}
     updateLanguageUI();
     calculatePanchangam();
@@ -494,11 +501,19 @@ function updateLanguageUI() {
     }
 
     // Update top nav
-    setElText('navDaily', dict.navDaily);
     setElText('navUgadi', dict.navUgadi);
+    setElText('navDaily', dict.navDaily);
+    setElText('navVrata', dict.navVrata);
+    setElText('navDharma', dict.navDharma);
     setElText('navJathakam', dict.navJathakam);
     setElText('navMuhurta', dict.navMuhurta);
     setElText('navFamily', dict.navFamily);
+
+    // Update any .nav-text elements
+    document.querySelectorAll('.nav-text').forEach(el => {
+        const txt = isTe ? el.getAttribute('data-te') : el.getAttribute('data-en');
+        if (txt) el.textContent = txt;
+    });
 
     // Update input section
     setElText('lblInputHeader', dict.inputHeader);

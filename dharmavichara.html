@@ -217,20 +217,26 @@
             border-radius: 6px;
             padding: 12px 16px;
             margin: 14px 0;
-            font-family: 'Cormorant Garamond', 'Noto Sans Telugu', serif;
-            font-size: 1.15rem;
+            line-height: 1.5;
+        }
+        .dv-shloka-telugu {
+            font-family: 'Noto Sans Telugu', serif;
+            font-size: 1.12rem;
             color: var(--maroon-dark);
+            font-weight: 600;
+        }
+        .dv-shloka-trans {
+            font-size: 1.12rem;
+            font-style: italic;
+            color: var(--maroon-dark);
+            font-family: 'Cormorant Garamond', Georgia, serif;
             font-weight: 600;
             line-height: 1.5;
         }
-        .dv-shloka-trans {
-            font-size: 0.85rem;
-            font-style: italic;
-            color: var(--text-muted);
-            margin-top: 6px;
-            font-family: 'Inter', sans-serif;
-            font-weight: normal;
-        }
+        body.lang-te .dv-shloka-trans { display: none !important; }
+        body.lang-te .dv-shloka-telugu { display: block !important; }
+        body.lang-en .dv-shloka-telugu { display: none !important; }
+        body.lang-en .dv-shloka-trans { display: block !important; }
         .dv-empty-msg {
             text-align: center;
             padding: 40px 20px;
@@ -311,16 +317,17 @@
 <body class="lang-en">
 
     <!-- Site Navigation -->
-    <nav class="site-nav">
-        <a href="index.html">🙏 Daily Panchangam</a>
-        <a href="ugadi.html">📜 Ugadi Panchangam</a>
-        <a href="dharmavichara.html" class="active">📖 Dharma Vichara</a>
-        <a href="jathakam.html">🔮 Single Horoscope</a>
-        <a href="muhurtavali.html" class="admin-only">✨ Muhurtavali</a>
-        <a href="family_jathakam.html" class="admin-only">👨‍👩‍👧‍👦 Family Horoscope</a>
-        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 Rules &amp; Notes</button>
+        <nav class="site-nav">
+        <a href="ugadi.html" id="navUgadi">📜 <span class="nav-text" data-en="Ugadi Panchangam" data-te="ఉగాది పంచాంగం">Ugadi Panchangam</span></a>
+        <a href="index.html" id="navDaily">🙏 <span class="nav-text" data-en="Daily Panchangam" data-te="దిన పంచాంగం">Daily Panchangam</span></a>
+        <a href="vratanirnaya.html" id="navVrata">📿 <span class="nav-text" data-en="Vrata Nirnaya" data-te="వ్రత నిర్ణయం">వ్రత నిర్ణయం</span></a>
+        <a href="dharmavichara.html" id="navDharma" class="active">📖 <span class="nav-text" data-en="Dharma Vichara" data-te="ధర్మ విచార">ధర్మ విచార</span></a>
+        <a href="jathakam.html" id="navJathakam">🔮 <span class="nav-text" data-en="Single Horoscope" data-te="జాతక చక్రం">Single Horoscope</span></a>
+        <a href="muhurtavali.html" id="navMuhurta" class="admin-only">✨ <span class="nav-text" data-en="Muhurtavali" data-te="ముహూర్తావళి">Muhurtavali</span></a>
+        <a href="family_jathakam.html" id="navFamily" class="admin-only">👨‍👩‍👧‍👦 <span class="nav-text" data-en="Family Horoscope" data-te="కుటుంబ జాతకం">Family Horoscope</span></a>
+        <button id="navRulesNotes" class="admin-only" onclick="window.VedicSecurity && window.VedicSecurity.openRulesModal()" style="color:#ffd700; background:rgba(212,168,83,0.25); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">📝 <span class="nav-text" data-en="Rules &amp; Notes" data-te="నియమాలు &amp; సూచనలు">Rules &amp; Notes</span></button>
         <button id="langToggleBtn" class="lang-toggle-btn" onclick="toggleLanguage()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🌐 <span id="langBtnText">English</span></button>
-        <button onclick="window.print()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🖨️ Print / PDF</button>
+        <button onclick="window.print()" style="color:#d4a853; background:rgba(212,168,83,0.2); border:1px solid #d4a853; border-radius:4px; padding:4px 10px; font-family:'Cinzel','Noto Sans Telugu',serif; font-size:0.85rem; font-weight:bold; cursor:pointer;">🖨️ <span id="printBtnText">Print / PDF</span></button>
     </nav>
 
     <!-- Community Join Banner -->
@@ -356,6 +363,24 @@
             </div>
         </section>
 
+        <!-- Featured Banner: Annual Vrata & Festival Decision Compendium -->
+        <div style="background: linear-gradient(135deg, rgba(74,14,14,0.08) 0%, rgba(212,175,55,0.12) 100%); border: 1.5px solid #ca8a04; border-radius: 10px; padding: 18px 20px; margin-bottom: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 14px;">
+            <div>
+                <h3 style="margin: 0 0 4px 0; color: #4a0e0e; font-family: 'Cinzel', 'Noto Sans Telugu', serif; font-size: 1.25rem;">
+                    <span class="lang-te">📿 శ్రీ పరాభవ నామ సంవత్సర వ్రత పర్వదిన నిర్ణయ దర్శిని (2026–2027)</span>
+                    <span class="lang-en">📿 Sri Parabhava Nama Samvatsara Vrata &amp; Festival Decision Compendium</span>
+                </h3>
+                <p style="margin: 0; font-size: 0.92rem; color: #57534e;">
+                    <span class="lang-te">ఉగాది నుండి ఫాల్గుణం వరకు సర్వ పండుగలను పంచాంగకర్త ఏ శాస్త్ర విధి ప్రకారం నిర్ణయించారో మరియు వ్రత ప్రాశస్త్యాలు తెలుసుకోండి.</span>
+                    <span class="lang-en">Discover how the Panchanga Karta resolved all festival dates using classical Dharma Shastric principles, along with puja procedures.</span>
+                </p>
+            </div>
+            <a href="vratanirnaya.html" style="background: #4a0e0e; color: #ffd700; text-decoration: none; padding: 10px 18px; border-radius: 6px; font-weight: bold; font-family: 'Cinzel', 'Noto Sans Telugu', serif; font-size: 0.88rem; box-shadow: 0 3px 8px rgba(74,14,14,0.25); white-space: nowrap;">
+                <span class="lang-te">దర్శించండి ➔</span>
+                <span class="lang-en">Explore Compendium ➔</span>
+            </a>
+        </div>
+
         <!-- Articles Container -->
         <div id="articlesContainer">
 
@@ -381,9 +406,11 @@
                 <div class="dv-proof-section">
                     <p><strong>1. అగ్ని కర్తరి నాలుగు దశలు (The 4 Astronomical Stages):</strong></p>
                     <div class="dv-shloka-box">
-                        భరణ్యాశ్చ తృతీయే తు డొల్లా కార్తర్యుదాహృతా |<br>
+                        <div class="dv-shloka-telugu">
+                            భరణ్యాశ్చ తృతీయే తు డొల్లా కార్తర్యుదాహృతా |<br>
                         కృత్తికాసు సమస్తాసు నిజా కార్తరి కీర్తితా ||<br>
                         రోహిణ్యాః ప్రథమే పాదే సమాప్తిః సర్వసమ్మతా |
+                        </div>
                         <div class="dv-shloka-trans">
                             సూర్యుడు భరణి 3వ పాద ప్రవేశం చేయగానే <strong>డొల్ల కర్తరి</strong> (చిన్న కర్తరి), కృత్తిక 1వ పాద ప్రవేశంతో <strong>నిజ కర్తరి ఆరంభం</strong>, కృత్తిక 4వ పాదం ముగియగానే <strong>నిజ కర్తరి త్యాగం</strong>, మరియు రోహిణి 1వ పాదం పూర్తికాగానే <strong>సంపూర్ణ కర్తరీ నివృత్తి (సమాప్తి)</strong> అగును.
                         </div>
@@ -422,17 +449,25 @@
                         Unlike festivals that follow sunrise (<em>Udaya Tithi</em>), Ganesha Chaturthi is strictly governed by the Lord's divine appearance time at cosmic midday (<em>Madhyahna Kala</em>). In <em>Dharma Sindhu</em> and <em>Nirnaya Sindhu</em>, the foundational ruling is:
                     </p>
                     <div class="dv-shloka-box">
-                        శుక్లపక్షే చతుర్థ్యాం తు మధ్యాహ్నే పూజయేద్గణమ్ |<br>
+                        <div class="dv-shloka-telugu">
+                            శుక్లపక్షే చతుర్థ్యాం తు మధ్యాహ్నే పూజయేద్గణమ్ |<br>
                         మధ్యాహ్నవ్యాపినీ పూర్వా పరైవ చతుర్థీ వ్రతే ప్రశస్తా ||
-                        <div class="dv-shloka-trans">(Śuklapakṣe caturthyāṁ tu madhyāhne pūjayedgaṇam | Madhyāhnavyāpinī pūrvā paraiva caturthī vrate praśastā || — Dharma Sindhu)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Śuklapakṣe caturthyāṁ tu madhyāhne pūjayedgaṇam | Madhyāhnavyāpinī pūrvā paraiva caturthī vrate praśastā || — Dharma Sindhu)
+                        </div>
                     </div>
                     <p>
                         Kamalakara Bhatta in <em>Nirnaya Sindhu</em> quotes the sage <em>Brihaspati</em>:
                     </p>
                     <div class="dv-shloka-box">
-                        చతుర్థీ గణనాథస్య మాతృవిద్ధా ప్రశస్యతే |<br>
+                        <div class="dv-shloka-telugu">
+                            చతుర్థీ గణనాథస్య మాతృవిద్ధా ప్రశస్యతే |<br>
                         మధ్యాహ్నవ్యాపినీ యత్ర తత్ర కార్యా న సంశయః ||
-                        <div class="dv-shloka-trans">(Caturthī gaṇanāthasya mātṛviddhā praśasyate | Madhyāhnavyāpinī yatra tatra kāryā na saṁśayaḥ || — Nirnaya Sindhu)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Caturthī gaṇanāthasya mātṛviddhā praśasyate | Madhyāhnavyāpinī yatra tatra kāryā na saṁśayaḥ || — Nirnaya Sindhu)
+                        </div>
                     </div>
                     <p>
                         <em>Matru-viddha</em> (Chaturthi combined with the preceding Tadiya/Tritiya) is celebrated and lauded because Goddess Parvati (the Mother) gave birth to Ganesha. Conversely, <em>Panchami-viddha</em> (Chaturthi extending into Panchami during Madhyahna) is explicitly avoided.
@@ -484,17 +519,25 @@
                         According to <em>Dharma Sindhu</em> and the <em>Devi Bhagavata Purana</em>, Kalasha Sthapana must be performed on Ashvina Shukla Pratipada during the morning. However, there is a strict prohibition against performing Sthapana while <strong>Chitra Nakshatra</strong> or <strong>Vaidhriti Yoga</strong> is active:
                     </p>
                     <div class="dv-shloka-box">
-                        చిత్రావైధృతియుక్తా చేత్ ప్రతిపత్ స్ధాపనే త్యజేత్ |<br>
+                        <div class="dv-shloka-telugu">
+                            చిత్రావైధృతియుక్తా చేత్ ప్రతిపత్ స్ధాపనే త్యజేత్ |<br>
                         ద్విధా విభజ్య కార్యా స్యాత్ అభిజిన్ముహూర్తకే ||
-                        <div class="dv-shloka-trans">(Citrāvaidhṛtiyuktā cet pratipat sthāpane tyajet | Dvidhā vibhajya kāryā syāt abhijinmuhūrtake || — Dharma Sindhu)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Citrāvaidhṛtiyuktā cet pratipat sthāpane tyajet | Dvidhā vibhajya kāryā syāt abhijinmuhūrtake || — Dharma Sindhu)
+                        </div>
                     </div>
                     <p>
                         Kamalakara Bhatta in <em>Nirnaya Sindhu</em> quotes the authoritative <em>Rudra Yamala Tantra</em>:
                     </p>
                     <div class="dv-shloka-box">
-                        చిత్రాసు పూజితా దేవీ దేశభంగం కరోతి హి |<br>
+                        <div class="dv-shloka-telugu">
+                            చిత్రాసు పూజితా దేవీ దేశభంగం కరోతి హి |<br>
                         వైధృతౌ తు భవేన్నాశః కులస్య చ న సంశయః ||
-                        <div class="dv-shloka-trans">(Citrāsu pūjitā devī deśabhaṅgaṁ karoti hi | Vaidhṛtau tu bhavennāśaḥ kulasya ca na saṁśayaḥ || — Rudra Yamala)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Citrāsu pūjitā devī deśabhaṅgaṁ karoti hi | Vaidhṛtau tu bhavennāśaḥ kulasya ca na saṁśayaḥ || — Rudra Yamala)
+                        </div>
                     </div>
                     <p>
                         <strong>The Classical Remedy (Parihara):</strong><br>
@@ -505,14 +548,22 @@
                         Vijaya Dashami is not governed by sunrise tithi; it is canonically governed by <strong>Aparahna Vyapini Dashami</strong> (Dashami during the afternoon 4th division of the day), especially when conjoined with <strong>Shravana Nakshatra</strong>:
                     </p>
                     <div class="dv-shloka-box">
-                        ఆశ్వయుక్ శుక్లపక్షే తు దశమీ సర్వసిద్ధిదా |<br>
+                        <div class="dv-shloka-telugu">
+                            ఆశ్వయుక్ శుక్లపక్షే తు దశమీ సర్వసిద్ధిదా |<br>
                         అపరాహ్ణే చ కర్తవ్యా శ్రవణర్క్షసమన్వితా ||
-                        <div class="dv-shloka-trans">(Āśvayuk śuklapakṣe tu daśamī sarvasiddhidā | Aparāhṇe ca kartavyā śravaṇarkṣasamanvitā || — Nirnaya Sindhu)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Āśvayuk śuklapakṣe tu daśamī sarvasiddhidā | Aparāhṇe ca kartavyā śravaṇarkṣasamanvitā || — Nirnaya Sindhu)
+                        </div>
                     </div>
                     <div class="dv-shloka-box">
-                        శ్రవణర్క్షం యదా యుక్తం అపరాహ్ణే చ దృశ్యతే |<br>
+                        <div class="dv-shloka-telugu">
+                            శ్రవణర్క్షం యదా యుక్తం అపరాహ్ణే చ దృశ్యతే |<br>
                         తదా విజయసంజ్ఞా స్యాత్ పూజనీయాపరాజితా ||
-                        <div class="dv-shloka-trans">(Śravaṇarkṣaṁ yadā yuktaṁ aparāhṇe ca dṛśyate | Tadā vijayasaṁjñā syāt pūjanīyāparājitā || — Skanda Purana)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Śravaṇarkṣaṁ yadā yuktaṁ aparāhṇe ca dṛśyate | Tadā vijayasaṁjñā syāt pūjanīyāparājitā || — Skanda Purana)
+                        </div>
                     </div>
                     <p>
                         <strong>Astronomical Timing for October 2026:</strong>
@@ -547,8 +598,12 @@
                         In Spring 2029, the first New Moon (Amavasya) occurs on March 15, 2029 at 09:49 IST with the Sun at 330.60° (Meena 0.60°). The second New Moon occurs on April 14, 2029 at 03:10 IST with the Sun at 359.97° (Meena 29.97°). The Sun enters Mesha (Mesha Sankranti) on April 14 at 03:54 IST, just 44 minutes <em>after</em> the second Amavasya!
                     </p>
                     <div class="dv-shloka-box">
-                        సంక్రాంతివర్జితో మాసః మలమాసః ప్రకీర్తితః ||
-                        <div class="dv-shloka-trans">(Sankrāntivarjito māsaḥ malamāsaḥ prakīrtitaḥ — Surya Siddhanta)</div>
+                        <div class="dv-shloka-telugu">
+                            సంక్రాంతివర్జితో మాసః మలమాసః ప్రకీర్తితః ||
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Sankrāntivarjito māsaḥ malamāsaḥ prakīrtitaḥ — Surya Siddhanta)
+                        </div>
                     </div>
                     <p>
                         Because the Sun stays inside Meena throughout the entire lunar month from March 15 to April 14 without any intervening Solar Sankranti, that lunar month is designated as <strong>Adhika Chaitra (Malamasa)</strong>. The subsequent lunar month beginning April 14 is <strong>Nija Chaitra</strong>.
@@ -558,9 +613,13 @@
                         In <em>Nirnaya Sindhu</em> and <em>Panchanga Pithika Lekhana Prakriya</em>, the ancient <em>Brahma Purana</em> shloka establishes:
                     </p>
                     <div class="dv-shloka-box">
-                        చైత్రమాసి జగద్బ్రహ్మా ససర్జ ప్రథమేఽహని |<br>
+                        <div class="dv-shloka-telugu">
+                            చైత్రమాసి జగద్బ్రహ్మా ససర్జ ప్రథమేఽహని |<br>
                         శుక్లపక్షే సమగ్రం తు తదా సూర్యోదయే సతి ||
-                        <div class="dv-shloka-trans">(Caitramāsi jagadbrahmā sasarja prathame'hani | Śuklapakṣe samagraṁ tu tadā sūryodaye sati ||)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Caitramāsi jagadbrahmā sasarja prathame'hani | Śuklapakṣe samagraṁ tu tadā sūryodaye sati ||)
+                        </div>
                     </div>
                     <p>
                         The cosmic flow of time (*Kalaganana*) cannot be paused or delayed by 30 days. The previous Samvatsara concludes its cycle on March 15, 2029. Therefore, the **Samvatsara Name change**, the **Jagat Lagna chart**, and the **King of the year (Raja)** are mathematically calculated from **Adhika Chaitra Shukla Pratipada (Thursday, March 15, 2029)**.
@@ -570,9 +629,13 @@
                         In <em>Nirnaya Sindhu</em> and <em>Dharma Sindhu</em> (under *Vatsararambha Nirnaya*), Kamalakara Bhatta quotes:
                     </p>
                     <div class="dv-shloka-box">
-                        వర్జయేన్మలమాసం తు సర్వకర్మసు సర్వదా |<br>
+                        <div class="dv-shloka-telugu">
+                            వర్జయేన్మలమాసం తు సర్వకర్మసు సర్వదా |<br>
                         యదా చైత్రో మలో భవతి తదా శుద్ధే (నిజే) ఏవ వత్సరోత్సవః ||
-                        <div class="dv-shloka-trans">(Varjayenmalamāsaṁ tu sarvakarmasu sarvadā | Yadā caitro malo bhavati tadā śuddhe eva vatsarotsavaḥ ||)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Varjayenmalamāsaṁ tu sarvakarmasu sarvadā | Yadā caitro malo bhavati tadā śuddhe eva vatsarotsavaḥ ||)
+                        </div>
                     </div>
                     <p>
                         All celebratory religious observances — the ceremonial oil bath (*Tailabhyangam*), consuming the neem-flower prasadam (*Ugadi Pachadi / Nimba Kusuma Bhakshana*), hoisting the Gudi flag, and Vasantotsava — **are strictly celebrated in Nija Chaitra on Saturday, April 14, 2029**.
@@ -605,10 +668,14 @@
                         In Dharma Shastra, an eclipse is spiritually recognized only when the Moon or Sun enters the dense, dark umbral shadow of the Earth (*Chhaya Grahan / ఛాయా గ్రహణం*):
                     </p>
                     <div class="dv-shloka-box">
-                        ఛాదకో భాస్కరో నేందుః పిహితో భాస్కరస్య వా |<br>
-                        న స్పర్శో న చ మోక్షోఽస్తి యత్ర ఛాయా న దృశ్యతే ||
-                    </div>
-                    <p>
+                        <div class="dv-shloka-telugu">
+                            ఛాదకో భాస్కరో నేందుః పిహితో భాస్కరస్య వా |<br>
+                            న స్పర్శో న చ మోక్షోఽస్తి యత్ర ఛాయా న దృశ్యతే ||
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Chādako bhāskaro nenduḥ pihito bhāskarasya vā | Na sparśo na ca mokṣo'sti yatra chāyā na dṛśyate || — Surya Siddhanta)
+                        </div>
+                    </div><p>
                         In a penumbral eclipse, the Moon only passes through the Earth's faint outer shadow (*Upachchaya*). The Moon does not touch the dark umbra, and the eclipse is invisible to the naked human eye. Under the rules laid down in <em>Dharma Sindhu</em> and <em>Nirnaya Sindhu</em>:
                     </p>
                     <ul>
@@ -640,9 +707,13 @@
                         Bhaskaracharya in <em>Siddhanta Shiromani</em> and the classical authorities in <em>Kalamrita</em> explicitly rule:
                     </p>
                     <div class="dv-shloka-box">
-                        స్వదేశీయ సూర్యోదయానుసారేణైవ తిథినిర్ణయః |<br>
+                        <div class="dv-shloka-telugu">
+                            స్వదేశీయ సూర్యోదయానుసారేణైవ తిథినిర్ణయః |<br>
                         దేశాంతర ఫలాదేశో వ్రతేష్వేవ ప్రశస్యతే ||
-                        <div class="dv-shloka-trans">(Svadeśīya sūryodayānusāreṇaiva tithinirṇayaḥ | Deśāntara phalādeśo vrateṣveva praśasyate ||)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Svadeśīya sūryodayānusāreṇaiva tithinirṇayaḥ | Deśāntara phalādeśo vrateṣveva praśasyate ||)
+                        </div>
                     </div>
                     <p>
                         <strong>The Mathematical Reality:</strong>
@@ -682,8 +753,7 @@
                         • Phase 1 (Chaitra–Ashadha): (Total × 3) mod 8<br>
                         • Phase 2 (Shravana–Kartika): (Total × 7) mod 3<br>
                         • Phase 3 (Margashira–Phalguna): (Total × 3) mod 5
-                    </div>
-                    <p><strong>2. Adaya-Vyaya &amp; Rajapujya-Avamanam (12 Rashis):</strong></p>
+                    </div><p><strong>2. Adaya-Vyaya &amp; Rajapujya-Avamanam (12 Rashis):</strong></p>
                     <p>
                         Calculated exclusively for the 12 Rashis using the Year Weekday Dhruva (D_year) and the Rashi Lord Dhruva (D_lord):
                     </p>
@@ -692,8 +762,7 @@
                         • Expense (Vyayam) = [ Quotient × 3 + 5 ] mod 15<br>
                         • Honor (Rajapujyam) = [ (RashiIndex + D_year) × 3 + 5 ] mod 7<br>
                         • Disgrace (Avamanam) = [ Quotient × 3 + 5 ] mod 7
-                    </div>
-                    <p>
+                    </div><p>
                         Keeping these tables separate preserves authentic Siddhantic purity and prevents confusion between one's Janma Nakshatra and Janma Rashi.
                     </p>
                 </div>
@@ -720,9 +789,13 @@
                         In <em>Dharma Sindhu</em>, the classical exception is clearly stated:
                     </p>
                     <div class="dv-shloka-box">
-                        వృద్ధ-బాల-ఆతురాణాం తు న దోషో భోజనే భవేత్ |<br>
+                        <div class="dv-shloka-telugu">
+                            వృద్ధ-బాల-ఆతురాణాం తు న దోషో భోజనే భవేత్ |<br>
                         గర్భిణీనాం విశేషేణ రక్షా కార్యా ప్రయత్నతః ||
-                        <div class="dv-shloka-trans">(Vṛddha-bāla-āturāṇāṁ tu na doṣo bhojane bhavet | Garbhiṇīnāṁ viśeṣeṇa rakṣā kāryā prayatnataḥ ||)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Vṛddha-bāla-āturāṇāṁ tu na doṣo bhojane bhavet | Garbhiṇīnāṁ viśeṣeṇa rakṣā kāryā prayatnataḥ ||)
+                        </div>
                     </div>
                     <p>
                         <strong>Guidelines for Vulnerable Devotees:</strong>
@@ -756,10 +829,14 @@
                         <em>Muhurta Chintamani</em> states that when Guru or Shukra is combust by proximity to the Sun, their auspicious shielding power (*Guru Bala* and *Shukra Bala*) is incapacitated:
                     </p>
                     <div class="dv-shloka-box">
-                        మౌఢ్యే శుక్రేఽథవా జీవే వివాహ-వ్రత-బంధనమ్ |<br>
-                        గృహప్రవేశం చార్చాం చ వర్జయేత్ సర్వథా బుధః ||
-                    </div>
-                    <p>
+                        <div class="dv-shloka-telugu">
+                            మౌఢ్యే శుక్రేఽథవా జీవే వివాహ-వ్రత-బంధనమ్ |<br>
+                            గృహప్రవేశం చార్చాం చ వర్జయేత్ సర్వథా బుధః ||
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Maudhye śukre'thavā jīve vivāha-vrata-bandhanam | Gṛhapraveśaṁ cārcāṁ ca varjayet sarvathā budhaḥ || — Muhurta Chintamani)
+                        </div>
+                    </div><p>
                         <strong>Forbidden during Maudhyam:</strong>
                     </p>
                     <ul>
@@ -801,9 +878,13 @@
                         This distinction originates from canonical rulings in the <em>Padma Purana</em>, <em>Bhavishya Purana</em>, and Sri Sanatana Goswami's <em>Hari Bhakti Vilasa</em>:
                     </p>
                     <div class="dv-shloka-box">
-                        దశమీవేధసంయుక్తా యా భవేదేకాదశీ క్వచిత్ |<br>
+                        <div class="dv-shloka-telugu">
+                            దశమీవేధసంయుక్తా యా భవేదేకాదశీ క్వచిత్ |<br>
                         న కార్యా వైష్ణవైస్సర్వైః నరకైకప్రదాయినీ ||
-                        <div class="dv-shloka-trans">(Daśamīvedhasaṁyuktā yā bhavedekādaśī kvacit | Na kāryā vaiṣṇavaissarvaiḥ narakaikopradāyinī || — Padma Purana)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Daśamīvedhasaṁyuktā yā bhavedekādaśī kvacit | Na kāryā vaiṣṇavaissarvaiḥ narakaikopradāyinī || — Padma Purana)
+                        </div>
                     </div>
                     <p>
                         <strong>1. The Arunodaya Window Defined:</strong><br>
@@ -818,8 +899,12 @@
                         Shastra explicitly declares that fasting without proper *Parana* (breaking the fast before Dvadashi Tithi concludes) nullifies the merit of the vrata:
                     </p>
                     <div class="dv-shloka-box">
-                        ద్వాదశ్యాం పారణం కుర్యాత్ వర్జయిత్వా హరివాసరమ్ |
-                        <div class="dv-shloka-trans">(Dvādaśyāṁ pāraṇaṁ kuryāt varjayitvā harivāsaram || — Dharma Sindhu)</div>
+                        <div class="dv-shloka-telugu">
+                            ద్వాదశ్యాం పారణం కుర్యాత్ వర్జయిత్వా హరివాసరమ్ |
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Dvādaśyāṁ pāraṇaṁ kuryāt varjayitvā harivāsaram || — Dharma Sindhu)
+                        </div>
                     </div>
                     <p>
                         Devotees must break their fast after sunrise within the span of Dvadashi, but must avoid *Hari Vasara* (the first quarter / 15 ghatis of Dvadashi).
@@ -849,17 +934,25 @@
                         <em>Dharma Sindhu</em> and <em>Nirnaya Sindhu</em> establish the exact mathematical demarcation for nocturnal solar ingress (<em>Nishi Sankranti</em>):
                     </p>
                     <div class="dv-shloka-box">
-                        నిశీథాత్ ప్రాగ్ యదా సంక్రమతి భానుః తదా పూర్వేద్యురపరాహ్ణే పుణ్యకాలః |<br>
+                        <div class="dv-shloka-telugu">
+                            నిశీథాత్ ప్రాగ్ యదా సంక్రమతి భానుః తదా పూర్వేద్యురపరాహ్ణే పుణ్యకాలః |<br>
                         అర్ధరాత్రాత్ పరే త్వన్యేద్యుః ప్రాతః కాలే ప్రకీర్తితః ||
-                        <div class="dv-shloka-trans">(Niśīthāt prāg yadā saṅkramati bhānuḥ tadā pūrvedyuraparāhṇe puṇyakālaḥ | Ardharātrāt pare tvanyedyuḥ prātaḥ kāle prakīrtitaḥ || — Dharma Sindhu)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Niśīthāt prāg yadā saṅkramati bhānuḥ tadā pūrvedyuraparāhṇe puṇyakālaḥ | Ardharātrāt pare tvanyedyuḥ prātaḥ kāle prakīrtitaḥ || — Dharma Sindhu)
+                        </div>
                     </div>
                     <p>
                         <strong>Special Mandate for Makara Sankranti (Uttarayana Ingress):</strong>
                     </p>
                     <div class="dv-shloka-box">
-                        రాత్రౌ సంక్రమణే భానుః మకరార్కస్య సంక్రమే |<br>
+                        <div class="dv-shloka-telugu">
+                            రాత్రౌ సంక్రమణే భానుః మకరార్కస్య సంక్రమే |<br>
                         పరతః పుణ్యకాలః స్యాత్ పూర్వతస్తు కదాచన ||
-                        <div class="dv-shloka-trans">(Rātrau saṅkramaṇe bhānuḥ makarārkasya saṅkrame | Parataḥ puṇyakālaḥ syāt pūrvatastu kadācana || — Nirnaya Sindhu)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Rātrau saṅkramaṇe bhānuḥ makarārkasya saṅkrame | Parataḥ puṇyakālaḥ syāt pūrvatastu kadācana || — Nirnaya Sindhu)
+                        </div>
                     </div>
                     <p>
                         Because the Sun initiates its holy northern trajectory (*Uttarayana*), darkness must give way to light. Therefore:
@@ -892,9 +985,13 @@
                         <em>Muhurta Chintamani</em> enumerates the 9 Taras:
                     </p>
                     <div class="dv-shloka-box">
-                        జన్మ సంపద్విపత్ క్షేమః ప్రత్యరిః సాధకో వధః |<br>
+                        <div class="dv-shloka-telugu">
+                            జన్మ సంపద్విపత్ క్షేమః ప్రత్యరిః సాధకో వధః |<br>
                         మిత్రం పరమమిత్రం చ తారాబలం ప్రకీర్తితమ్ ||
-                        <div class="dv-shloka-trans">(Janma sampadvipat kṣemaḥ pratyariḥ sādhako vadhaḥ | Mitraṁ paramamitraṁ ca tārābalaṁ prakīrtitam ||)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Janma sampadvipat kṣemaḥ pratyariḥ sādhako vadhaḥ | Mitraṁ paramamitraṁ ca tārābalaṁ prakīrtitam ||)
+                        </div>
                     </div>
                     <p>
                         <strong>The Nine Taras Classified:</strong>
@@ -915,9 +1012,13 @@
                         If an urgent occasion (e.g. medical surgery, unavoidable job joining, or critical travel) must be undertaken on a compromised Tara:
                     </p>
                     <div class="dv-shloka-box">
-                        గుడదానం విపత్తారే ప్రత్యరే లవణం తథా |<br>
+                        <div class="dv-shloka-telugu">
+                            గుడదానం విపత్తారే ప్రత్యరే లవణం తథా |<br>
                         వధతారే సువర్ణం చ దత్వా కర్మ సమాచరేత్ ||
-                        <div class="dv-shloka-trans">(Guḍadānaṁ vipattāre pratyare lavaṇaṁ tathā | Vadhatāre suvarṇaṁ ca datvā karma samācaret || — Kalamrita)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Guḍadānaṁ vipattāre pratyare lavaṇaṁ tathā | Vadhatāre suvarṇaṁ ca datvā karma samācaret || — Kalamrita)
+                        </div>
                     </div>
                     <ul>
                         <li><strong>For Vipat Tara (3):</strong> Donate Jaggery (<em>Guda Dana</em>) to a Brahmin or temple prior to starting.</li>
@@ -949,14 +1050,22 @@
                         In <em>Nirnaya Sindhu</em> and <em>Skanda Purana</em>, the sage Vyasa states:
                     </p>
                     <div class="dv-shloka-box">
-                        మాఘాసితచతుర్దశ్యాం రాత్రావేవ మహేశ్వరః |<br>
+                        <div class="dv-shloka-telugu">
+                            మాఘాసితచతుర్దశ్యాం రాత్రావేవ మహేశ్వరః |<br>
                         లింగరూపేణ సంభూతః కోటిసూర్యసమప్రభః ||
-                        <div class="dv-shloka-trans">(Māghāsitacaturdaśyāṁ rātrāveva maheśvaraḥ | Liṅgarūpeṇa sambhūtaḥ koṭisūryasamaprabhaḥ || — Skanda Purana)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Māghāsitacaturdaśyāṁ rātrāveva maheśvaraḥ | Liṅgarūpeṇa sambhūtaḥ koṭisūryasamaprabhaḥ || — Skanda Purana)
+                        </div>
                     </div>
                     <div class="dv-shloka-box">
-                        నిశీథవ్యాపినీ గ్రాహ్యా చతుర్దశీ శివవ్రతే |<br>
+                        <div class="dv-shloka-telugu">
+                            నిశీథవ్యాపినీ గ్రాహ్యా చతుర్దశీ శివవ్రతే |<br>
                         పూర్వేద్యుః ఏవ తద్యోగే పూర్వేద్యుః కార్యం భవేత్ ||
-                        <div class="dv-shloka-trans">(Niśīthavyāpinī grāhyā caturdaśī śivavrate | Pūrvedyuḥ eva tadyoge pūrvedyuḥ kāryaṁ bhavet || — Nirnaya Sindhu)</div>
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (Niśīthavyāpinī grāhyā caturdaśī śivavrate | Pūrvedyuḥ eva tadyoge pūrvedyuḥ kāryaṁ bhavet || — Nirnaya Sindhu)
+                        </div>
                     </div>
                     <p>
                         <strong>How Nisheetha Kala is Calculated:</strong>
@@ -995,8 +1104,12 @@
                         In <em>Muhurta Chintamani</em> (Samskara Prakarana) and <em>Dharma Sindhu</em>, the governing planets for the four Vedas are canonized as:
                     </p>
                     <div class="dv-shloka-box">
-                        గురుర్బహ్వృచానాం శుక్రో యజుషాం మంగళః సామగానాం బుధోఽథర్వణానామ్ |
-                        <div class="dv-shloka-trans">(gururbahvṛcānāṃ śukro yajuṣāṃ maṅgalaḥ sāmagānāṃ budho'tharvaṇānām | — Muhurta Chintamani)</div>
+                        <div class="dv-shloka-telugu">
+                            గురుర్బహ్వృచానాం శుక్రో యజుషాం మంగళః సామగానాం బుధోఽథర్వణానామ్ |
+                        </div>
+                        <div class="dv-shloka-trans">
+                            (gururbahvṛcānāṃ śukro yajuṣāṃ maṅgalaḥ sāmagānāṃ budho'tharvaṇānām | — Muhurta Chintamani)
+                        </div>
                     </div>
                     <p><strong>2. Veda-Specific Astrological Formulas:</strong></p>
                     <ul>
@@ -1035,11 +1148,13 @@
     <!-- Scripts -->
     <script>
         let currentCategory = 'all';
-        let CURRENT_LANG = 'en';
+        let CURRENT_LANG = 'te';
 
         try {
-            const saved = localStorage.getItem('VS_LANG');
-            if (saved) CURRENT_LANG = saved;
+            const saved = localStorage.getItem('vedic_samhita_lang') || localStorage.getItem('VS_LANG') || localStorage.getItem('VS_UGADI_LANG');
+            if (saved === 'en' || saved === 'te') {
+                CURRENT_LANG = saved;
+            }
         } catch(e) {}
 
         const DHARMA_TRANSLATIONS = {
@@ -1088,6 +1203,13 @@
         };
 
         const ARTICLE_TEXTS = {
+            'kartari-nirnayam': {
+                q_te: "సందేహం: కర్తరి (Kartari) అంటే ఏమిటి? సౌర అగ్ని కర్తరి (Agni Kartari) మరియు లగ్న పాపకర్తరి (Muhurtha Paapa Kartari) ఎలా నిర్ణయిస్తారు? కర్తరి కాలంలో ఏయే కార్యాలు శాస్త్రరీత్యా నిషిద్ధం?",
+                v_te: "కర్తరి అనగా సంస్కృతంలో <strong>కత్తెర (కత్తెరించునది)</strong>. వైదిక జ్యోతిష మరియు ధర్మశాస్త్రాలలో కర్తరి రెండు విధాలుగా పరిగణింపబడుతుంది: 1. <strong>సౌర అగ్ని కర్తరి (Solar Agni Kartari):</strong> సూర్యుడు కృత్తికా నక్షత్రంలో సంచరించు కాలాన్ని నిజ కర్తరి లేదా అగ్ని కర్తరి అంటారు. ఈ కాలంలో సూర్యుని కిరణాల తీక్షణత అధికంగా ఉండుటచే శంకుస్థాపన, భూమిపూజ, నూతన గృహారంభం (పునాదులు త్రవ్వుట), బావులు-బోరుబావులు వేయుట, కలప కోయుట మరియు నూతన గృహప్రవేశం శాస్త్రరీత్యా ఖచ్చితంగా నిషిద్ధం. వివాహాలు, జాతకర్మలు, నిత్య పూజలు చేయవచ్చును. 2. <strong>ముహూర్త లగ్న పాపకర్తరి (Lagna Paapa Kartari Dosha):</strong> ఏ శుభ ముహూర్తానికైనా లగ్నానికి 12వ ఇంట మరియు 2వ ఇంట పాపగ్రహాలు ఉండి లగ్నం బంధింపబడితే పాపకర్తరీ దోషం అంటారు. ఇది 21 మహాదోషాలలో ఒకటి.",
+                q_en: "Question: What is Kartari? How are Solar Agni Kartari and Lagna Paapa Kartari determined? Which activities are strictly prohibited during the Kartari period according to Dharma Shastra?",
+                v_en: "Kartari literally means 'scissors' (that which severs). In Vedic astrology and Dharma Shastra, Kartari is evaluated in two ways: 1. <strong>Solar Agni Kartari:</strong> When the Sun traverses Krittika Nakshatra (Aries 26°40' to Taurus 10°00'), intense solar radiation falls upon the Earth. Laying foundations (Shankhusthapana), digging borewells, chopping timber for roof beams/doors, and first Grihapravesha into a newly built home are strictly prohibited according to Dharma Sindhu and Muhurta Chintamani. 2. <strong>Lagna Paapa Kartari Dosha:</strong> In Muhurtha election, when malefic planets occupy the 12th and 2nd houses flanking the Lagna, severe affliction occurs, whereas benefics create Shubha Kartari Yoga."
+            },
+
             'vinayaka-chavithi-2026': {
                 q_te: "సందేహం: 2026 (శ్రీ పరాభవ నామ సంవత్సరం) లో వినాయక చవితి (వరసిద్ధి వినాయక వ్రతం) ఏ రోజున ఆచరించాలి? మధ్యాహ్న వ్యాపినీ తిథి నిర్ణయం ప్రకారం భారతదేశం మరియు అమెరికా (USA) లలో సెప్టెంబర్ 14 లేదా సెప్టెంబర్ 15 లలో ఏది శాస్త్ర సమ్మతం?",
                 v_te: "భారతదేశం మరియు అమెరికా (డల్లాస్ & యు.ఎస్.ఎ) రెండింటిలోనూ, <strong>సోమవారం, సెప్టెంబర్ 14, 2026</strong> నాడు మాత్రమే వరసిద్ధి వినాయక వ్రతము, మృణ్మయ విగ్రహ ప్రతిష్ఠాపన మరియు పూజలు శాస్త్ర సమ్మతము. గణపతి జన్మ సమయం మధ్యాహ్నం అయినందున ధర్మశాస్త్రం <strong>మధ్యాహ్న వ్యాపినీ చతుర్థి</strong> (పగటి కాలంలోని 3వ భాగమైన మధ్యాహ్నం 11:30 నుండి 1:45 వరకు చతుర్థి వ్యాప్తి) తప్పనిసరి అని నిర్దేశించినది. సెప్టెంబర్ 14 సోమవారం నాడు మధ్యాహ్న కాలంలో చతుర్థి పరిపూర్ణంగా వ్యాపించి ఉన్నది. సెప్టెంబర్ 15 మంగళవారం ఉదయానికే చతుర్థి సమాప్తమగుచున్నందున మంగళవారం నాడు ప్రధాన పూజకు శాస్త్రీయ అర్హత లేదు."
@@ -1161,7 +1283,11 @@
 
         function toggleLanguage() {
             CURRENT_LANG = (CURRENT_LANG === 'en') ? 'te' : 'en';
-            try { localStorage.setItem('VS_LANG', CURRENT_LANG); } catch(e) {}
+            try {
+                localStorage.setItem('vedic_samhita_lang', CURRENT_LANG);
+                localStorage.setItem('VS_LANG', CURRENT_LANG);
+                localStorage.setItem('VS_UGADI_LANG', CURRENT_LANG);
+            } catch(e) {}
             applyLanguage();
         }
 
