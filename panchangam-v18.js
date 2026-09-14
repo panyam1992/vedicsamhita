@@ -1733,6 +1733,137 @@ function findMaudhyaEnd(jd, g) {
     return (tA + tB) / 2;
 }
 
+/* ═══════════ AGNI KARTARI & LAGNA KARTARI COMPUTATION ═══════════ */
+
+function computeAgniKartari(year, tz, lat, lon) {
+    if (tz === undefined) tz = 5.5;
+    if (lat === undefined) lat = 0;
+    if (lon === undefined) lon = 0;
+
+    function findSunIngress(targetDeg, startJD, endJD) {
+        let low = startJD, high = endJD;
+        for (let i = 0; i < 55; i++) {
+            let mid = (low + high) / 2.0;
+            let sLon = getSunNirayana(mid);
+            if (sLon < targetDeg) low = mid;
+            else high = mid;
+        }
+        return (low + high) / 2.0;
+    }
+
+    const jdMay1 = dateToJD(year, 5, 1);
+    const jdJun5 = dateToJD(year, 6, 5);
+
+    const stages = [
+        { key: 'dolla', nameTe: 'డొల్ల కర్తరి ప్రారంభం (చిన్న కర్తరి)', nameEn: 'Dolla Kartari (Chinna)', padaTe: 'భరణి 3వ పాద ప్రవేశం', deg: 20.0 },
+        { key: 'nija_start', nameTe: 'నిజ కర్తరి ప్రవేశం (అగ్ని కర్తరి ఆరంభం)', nameEn: 'Nija Kartari Pravesham (Agni Kartari)', padaTe: 'కృత్తిక 1వ పాద ప్రవేశం', deg: 26.6666666667 },
+        { key: 'nija_end', nameTe: 'నిజ కర్తరి త్యాగం', nameEn: 'Nija Kartari Tyagam', padaTe: 'కృత్తిక 4వ పాద అంత్యం', deg: 40.0 },
+        { key: 'samapti', nameTe: 'సంపూర్ణ కర్తరీ నివృత్తి (సమాప్తి)', nameEn: 'Kartari Samapti (Nivrutti)', padaTe: 'రోహిణి 1వ పాద అంత్యం', deg: 43.3333333333 }
+    ];
+
+    const varasTe = ['ఆదివారం', 'సోమవారం', 'మంగళవారం', 'బుధవారం', 'గురువారం', 'శుక్రవారం', 'శనివారం'];
+    const varasEn = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    const teluguMonths = ['', 'జనవరి', 'ఫిబ్రవరి', 'మార్చి', 'ఏప్రిల్', 'మే', 'జూన్', 'జూలై', 'ఆగస్టు', 'సెప్టెంబర్', 'అక్టోబర్', 'నవంబర్', 'డిసెంబర్'];
+    const enMonths = ['', 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+    const events = [];
+    const eventsMap = {};
+
+    for (const st of stages) {
+        const jdUt = findSunIngress(st.deg, jdMay1, jdJun5);
+        const dt = jdToLocal(jdUt, tz);
+        const y = dt.year, m = dt.month, d = dt.day;
+        const hr = dt.hours + dt.minutes / 60.0 + dt.seconds / 3600.0;
+
+        let h = dt.hours, mi = dt.minutes;
+        const ampm = h < 12 ? 'AM' : 'PM';
+        const h12 = (h % 12 === 0) ? 12 : (h % 12);
+        const timeStr = `${String(h12).padStart(2, '0')}:${String(mi).padStart(2, '0')} ${ampm}`;
+        const dow = Math.floor(jdUt + tz / 24.0 + 1.5) % 7;
+
+        const stTimes = computeSunTimes(y, m, d, lat, lon, tz);
+        let ghatikaStr = '';
+        if (stTimes && stTimes.sunrise) {
+            const srHrs = stTimes.sunrise;
+            const diffHrs = hr - srHrs;
+            const totGhatikas = diffHrs * 2.5;
+            if (totGhatikas < 0) {
+                const gPos = totGhatikas + 60.0;
+                const g = Math.floor(gPos);
+                const v = Math.floor((gPos - g) * 60.0);
+                ghatikaStr = `(*${String(g).padStart(2, '0')}-${String(v).padStart(2, '0')})`;
+            } else {
+                const g = Math.floor(totGhatikas);
+                const v = Math.floor((totGhatikas - g) * 60.0);
+                ghatikaStr = `(${String(g).padStart(2, '0')}-${String(v).padStart(2, '0')})`;
+            }
+        }
+
+        const evtData = {
+            key: st.key,
+            nameTe: st.nameTe,
+            nameEn: st.nameEn,
+            padaTe: st.padaTe,
+            date: `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`,
+            dateTe: `${String(d).padStart(2, '0')} ${teluguMonths[m]} ${y}`,
+            dateEn: `${enMonths[m]} ${d}, ${y}`,
+            weekdayTe: varasTe[dow],
+            weekdayEn: varasEn[dow],
+            time: timeStr,
+            ghatika: ghatikaStr,
+            jdUt: jdUt
+        };
+        events.push(evtData);
+        eventsMap[st.key] = evtData;
+    }
+
+    return {
+        year,
+        events,
+        map: eventsMap,
+        prohibitedActivitiesTe: 'శంకుస్థాపన, భూమిపూజ, నూతన గృహారంభం (పునాదులు త్రవ్వుట), బావులు మరియు బోరుబావులు త్రవ్వుట, కలప కోయుట (చెట్లు నరుకుట), నూతన గృహప్రవేశం వర్జింపవలెను.',
+        prohibitedActivitiesEn: 'Digging foundations, laying foundation stones (Shanku Sthapana), drilling borewells, cutting timber/trees, and new Gruhapravesham are strictly prohibited during Nija Kartari.'
+    };
+}
+
+function checkLagnaKartari(lagnaRashiIdx, grahas) {
+    const rashi12 = (lagnaRashiIdx - 1 + 12) % 12;
+    const rashi2 = (lagnaRashiIdx + 1) % 12;
+
+    const maleficKeys = ['Su', 'Ma', 'Sa', 'Ra', 'Ke'];
+    const beneficKeys = ['Ju', 'Ve', 'Me'];
+
+    const in12thMalefics = [];
+    const in2ndMalefics = [];
+    const in12thBenefics = [];
+    const in2ndBenefics = [];
+
+    grahas.forEach(g => {
+        if (g.rashi === rashi12) {
+            if (maleficKeys.includes(g.name)) in12thMalefics.push(g);
+            if (beneficKeys.includes(g.name)) in12thBenefics.push(g);
+        }
+        if (g.rashi === rashi2) {
+            if (maleficKeys.includes(g.name)) in2ndMalefics.push(g);
+            if (beneficKeys.includes(g.name)) in2ndBenefics.push(g);
+        }
+    });
+
+    const isPaapaKartari = (in12thMalefics.length > 0 && in2ndMalefics.length > 0);
+    const isShubhaKartari = (in12thBenefics.length > 0 && in2ndBenefics.length > 0 && in12thMalefics.length === 0 && in2ndMalefics.length === 0);
+
+    return {
+        isPaapaKartari,
+        isShubhaKartari,
+        rashi12,
+        rashi2,
+        in12thMalefics,
+        in2ndMalefics,
+        in12thBenefics,
+        in2ndBenefics
+    };
+}
+
 function computeMaudhyam(jd, tz) {
     if (tz === undefined) tz = 5.5;
     const results = [];
@@ -2293,9 +2424,18 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     const midnightJD      = ssJD + (nighttime / 2);                   // Nishita Kaala (Local Midnight)
     const arunodayaJD     = srJD - (48 / (60 * 24));                  // Dawn (48 mins before sunrise)
 
-    // Previous night midnight (for festivals following previous midnight like Janmashtami/Nandotsav)
+    // Previous & Next day Kaala timestamps for strict Kaala-Vyapti disambiguation (prevents multi-day duplicates)
+    const prevSrJD        = srJD - 1.0;
     const prevSsJD        = ssJD - 1.0;
     const prevMidnightJD  = prevSsJD + ((srJD - prevSsJD) / 2);
+    const prevMadhJD      = madhyahnaMidJD - 1.0;
+    const nextMadhJD      = madhyahnaMidJD + 1.0;
+    const prevPradJD      = pradoshaMidJD - 1.0;
+    const nextPradJD      = pradoshaMidJD + 1.0;
+    const prevNishJD      = midnightJD - 1.0;
+    const nextNishJD      = midnightJD + 1.0;
+    const prevAparJD      = aparahnaMidJD - 1.0;
+    const nextAparJD      = aparahnaMidJD + 1.0;
 
     const getT = (jd) => getTithiIdx(jd);
     const getN = (jd) => getNakIdx(jd);
@@ -2308,21 +2448,91 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     const tArun = getT(arunodayaJD);
     const tPrevNish = getT(prevMidnightJD);
 
+    const prevSrT   = getT(prevSrJD);
+    const nextSrT   = getT(nextSrJD);
+    const prevMadhT = getT(prevMadhJD);
+    const nextMadhT = getT(nextMadhJD);
+    const prevPradT = getT(prevPradJD);
+    const nextPradT = getT(nextPradJD);
+    const prevNishT = getT(prevNishJD);
+    const nextNishT = getT(nextNishJD);
+    const prevAparT = getT(prevAparJD);
+    const nextAparT = getT(nextAparJD);
+
     const nSr   = getN(srJD);
     const nMadh = getN(madhyahnaMidJD);
     const nNish = getN(midnightJD);
     const nPrevNish = getN(prevMidnightJD);
+    const prevSrN = getN(prevSrJD);
+    const nextSrN = getN(nextSrJD);
 
     const dayTithis = tithis.map(t => t.idx);
     const dayNaks   = naks.map(n => n.idx);
 
     const lunarMonth = getMasamNum(masam);
-
     const isAdhikaMonth = masam.toLowerCase().includes('adhika');
 
+    // ─── SHASTRA-BASED SINGLE-DAY KAALA-VYAPTI DISAMBIGUATION HELPERS ───
+    function ownsUdaya(targetT) {
+        if (tSr === targetT) {
+            if (prevSrT === targetT) return false; // Vriddhi: Day 1 takes it
+            return true;
+        }
+        // Kshaya tithi: starts after sunrise today, ends before sunrise tomorrow
+        if (dayTithis.includes(targetT) && nextSrT !== targetT) return true;
+        return false;
+    }
+
+    function ownsMadhyahna(targetT) {
+        if (tMadh === targetT) {
+            if (prevMadhT === targetT) return false; // Day 1 takes it
+            return true;
+        }
+        if (tSr === targetT && prevMadhT !== targetT && nextMadhT !== targetT) return true;
+        if (dayTithis.includes(targetT) && nextMadhT !== targetT && tSr !== targetT) return true;
+        return false;
+    }
+
+    function ownsPradosha(targetT) {
+        if (tPrad === targetT) {
+            if (nextSrT === targetT && (nextPradT === targetT || getTithiAtJD(nextSrJD + (ssJD - srJD)) === targetT)) return false;
+            if (prevPradT === targetT) return false;
+            return true;
+        }
+        if (tSr === targetT && prevPradT !== targetT && nextPradT !== targetT) return true;
+        if (dayTithis.includes(targetT) && tSr !== targetT && nextSrT !== targetT) return true;
+        return false;
+    }
+
+    function ownsNishita(targetT) {
+        if (tNish === targetT) {
+            if (prevNishT === targetT) return false;
+            return true;
+        }
+        if (tSr === targetT && prevNishT !== targetT && nextNishT !== targetT) return true;
+        return false;
+    }
+
+    function ownsAparahna(targetT) {
+        if (tApar === targetT) {
+            if (prevAparT === targetT) return false;
+            return true;
+        }
+        if (tSr === targetT && nextAparT !== targetT) return true;
+        return false;
+    }
+
+    function ownsNak(targetN) {
+        if (nSr === targetN) {
+            if (prevSrN === targetN) return false;
+            return true;
+        }
+        if (dayNaks.includes(targetN) && nextSrN !== targetN) return true;
+        return false;
+    }
+
     // 1. UGADI (Chaitra Shukla Padyami at Sunrise or Kshaya Pratipada)
-    const nextSrTithi = getT(nextSrJD);
-    if ((lunarMonth === 1 && tSr === 0) || (lunarMonth === 12 && tSr === 29 && dayTithis.includes(0) && nextSrTithi !== 0)) {
+    if ((lunarMonth === 1 && ownsUdaya(0)) || (lunarMonth === 12 && tSr === 29 && dayTithis.includes(0) && nextSrT !== 0)) {
         if (isAdhikaMonth) {
             fests.push("Astronomical New Year / Samvatsara Pravritti (Adhika Chaitra — Kalaganana Inception per Brahma Purana)");
             fests.push("Adhika / Purushottama Masa Arambha (Sacred month for Japa & Dana)");
@@ -2333,12 +2543,12 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     }
 
     // 2. MATSYA JAYANTI (Chaitra Shukla Tritiya - observed only in Nija Chaitra)
-    if (!isAdhikaMonth && lunarMonth === 1 && (tSr === 2 || dayTithis.includes(2))) {
+    if (!isAdhikaMonth && lunarMonth === 1 && ownsUdaya(2)) {
         fests.push("Matsya Jayanti");
     }
 
-    // 3. SRI RAMA NAVAMI (Chaitra Shukla Navami - observed only in Nija Chaitra)
-    if (!isAdhikaMonth && lunarMonth === 1 && (tMadh === 8 || (tSr === 8 && tMadh <= 8) || (dayTithis.includes(8) && tSr === 7))) {
+    // 3. SRI RAMA NAVAMI (Chaitra Shukla Navami at Madhyahna - observed only in Nija Chaitra)
+    if (!isAdhikaMonth && lunarMonth === 1 && ownsMadhyahna(8)) {
         if (nMadh === 6 || nSr === 6) {
             fests.push("Sri Rama Navami (Punarvasu Yukta)");
         } else {
@@ -2346,16 +2556,16 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         }
     }
 
-    // 4. HANUMAN JAYANTI (Chaitra Purnima - observed only in Nija Chaitra)
-    if (!isAdhikaMonth && lunarMonth === 1 && (tSr === 14 || dayTithis.includes(14))) {
+    // 4. HANUMAN JAYANTI (Chaitra Purnima / Telugu Vaishakha Dashami)
+    if (!isAdhikaMonth && lunarMonth === 1 && ownsUdaya(14)) {
         fests.push("Hanuman Jayanti (Chaitra Purnima)");
     }
-    if (lunarMonth === 2 && (tSr === 24 || dayTithis.includes(24))) {
+    if (lunarMonth === 2 && ownsUdaya(24)) {
         fests.push("Hanuman Jayanti (Telugu / Andhra tradition)");
     }
 
     // 5. AKSHAYA TRITIYA & PARASHURAMA JAYANTI (Vaishakha Shukla Tritiya)
-    if (lunarMonth === 2 && (tSr === 2 || tMadh === 2 || dayTithis.includes(2))) {
+    if (lunarMonth === 2 && ownsUdaya(2)) {
         if (nSr === 3 || nMadh === 3) {
             fests.push("Akshaya Tritiya (Maha Punya Kalam - Rohini Yukta)");
         } else {
@@ -2365,43 +2575,43 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     }
 
     // 6. SRI NARASIMHA JAYANTI (Vaishakha Shukla Chaturdashi at Sunset/Pradosha)
-    if (lunarMonth === 2 && (tPrad === 13 || tSr === 13 || dayTithis.includes(13))) {
+    if (lunarMonth === 2 && ownsPradosha(13)) {
         fests.push("Sri Narasimha Jayanti (Pradosha Vyapini)");
     }
 
     // 7. BUDDHA PURNIMA / KURMA JAYANTI (Vaishakha Purnima)
-    if (lunarMonth === 2 && (tSr === 14 || dayTithis.includes(14))) {
+    if (lunarMonth === 2 && ownsUdaya(14)) {
         fests.push("Buddha Purnima");
         fests.push("Kurma Jayanti");
     }
 
     // 8. VAT SAVITRI VRATAM (Jyeshtha Purnima / Vat Purnima)
-    if (lunarMonth === 3 && (tSr === 14 || dayTithis.includes(14))) {
+    if (lunarMonth === 3 && ownsUdaya(14)) {
         fests.push("Vata Savitri Vratam (Vat Purnima)");
     }
 
     // 9. GANGA DUSSEHRA (Jyeshtha Shukla Dashami)
-    if (lunarMonth === 3 && (tSr === 9 || dayTithis.includes(9))) {
+    if (lunarMonth === 3 && ownsUdaya(9)) {
         fests.push("Ganga Dussehra (Ganga Avatarana)");
     }
 
     // 10. JAGANNATH RATHA YATRA (Ashadha Shukla Dwitiya)
-    if (lunarMonth === 4 && (tSr === 1 || dayTithis.includes(1))) {
+    if (lunarMonth === 4 && ownsUdaya(1)) {
         fests.push("Jagannath Ratha Yatra (Puri)");
     }
 
     // 11. GURU PURNIMA / VYASA PURNIMA (Ashadha Purnima)
-    if (lunarMonth === 4 && (tSr === 14 || dayTithis.includes(14))) {
+    if (lunarMonth === 4 && ownsUdaya(14)) {
         fests.push("Guru Purnima / Vyasa Purnima");
     }
 
     // 12. BHEEMANA AMAVASYA (Ashadha Amavasya)
-    if (lunarMonth === 4 && (tSr === 29 || dayTithis.includes(29))) {
+    if (lunarMonth === 4 && ownsUdaya(29)) {
         fests.push("Bheemana Amavasya / Deepa Puja");
     }
 
     // 13. NAGA PANCHAMI (Shravana Shukla Panchami at Sunrise/Madhyahna)
-    if (lunarMonth === 5 && (tSr === 4 || tMadh === 4 || (dayTithis.includes(4) && tSr === 3))) {
+    if (lunarMonth === 5 && (ownsMadhyahna(4) || ownsUdaya(4))) {
         fests.push("Naga Panchami");
     }
 
@@ -2417,16 +2627,16 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     }
 
     // 15. RAKSHA BANDHAN / UPAKARMA (Shravana Purnima at Aparahna or Sunrise)
-    if (lunarMonth === 5 && (tSr === 14 || tApar === 14 || (dayTithis.includes(14) && tSr === 13))) {
+    if (lunarMonth === 5 && (ownsAparahna(14) || ownsUdaya(14))) {
         fests.push("Raksha Bandhan / Rig & Yajur Veda Upakarma");
         fests.push("Hayagriva Jayanti");
     }
 
-    // 16. SRI KRISHNA JANMASHTAMI & GOKULASHTAMI (Shravana Krishna Ashtami)
+    // 16. SRI KRISHNA JANMASHTAMI & GOKULASHTAMI (Shravana Krishna Ashtami at Nishita Kaal)
     let isJanmashtamiToday = false;
-    let isJanmashtamiYesterday = (lunarMonth === 5 && tPrevNish === 22);
+    let isJanmashtamiYesterday = (lunarMonth === 5 && prevNishT === 22);
 
-    if (lunarMonth === 5 && (tNish === 22 || (tPrad === 22 && tSr === 21))) {
+    if (lunarMonth === 5 && ownsNishita(22)) {
         isJanmashtamiToday = true;
         if (nNish === 3 || nSr === 3) {
             fests.push("Sri Krishna Janmashtami / Jayanti (Nishita Kaal & Rohini)");
@@ -2434,19 +2644,6 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
             fests.push("Sri Krishna Janmashtami (Smartha / Nishita Kaal)");
         }
         fests.push("Gokulashtami");
-    } else if (lunarMonth === 5 && (tSr === 22 || (dayTithis.includes(22) && tSr === 21))) {
-        isJanmashtamiToday = true;
-        fests.push("Sri Krishna Janmashtami / Gokulashtami (Vaishnava / Udaya Tithi)");
-    }
-
-    // NANDOTSAV & DAHI HANDI (Utlotsavam)
-    if (lunarMonth === 5 && (isJanmashtamiYesterday || (isJanmashtamiToday && tSr === 22))) {
-        fests.push("Nandotsav");
-        fests.push("Dahi Handi / Utlotsavam (Gopala Kala)");
-    }
-
-    // SANTANA GOPALA VRATAM, KANCHI JAGADGURU ARADHANA & SRI KRISHNADEVARAYA RAJYABHISHEKAM
-    if (lunarMonth === 5 && (tSr === 22 || dayTithis.includes(22))) {
         fests.push("Santana Gopala Vratam");
         fests.push("Kanchi Jagadguru Aradhana (50th Acharya Pujyasri Chandrachudendra Saraswati)");
         fests.push("Sri Krishnadevaraya Rajyabhishekam");
@@ -2455,57 +2652,63 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         sigs.push("Sri Krishnadevaraya Rajyabhishekam (Coronation of Emperor Sri Krishnadevaraya on Janmashtami in 1509 CE)");
     }
 
+    // NANDOTSAV & DAHI HANDI (Utlotsavam on morning following Janmashtami)
+    if (lunarMonth === 5 && isJanmashtamiYesterday && !isJanmashtamiToday) {
+        fests.push("Nandotsav");
+        fests.push("Dahi Handi / Utlotsavam (Gopala Kala)");
+    }
+
     // 17. HARTALIKA TEEJ / SWARNA GOWRI VRATAM & VARAHA JAYANTI (Bhadrapada Shukla Tritiya)
-    if (lunarMonth === 6 && (tSr === 2 || tMadh === 2 || dayTithis.includes(2))) {
+    if (lunarMonth === 6 && ownsUdaya(2)) {
         fests.push("Hartalika Teej / Swarna Gowri Vratam");
         fests.push("Varaha Jayanti");
     }
 
     // 18. GANESH CHATURTHI / VINAYAKA CHAVITHI (Bhadrapada Shukla Chavithi at Madhyahna)
-    if (lunarMonth === 6 && (tMadh === 3 || (tSr === 3 && tMadh <= 3) || (dayTithis.includes(3) && tSr === 2))) {
+    if (lunarMonth === 6 && ownsMadhyahna(3)) {
         fests.push("Vinayaka Chavithi / Ganesh Chaturthi (Madhyahna Vyapini)");
     }
 
     // 19. RISHI PANCHAMI (Bhadrapada Shukla Panchami at Madhyahna)
-    if (lunarMonth === 6 && (tMadh === 4 || tSr === 4)) {
+    if (lunarMonth === 6 && ownsMadhyahna(4)) {
         fests.push("Rishi Panchami");
     }
 
     // 20. RADHA ASHTAMI / MAHALAXMI VRATA ARAMBHA (Bhadrapada Shukla Ashtami)
-    if (lunarMonth === 6 && (tSr === 7 || tMadh === 7 || dayTithis.includes(7))) {
+    if (lunarMonth === 6 && (ownsMadhyahna(7) || ownsUdaya(7))) {
         fests.push("Radha Ashtami");
         fests.push("Mahalaxmi Vrata Arambha");
     }
 
-    // 21. VAMANA JAYANTI (Bhadrapada Shukla Dvadashi)
-    if (lunarMonth === 6 && (tSr === 11 || tMadh === 11 || dayTithis.includes(11))) {
+    // 21. VAMANA JAYANTI (Bhadrapada Shukla Dvadashi at Madhyahna)
+    if (lunarMonth === 6 && ownsMadhyahna(11)) {
         fests.push("Vamana Jayanti");
     }
 
-    // 22. ANANTA CHATURDASHI (Bhadrapada Shukla Chaturdashi)
-    if (lunarMonth === 6 && (tMadh === 13 || tSr === 13 || dayTithis.includes(13))) {
+    // 22. ANANTA CHATURDASHI (Bhadrapada Shukla Chaturdashi at Madhyahna)
+    if (lunarMonth === 6 && ownsMadhyahna(13)) {
         fests.push("Ananta Padmanabha Chaturdashi");
     }
 
     // 23. PITRU PAKSHA (MAHALAYA PAKSHA) ARAMBHA
-    if (lunarMonth === 6 && (tSr === 14 || dayTithis.includes(14))) {
+    if (lunarMonth === 6 && ownsUdaya(14)) {
         fests.push("Mahalaya Paksha (Pitru Paksha) Arambha");
     }
 
-    // 24. SARVA PITRU MAHALAYA AMAVASYA (Bhadrapada Amavasya)
-    if (lunarMonth === 6 && (tSr === 29 || dayTithis.includes(29))) {
+    // 24. SARVA PITRU MAHALAYA AMAVASYA (Bhadrapada Amavasya at Aparahna)
+    if (lunarMonth === 6 && (ownsAparahna(29) || ownsUdaya(29))) {
         fests.push("Mahalaya Amavasya / Sarva Pitru Amavasya (Peddala Amavasya)");
     }
 
     // 25. SHARADA NAVARATRI ARAMBHA (Ashwayuja Shukla Padyami at Sunrise or Kshaya Pratipada)
-    if ((lunarMonth === 7 && tSr === 0) || (lunarMonth === 6 && tSr === 29 && dayTithis.includes(0) && nextSrTithi !== 0)) {
+    if ((lunarMonth === 7 && ownsUdaya(0)) || (lunarMonth === 6 && tSr === 29 && dayTithis.includes(0) && nextSrT !== 0)) {
         fests.push("Sharada Navaratri Ghatasthapana / Kalashasthapana");
     }
-    if (lunarMonth === 7 && tSr === 7) fests.push("Durgashtami (Maha Ashtami)");
-    if (lunarMonth === 7 && tSr === 8) fests.push("Mahanavami / Ayudha Puja");
+    if (lunarMonth === 7 && ownsUdaya(7)) fests.push("Durgashtami (Maha Ashtami)");
+    if (lunarMonth === 7 && ownsUdaya(8)) fests.push("Mahanavami / Ayudha Puja");
 
     // 26. VIJAYADASHAMI / DUSSEHRA (Ashwayuja Shukla Dashami at Aparahna / Vijaya Muhurtam)
-    if (lunarMonth === 7 && (tApar === 9 || tSr === 9 || (dayTithis.includes(9) && tSr === 8))) {
+    if (lunarMonth === 7 && ownsAparahna(9)) {
         if (nSr === 21 || nMadh === 21) {
             fests.push("Vijayadashami / Dussehra (Shravana Nakshatra Yukta)");
         } else {
@@ -2514,100 +2717,99 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         fests.push("Madhva Jayanti");
     }
 
-    // 27. SHARAD PURNIMA / KOJAGIRI PURNIMA (Ashwayuja Purnima)
-    if (lunarMonth === 7 && (tPrad === 14 || tNish === 14 || tSr === 14 || dayTithis.includes(14))) {
+    // 27. SHARAD PURNIMA / KOJAGIRI PURNIMA (Ashwayuja Purnima at Nishita/Pradosha)
+    if (lunarMonth === 7 && (ownsNishita(14) || ownsPradosha(14))) {
         fests.push("Sharad Purnima / Kojagiri Purnima / Kumara Purnima");
     }
 
     // 28. ATLA TADDE (Ashwayuja Krishna Tritiya)
-    if (lunarMonth === 7 && (tSr === 17 || dayTithis.includes(17))) {
+    if (lunarMonth === 7 && ownsUdaya(17)) {
         fests.push("Atla Tadde (Telugu women vrata)");
     }
 
-    // 29. KARWA CHAUTH (Karak Chaturthi - Ashwayuja/Kartika Krishna Chaturthi)
-    if ((lunarMonth === 7 || lunarMonth === 8) && (tSr === 18 || (dayTithis.includes(18) && tSr === 17))) {
+    // 29. KARWA CHAUTH (Karak Chaturthi - Ashwayuja/Kartika Krishna Chaturthi at Pradosha/Moonrise)
+    if ((lunarMonth === 7 || lunarMonth === 8) && ownsPradosha(18)) {
         fests.push("Karwa Chauth (Karak Chaturthi)");
     }
 
-    // 30. AHOI ASHTAMI (Ashwayuja Krishna Ashtami)
-    if (lunarMonth === 7 && (tSr === 22 || dayTithis.includes(22))) {
+    // 30. AHOI ASHTAMI (Ashwayuja Krishna Ashtami at Pradosha)
+    if (lunarMonth === 7 && ownsPradosha(22)) {
         fests.push("Ahoi Ashtami");
     }
 
-    // 31. GOVATSA DWADASHI / VASUBARAS (Ashwayuja Krishna Dvadashi)
-    if (lunarMonth === 7 && (tPrad === 26 || tSr === 26 || dayTithis.includes(26))) {
+    // 31. GOVATSA DWADASHI / VASUBARAS (Ashwayuja Krishna Dvadashi at Pradosha)
+    if (lunarMonth === 7 && ownsPradosha(26)) {
         fests.push("Govatsa Dwadashi / Vasubaras");
     }
 
-    // 32. DHANTERAS / DHANTRAYODASHI (Ashwayuja Krishna Trayodashi)
-    if (lunarMonth === 7 && (tPrad === 27 || tSr === 27 || dayTithis.includes(27))) {
-        fests.push("Dhanteras / Dhantrayodashi (Dhanvantari Jayanti / Yama Deepam)");
+    // 32. DHANTERAS / DHANTRAYODASHI (Ashwayuja Krishna Trayodashi at Pradosha)
+    if (lunarMonth === 7 && ownsPradosha(27)) {
+        fests.push("Dhanteras / Dhantrayodashi (Dhanvantari Jayanti)");
     }
 
-    // 33. NARAKA CHATURDASHI (Ashwayuja Krishna Chaturdashi at Arunodaya / Dawn)
-    if (lunarMonth === 7 && (tArun === 28 || tSr === 28 || (dayTithis.includes(28) && tSr === 27))) {
+    // 33. NARAKA CHATURDASHI (Ashwayuja Krishna Chaturdashi at Udaya/Early Morning)
+    if (lunarMonth === 7 && ownsUdaya(28)) {
         fests.push("Naraka Chaturdashi (Abhyangana Snanam)");
     }
 
-    // 34. DEEPAVALI / LAKSHMI PUJA (Ashwayuja Amavasya at Pradosha / Sunset)
-    if (lunarMonth === 7 && (tPrad === 29 || tNish === 29 || (tSr === 29 && tPrad === 29) || (dayTithis.includes(29) && tSr === 28))) {
-        fests.push("Deepavali (Lakshmi Puja / Pradosha Vyapini)");
-        fests.push("Kedar Gauri Vratam");
+    // 34. DEEPAVALI / LAKSHMI PUJA (Ashwayuja Amavasya at Pradosha)
+    if (lunarMonth === 7 && (ownsPradosha(29) || ownsNishita(29))) {
+        fests.push("Deepavali / Lakshmi Puja / Kedara Gauri Vratam");
     }
 
-    // 35. BALI PADYAMI / GOVARDHAN PUJA (Kartika Shukla Padyami)
-    if ((lunarMonth === 8 && tSr === 0) || (lunarMonth === 7 && tSr === 29 && dayTithis.includes(0) && nextSrTithi !== 0)) {
+    // 35. BALI PADYAMI / GOVARDHAN PUJA (Kartika Shukla Padyami at Sunrise)
+    if (lunarMonth === 8 && ownsUdaya(0)) {
         fests.push("Bali Padyami / Govardhan Puja / Kartika Shukla Padyami");
     }
 
-    // 36. BHAI DOOJ / YAMA DWITIYA (Kartika Shukla Dwitiya)
-    if (lunarMonth === 8 && (tSr === 1 || tApar === 1 || dayTithis.includes(1))) {
+    // 36. BHAI DOOJ / YAMA DWITIYA (Kartika Shukla Dwitiya at Aparahna)
+    if (lunarMonth === 8 && ownsAparahna(1)) {
         fests.push("Bhai Dooj / Yama Dwitiya / Bhagini Hasta Bhojanam");
     }
 
     // 37. NAGULA CHAVITHI (Kartika Shukla Chaturthi)
-    if (lunarMonth === 8 && (tSr === 3 || dayTithis.includes(3))) {
+    if (lunarMonth === 8 && ownsMadhyahna(3)) {
         fests.push("Nagula Chavithi");
     }
 
-    // 38. CHHATH PUJA (Kartika Shukla Shashthi)
-    if (lunarMonth === 8 && (tSr === 5 || tPrad === 5 || dayTithis.includes(5))) {
+    // 38. CHHATH PUJA (Kartika Shukla Shashthi at Sunset)
+    if (lunarMonth === 8 && ownsPradosha(5)) {
         fests.push("Chhath Puja (Surya Shashthi / Dala Chhath)");
     }
 
     // 39. GOPASHTAMI (Kartika Shukla Ashtami)
-    if (lunarMonth === 8 && (tSr === 7 || dayTithis.includes(7))) {
+    if (lunarMonth === 8 && ownsUdaya(7)) {
         fests.push("Gopashtami (Go Puja)");
     }
 
     // 40. AKSHAYA NAVAMI / AMLA NAVAMI (Kartika Shukla Navami)
-    if (lunarMonth === 8 && (tSr === 8 || dayTithis.includes(8))) {
+    if (lunarMonth === 8 && ownsUdaya(8)) {
         fests.push("Akshaya Navami / Amla Navami (Dhatri Puja)");
     }
 
-    // 41. TULASI VIVAHAM / KSHEERABDHI DWADASHI (Kartika Shukla Dvadashi)
-    if (lunarMonth === 8 && (tPrad === 11 || tSr === 11 || dayTithis.includes(11))) {
+    // 41. TULASI VIVAHAM / KSHEERABDHI DWADASHI (Kartika Shukla Dvadashi at Pradosha)
+    if (lunarMonth === 8 && ownsPradosha(11)) {
         fests.push("Tulasi Vivaham / Ksheerabdhi Dwadashi (Chiluka Dwadashi)");
     }
 
     // 42. KARTIKA PURNIMA / DEV DEEPAVALI (Kartika Purnima at Pradosha)
-    if (lunarMonth === 8 && (tPrad === 14 || tSr === 14 || dayTithis.includes(14))) {
+    if (lunarMonth === 8 && ownsPradosha(14)) {
         fests.push("Kartika Purnima / Dev Deepavali / Jwala Toranam");
     }
 
     // 43. SUBRAMANYA SASHTI / CHAMPA SHASHTHI (Margashira Shukla Shashthi)
-    if (lunarMonth === 9 && (tSr === 5 || dayTithis.includes(5))) {
+    if (lunarMonth === 9 && ownsUdaya(5)) {
         fests.push("Subramanya Sashti / Champa Shashthi");
     }
 
     // 44. DATTATREYA JAYANTI (Margashira Purnima at Pradosha)
-    if (lunarMonth === 9 && (tPrad === 14 || tSr === 14 || dayTithis.includes(14))) {
+    if (lunarMonth === 9 && ownsPradosha(14)) {
         fests.push("Dattatreya Jayanti");
         fests.push("Annapurna Jayanti");
     }
 
-    // 45. KALA BHAIRAVA JAYANTI (Margashira Krishna Ashtami)
-    if (lunarMonth === 9 && (tSr === 22 || dayTithis.includes(22))) {
+    // 45. KALA BHAIRAVA JAYANTI (Margashira Krishna Ashtami at Nishita)
+    if (lunarMonth === 9 && (ownsNishita(22) || ownsUdaya(22))) {
         fests.push("Kala Bhairava Jayanti (Maha Kalashtami)");
     }
 
@@ -2620,37 +2822,37 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         }
     }
 
-    // 47. VASANTA PANCHAMI / SRI PANCHAMI (Magha Shukla Panchami)
-    if (lunarMonth === 10 && (tMadh === 4 || tSr === 4 || dayTithis.includes(4))) {
+    // 47. VASANTA PANCHAMI / SRI PANCHAMI (Magha Shukla Panchami at Madhyahna)
+    if (lunarMonth === 10 && ownsMadhyahna(4)) {
         fests.push("Vasanta Panchami / Sri Panchami (Saraswati Puja)");
     }
 
     // 48. RATHA SAPTAMI (Magha Shukla Saptami at Arunodaya / Sunrise)
-    if (lunarMonth === 10 && (tSr === 6 || tArun === 6 || (dayTithis.includes(6) && tSr === 5))) {
+    if (lunarMonth === 10 && ownsUdaya(6)) {
         fests.push("Ratha Saptami (Surya Jayanti / Arogya Saptami)");
     }
 
     // 49. BHISHMA ASHTAMI (Magha Shukla Ashtami)
-    if (lunarMonth === 10 && (tSr === 7 || tMadh === 7 || dayTithis.includes(7))) {
+    if (lunarMonth === 10 && (ownsMadhyahna(7) || ownsUdaya(7))) {
         fests.push("Bhishma Ashtami (Bhishma Tarpanam)");
     }
 
     // 50. MAHA SHIVARATRI (Magha Krishna Chaturdashi at local Nishita Kaal / Midnight)
-    if (lunarMonth === 11 && (tNish === 28 || (tPrad === 28 && tSr === 28) || (dayTithis.includes(28) && tSr === 27))) {
+    if (lunarMonth === 11 && ownsNishita(28)) {
         fests.push("Maha Shivaratri (Lingodbhava / Nishita Kaal)");
     }
 
     // 51. HOLIKA DAHAN / KAMADAHANA (Phalguna Purnima at Pradosha / Ratri)
-    if (lunarMonth === 12 && (tPrad === 14 || tNish === 14 || (dayTithis.includes(14) && tSr === 13))) {
+    if (lunarMonth === 12 && ownsPradosha(14)) {
         fests.push("Holika Dahan / Kamadahana (Pradosha Vyapini)");
     }
 
     // 52. HOLI (Dhulandi / Vasantotsav on following day)
-    if (lunarMonth === 12 && (tSr === 15 || (tSr === 14 && tPrad === 15))) {
+    if (lunarMonth === 12 && ownsUdaya(15)) {
         fests.push("Holi (Dhulandi / Vasantotsav / Rangawali Holi)");
     }
 
-    // ─── NAMED EKADASHIS (All 24 Ekadashis) ───────────────────────────
+    // ─── NAMED EKADASHIS (All 24 Ekadashis - Udaya Tithi based) ───────────
     const SHUKLA_EKADASHIS = {
         1: "Kamada Ekadashi",
         2: "Mohini Ekadashi",
@@ -2681,13 +2883,13 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         12: "Papmochani Ekadashi"
     };
 
-    if (tSr === 10 || (dayTithis.includes(10) && tSr === 9)) {
+    if (ownsUdaya(10)) {
         const ekName = SHUKLA_EKADASHIS[lunarMonth] || "Shukla Ekadashi";
         fests.push(`${ekName} Vratam`);
         sigs.push(`${ekName} (Upavasam & Sri Maha Vishnu Puja)`);
     }
 
-    if (tSr === 25 || (dayTithis.includes(25) && tSr === 24)) {
+    if (ownsUdaya(25)) {
         const ekName = KRISHNA_EKADASHIS[lunarMonth] || "Krishna Ekadashi";
         fests.push(`${ekName} Vratam`);
         sigs.push(`${ekName} (Upavasam & Sri Maha Vishnu Puja)`);
@@ -2696,8 +2898,8 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     // ─── RECURRING MONTHLY VRATAS & OBSERVANCES ───────────────────────
     
     // KALASHTAMI & ANAGHASHTAMI (Every Krishna Ashtami - Brahmanda Purana)
-    if (tSr === 22 || dayTithis.includes(22)) {
-        if (!fests.some(f => f.includes("Kala Bhairava Jayanti"))) {
+    if (ownsUdaya(22)) {
+        if (!fests.some(f => f.includes("Kala Bhairava Jayanti") || f.includes("Ahoi Ashtami") || f.includes("Janmashtami"))) {
             fests.push("Kalashtami (Masa Kalashtami / Bhairava Ashtami)");
             sigs.push("Kalashtami Vratam (Kala Bhairava Puja & Fasting)");
         }
@@ -2712,23 +2914,23 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     }
 
     // MASIK DURGASHTAMI (Every Shukla Ashtami)
-    if (tSr === 7 || dayTithis.includes(7)) {
-        if (!fests.some(f => f.includes("Durgashtami") || f.includes("Radha Ashtami") || f.includes("Bhishma Ashtami"))) {
+    if (ownsUdaya(7)) {
+        if (!fests.some(f => f.includes("Durgashtami") || f.includes("Radha Ashtami") || f.includes("Bhishma Ashtami") || f.includes("Gopashtami"))) {
             fests.push("Masik Durgashtami (Durga Puja & Vratam)");
             sigs.push("Masik Durgashtami (Durga Devi Puja & Lalitha Sahasranama)");
         }
     }
 
-    // MASA VINAYAKA CHATURTHI (Every Shukla Chaturthi)
-    if (tMadh === 3 || tSr === 3 || dayTithis.includes(3)) {
-        if (!fests.some(f => f.includes("Vinayaka Chavithi") || f.includes("Ganesh Chaturthi"))) {
+    // MASA VINAYAKA CHATURTHI (Every Shukla Chaturthi at Madhyahna)
+    if (ownsMadhyahna(3)) {
+        if (!fests.some(f => f.includes("Vinayaka Chavithi") || f.includes("Ganesh Chaturthi") || f.includes("Nagula Chavithi"))) {
             fests.push("Masa Vinayaka Chaturthi");
             sigs.push("Masa Vinayaka Chaturthi (Ganesha Puja & Modaka Naivedyam)");
         }
     }
 
-    // SANKASHTA CHATURTHI (Every Krishna Chaturthi)
-    if (tPrad === 18 || tNish === 18 || tSr === 18 || (dayTithis.includes(18) && tSr === 17)) {
+    // SANKASHTA CHATURTHI (Every Krishna Chaturthi at Pradosha / Moonrise)
+    if (ownsPradosha(18)) {
         if (!fests.some(f => f.includes("Karwa Chauth"))) {
             if (dow === 2) {
                 fests.push("Angaaraki Sankashta Chaturthi (Highly Auspicious Ganesha Puja)");
@@ -2741,44 +2943,46 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     }
 
     // SKANDA SASHTI (Every Shukla Shashthi)
-    if (tSr === 5 || dayTithis.includes(5)) {
-        if (!fests.some(f => f.includes("Subramanya Sashti") || f.includes("Chhath"))) {
+    if (ownsUdaya(5)) {
+        if (!fests.some(f => f.includes("Subramanya Sashti") || f.includes("Chhath") || f.includes("Rishi Panchami"))) {
             fests.push("Skanda Sashti (Subramanya Swamy Vratam)");
             sigs.push("Skanda Sashti (Lord Murugan / Kartikeya Puja)");
         }
     }
 
     // PRADOSHA VRATAM (Trayodashi at Pradosha)
-    if (tPrad === 12 || tPrad === 27 || (tSr === 12 && tPrad === 12) || (tSr === 27 && tPrad === 27)) {
+    if (ownsPradosha(12) || ownsPradosha(27)) {
+        const isShukla = ownsPradosha(12);
+        const prefix = isShukla ? "Shukla" : "Krishna";
         if (dow === 1) {
-            fests.push("Soma Pradosha Vratam");
-            sigs.push("Soma Pradosha Vratam (Shiva Puja at Pradosha)");
+            fests.push(`Soma ${prefix} Pradosha Vratam`);
+            sigs.push(`Soma ${prefix} Pradosha Vratam (Shiva Puja at Pradosha)`);
         } else if (dow === 2) {
-            fests.push("Bhauma Pradosha Vratam");
-            sigs.push("Bhauma Pradosha Vratam (Runa Vimochana Shiva Puja)");
+            fests.push(`Bhauma ${prefix} Pradosha Vratam`);
+            sigs.push(`Bhauma ${prefix} Pradosha Vratam (Runa Vimochana Shiva Puja)`);
         } else if (dow === 6) {
-            fests.push("Shani Pradosha Vratam");
-            sigs.push("Shani Pradosha Vratam (Mahaphala Shiva Puja)");
+            fests.push(`Shani ${prefix} Pradosha Vratam`);
+            sigs.push(`Shani ${prefix} Pradosha Vratam (Mahaphala Shiva Puja)`);
         } else {
-            fests.push("Pradosha Vratam");
-            sigs.push("Pradosha Vratam (Shiva Puja at Pradosha)");
+            fests.push(`${prefix} Pradosha Vratam`);
+            sigs.push(`${prefix} Pradosha Vratam (Shiva Puja at Pradosha)`);
         }
     }
 
-    // MASA SHIVARATRI (Krishna Chaturdashi)
-    if ((tNish === 28 || tSr === 28 || dayTithis.includes(28)) && !fests.some(f => f.includes('Maha Shivaratri'))) {
+    // MASA SHIVARATRI (Krishna Chaturdashi at Nishita)
+    if (ownsNishita(28) && !fests.some(f => f.includes('Maha Shivaratri'))) {
         fests.push("Masa Shivaratri");
         sigs.push("Masa Shivaratri (Lingarchana & Bilva Archana)");
     }
 
-    // PURNIMA
-    if (tSr === 14 || tPrad === 14 || dayTithis.includes(14)) {
+    // PURNIMA (At Pradosha)
+    if (ownsPradosha(14) && !fests.some(f => f.includes("Purnima") || f.includes("Raksha") || f.includes("Guru") || f.includes("Dattatreya") || f.includes("Holika"))) {
         fests.push("Purnima");
         sigs.push("Purnima (Sri Satyanarayana Swamy Vratam & Chandradarshanam)");
     }
 
-    // AMAVASYA
-    if (tSr === 29 || tApar === 29 || dayTithis.includes(29)) {
+    // AMAVASYA (At Sunrise / Aparahna)
+    if (ownsUdaya(29) && !fests.some(f => f.includes("Amavasya") || f.includes("Deepavali") || f.includes("Bheemana"))) {
         if (dow === 1) {
             fests.push("Somavati Amavasya");
             sigs.push("Somavara Amavasya (Aswattha Pradakshina & Pitru Tarpanam)");
@@ -2791,20 +2995,20 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         }
     }
 
-    // ROHINI VRATAM (Whenever Rohini Nakshatra prevails)
-    if (nSr === 3 || dayNaks.includes(3)) {
+    // ROHINI VRATAM (Udaya Nakshatra)
+    if (ownsNak(3)) {
         fests.push("Rohini Vratam");
         sigs.push("Rohini Vratam (Auspicious fasting during Rohini Nakshatra)");
     }
 
-    // MASIK KARTHIGAI (Whenever Krittika Nakshatra prevails)
-    if (nSr === 2 || dayNaks.includes(2)) {
+    // MASIK KARTHIGAI (Udaya Nakshatra)
+    if (ownsNak(2)) {
         fests.push("Masik Karthigai (Krittika Deepam)");
         sigs.push("Masik Karthigai (Subramanya Swamy Puja & Deeparadhana)");
     }
 
-    // SHRAVANA NAKSHATRA VRATAM (Whenever Shravana Nakshatra prevails)
-    if (nSr === 21 || dayNaks.includes(21)) {
+    // SHRAVANA NAKSHATRA VRATAM (Udaya Nakshatra)
+    if (ownsNak(21)) {
         sigs.push("Shravana Nakshatra Vratam (Sri Venkateswara Swamy Puja)");
     }
 
@@ -2820,14 +3024,14 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
         sigs.push("Kartika Somavara Vratam (Shivaradhana & Nitya Deeparadhana)");
     }
 
-    // BHANU SAPTAMI (Sunday Saptami)
-    if (dow === 0 && (tSr === 6 || dayTithis.includes(6))) {
+    // BHANU SAPTAMI (Sunday Saptami at Sunrise)
+    if (dow === 0 && ownsUdaya(6)) {
         fests.push("Bhanu Saptami");
         sigs.push("Bhanu Saptami (Surya Aradhana & Gayatri Japa Mahatmyam)");
     }
 
-    // BUDHA ASHTAMI (Wednesday Ashtami)
-    if (dow === 3 && (tSr === 22 || dayTithis.includes(22))) {
+    // BUDHA ASHTAMI (Wednesday Ashtami at Sunrise)
+    if (dow === 3 && (ownsUdaya(7) || ownsUdaya(22))) {
         fests.push("Budha Ashtami");
         sigs.push("Budha Ashtami (Budha Graha Puja & Vishnu Sahasranama)");
     }
@@ -2868,6 +3072,32 @@ function computeLocationFestivalsAndSignificance(y, m, d, lat, lon, tz, srHrs, s
     if (lunarMonth === 7 && tSr >= 0 && tSr <= 8) {
         sigs.push(`Sharada Navaratri — Day ${tSr + 1}`);
     }
+
+    // ─── AGNI KARTARI ASTRONOMICAL MILESTONES & SHASTRA WARNINGS ───
+    try {
+        const kartariData = computeAgniKartari(y, tz, lat, lon);
+        const curDateStr = `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+        const kMap = kartariData.map;
+        if (kMap.dolla && curDateStr === kMap.dolla.date) {
+            fests.push("Dolla Kartari (Chinna Kartari)");
+            sigs.push(`🔥 డొల్ల కర్తరి ప్రారంభం (${kMap.dolla.time} - రవి భరణి 3వ పాద ప్రవేశం ${kMap.dolla.ghatika})`);
+        }
+        if (kMap.nija_start && curDateStr === kMap.nija_start.date) {
+            fests.push("Nija Kartari Pravesham (Agni Kartari)");
+            sigs.push(`🔥 నిజ కర్తరి ప్రవేశం (అగ్ని కర్తరి ఆరంభం - ${kMap.nija_start.time} - రవి కృత్తిక 1వ పాద ప్రవేశం ${kMap.nija_start.ghatika}) — శంకుస్థాపన, గృహప్రవేశాలు నిషిద్ధం`);
+        }
+        if (kMap.nija_start && kMap.nija_end && curDateStr > kMap.nija_start.date && curDateStr < kMap.nija_end.date) {
+            sigs.push("🔥 అగ్ని కర్తరి (నిజ కర్తరి) — వాస్తు, శంకుస్థాపన, భూమిపూజ, నూతన గృహప్రవేశం వర్జింపవలెను.");
+        }
+        if (kMap.nija_end && curDateStr === kMap.nija_end.date) {
+            fests.push("Nija Kartari Tyagam");
+            sigs.push(`✨ నిజ కర్తరి త్యాగం (${kMap.nija_end.time} - రవి కృత్తిక 4వ పాద అంత్యం ${kMap.nija_end.ghatika})`);
+        }
+        if (kMap.samapti && curDateStr === kMap.samapti.date) {
+            fests.push("Kartari Samapti (Sampurna Nivrutti)");
+            sigs.push(`✨ సంపూర్ణ కర్తరీ నివృత్తి (${kMap.samapti.time} - రవి రోహిణి 1వ పాద అంత్యం ${kMap.samapti.ghatika}) — కర్తరీ దోష సంపూర్ణ నివృత్తి`);
+        }
+    } catch(e) {}
 
     return {
         fests: [...new Set(fests)],
@@ -3170,22 +3400,51 @@ function _calculatePanchangamInner() {
     const dispPaksham = isTe ? (paksham.includes("Shukla") ? "శుక్ల పక్షం" : "కృష్ణ పక్షం") : paksham;
     setElText('valPaksham', dispPaksham);
 
-    // Vasara
-    const dispVasara = isTe ? VARA_TE[dow] : VARA[dow];
+    // Vasara (Day & Lord)
+    let dispVasara = isTe ? VARA_TE[dow] : VARA[dow];
+    const VARA_LORDS_TE = [
+        "సూర్యుడు (Sun)", "చంద్రుడు (Moon)", "కుజుడు (Mars)",
+        "బుధుడు (Mercury)", "బృహస్పతి (Jupiter)", "శుక్రుడు (Venus)", "శని (Saturn)"
+    ];
+    const VARA_LORDS_EN = ["Sun", "Moon", "Mars", "Mercury", "Jupiter", "Venus", "Saturn"];
+    dispVasara += isTe ? ` • అధిపతి: ${VARA_LORDS_TE[dow]}` : ` • Lord: ${VARA_LORDS_EN[dow]}`;
     setElText('valVasara', dispVasara);
 
-    renderList('valTithi', tithis, tz);
-    renderList('valNakshatra', naks, tz);
+    renderList('valTithi', tithis, tz, false, srJD);
+    renderList('valNakshatra', naks, tz, false, srJD);
 
-    // Render Nakshatra Padams with compact end times
+    // Render Nakshatra Padams with clear end times
     const padamEl = document.getElementById('valPadam');
     if (padamEl) {
-        const endsWord = isTe ? 'ముగింపు' : 'ends';
+        const endsWord = isTe ? 'వరకు' : 'ends';
         padamEl.innerHTML = padams.map(p => {
             const endLocal = jdToLocal(p.endJD, tz);
             const nakName = isTe ? (NAKSHATRA_TE[p.nakIdx] || p.name) : p.name;
-            const padamText = isTe ? `${p.padamNum}వ పాదం` : `${p.padam} Padam`;
-            return `<li><strong><span class="akshara">${nakName}</span> (${padamText})</strong> <span class="end-info">— ${endsWord} ${fmtEndTimeCompact(endLocal, d)}</span></li>`;
+            const padamText = isTe ? `${p.padamNum}వ పాదం` : `${p.padam} Pada`;
+            
+            const hr = endLocal.hours;
+            let period = "";
+            if (isTe) {
+                if (hr < 4) period = "తె.వా.";
+                else if (hr < 6) period = "తెల్లవారుజామున";
+                else if (hr < 12) period = "ఉదయం";
+                else if (hr < 16) period = "మధ్యాహ్నం";
+                else if (hr < 19) period = "సాయంత్రం";
+                else period = "రాత్రి";
+            } else {
+                if (hr < 4) period = "(Late Night)";
+                else if (hr < 6) period = "(Early Morning)";
+                else if (hr < 12) period = "(Morning)";
+                else if (hr < 16) period = "(Afternoon)";
+                else if (hr < 19) period = "(Evening)";
+                else period = "(Night)";
+            }
+            const ap = hr >= 12 ? 'PM' : 'AM';
+            let h12 = hr % 12; if (!h12) h12 = 12;
+            const padZ = n => String(n).padStart(2, '0');
+            const time12 = `${h12}:${padZ(endLocal.minutes)}:${padZ(endLocal.seconds)} ${ap}`;
+            const timeFormatted = isTe ? `${period} ${time12} ${endsWord}` : `${endsWord} ${time12} ${period}`;
+            return `<li><strong><span class="akshara">${nakName} ${padamText}</span></strong> <span class="end-info">— ${timeFormatted}</span></li>`;
         }).join('');
     }
 
@@ -3219,8 +3478,8 @@ function _calculatePanchangamInner() {
         }
     }
 
-    renderList('valYoga', yogas, tz);
-    renderList('valKarana', karanas, tz);
+    renderList('valYoga', yogas, tz, false, srJD);
+    renderList('valKarana', karanas, tz, false, srJD);
 
     // ── Daily Auspicious Muhurtha Indicators ──
     const dailyMuhurtaEl = document.getElementById('valDailyMuhurtas');
@@ -3256,7 +3515,12 @@ function _calculatePanchangamInner() {
             }
 
             let reasonStr = '';
-            if (isAdhika || isKshaya) {
+            const isNijaKartari = (sunNir >= 26.666667 && sunNir < 40.0);
+            if (isNijaKartari) {
+                reasonStr = isTe 
+                    ? `అగ్ని కర్తరి (కృత్తికా రవిచారము) నడుస్తున్నందున ఈ రోజున నూతన గృహప్రవేశ, శంకుస్థాపనాది కార్యాలు శాస్త్రరీత్యా నిషిద్ధం. నిజ కర్తరి త్యాగం అనంతరం అనుకూల ముహూర్తములు కలవు.`
+                    : `No major auspicious Muhurthams on this date due to Agni Kartari Dosha. Housewarming and foundation laying strictly prohibited until Nija Kartari Tyagam.`;
+            } else if (isAdhika || isKshaya) {
                 reasonStr = isTe 
                     ? `అధిక / క్షయ మాసము వలన ఈ కాలంలో ఎటువంటి వివాహ, గృహప్రవేశాది శుభ ముహూర్తములు లేవు. శుద్ధ మాసము వచ్చేవరకు ముహూర్తాలు వర్జ్యం.`
                     : `No auspicious Vivaha, Gruhapravesha, or major Muhurthams during Adhika / Kshaya Masam until the Shuddha Masam begins.`;
@@ -3409,6 +3673,28 @@ function _calculatePanchangamInner() {
     setElText('valLagnaDeg', `${dispLagnaRashi} ${lagnaAtSr.degStr}`);
     setElText('valLagnaLord', dispLagnaLord);
 
+    // Lagna Kartari evaluation (Paapa Kartari / Shubha Kartari)
+    try {
+        const kartariCheck = checkLagnaKartari(lagnaRashiIdx, grahas);
+        let kartariDesc = '';
+        if (kartariCheck.isPaapaKartari) {
+            const m12Names = kartariCheck.in12thMalefics.map(g => isTe ? (GRAHA_NAMES_TE[g.name] || g.full) : g.name).join(', ');
+            const m2Names = kartariCheck.in2ndMalefics.map(g => isTe ? (GRAHA_NAMES_TE[g.name] || g.full) : g.name).join(', ');
+            kartariDesc = isTe 
+                ? `<span style="color:#b91c1c; font-weight:bold;">⚠️ పాపకర్తరీ దోషం (12వ ఇంట: ${m12Names}, 2వ ఇంట: ${m2Names} — ముహూర్తమునకు వర్జ్యం)</span>`
+                : `<span style="color:#b91c1c; font-weight:bold;">⚠️ Paapa Kartari Dosha (12th: ${m12Names}, 2nd: ${m2Names} — Avoid for Muhurtham)</span>`;
+        } else if (kartariCheck.isShubhaKartari) {
+            const b12Names = kartariCheck.in12thBenefics.map(g => isTe ? (GRAHA_NAMES_TE[g.name] || g.full) : g.name).join(', ');
+            const b2Names = kartariCheck.in2ndBenefics.map(g => isTe ? (GRAHA_NAMES_TE[g.name] || g.full) : g.name).join(', ');
+            kartariDesc = isTe 
+                ? `<span style="color:#15803d; font-weight:bold;">✨ శుభకర్తరీ యోగం (12వ ఇంట: ${b12Names}, 2వ ఇంట: ${b2Names} — అత్యంత శుభప్రదం)</span>`
+                : `<span style="color:#15803d; font-weight:bold;">✨ Shubha Kartari Yoga (12th: ${b12Names}, 2nd: ${b2Names} — Highly Auspicious)</span>`;
+        } else {
+            kartariDesc = isTe ? '<span style="color:#78350f;">లగ్న కర్తరి రహితం (శుద్ధ లగ్నం)</span>' : '<span style="color:#78350f;">Clear (No Kartari Affliction)</span>';
+        }
+        setElHtml('valLagnaKartari', kartariDesc);
+    } catch(e) {}
+
     const sunGrahaRashiIdx = grahas[0].rashi;
     const moonGrahaRashiIdx = grahas[1].rashi;
     setElText('valSunInRashi', isTe ? RASHI_TE[sunGrahaRashiIdx] : grahas[0].rashiName);
@@ -3554,11 +3840,10 @@ function applyTransliteration() {
     });
 }
 
-function renderList(elId, items, tz, showPadam) {
+function renderList(elId, items, tz, showPadam, srJD) {
     const el = document.getElementById(elId);
     if (!el) return;
     const isTe = (CURRENT_LANG === 'te');
-    const endsWord = isTe ? 'ముగింపు' : 'ends';
     el.innerHTML = items.map(it => {
         const endLocal = jdToLocal(it.endJD, tz);
         let displayName = it.name;
@@ -3569,7 +3854,55 @@ function renderList(elId, items, tz, showPadam) {
             else if (elId === 'valKarana' && KARANA_TE[it.idx]) displayName = KARANA_TE[it.idx];
         }
         const padamStr = (showPadam && it.padam) ? (isTe ? ` — ${it.padamNum || it.padam}వ పాదం` : ` — ${it.padam} Padam`) : '';
-        return `<li><strong class="akshara">${displayName}</strong>${padamStr} <span class="end-info">— ${endsWord} ${fmtDateTime(endLocal)}</span></li>`;
+        
+        let timeInfo = '';
+        if (it.endJD && srJD) {
+            const diffDays = it.endJD - srJD;
+            let totG = diffDays * 60.0;
+            if (totG < 0) totG += 60.0;
+            
+            const isNextDay = (totG >= 60.0);
+            const gDisplay = isNextDay ? Math.floor(totG % 60.0) : Math.floor(totG);
+            const vDisplay = Math.floor(((totG % 60.0) - gDisplay) * 60.0);
+            const padZ = n => String(n).padStart(2, '0');
+            
+            const hr = endLocal.hours;
+            let period = "";
+            if (isTe) {
+                if (hr < 4) period = "తె.వా.";
+                else if (hr < 6) period = "తెల్లవారుజామున";
+                else if (hr < 12) period = "ఉదయం";
+                else if (hr < 16) period = "మధ్యాహ్నం";
+                else if (hr < 19) period = "సాయంత్రం";
+                else period = "రాత్రి";
+            } else {
+                if (hr < 4) period = "Late Night";
+                else if (hr < 6) period = "Early Morning";
+                else if (hr < 12) period = "Morning";
+                else if (hr < 16) period = "Afternoon";
+                else if (hr < 19) period = "Evening";
+                else period = "Night";
+            }
+
+            const ap = hr >= 12 ? 'PM' : 'AM';
+            let h12 = hr % 12; if (!h12) h12 = 12;
+            const time12 = `${h12}:${padZ(endLocal.minutes)}:${padZ(endLocal.seconds)} ${ap}`;
+            
+            if (isTe) {
+                const dayPfx = isNextDay ? "మరుసటి రోజు " : "";
+                const ghatikaStr = isNextDay ? `(మరునాడు ఘటికలు: ${padZ(gDisplay)}-${padZ(vDisplay)})` : `(ఘటికలు: ${padZ(gDisplay)}-${padZ(vDisplay)})`;
+                timeInfo = `${dayPfx}${period} ${time12} వరకు <span class="ghatika" style="color:#8b5a00; font-size:0.9em; font-weight:normal;">${ghatikaStr}</span>`;
+            } else {
+                const dayPfx = isNextDay ? "next day " : "";
+                const ghatikaStr = isNextDay ? `[Next day Ghatikas: ${padZ(gDisplay)}-${padZ(vDisplay)}]` : `[Ghatikas: ${padZ(gDisplay)}-${padZ(vDisplay)}]`;
+                timeInfo = `ends ${dayPfx}${time12} (${period}) <span class="ghatika" style="color:#8b5a00; font-size:0.9em; font-weight:normal;">${ghatikaStr}</span>`;
+            }
+        } else {
+            const endsWord = isTe ? 'ముగింపు' : 'ends';
+            timeInfo = `${endsWord} ${fmtDateTime(endLocal)}`;
+        }
+
+        return `<li><strong class="akshara">${displayName}</strong>${padamStr} <span class="end-info">— ${timeInfo}</span></li>`;
     }).join('');
 }
 
@@ -3770,14 +4103,18 @@ function computeDayData(y, m, d) {
         tz  = parseFloat(document.getElementById('tzInput').value);
     }
 
-    const srJD = localToJD(y, m, d, 6, tz);
     const st = computeSunTimes(y, m, d, lat, lon, tz);
     if (!st) return null;
     const srHrs = st.sunrise, ssHrs = st.sunset;
+    const tom = new Date(y, m-1, d+1);
+    const st2 = computeSunTimes(tom.getFullYear(), tom.getMonth()+1, tom.getDate(), lat, lon, tz);
+    const nextSrHrs = st2 ? st2.sunrise : srHrs;
+
+    const srJD = localToJD(y, m, d, srHrs, tz);
     const ssJD = localToJD(y, m, d, ssHrs, tz);
+    const nextSrJD = localToJD(tom.getFullYear(), tom.getMonth()+1, tom.getDate(), nextSrHrs, tz);
     const sunNir = getSunNirayana(srJD);
     const dow = new Date(y, m-1, d).getDay();
-    const nextSrJD = localToJD(y, m, d+1, 6, tz);
 
     let samvatsaram='', ayanam='', masam='', rutu='', rashi='', paksham='';
     try { samvatsaram = getSamvatsaram(y, m, srJD); } catch(e) { samvatsaram = '\u2014'; }
@@ -4485,6 +4822,8 @@ function evaluateDailyMuhurtas(srJD, tz, dow, tithiIdx, nakIdx, yogaIdx, karanaI
     const isVishti = (karanaIdx === 6); // Bhadra Karana
     const isMahapata = (yogaIdx === 16 || yogaIdx === 26); // Vyatipata or Vaidhriti
     const isUttarayanam = (ayanam === 'Uttarayanam');
+    const isNijaKartari = (sunNir >= 26.666667 && sunNir < 40.0);
+    const isDollaKartari = (sunNir >= 20.0 && sunNir < 26.666667);
 
     const results = [];
 
@@ -4529,7 +4868,9 @@ function evaluateDailyMuhurtas(srJD, tz, dow, tithiIdx, nakIdx, yogaIdx, karanaI
         const goodVaras = [1, 3, 4, 5];
         const goodTithis = [1, 2, 4, 6, 7, 9, 10, 12, 16, 17, 19, 21, 24];
 
-        if (isMajorMaudhyam) {
+        if (isNijaKartari) {
+            results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'bad', 'అగ్ని కర్తరి (కృత్తికా రవిచారము) వలన నూతన గృహప్రవేశం నిషిద్ధం.', 'Strictly prohibited due to Agni Kartari (Sun in Krittika).'));
+        } else if (isMajorMaudhyam) {
             results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'bad', 'మౌఢ్యము వలన నూతన గృహప్రవేశం నిషిద్ధం.', 'Prohibited due to Guru/Shukra Maudhyam.'));
         } else if (isAdhika || isKshaya) {
             results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'bad', 'అధిక/క్షయ మాసములో గృహప్రవేశం వర్జ్యం.', 'Prohibited during Adhika/Kshaya Masam.'));
@@ -4541,6 +4882,29 @@ function evaluateDailyMuhurtas(srJD, tz, dow, tithiIdx, nakIdx, yogaIdx, karanaI
             results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'good', 'శాస్త్రీయ అనుకూల దినం (స్థిర లగ్నం నిర్ణయించుకోవాలి).', 'Favorable Day (Select Sthira Lagna with Pandit).'));
         } else {
             results.push(makeItem('గృహప్రవేశం', 'Gruhapravesham (Housewarming)', '🏡', 'neutral', 'సాధారణ దినం — వాస్తు హోమం, లగ్న సమయం కోసం సిద్ధాంతిని సంప్రదించండి.', 'Moderate — Consult Siddhanti for specific Lagna and Vastu Homa.'));
+        }
+    }
+
+    // 2B. SHANKUSTHAPANA / VASTU / BHUMI PUJA
+    {
+        const goodNaks = [3, 4, 7, 11, 12, 13, 16, 20, 21, 22, 23, 25, 26];
+        const goodVaras = [1, 3, 4, 5];
+        const goodTithis = [1, 2, 4, 6, 7, 9, 10, 12, 16, 17, 19, 21, 24];
+
+        if (isNijaKartari) {
+            results.push(makeItem('శంకుస్థాపన / భూమిపూజ', 'Foundation Stone / Ground Breaking', '🏗️', 'bad', 'అగ్ని కర్తరి నడుస్తున్నందున పునాదులు త్రవ్వుట, శంకుస్థాపన, బోరుబావులు నిషిద్ధం.', 'Strictly prohibited during Nija Agni Kartari (Avoid foundation digging & borewells).'));
+        } else if (isMajorMaudhyam) {
+            results.push(makeItem('శంకుస్థాపన / భూమిపూజ', 'Foundation Stone / Ground Breaking', '🏗️', 'bad', 'మౌఢ్యము వలన శంకుస్థాపన నిషిద్ధం.', 'Prohibited due to Guru/Shukra Maudhyam.'));
+        } else if (isAdhika || isKshaya) {
+            results.push(makeItem('శంకుస్థాపన / భూమిపూజ', 'Foundation Stone / Ground Breaking', '🏗️', 'bad', 'అధిక/క్షయ మాసములో శంకుస్థాపన వర్జ్యం.', 'Prohibited during Adhika/Kshaya Masam.'));
+        } else if (isRikta || isAmavasya) {
+            results.push(makeItem('శంకుస్థాపన / భూమిపూజ', 'Foundation Stone / Ground Breaking', '🏗️', 'bad', 'రిక్త తిథి లేదా అమావాస్య వలన అనుకూలం కాదు.', 'Inauspicious due to Rikta Tithi or Amavasya.'));
+        } else if (dow === 2 || dow === 0) {
+            results.push(makeItem('శంకుస్థాపన / భూమిపూజ', 'Foundation Stone / Ground Breaking', '🏗️', 'bad', 'మంగళ/ఆదివారాలు శంకుస్థాపనకు వర్జ్యం.', 'Tuesday/Sunday avoided for foundation laying.'));
+        } else if (goodNaks.includes(nakIdx) && goodVaras.includes(dow) && goodTithis.includes(tithiIdx)) {
+            results.push(makeItem('శంకుస్థాపన / భూమిపూజ', 'Foundation Stone / Ground Breaking', '🏗️', 'good', 'శాస్త్రీయ అనుకూల దినం (స్థిర లగ్నం & వాస్తు పురుష బలం చూడాలి).', 'Favorable Day (Select Sthira Lagna with Pandit).'));
+        } else {
+            results.push(makeItem('శంకుస్థాపన / భూమిపూజ', 'Foundation Stone / Ground Breaking', '🏗️', 'neutral', 'సాధారణ దినం — సిద్ధాంతిని సంప్రదించండి.', 'Moderate — Consult Siddhanti for specific Lagna.'));
         }
     }
 
@@ -4700,20 +5064,36 @@ window.executePublicationPdfDownload = function() {
     const year = yearSelect ? parseInt(yearSelect.value, 10) : 2026;
     const loc = getActiveUserLocation();
     const locLower = (loc.name || '').toLowerCase();
+    const isIndia = locLower.includes('india') || locLower.includes('hyderabad') || locLower.includes('bengaluru') || locLower.includes('chennai') || locLower.includes('mumbai') || locLower.includes('delhi') || (loc.lat > 8 && loc.lat < 36 && loc.lon > 68 && loc.lon < 97);
     const isSF = locLower.includes('san francisco') || locLower.includes('sf') || (Math.abs(loc.lat - 37.77) < 0.6 && Math.abs(loc.lon - -122.4) < 0.6);
     
+    const langRadios = document.getElementsByName('modalLang');
+    let selectedLang = 'te';
+    for (let i = 0; i < langRadios.length; i++) {
+        if (langRadios[i].checked) { selectedLang = langRadios[i].value; break; }
+    }
+
+    let folder = 'USA';
     let fileName = '';
-    if (isSF) {
+
+    if (isIndia) {
+        folder = 'India';
+        fileName = 'VedicSamhita_Drik_Panchangam_Hyderabad_2026.pdf';
+    } else if (isSF) {
+        folder = 'USA';
         fileName = (year === 2026) 
             ? 'Panyam_Panchangam_Parabhava_Sanfrancisco.pdf'
             : 'Panyam_Panchangam_Plavanga_Sanfrancisco.pdf';
     } else {
-        fileName = (year === 2026) 
-            ? 'Panyam_Panchangam_Parabhava_Dallas.pdf'
-            : 'Panyam_Panchangam_Plavanga_Dallas.pdf';
+        folder = 'USA';
+        if (selectedLang === 'en') {
+            fileName = 'VedicSamhita_Panchangam_Parabhava_Frisco_Daily_A4_en.pdf';
+        } else {
+            fileName = 'VedicSamhita_Drik_Panchangam_Frisco_2026.pdf';
+        }
     }
     
-    const pdfUrl = `generated_panchangams/USA/${fileName}`;
+    const pdfUrl = `generated_panchangams/${folder}/${fileName}`;
     const link = document.createElement('a');
     link.href = pdfUrl;
     link.download = fileName;
@@ -5098,5 +5478,74 @@ window.executeICalDownload = async function() {
         if (progressBox) progressBox.style.display = 'none';
     }
 };
+
+/* ═══════════ AGNI KARTARI MODAL CONTROLLER ═══════════ */
+
+function openKartariModal() {
+    const modal = document.getElementById('kartariModal');
+    if (!modal) return;
+    const datePicker = document.getElementById('datePicker');
+    let selYear = 2026;
+    if (datePicker && datePicker.value) {
+        selYear = parseInt(datePicker.value.split('-')[0], 10) || 2026;
+    }
+    const tzInput = document.getElementById('tzInput');
+    const latInput = document.getElementById('latInput');
+    const lonInput = document.getElementById('lonInput');
+    const tz = tzInput ? parseFloat(tzInput.value) : 5.5;
+    const lat = latInput ? parseFloat(latInput.value) : 17.385;
+    const lon = lonInput ? parseFloat(lonInput.value) : 78.4867;
+    const citySearchInput = document.getElementById('citySearch');
+    const locName = (window._selectedCity && window._selectedCity.name) ? window._selectedCity.name : (citySearchInput && citySearchInput.value ? citySearchInput.value : 'Selected Location');
+
+    const kData = computeAgniKartari(selYear, tz, lat, lon);
+    const isTe = (CURRENT_LANG === 'te');
+
+    const cityEl = document.getElementById('kartariModalCity');
+    if (cityEl) cityEl.textContent = `${isTe ? 'ప్రాంతం' : 'Location'}: ${locName} (${isTe ? 'సంవత్సరం' : 'Year'}: ${selYear})`;
+
+    let tableHtml = `<table style="width:100%; border-collapse:collapse; font-size:0.85rem; margin-top:8px;">
+        <tr style="background:#78350f; color:#fef3c7;">
+            <th style="padding:6px 8px; border:1px solid #b45309; text-align:left;">${isTe ? 'కర్తరీ విభాగము' : 'Stage'}</th>
+            <th style="padding:6px 8px; border:1px solid #b45309; text-align:left;">${isTe ? 'నక్షత్ర పాదం' : 'Pada'}</th>
+            <th style="padding:6px 8px; border:1px solid #b45309; text-align:left;">${isTe ? 'తేది & వారం' : 'Date & Day'}</th>
+            <th style="padding:6px 8px; border:1px solid #b45309; text-align:left;">${isTe ? 'సమయం' : 'Time'}</th>
+            <th style="padding:6px 8px; border:1px solid #b45309; text-align:center;">${isTe ? 'ఘటికలు' : 'Ghatikas'}</th>
+        </tr>`;
+
+    kData.events.forEach((ev, idx) => {
+        const bg = idx % 2 === 0 ? '#fff' : '#fdfbf7';
+        let badge = '';
+        if (ev.key === 'nija_start') badge = '<span style="background:#fee2e2; color:#991b1b; padding:1px 5px; border-radius:3px; font-weight:bold; font-size:0.75rem;">🔥 ఆరంభం</span> ';
+        else if (ev.key === 'nija_end' || ev.key === 'samapti') badge = '<span style="background:#ecfdf5; color:#065f46; padding:1px 5px; border-radius:3px; font-weight:bold; font-size:0.75rem;">✨ సమాప్తి</span> ';
+        else badge = '<span style="background:#fef3c7; color:#92400e; padding:1px 5px; border-radius:3px; font-weight:bold; font-size:0.75rem;">⚡ డొల్ల</span> ';
+
+        const nameStr = isTe ? ev.nameTe : ev.nameEn;
+        const dateStr = isTe ? ev.dateTe : ev.dateEn;
+        const dayStr = isTe ? ev.weekdayTe : ev.weekdayEn;
+
+        tableHtml += `<tr style="background:${bg};">
+            <td style="padding:6px 8px; border:1px solid #fed7aa;"><strong>${badge}${nameStr}</strong></td>
+            <td style="padding:6px 8px; border:1px solid #fed7aa;">${ev.padaTe}</td>
+            <td style="padding:6px 8px; border:1px solid #fed7aa;">${dateStr} (${dayStr})</td>
+            <td style="padding:6px 8px; border:1px solid #fed7aa; font-weight:bold; color:#78350f;">${ev.time}</td>
+            <td style="padding:6px 8px; border:1px solid #fed7aa; text-align:center; font-weight:bold;">${ev.ghatika}</td>
+        </tr>`;
+    });
+    tableHtml += '</table>';
+
+    const container = document.getElementById('kartariModalTableContainer');
+    if (container) container.innerHTML = tableHtml;
+
+    modal.style.display = 'flex';
+}
+
+function closeKartariModal() {
+    const modal = document.getElementById('kartariModal');
+    if (modal) modal.style.display = 'none';
+}
+window.openKartariModal = openKartariModal;
+window.closeKartariModal = closeKartariModal;
+
 
 
