@@ -39,3 +39,8 @@ python_panchangam/
 # Large Generated Publication Books (>100MB for AWS S3 distribution)
 *Daily_A4*.pdf
 
+# Local Reference PDFs (kept local only)
+*కంచి*.pdf
+*పంచాంగం*.pdf
+
+
