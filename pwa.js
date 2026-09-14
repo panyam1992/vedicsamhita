@@ -3,15 +3,32 @@
     let deferredPrompt = null;
 
     // 1. Register Service Worker
+    // Purge outdated service worker caches on page load
+    if ('caches' in window) {
+        caches.keys().then(keys => {
+            keys.forEach(k => {
+                if (k.startsWith('vedicsamhita-') && k !== 'vedicsamhita-v2.5') {
+                    console.log('🗑️ Purging client legacy cache:', k);
+                    caches.delete(k);
+                }
+            });
+        });
+    }
+
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
-            navigator.serviceWorker.register('./sw.js')
+            navigator.serviceWorker.register('./sw.js?v=2026.5')
                 .then(reg => {
                     console.log('✅ Vedic Samhita PWA Service Worker Registered:', reg.scope);
+                    reg.update(); // Force immediate check for latest sw
                 })
                 .catch(err => {
                     console.warn('⚠️ Service Worker Registration failed:', err);
                 });
+        });
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            // New service worker activated, reload to get fresh pages
+            window.location.reload();
         });
     }
 

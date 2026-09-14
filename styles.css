@@ -1027,3 +1027,100 @@
 .site-nav button {
     cursor: pointer;
 }
+
+/* ═══ Responsive Mobile Navigation Bar (Smooth Horizontal Scroll) ═══ */
+@media (max-width: 850px) {
+    .site-nav {
+        flex-wrap: nowrap !important;
+        justify-content: flex-start !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        padding: 8px 10px !important;
+        gap: 8px !important;
+    }
+    .site-nav::-webkit-scrollbar {
+        height: 3px;
+    }
+    .site-nav::-webkit-scrollbar-thumb {
+        background: #d4a853;
+        border-radius: 3px;
+    }
+    .site-nav a, .site-nav button {
+        white-space: nowrap !important;
+        flex-shrink: 0 !important;
+        font-size: 0.8rem !important;
+        padding: 6px 10px !important;
+    }
+}
+
+/* ═══ 4 Core Shastric Portals Hub ═══ */
+.shastric-portals-hub {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 15px auto 20px auto;
+    max-width: 1060px;
+    padding: 0 12px;
+    box-sizing: border-box;
+}
+.portal-hub-card {
+    background: #fffdf8;
+    border: 1.5px solid #d4af37;
+    border-radius: 8px;
+    padding: 12px 14px;
+    text-decoration: none !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 2px 8px rgba(74, 14, 14, 0.08);
+    transition: all 0.25s ease;
+}
+.portal-hub-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 14px rgba(74, 14, 14, 0.16);
+    border-color: #8b0000;
+}
+.portal-hub-card.active {
+    background: #4a0e0e;
+    border-color: #ffd700;
+}
+.portal-hub-card.active .portal-hub-title {
+    color: #ffd700 !important;
+}
+.portal-hub-card.active .portal-hub-sub {
+    color: #fce7b2 !important;
+}
+.portal-hub-card.active .portal-hub-badge {
+    background: #ffd700;
+    color: #4a0e0e;
+}
+.portal-hub-badge {
+    position: absolute;
+    top: 6px;
+    right: 8px;
+    font-size: 0.7rem;
+    font-family: 'Cinzel', serif;
+    font-weight: bold;
+    background: #f4e8c1;
+    color: #4a0e0e;
+    padding: 2px 6px;
+    border-radius: 10px;
+}
+.portal-hub-icon {
+    font-size: 1.8rem;
+    margin-bottom: 4px;
+}
+.portal-hub-title {
+    font-family: 'Cinzel', 'Noto Sans Telugu', serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #4a0e0e;
+    margin-bottom: 2px;
+}
+.portal-hub-sub {
+    font-size: 0.78rem;
+    color: #666;
+    line-height: 1.3;
+}

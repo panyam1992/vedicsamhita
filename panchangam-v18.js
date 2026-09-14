@@ -416,10 +416,12 @@ const I18N_DICT = {
         gModalClose: "Close"
     },
     te: {
+        navUgadi: "📜 ఉగాది పంచాంగం",
         navDaily: "🙏 దిన పంచాంగం",
-        navUgadi: "📜 ఉగాది ఫలితాలు",
-        navJathakam: "🔮 జన్మ జాతకం",
-        navMuhurta: "✨ ముహూర్తాలు",
+        navVrata: "📿 వ్రత నిర్ణయం",
+        navDharma: "📖 ధర్మ విచార",
+        navJathakam: "🔮 జాతక చక్రం",
+        navMuhurta: "✨ ముహూర్తావళి",
         navFamily: "👨‍👩‍👧‍👦 కుటుంబ జాతకం",
         langBtn: "🌐 English",
         inputHeader: "🙏 వేదిక్ పంచాంగం — దిన పంచాంగ గణన",
@@ -500,17 +502,36 @@ function updateLanguageUI() {
         langBtnText.textContent = isTe ? 'English' : 'తెలుగు';
     }
 
-    // Update top nav
-    setElText('navUgadi', dict.navUgadi);
-    setElText('navDaily', dict.navDaily);
-    setElText('navVrata', dict.navVrata);
-    setElText('navDharma', dict.navDharma);
-    setElText('navJathakam', dict.navJathakam);
-    setElText('navMuhurta', dict.navMuhurta);
-    setElText('navFamily', dict.navFamily);
+    // Update top nav while preserving icons and structure
+    const navItems = [
+        { id: 'navUgadi', icon: '📜', en: 'Ugadi Panchangam', te: 'ఉగాది పంచాంగం' },
+        { id: 'navDaily', icon: '🙏', en: 'Daily Panchangam', te: 'దిన పంచాంగం' },
+        { id: 'navVrata', icon: '📿', en: 'Vrata Nirnaya', te: 'వ్రత నిర్ణయం' },
+        { id: 'navDharma', icon: '📖', en: 'Dharma Vichara', te: 'ధర్మ విచార' },
+        { id: 'navJathakam', icon: '🔮', en: 'Single Horoscope', te: 'జాతక చక్రం' },
+        { id: 'navMuhurta', icon: '✨', en: 'Muhurtavali', te: 'ముహూర్తావళి' },
+        { id: 'navFamily', icon: '👨‍👩‍👧‍👦', en: 'Family Horoscope', te: 'కుటుంబ జాతకం' }
+    ];
+    navItems.forEach(item => {
+        const el = document.getElementById(item.id);
+        if (el) {
+            const span = el.querySelector('.nav-text');
+            if (span) {
+                span.textContent = isTe ? item.te : item.en;
+            } else {
+                el.innerHTML = `${item.icon} <span class="nav-text" data-en="${item.en}" data-te="${item.te}">${isTe ? item.te : item.en}</span>`;
+            }
+        }
+    });
 
-    // Update any .nav-text elements
+    // Update any other .nav-text elements
     document.querySelectorAll('.nav-text').forEach(el => {
+        const txt = isTe ? el.getAttribute('data-te') : el.getAttribute('data-en');
+        if (txt) el.textContent = txt;
+    });
+
+    // Update 4 Core Shastric Portals Hub cards
+    document.querySelectorAll('.portal-hub-title, .portal-hub-sub').forEach(el => {
         const txt = isTe ? el.getAttribute('data-te') : el.getAttribute('data-en');
         if (txt) el.textContent = txt;
     });

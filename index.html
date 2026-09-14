@@ -72,7 +72,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=EB+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Noto+Sans+Telugu:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css?v=2026.3">
+    <link rel="stylesheet" href="styles.css?v=2026.5">
 
 <style>
 @media print {
@@ -163,6 +163,35 @@
         <a href="https://t.me/Vedicmobilecalendar" target="_blank" rel="noopener noreferrer" class="btn-community btn-tg">✈️ Join Telegram</a>
     </div>
 </div>
+
+<!-- 4 Core Shastric Portals Hub (Users View: 1. Ugadi -> 2. Panchangam -> 3. Vrata Nirnaya -> 4. Dharma Vichara) -->
+<div class="shastric-portals-hub">
+    <a href="ugadi.html" class="portal-hub-card" id="portalCardUgadi">
+        <span class="portal-hub-badge">1. Ugadi</span>
+        <div class="portal-hub-icon">📜</div>
+        <div class="portal-hub-title" data-en="Ugadi Panchangam" data-te="ఉగాది పంచాంగం">Ugadi Panchangam</div>
+        <div class="portal-hub-sub" data-en="Yearly Forecast &amp; Navanayakas" data-te="సంవత్సర ఫలితాలు &amp; నవనాయకులు">Yearly Forecast &amp; Navanayakas</div>
+    </a>
+    <a href="index.html" class="portal-hub-card active" id="portalCardDaily">
+        <span class="portal-hub-badge">2. Home</span>
+        <div class="portal-hub-icon">🙏</div>
+        <div class="portal-hub-title" data-en="Daily Panchangam" data-te="దిన పంచాంగం">Daily Panchangam</div>
+        <div class="portal-hub-sub" data-en="Daily Drik Calculations &amp; Muhurtams" data-te="దిన దృక్సిద్ధాంత గణింప &amp; ముహూర్తములు">Daily Drik Calculations &amp; Muhurtams</div>
+    </a>
+    <a href="vratanirnaya.html" class="portal-hub-card" id="portalCardVrata">
+        <span class="portal-hub-badge">3. Vratas</span>
+        <div class="portal-hub-icon">📿</div>
+        <div class="portal-hub-title" data-en="Vrata Nirnaya" data-te="వ్రత నిర్ణయం">Vrata Nirnaya</div>
+        <div class="portal-hub-sub" data-en="12-Month Festival Decisions &amp; Shastra" data-te="12 మాసాల సమగ్ర పండుగల నిర్ణయాలు">12-Month Festival Decisions &amp; Shastra</div>
+    </a>
+    <a href="dharmavichara.html" class="portal-hub-card" id="portalCardDharma">
+        <span class="portal-hub-badge">4. Shastra</span>
+        <div class="portal-hub-icon">📖</div>
+        <div class="portal-hub-title" data-en="Dharma Vichara" data-te="ధర్మ విచార">Dharma Vichara</div>
+        <div class="portal-hub-sub" data-en="Dharma Sindhu &amp; Shastric Inquiries" data-te="ధర్మసింధు సిద్ధాంత విచారాలు &amp; శ్లోకాలు">Dharma Sindhu &amp; Shastric Inquiries</div>
+    </a>
+</div>
+
 
 <div class="input-section">
     <h2 id="lblInputHeader">🙏 Vedic Panchangam — Daily Calculator</h2>
@@ -616,11 +645,11 @@
   </div>
 </div>
 
-    <script src="festival_rules.js"></script>
-    <script src="panchangam-v18.js?v=10"></script>
+    <script src="festival_rules.js?v=2026.5"></script>
+    <script src="panchangam-v18.js?v=2026.5"></script>
     <script src="https://cdn.jsdelivr.net/npm/@indic-transliteration/sanscript@1.2.8/sanscript.js"></script>
-    <script src="security-rbac.js"></script>
-    <script src="pwa.js"></script>
+    <script src="security-rbac.js?v=2026.5"></script>
+    <script src="pwa.js?v=2026.5"></script>
 </body>
 </html>
 
