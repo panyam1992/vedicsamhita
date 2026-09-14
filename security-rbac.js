@@ -41,9 +41,84 @@
 
     checkAdminSession();
 
-    // 1. Anti-Capture Protection (Standard Users)
+    // 1. Core 4 Protected Pages Definition
+    function isProtectedPage() {
+        const path = (window.location.pathname || '').toLowerCase();
+        // Return true ONLY for the 4 core intellectual property pages:
+        // 1. Ugadi, 2. Panchangam (Home), 3. Vrata Nirnaya, 4. Dharma Vichara
+        return path.endsWith('ugadi.html') ||
+               path.endsWith('index.html') ||
+               path.endsWith('vratanirnaya.html') ||
+               path.endsWith('dharmavichara.html') ||
+               path === '' ||
+               path === '/' ||
+               path.endsWith('/');
+    }
+
+    // State for legitimate downloads & printing
+    let isPrintOrDownloadActive = false;
+    let shieldTimeout = null;
+
+    function allowLegitimateDownload(ms = 5000) {
+        isPrintOrDownloadActive = true;
+        dismissScreenshotShield();
+        setTimeout(() => { isPrintOrDownloadActive = false; }, ms);
+    }
+
+    // Protective Screenshot Shield Overlay
+    function triggerScreenshotShield(duration = 1800) {
+        if (isSuperAdmin || !isProtectedPage() || isPrintOrDownloadActive) return;
+        let shield = document.getElementById('vs-screenshot-shield');
+        if (!shield) {
+            shield = document.createElement('div');
+            shield.id = 'vs-screenshot-shield';
+            shield.style.cssText = `
+                position: fixed;
+                top: 0; left: 0; width: 100vw; height: 100vh;
+                background: rgba(17, 4, 4, 0.98);
+                color: #d4a853;
+                z-index: 2147483647;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                padding: 24px;
+                font-family: 'Cinzel', serif;
+                box-sizing: border-box;
+                pointer-events: none;
+            `;
+            shield.innerHTML = `
+                <div style="font-size: 54px; margin-bottom: 12px;">🛡️</div>
+                <h2 style="color: #ffd700; margin: 0 0 8px 0; font-size: 1.6rem; letter-spacing: 1px;">CONTENT PROTECTED</h2>
+                <p style="font-family: 'EB Garamond', serif; font-size: 1.15rem; max-width: 540px; color: #fdf8eb; margin: 0 0 14px 0; line-height: 1.5;">
+                    Screen capture, screen recording, copying, and AI scraping of VedicSamhita calculations &amp; Dharma Shastra decisions are prohibited.
+                </p>
+                <div style="background: rgba(212,168,83,0.15); border: 1px solid #d4a853; border-radius: 6px; padding: 10px 18px; font-family: 'Inter', sans-serif; font-size: 0.92rem; color: #ffd700;">
+                    📥 <strong>Devotees:</strong> You may download official <strong>iCal</strong>, <strong>PDF Book</strong>, or <strong>Wall Calendar</strong> using the page buttons.
+                </div>
+            `;
+            document.body.appendChild(shield);
+        }
+        shield.style.display = 'flex';
+        clearTimeout(shieldTimeout);
+        if (duration > 0) {
+            shieldTimeout = setTimeout(() => {
+                if (shield) shield.style.display = 'none';
+            }, duration);
+        }
+    }
+
+    function dismissScreenshotShield() {
+        const shield = document.getElementById('vs-screenshot-shield');
+        if (shield) {
+            shield.style.display = 'none';
+        }
+    }
+
+    // 1. Anti-Capture & Anti-Copy Protection (Active ONLY on 4 Core Pages)
     function applyAntiCapture() {
-        if (isSuperAdmin) {
+        if (isSuperAdmin || !isProtectedPage()) {
             removeAntiCapture();
             return;
         }
@@ -68,7 +143,7 @@
                     user-select: auto !important;
                 }
                 @media print {
-                    .no-admin-print {
+                    #vs-screenshot-shield, .no-admin-print {
                         display: none !important;
                     }
                 }
@@ -76,50 +151,73 @@
             document.head.appendChild(style);
         }
 
+        // Tag document with Anti-AI Mining attributes
+        document.documentElement.setAttribute('data-ai-mining', 'prohibited');
+        document.documentElement.setAttribute('data-tdm-reservation', '1');
+
         // Event Interceptors
         document.addEventListener('contextmenu', onContextMenu, true);
         document.addEventListener('copy', onCopyCut, true);
         document.addEventListener('cut', onCopyCut, true);
+        document.addEventListener('selectstart', onSelectStart, true);
         document.addEventListener('dragstart', onDragStart, true);
         document.addEventListener('keydown', onKeyDown, true);
+        window.addEventListener('keyup', onKeyUp, true);
+        window.addEventListener('blur', onWindowBlur, false);
+        window.addEventListener('focus', onWindowFocus, false);
     }
 
     function removeAntiCapture() {
         antiCaptureActive = false;
         const style = document.getElementById('vs-anti-capture-style');
         if (style) style.remove();
+        dismissScreenshotShield();
 
         document.removeEventListener('contextmenu', onContextMenu, true);
         document.removeEventListener('copy', onCopyCut, true);
         document.removeEventListener('cut', onCopyCut, true);
+        document.removeEventListener('selectstart', onSelectStart, true);
         document.removeEventListener('dragstart', onDragStart, true);
         document.removeEventListener('keydown', onKeyDown, true);
+        window.removeEventListener('keyup', onKeyUp, true);
+        window.removeEventListener('blur', onWindowBlur, false);
+        window.removeEventListener('focus', onWindowFocus, false);
     }
 
     function onContextMenu(e) {
-        if (isSuperAdmin) return;
+        if (isSuperAdmin || !isProtectedPage()) return;
         if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
         e.preventDefault();
-        showSecurityToast('🔒 Content protected under Vedic Samhita Security Rules.');
+        showSecurityToast('🔒 Content protected under Vedic Samhita Security Rules. Right-click disabled.');
         return false;
     }
 
     function onCopyCut(e) {
-        if (isSuperAdmin) return;
+        if (isSuperAdmin || !isProtectedPage()) return;
         if (['INPUT', 'TEXTAREA'].includes(e.target.tagName)) return;
         e.preventDefault();
-        showSecurityToast('🔒 Text copying is restricted for standard users.');
+        if (e.clipboardData) {
+            e.clipboardData.clearData();
+        }
+        showSecurityToast('🔒 Content protected: Copying Vedic Samhita calculations is restricted.');
+        return false;
+    }
+
+    function onSelectStart(e) {
+        if (isSuperAdmin || !isProtectedPage()) return;
+        if (['INPUT', 'TEXTAREA', 'SELECT'].includes(e.target.tagName)) return;
+        e.preventDefault();
         return false;
     }
 
     function onDragStart(e) {
-        if (isSuperAdmin) return;
+        if (isSuperAdmin || !isProtectedPage()) return;
         e.preventDefault();
         return false;
     }
 
     function onKeyDown(e) {
-        if (isSuperAdmin) return;
+        if (isSuperAdmin || !isProtectedPage()) return;
 
         // Super Admin trigger: Ctrl + Shift + A
         if (e.ctrlKey && e.shiftKey && (e.key === 'A' || e.key === 'a')) {
@@ -128,22 +226,68 @@
             return;
         }
 
-        // Block Ctrl+C, Ctrl+U, Ctrl+S, Ctrl+P, F12, Ctrl+Shift+I
+        // PrintScreen Key Intercept
+        if (e.key === 'PrintScreen' || e.keyCode === 44) {
+            e.preventDefault();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText('').catch(() => {});
+            }
+            triggerScreenshotShield(2200);
+            showSecurityToast('🛡️ Screen capture is prohibited for this sacred content.');
+            return false;
+        }
+
+        // Ctrl + P (Allow legitimate PDF generation / Print)
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 'P')) {
+            e.preventDefault();
+            allowLegitimateDownload(4000);
+            if (typeof openPrintModal === 'function') {
+                openPrintModal();
+            } else if (typeof openPublicationModal === 'function') {
+                openPublicationModal();
+            } else {
+                window.print();
+            }
+            return false;
+        }
+
+        // Block Ctrl+C, Ctrl+X, Ctrl+U (source), Ctrl+S (save), Ctrl+A (select all), F12, Ctrl+Shift+I/J/C
         if (
-            (e.ctrlKey && ['c', 'C', 'u', 'U', 's', 'S', 'p', 'P'].includes(e.key)) ||
+            ((e.ctrlKey || e.metaKey) && ['c', 'C', 'x', 'X', 'u', 'U', 's', 'S', 'a', 'A'].includes(e.key)) ||
             e.key === 'F12' ||
-            (e.ctrlKey && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key))
+            ((e.ctrlKey || e.metaKey) && e.shiftKey && ['I', 'i', 'J', 'j', 'C', 'c'].includes(e.key))
         ) {
-            // Allow copy inside text inputs
-            if ((e.key === 'c' || e.key === 'C') && ['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
+            // Allow copy / select inside text input fields
+            if (['c', 'C', 'x', 'X', 'a', 'A'].includes(e.key) && ['INPUT', 'TEXTAREA'].includes(e.target.tagName)) {
                 return;
             }
             e.preventDefault();
-            showSecurityToast('🔒 Action restricted. Super Admin bypass required.');
+            showSecurityToast('🔒 Content protected: Action restricted on Vedic Samhita.');
             return false;
         }
     }
 
+    function onKeyUp(e) {
+        if (isSuperAdmin || !isProtectedPage()) return;
+        if (e.key === 'PrintScreen' || e.keyCode === 44) {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText('').catch(() => {});
+            }
+            triggerScreenshotShield(2200);
+        }
+    }
+
+    function onWindowBlur() {
+        if (isSuperAdmin || !isProtectedPage() || isPrintOrDownloadActive) return;
+        // Obscure content when Snipping Tool or screenshot utility steals focus
+        triggerScreenshotShield(2500);
+    }
+
+    function onWindowFocus() {
+        dismissScreenshotShield();
+    }
+
+    // Security Toast Notification
     // Security Toast Notification
     let toastTimeout = null;
     function showSecurityToast(msg) {
@@ -1652,7 +1796,9 @@
         applyRoleVisibility,
         generateDeepLink,
         decodeDeepLink,
-        showToast: showSecurityToast
+        showToast: showSecurityToast,
+        allowLegitimateDownload: allowLegitimateDownload,
+        isProtectedPage: isProtectedPage
     };
 
 })(window, document);

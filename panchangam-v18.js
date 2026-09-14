@@ -4330,6 +4330,7 @@ async function generateAndPrint(startDate, endDate) {
 }
 
 async function exportICal() {
+    if (window.VedicSecurity && window.VedicSecurity.allowLegitimateDownload) window.VedicSecurity.allowLegitimateDownload(15000);
     const ugadi = findUgadiDates();
     const start = ugadi.current;
     const end = ugadi.next;
@@ -5075,6 +5076,7 @@ function getSelectedMana() {
 }
 
 window.executePublicationPdfDownload = function() {
+    if (window.VedicSecurity && window.VedicSecurity.allowLegitimateDownload) window.VedicSecurity.allowLegitimateDownload(15000);
     const yearSelect = document.getElementById('modalYearSelect');
     const year = yearSelect ? parseInt(yearSelect.value, 10) : 2026;
     const loc = getActiveUserLocation();
@@ -5119,6 +5121,7 @@ window.executePublicationPdfDownload = function() {
 };
 
 window.executeCalendarGridDownload = function() {
+    if (window.VedicSecurity && window.VedicSecurity.allowLegitimateDownload) window.VedicSecurity.allowLegitimateDownload(15000);
     const yearSelect = document.getElementById('modalYearSelect');
     const year = yearSelect ? parseInt(yearSelect.value, 10) : 2026;
     const loc = getActiveUserLocation();

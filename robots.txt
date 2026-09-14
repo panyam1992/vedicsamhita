@@ -1,4 +1,64 @@
-﻿User-agent: *
+User-agent: *
 Allow: /
+
+# ══════════════════════════════════════════════════════════════════
+# VEDICSAMHITA — AI CRAWLER & SCRAPING PROHIBITION (NO-AI)
+# Intellectual property of Ramachandra shastry Munimadugu
+# Unauthorized AI model training, text & data mining is strictly prohibited
+# ══════════════════════════════════════════════════════════════════
+
+# OpenAI (ChatGPT, GPTBot)
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+# Anthropic (Claude, ClaudeBot)
+User-agent: ClaudeBot
+Disallow: /
+
+User-agent: anthropic-ai
+Disallow: /
+
+# Common Crawl (LLM training dataset crawler)
+User-agent: CCBot
+Disallow: /
+
+# Google Gemini / Vertex AI training crawler
+User-agent: Google-Extended
+Disallow: /
+
+# ByteDance / TikTok AI
+User-agent: Bytespider
+Disallow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Disallow: /
+
+# Cohere
+User-agent: cohere-ai
+Disallow: /
+
+# Meta / Llama AI
+User-agent: FacebookBot
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /
+
+# Diffbot & Web Scrapers
+User-agent: Diffbot
+Disallow: /
+
+User-agent: Omgilibot
+Disallow: /
+
+User-agent: Scrapy
+Disallow: /
+
+User-agent: ImagesiftBot
+Disallow: /
 
 Sitemap: https://www.vedicsamhita.com/sitemap.xml
