@@ -19,6 +19,11 @@
     const ADMIN_EMAIL = '1vedasamhita@gmail.com';
     const ADMIN_SECRET_KEY = 'vedicsamhita'; // Default admin access key
 
+    // Immediate Announcement Cleanup (Deleted per user requirement)
+    try {
+        localStorage.removeItem(BROADCAST_STORAGE_KEY);
+    } catch (e) {}
+
     // State
     let isSuperAdmin = false;
     let antiCaptureActive = true;
@@ -381,12 +386,7 @@
                             <span>📝 Open Rules & AI Brain Intake (నియమాలు / నోట్స్)</span>
                         </button>
                     </div>
-                    <h4 style="margin:10px 0 6px; font-family:'Cinzel',serif; color:#4a0e0e; font-size:14px;">📢 Publish Global Broadcast Alert</h4>
-                    <textarea id="vs-broadcast-input" placeholder="Enter festival alert, Ekadashi Vrata Katha link, or announcement..." style="width:100%; height:60px; padding:6px; border:1px solid #c2b280; border-radius:4px; font-family:inherit; font-size:12px; box-sizing:border-box;"></textarea>
-                    <div style="display:flex; gap:8px; margin-top:8px;">
-                        <button id="vs-broadcast-btn" style="flex:1; padding:8px; background:#4a0e0e; color:#d4a853; border:none; border-radius:4px; cursor:pointer; font-family:'Cinzel',serif; font-size:12px;">Publish Banner</button>
-                        <button id="vs-broadcast-clear-btn" style="padding:8px; background:#eee; color:#333; border:none; border-radius:4px; cursor:pointer; font-family:'Cinzel',serif; font-size:12px;">Clear</button>
-                    </div>
+
                     <hr style="margin:14px 0; border:none; border-top:1px solid #eee;">
                     <button id="vs-admin-logout-btn" style="width:100%; padding:8px; background:#666; color:#fff; border:none; border-radius:4px; font-family:'Cinzel',serif; font-size:12px; cursor:pointer;">Logout Admin</button>
                 </div>
@@ -409,21 +409,7 @@
             openRulesModal();
         };
 
-        document.getElementById('vs-broadcast-btn').onclick = () => {
-            const val = document.getElementById('vs-broadcast-input').value.trim();
-            if (val) {
-                localStorage.setItem(BROADCAST_STORAGE_KEY, JSON.stringify({ msg: val, time: Date.now() }));
-                renderBroadcastBanner();
-                alert('📢 Global Broadcast Announcement Published!');
-            }
-        };
 
-        document.getElementById('vs-broadcast-clear-btn').onclick = () => {
-            localStorage.removeItem(BROADCAST_STORAGE_KEY);
-            const banner = document.getElementById('vs-broadcast-banner');
-            if (banner) banner.remove();
-            alert('Broadcast cleared.');
-        };
 
         document.getElementById('vs-admin-logout-btn').onclick = () => {
             sessionStorage.removeItem(ADMIN_STORAGE_KEY);
@@ -543,8 +529,8 @@
         }
     }
 
-    // 4. Global Broadcast Banner
-        function dismissBroadcast() {
+    // 4. Global Broadcast Banner (Completely Deleted & Disabled)
+    function dismissBroadcast() {
         try {
             localStorage.removeItem(BROADCAST_STORAGE_KEY);
             const banner = document.getElementById('vs-broadcast-banner');
@@ -553,36 +539,8 @@
     }
 
     function renderBroadcastBanner() {
-        try {
-            const raw = localStorage.getItem(BROADCAST_STORAGE_KEY);
-            if (!raw) return;
-            const data = JSON.parse(raw);
-            if (!data || !data.msg) return;
-
-            let banner = document.getElementById('vs-broadcast-banner');
-            if (!banner) {
-                banner = document.createElement('div');
-                banner.id = 'vs-broadcast-banner';
-                banner.style.cssText = `
-                    background: linear-gradient(90deg, #4a0e0e, #7a1818, #4a0e0e);
-                    color: #ffd700;
-                    border-bottom: 1px solid #d4a853;
-                    padding: 8px 16px;
-                    text-align: center;
-                    font-family: 'Cinzel', serif;
-                    font-size: 13px;
-                    letter-spacing: 0.5px;
-                    position: relative;
-                    z-index: 9999;
-                    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-                `;
-                document.body.insertBefore(banner, document.body.firstChild);
-            }
-            banner.innerHTML = `
-                <span>📢 <strong>Announcement:</strong> ${data.msg}</span>
-                <button onclick="window.VedicSecurity && window.VedicSecurity.dismissBroadcast()" title="Dismiss Announcement" style="position:absolute; right:12px; top:50%; transform:translateY(-50%); background:none; border:none; color:#ffd700; font-size:16px; cursor:pointer; font-weight:bold; padding:2px 8px; line-height:1;">✕</button>
-            `;
-        } catch (e) {}
+        // Purge any stale announcement banner or stored broadcast immediately
+        dismissBroadcast();
     }
 
     // 5. Smart Deep Linking Engine
